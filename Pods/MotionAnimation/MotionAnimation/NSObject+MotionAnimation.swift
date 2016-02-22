@@ -86,6 +86,9 @@ public extension NSObject{
   func m_setValues(values:[CGFloat], forCustomProperty key:String){
     getPropertyState(key).setValues(values)
   }
+  func m_removeAnimationForKey(key:String){
+    getPropertyState(key).stop()
+  }
   func m_defineCustomProperty(key:String, initialValues:[CGFloat], valueUpdateCallback:CGFloatValuesSetterBlock){
     if m_propertyStates[key] != nil{
       return

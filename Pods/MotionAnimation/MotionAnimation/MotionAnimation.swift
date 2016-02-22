@@ -26,7 +26,7 @@ public class MotionAnimation: NSObject {
     return MotionAnimator.sharedInstance.hasAnimation(self)
   }
   
-  override init() {
+  override public init() {
     super.init()
     MotionAnimator.sharedInstance.addAnimation(self)
   }

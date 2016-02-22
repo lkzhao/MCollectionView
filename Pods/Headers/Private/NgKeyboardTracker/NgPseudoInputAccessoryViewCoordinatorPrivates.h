@@ -1,0 +1,1 @@
+../../../NgKeyboardTracker/NgKeyboardTracker/NgPseudoInputAccessoryViewCoordinatorPrivates.h

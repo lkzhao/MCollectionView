@@ -1,10 +1,17 @@
 PODS:
   - MotionAnimation (0.0.5)
+  - NgKeyboardTracker (1.0.8)
 
 DEPENDENCIES:
-  - MotionAnimation (~> 0.0.5)
+  - MotionAnimation (from `../MotionAnimation`)
+  - NgKeyboardTracker
+
+EXTERNAL SOURCES:
+  MotionAnimation:
+    :local: "../MotionAnimation"
 
 SPEC CHECKSUMS:
   MotionAnimation: d9d4060bf4f494dd61bf868b8969a31b1b0b6f2a
+  NgKeyboardTracker: 844e98833c76d76194fc8d1c40ed3efe6a50dc1a
 
 COCOAPODS: 0.39.0
