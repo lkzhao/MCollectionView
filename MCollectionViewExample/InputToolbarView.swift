@@ -179,7 +179,7 @@ extension InputToolbarView: UITextViewDelegate{
   }
   func textViewDidEndEditing(textView: UITextView) {
     if textView.text.isEmpty {
-      textView.text = "Your messages..."
+      textView.text = "Send message..."
       textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 0.7)
 
     }
