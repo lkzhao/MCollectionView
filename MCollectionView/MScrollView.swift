@@ -16,6 +16,13 @@ protocol MScrollViewDelegate{
   func scrollViewDidScroll(scrollView:MScrollView)
   func scrollViewDidEndScroll(scrollView:MScrollView)
 }
+let debug = false
+
+func p(items:Any...){
+  if debug{
+    print(items)
+  }
+}
 
 class ScrollAnimation:MotionAnimation{
   var scrollView:MScrollView
@@ -104,6 +111,7 @@ class ScrollAnimation:MotionAnimation{
         damping.x = 10
       }
     }
+    p("targetY: \(targetOffsetY ?? -1)")
 
     let lowVelocity = abs(newV.x) < threshold && abs(newV.y) < threshold
     if lowVelocity && abs(targetOffset.x - newOffset.x) < threshold && abs(targetOffset.y - newOffset.y) < threshold {
@@ -135,6 +143,7 @@ class MScrollView: UIView {
   }
   var contentOffset:CGPoint = CGPointZero{
     didSet{
+      p("contentOffset changed: \(oldValue) -> \(contentOffset)")
       contentView.frame.origin = CGPointMake(-contentOffset.x+contentInset.left, -contentOffset.y+contentInset.top)
       didScroll()
     }
@@ -144,13 +153,18 @@ class MScrollView: UIView {
       return contentView.frame.size
     }
     set{
+      p("contentSize changed: \(contentSize) -> \(newValue)")
       contentView.frame.size = newValue
     }
   }
   var containerSize:CGSize{
     return CGSizeMake(contentSize.width + contentInset.left + contentInset.right, contentSize.height + contentInset.top + contentInset.bottom)
   }
-  var contentInset:UIEdgeInsets = UIEdgeInsetsZero
+  var contentInset:UIEdgeInsets = UIEdgeInsetsZero{
+    didSet{
+      p("contentInset changed: \(oldValue) \(contentInset)")
+    }
+  }
   var visibleFrame:CGRect{
     return CGRect(origin: contentOffset, size: bounds.size)
   }
@@ -216,6 +230,7 @@ class MScrollView: UIView {
   }
   
   var startingContentOffset:CGPoint?
+  var startingDragLocation = CGPointZero
   var dragLocation = CGPointZero
   var draging = false
   func scroll(pan:UIPanGestureRecognizer){
@@ -224,26 +239,27 @@ class MScrollView: UIView {
       scrollAnimation.stop()
       startingContentOffset = contentOffset
       dragLocation = pan.locationInView(self)
+      startingDragLocation = dragLocation
       delegate?.scrollViewWillBeginDraging(self)
       draging = true
       break
     case .Changed:
-      var translation = pan.translationInView(self)
       dragLocation = pan.locationInView(self)
+      var translation = dragLocation - startingDragLocation
       if !horizontalScroll{
         translation.x = 0
       }
       if !verticalScroll{
         translation.y = 0
       }
-      
+      p("PanGR changed, startingContentOffset: \(startingContentOffset!) translation:\(translation)")
       var newContentOffset = startingContentOffset! - translation
-      if let yTarget = yEdgeTarget(newContentOffset){
-        newContentOffset.y = newContentOffset.y - (newContentOffset.y - yTarget) / 3
-      }
-      if let xTarget = xEdgeTarget(newContentOffset){
-        newContentOffset.x = newContentOffset.x - (newContentOffset.x - xTarget) / 3
-      }
+//      if let yTarget = yEdgeTarget(newContentOffset){
+//        newContentOffset.y = newContentOffset.y - (newContentOffset.y - yTarget) / 3
+//      }
+//      if let xTarget = xEdgeTarget(newContentOffset){
+//        newContentOffset.x = newContentOffset.x - (newContentOffset.x - xTarget) / 3
+//      }
       scrollAnimation.animateToTargetOffset(newContentOffset)
     default:
       scrollAnimation.animateDone()
@@ -265,6 +281,9 @@ class MScrollView: UIView {
   }
 
   func scrollToBottom(animate:Bool = false){
+    if draging{
+      return
+    }
     let target = bottomOffset
     if animate{
       scrollAnimation.animateToTargetOffset(target, stiffness: 400, damping: 25)

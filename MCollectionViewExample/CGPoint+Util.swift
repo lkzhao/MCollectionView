@@ -120,7 +120,7 @@ func isHighPerformance() -> Bool{
   case "iPhone 6s", "iPhone 6s Plus", "iPhone 6", "iPhone 6 Plus":
     return true
   default:
-    return true
+    return false
   }
 }
 

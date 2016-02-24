@@ -8,110 +8,41 @@
 
 import UIKit
 
-enum MessageType{
-  case Text
-  case Announcement
-  case Status
-}
-enum MessageAlignment{
-  case Left
-  case Center
-  case Right
-}
-class Message {
-  var fromCurrentUser = false
-  var content = ""
-  var type:MessageType
-
-  init(_ fromCurrentUser:Bool, content:String){
-    self.fromCurrentUser = fromCurrentUser
-    self.type = .Text
-    self.content = content
-  }
-  init(_ fromCurrentUser:Bool, status:String){
-    self.fromCurrentUser = fromCurrentUser
-    self.type = .Status
-    self.content = status
-  }
-  init(announcement:String){
-    self.type = .Announcement
-    self.content = announcement
-  }
-
-  var fontSize:CGFloat{
-    switch type{
-    case .Text: return 14
-    default: return 12
-    }
-  }
-  var cellPadding:CGFloat{
-    switch type{
-    case .Announcement: return 4
-    case .Text: return 15
-    case .Status: return 2
-    }
-  }
-  var roundedCornder:Bool{
-    switch type{
-    case .Announcement: return false
-    default: return true
-    }
-  }
-  var textColor:UIColor{
-    switch type{
-    case .Text:
-      if fromCurrentUser {
-        return UIColor.whiteColor()
-      } else {
-        return UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
-      }
-    default:
-      return UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
-    }
-  }
-  var alignment:MessageAlignment{
-    switch type{
-    case .Announcement: return .Center
-    default: return fromCurrentUser ? .Right : .Left
-    }
-  }
-  func verticalPaddingBetweenMessage(previousMessage:Message) -> CGFloat{
-    if type == .Announcement{
-      return 15
-    }
-    if previousMessage.type == .Announcement{
-      return 5
-    }
-    if type == .Status{
-      return 3
-    }
-    if type == .Text && type == previousMessage.type && fromCurrentUser == previousMessage.fromCurrentUser{
-      return 5
-    }
-    return 15
-  }
-}
-
 class MessageTextCell: MCell {
   var textLabel = UILabel()
+  var imageView:UIImageView?
   var message:Message!{
     didSet{
-      
       textLabel.text = message.content
       textLabel.textColor = message.textColor
       textLabel.font = UIFont.systemFontOfSize(message.fontSize)
       
       layer.cornerRadius = message.roundedCornder ? 10 : 0
       
+      imageView?.removeFromSuperview()
+      if message.type == .Image{
+        imageView = UIImageView(image: UIImage(named: message.content))
+        imageView?.frame = bounds
+        imageView?.contentMode = .ScaleAspectFill
+        imageView?.clipsToBounds = true
+        imageView?.layer.cornerRadius = layer.cornerRadius
+        addSubview(imageView!)
+      }else{
+        imageView = nil
+      }
+      
+      if showShadow{
+        layer.shadowOffset = CGSizeMake(0, 5)
+        layer.shadowOpacity = 0.3
+        layer.shadowRadius = 8
+        layer.shadowColor = UIColor(white: 0.6, alpha: 1.0).CGColor
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
+      } else {
+        layer.shadowOpacity = 0
+        backgroundColor = nil
+      }
+
       if message.type == .Text {
-        if showShadow{
-          layer.shadowOffset = CGSizeMake(0, 5)
-          layer.shadowOpacity = 0.3
-          layer.shadowRadius = 8
-          layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
-        } else {
-          layer.shadowRadius = 0
-        }
         if message.fromCurrentUser{
           backgroundColor = UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0)
           layer.shadowColor = UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0).CGColor
@@ -119,16 +50,12 @@ class MessageTextCell: MCell {
           backgroundColor = UIColor(white: showShadow ? 1.0 : 0.95, alpha: 1.0)
           layer.shadowColor = UIColor(white: 0.8, alpha: 1.0).CGColor
         }
-      } else {
-        backgroundColor = nil
-        layer.shadowColor = nil
-        layer.shadowPath = nil
       }
     }
   }
 
   var showShadow:Bool{
-    return kIsHighPerformanceDevice && message.type == .Text
+    return kIsHighPerformanceDevice && message.showShadow
   }
 
   override init(frame: CGRect) {
@@ -157,6 +84,7 @@ class MessageTextCell: MCell {
       layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
     }
     textLabel.frame = CGRectInset(bounds, message.cellPadding, message.cellPadding)
+    imageView?.frame = bounds
   }
 
   static func sizeForText(text:String, fontSize:CGFloat, maxWidth:CGFloat, padding:CGFloat) -> CGSize{
@@ -167,13 +95,26 @@ class MessageTextCell: MCell {
     return rect.size
   }
   
-  static func frameForMessage(message:Message, yPosition:CGFloat, containerWidth:CGFloat) -> CGRect{
+  static func frameForMessage(message:Message, containerWidth:CGFloat) -> CGRect{
+    if message.type == .Image{
+      var imageSize = UIImage(named: message.content)!.size
+      let maxImageSize = CGSizeMake(CGFloat.max, 120)
+      if imageSize.width > maxImageSize.width{
+        imageSize.height /= imageSize.width/maxImageSize.width
+        imageSize.width = maxImageSize.width
+      }
+      if imageSize.height > maxImageSize.height{
+        imageSize.width /= imageSize.height/maxImageSize.height
+        imageSize.height = maxImageSize.height
+      }
+      return CGRect(origin: CGPointMake(message.alignment == .Right ? containerWidth - imageSize.width : 0, 0), size: imageSize)
+    }
     if message.alignment == .Center{
       let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth, padding: message.cellPadding)
-      return CGRectMake((containerWidth - size.width)/2, yPosition, size.width, size.height)
+      return CGRectMake((containerWidth - size.width)/2, 0, size.width, size.height)
     } else {
       let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: 200, padding: message.cellPadding)
-      let origin = CGPointMake(message.alignment == .Right ? containerWidth - size.width - 10 : 10, yPosition)
+      let origin = CGPointMake(message.alignment == .Right ? containerWidth - size.width : 0, 0)
       return CGRect(origin: origin, size: size)
     }
   }

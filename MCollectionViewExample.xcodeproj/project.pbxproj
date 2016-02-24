@@ -15,6 +15,8 @@
 		A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */; };
 		A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */; };
 		A3B6FB5D1C7A536E003A4FD4 /* ElasticCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */; };
+		A3DDEECD1C7D88170053BFAE /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECC1C7D88170053BFAE /* TestCollectionViewController.swift */; };
+		A3DDEECF1C7D88430053BFAE /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* TestData.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
 		A3FC21CA1C6EE5AA008566BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C91C6EE5AA008566BB /* ViewController.swift */; };
 		A3FC21CD1C6EE5AA008566BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3FC21CB1C6EE5AA008566BB /* Main.storyboard */; };
@@ -33,6 +35,8 @@
 		A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryFollowView.swift; sourceTree = "<group>"; };
 		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCell.swift; sourceTree = "<group>"; };
 		A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElasticCollectionView.swift; path = MCollectionView/ElasticCollectionView.swift; sourceTree = SOURCE_ROOT; };
+		A3DDEECC1C7D88170053BFAE /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
+		A3DDEECE1C7D88430053BFAE /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3FC21C91C6EE5AA008566BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +68,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A3DDEED01C7D893D0053BFAE /* MCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				A372A3641C78F7CC0023C797 /* CGPoint+Util.swift */,
+				A3FC21D91C6EE5E3008566BB /* MCollectionView.swift */,
+				A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */,
+				A372A3661C791DF40023C797 /* MScrollView.swift */,
+			);
+			name = MCollectionView;
+			sourceTree = "<group>";
+		};
+		A3DDEED11C7D894D0053BFAE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A3DDEECC1C7D88170053BFAE /* TestCollectionViewController.swift */,
+				A3DDEECE1C7D88430053BFAE /* TestData.swift */,
+				A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */,
+				A3FC21CB1C6EE5AA008566BB /* Main.storyboard */,
+				A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */,
+				A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */,
+				A3FC21D31C6EE5AA008566BB /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		A3FC21BB1C6EE5AA008566BB = {
 			isa = PBXGroup;
 			children = (
@@ -85,20 +114,13 @@
 		A3FC21C61C6EE5AA008566BB /* MCollectionViewExample */ = {
 			isa = PBXGroup;
 			children = (
-				A372A3641C78F7CC0023C797 /* CGPoint+Util.swift */,
-				A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */,
+				A3DDEED01C7D893D0053BFAE /* MCollectionView */,
 				A3FC21C91C6EE5AA008566BB /* ViewController.swift */,
 				A372A3681C79567A0023C797 /* MessageTextCell.swift */,
 				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
-				A3FC21D91C6EE5E3008566BB /* MCollectionView.swift */,
-				A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */,
-				A372A3661C791DF40023C797 /* MScrollView.swift */,
 				A372A36A1C7979EB0023C797 /* InputToolbarView.swift */,
 				A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */,
-				A3FC21CB1C6EE5AA008566BB /* Main.storyboard */,
-				A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */,
-				A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */,
-				A3FC21D31C6EE5AA008566BB /* Info.plist */,
+				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);
 			path = MCollectionViewExample;
 			sourceTree = "<group>";
@@ -238,6 +260,8 @@
 				A372A3691C79567A0023C797 /* MessageTextCell.swift in Sources */,
 				A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */,
 				A372A3671C791DF40023C797 /* MScrollView.swift in Sources */,
+				A3DDEECF1C7D88430053BFAE /* TestData.swift in Sources */,
+				A3DDEECD1C7D88170053BFAE /* TestCollectionViewController.swift in Sources */,
 				A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */,
 				A3B6FB5D1C7A536E003A4FD4 /* ElasticCollectionView.swift in Sources */,
 				A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */,
