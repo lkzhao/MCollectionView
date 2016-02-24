@@ -68,6 +68,10 @@ class ViewController: UIViewController {
     }
     collectionView.contentInset = UIEdgeInsetsMake(30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
   }
+  
+  override func prefersStatusBarHidden() -> Bool {
+    return true
+  }
 }
 
 extension ViewController: MCollectionViewDataSource{

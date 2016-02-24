@@ -55,7 +55,7 @@ class InputToolbarView: MCell {
     self.m_defineCustomProperty("shadowOpacity", initialValues: [0]) { (values) -> Void in
       self.layer.shadowOpacity = Float(values[0])
     }
-    backgroundColor = UIColor(white: 1.0, alpha: 0.97)
+    backgroundColor = UIColor(white: 0.97, alpha: 0.97)
     
     textView.delegate = self
     textView.backgroundColor = .clearColor()
