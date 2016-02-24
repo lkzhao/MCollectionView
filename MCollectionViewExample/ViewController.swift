@@ -119,7 +119,8 @@ extension ViewController: MCollectionViewDataSource{
 extension ViewController: InputToolbarViewDelegate{
   func inputAccessoryViewDidUpdateFrame(frame:CGRect){
     self.viewDidLayoutSubviews()
-    collectionView.scrollToBottom()
+    let animate = collectionView.bottomOffset.y - collectionView.contentOffset.y < view.bounds.height
+    collectionView.scrollToBottom(animate)
   }
   func send(audio: NSURL, length: NSTimeInterval) {
 //    let msg = chat.sendAudioMessage(audio, length:length)
@@ -148,6 +149,7 @@ extension ViewController: MScrollViewDelegate{
         inputToolbarView.textView.resignFirstResponder()
       }
     }
+    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.bottomOffset.y - 10 || inputToolbarView.textView.isFirstResponder()
   }
   
   func scrollViewDidEndScroll(scrollView: MScrollView) {}

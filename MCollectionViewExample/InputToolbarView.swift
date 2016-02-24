@@ -28,6 +28,14 @@ class InputToolbarView: MCell {
     }
   }
   
+  var showShadow:Bool = false{
+    didSet{
+      if showShadow != oldValue{
+        self.m_animate("shadowOpacity", to: [(showShadow ? 0.3 : 0)], stiffness: 100, damping: 20)
+      }
+    }
+  }
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     
@@ -41,10 +49,12 @@ class InputToolbarView: MCell {
     addSubview(textView)
     
     layer.shadowOffset = CGSizeZero
-    layer.shadowOpacity = 0.3
     layer.shadowRadius = 30
     layer.shadowColor = UIColor(white: 0.3, alpha: 1.0).CGColor
     layer.cornerRadius = 10
+    self.m_defineCustomProperty("shadowOpacity", initialValues: [0]) { (values) -> Void in
+      self.layer.shadowOpacity = Float(values[0])
+    }
     backgroundColor = UIColor(white: 1.0, alpha: 0.97)
     
     textView.delegate = self
