@@ -12,9 +12,11 @@ import UIKit
 }
 class InputAccessoryFollowView: UIView {
   weak var delegate:InputAccessoryFollowViewDelegate?
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  
+  var keyboardFrame:CGRect?
+  
+  init() {
+    super.init(frame: CGRectMake(0, 0, 1, 1))
     backgroundColor = .clearColor()
     userInteractionEnabled = false
   }
@@ -46,7 +48,8 @@ class InputAccessoryFollowView: UIView {
   }
 
   override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-    delegate?.inputAccessoryViewDidUpdateFrame(superview!.frame)
+    keyboardFrame = CGRectMake(superview!.frame.origin.x, superview!.frame.origin.y+1, superview!.frame.width, superview!.frame.height-1)
+    delegate?.inputAccessoryViewDidUpdateFrame(keyboardFrame!)
   }
 
 }

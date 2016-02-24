@@ -12,12 +12,15 @@ import AVFoundation
 @objc protocol InputToolbarViewDelegate:InputAccessoryFollowViewDelegate{
   func send(text:String)
   func send(audio:NSURL, length:NSTimeInterval)
-  func inputToolbarView(view:InputToolbarView, didUpdateHeight height:CGFloat)
+  func inputToolbarViewNeedFrameUpdate()
 }
 
-class InputToolbarView: UIView {
+class InputToolbarView: MCell {
   var textView:UITextView!
   var sendButton:UIButton!
+  var keyboardFrame:CGRect?{
+    return accessoryView.keyboardFrame
+  }
   var accessoryView:InputAccessoryFollowView!
   weak var delegate:InputToolbarViewDelegate?{
     didSet{
@@ -29,7 +32,8 @@ class InputToolbarView: UIView {
     super.init(frame: frame)
     
     sendButton = UIButton(type: UIButtonType.System)
-    sendButton.setTitle("Send", forState: UIControlState.Normal)
+    sendButton.tintColor = UIColor(white: 0.6, alpha: 1.0)
+    sendButton.setImage(UIImage(named: "ic_send"), forState: .Normal)
     sendButton.addTarget(self, action: "sendButtonTapped:", forControlEvents: .TouchUpInside)
     addSubview(sendButton)
 
@@ -38,15 +42,16 @@ class InputToolbarView: UIView {
     
     layer.shadowOffset = CGSizeZero
     layer.shadowOpacity = 0.3
-    layer.shadowRadius = 50
+    layer.shadowRadius = 30
     layer.shadowColor = UIColor(white: 0.3, alpha: 1.0).CGColor
+    layer.cornerRadius = 10
     backgroundColor = UIColor(white: 1.0, alpha: 0.97)
     
     textView.delegate = self
     textView.backgroundColor = .clearColor()
     textView.font = UIFont.systemFontOfSize(17)
     textViewDidEndEditing(textView)
-    accessoryView = InputAccessoryFollowView(frame: bounds)
+    accessoryView = InputAccessoryFollowView()
     accessoryView.autoresizingMask = .FlexibleHeight
     textView.inputAccessoryView = accessoryView
   }
@@ -57,9 +62,9 @@ class InputToolbarView: UIView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    sendButton.frame = CGRectMake(bounds.width - 108, 8, 100, bounds.height - 16)
-    textView.frame = CGRectMake(8, 8, bounds.width - 16 - 100, bounds.height - 16)
-    accessoryView.frame = bounds
+    sendButton.bounds.size = CGSizeMake(44, 44)
+    sendButton.frame.origin = CGPointMake(bounds.width - sendButton.frame.width, (bounds.height - sendButton.frame.height)/2)
+    textView.frame = CGRectMake(8, 8, bounds.width - sendButton.frame.width, bounds.height - 16)
   }
   
   var recorder:AVAudioRecorder!
@@ -127,6 +132,12 @@ class InputToolbarView: UIView {
     textView.text = text
     textViewDidChange(textView)
   }
+  
+  override func sizeThatFits(size: CGSize) -> CGSize {
+    let textSize = textView.sizeThatFits(CGSizeMake(size.width - 16, size.height - 16))
+    let newHeight = min(textSize.height + 16, 100)
+    return CGSizeMake(textSize.width + 16, newHeight)
+  }
 }
 
 extension InputToolbarView: AVAudioRecorderDelegate{
@@ -136,37 +147,31 @@ extension InputToolbarView: AVAudioRecorderDelegate{
   func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
     print("Record Error: \(error?.localizedDescription)")
   }
+  
+  override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return !self.textView.isFirstResponder()
+  }
 }
 
 extension InputToolbarView: UITextViewDelegate{
   func textViewDidChange(textView: UITextView) {
-    let size = textView.sizeThatFits(CGSizeMake(textView.frame.width, 0))
-    let newHeight = min(max(38, size.height), 38*5)
-    if newHeight != textView.frame.height{
-      print(newHeight, textView.frame.height)
-      let newFrame = CGRect(origin: CGPointMake(0, frame.origin.y - (newHeight - textView.frame.height)), size: CGSizeMake(self.frame.width, newHeight+16))
-      UIView.animateWithDuration(0.2, animations: { () -> Void in
-        self.frame = newFrame
-        self.layoutSubviews()
-      })
-      accessoryView.frame = self.bounds
-      accessoryView.superview?.layoutIfNeeded()
-      if textView.text.characters.count > 0{
-        textView.scrollRangeToVisible(NSMakeRange(textView.text.characters.count-1, 1))
-      }
-      delegate?.inputToolbarView(self, didUpdateHeight: CGRectGetMinY(newFrame))
+    let size = self.sizeThatFits(CGSizeMake(frame.width, CGFloat.max))
+    if size.height != frame.height{
+      self.delegate?.inputToolbarViewNeedFrameUpdate()
+      self.layoutIfNeeded()
     }
   }
   func textViewDidBeginEditing(textView: UITextView) {
-    if textView.textColor != UIColor(white: 0.2, alpha: 1.0) {
+    if textView.textColor != UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0) {
       textView.text = nil
-      textView.textColor = UIColor(white: 0.2, alpha: 1.0)
+      textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
     }
   }
   func textViewDidEndEditing(textView: UITextView) {
     if textView.text.isEmpty {
       textView.text = "Your messages..."
-      textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
+      textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 0.7)
+
     }
   }
 }

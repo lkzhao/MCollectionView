@@ -54,7 +54,8 @@ class MCollectionView: MScrollView {
 
   private func loadCells(){
     guard let dataSource = dataSource else { return }
-    let indexes = indexesForFrameIntersectFrame(CGRectInset(visibleFrame, 0, -300))
+    let maxDiff = max(bounds.width,bounds.height) - min(bounds.width, bounds.height)
+    let indexes = indexesForFrameIntersectFrame(CGRectInset(visibleFrame, -maxDiff, -300))
     let deletedIndexes = visibleIndexes.subtract(indexes)
     let newIndexes = indexes.subtract(visibleIndexes)
     for i in deletedIndexes{

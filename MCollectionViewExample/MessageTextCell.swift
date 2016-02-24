@@ -130,32 +130,13 @@ class MessageTextCell: MCell {
   var showShadow:Bool{
     return kIsHighPerformanceDevice && message.type == .Text
   }
-  var pressGR:UILongPressGestureRecognizer!
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     identifier = "MessageTextCell"
     addSubview(textLabel)
     textLabel.frame = frame
     textLabel.numberOfLines = 0
-    
-    pressGR = UILongPressGestureRecognizer(target: self, action: "press")
-    pressGR.delegate = self
-    pressGR.minimumPressDuration = 0
-    addGestureRecognizer(pressGR)
-    self.m_defineCustomProperty("scale", initialValues: [1]) { (values) -> Void in
-      self.transform = CGAffineTransformMakeScale(values[0], values[0])
-    }
-  }
-  
-  func press(){
-    switch pressGR.state{
-    case .Began:
-      self.m_animate("scale", to: 0.9, damping: 10)
-    case .Changed:
-      break
-    default:
-      self.m_animate("scale", to: 1.0, damping: 10)
-    }
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -195,11 +176,5 @@ class MessageTextCell: MCell {
       let origin = CGPointMake(message.alignment == .Right ? containerWidth - size.width - 10 : 10, yPosition)
       return CGRect(origin: origin, size: size)
     }
-  }
-}
-
-extension MessageTextCell:UIGestureRecognizerDelegate{
-  func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true
   }
 }

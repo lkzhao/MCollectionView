@@ -10,6 +10,8 @@ import UIKit
 import MotionAnimation
 
 protocol MScrollViewDelegate{
+  func scrollViewWillBeginDraging(scrollView:MScrollView)
+  func scrollViewDidEndDraging(scrollView:MScrollView)
   func scrollViewWillStartScroll(scrollView:MScrollView)
   func scrollViewDidScroll(scrollView:MScrollView)
   func scrollViewDidEndScroll(scrollView:MScrollView)
@@ -215,12 +217,15 @@ class MScrollView: UIView {
   
   var startingContentOffset:CGPoint?
   var dragLocation = CGPointZero
+  var draging = false
   func scroll(pan:UIPanGestureRecognizer){
     switch pan.state{
     case .Began:
       scrollAnimation.stop()
       startingContentOffset = contentOffset
       dragLocation = pan.locationInView(self)
+      delegate?.scrollViewWillBeginDraging(self)
+      draging = true
       break
     case .Changed:
       var translation = pan.translationInView(self)
@@ -242,13 +247,15 @@ class MScrollView: UIView {
       scrollAnimation.animateToTargetOffset(newContentOffset)
     default:
       scrollAnimation.animateDone()
+      draging = false
+      delegate?.scrollViewDidEndDraging(self)
       break
     }
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    if !scrollAnimation.playing{
+    if !scrollAnimation.playing && !draging{
       scrollAnimation.animateDone()
     }
   }

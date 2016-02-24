@@ -95,6 +95,8 @@ class ViewController: UIViewController, MCollectionViewDataSource, MScrollViewDe
     super.viewDidLoad()
     view.layer.cornerRadius = 5
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
+    
+
     collectionView = ElasticCollectionView(frame:view.bounds)
     collectionView.dataSource = self
     collectionView.delegate = self
@@ -105,6 +107,11 @@ class ViewController: UIViewController, MCollectionViewDataSource, MScrollViewDe
     inputToolbarView.frame = CGRectMake(0,view.bounds.height-54,view.bounds.width,54)
     inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
+    
+    
+    collectionView.reloadData()
+    viewDidLayoutSubviews()
+    collectionView.scrollToBottom()
   }
   
   
@@ -134,6 +141,11 @@ class ViewController: UIViewController, MCollectionViewDataSource, MScrollViewDe
   }
   
   func scrollViewDidScroll(scrollView: MScrollView) {
+    if inputToolbarView.textView.isFirstResponder(){
+      if scrollView.draging && scrollView.panGestureRecognizer.velocityInView(scrollView).y > 100{
+        inputToolbarView.textView.resignFirstResponder()
+      }
+    }
   }
 
   func scrollViewDidEndScroll(scrollView: MScrollView) {
@@ -141,24 +153,41 @@ class ViewController: UIViewController, MCollectionViewDataSource, MScrollViewDe
 
   func scrollViewWillStartScroll(scrollView: MScrollView) {
   }
+  func scrollViewDidEndDraging(scrollView: MScrollView) {
+    
+  }
+  func scrollViewWillBeginDraging(scrollView: MScrollView) {
+  }
   
   override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
     let isAtBottom = collectionView.isAtBottom
     coordinator.animateAlongsideTransition({ (context) -> Void in
-      let bounds = self.view.bounds
-      self.collectionView.frame = bounds
-      self.inputToolbarView.frame = CGRectMake(0,bounds.height-54,bounds.width,54)
+      self.viewDidLayoutSubviews()
       if isAtBottom{
         self.collectionView.scrollToBottom()
       }
     }, completion: nil)
   }
+  
+  var keyboardFrame:CGRect{
+    return inputToolbarView.keyboardFrame ?? CGRectMake(0, view.frame.height+1, view.frame.width, view.frame.height/2)
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    collectionView.frame = view.bounds
+    let inputPadding:CGFloat = 10
+    let inputSize = inputToolbarView.sizeThatFits(CGSizeMake(view.bounds.width - 2 * inputPadding, view.bounds.height))
+    let inputToolbarFrame = CGRectMake(inputPadding, keyboardFrame.minY - inputSize.height - inputPadding, view.bounds.width - 2*inputPadding, inputSize.height)
+    inputToolbarView.m_animate("center", to: inputToolbarFrame.center, stiffness: 400, damping: 25)
+    inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 400, damping: 25)
+    collectionView.contentInset = UIEdgeInsetsMake(30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
+  }
 }
 
 extension ViewController: InputToolbarViewDelegate{
   func inputAccessoryViewDidUpdateFrame(frame:CGRect){
-    inputToolbarView.frame.origin = CGPointMake(0, CGRectGetMinY(frame))
-    collectionView.contentInset.bottom = view.bounds.height - CGRectGetMinY(inputToolbarView.frame) + 20
+    self.viewDidLayoutSubviews()
     collectionView.scrollToBottom()
   }
   func send(audio: NSURL, length: NSTimeInterval) {
@@ -172,14 +201,9 @@ extension ViewController: InputToolbarViewDelegate{
     let animate = collectionView.bottomOffset.y - collectionView.contentOffset.y < view.bounds.height
     collectionView.scrollToBottom(animate)
   }
-  func inputToolbarView(view: InputToolbarView, didUpdateHeight height: CGFloat) {
-//    let newBottomInset = height + bottomConstraint.constant
-//    let diff = newBottomInset - collectionView.contentInset.bottom
-//    collectionView.contentOffset.y += diff
-//    collectionView.contentInset.bottom = newBottomInset
-    //    collectionView.scrollIndicatorInsets.bottom = newBottomInset
+  func inputToolbarViewNeedFrameUpdate() {
     let isAtBottom = collectionView.isAtBottom
-    collectionView.contentInset.bottom = self.view.bounds.height - height + 20
+    self.viewDidLayoutSubviews()
     if isAtBottom{
       collectionView.scrollToBottom(true)
     }
