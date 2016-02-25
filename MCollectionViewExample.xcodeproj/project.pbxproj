@@ -14,7 +14,6 @@
 		A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36A1C7979EB0023C797 /* InputToolbarView.swift */; };
 		A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */; };
 		A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */; };
-		A3B6FB5D1C7A536E003A4FD4 /* ElasticCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */; };
 		A3DDEECD1C7D88170053BFAE /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECC1C7D88170053BFAE /* TestCollectionViewController.swift */; };
 		A3DDEECF1C7D88430053BFAE /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* TestData.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -29,22 +28,21 @@
 		9895E98B2E807431B160DEAB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A189C5C2116AE649355C70A1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A372A3641C78F7CC0023C797 /* CGPoint+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Util.swift"; sourceTree = "<group>"; };
-		A372A3661C791DF40023C797 /* MScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollView.swift; path = MCollectionView/MScrollView.swift; sourceTree = SOURCE_ROOT; };
+		A372A3661C791DF40023C797 /* MScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; name = MScrollView.swift; path = MCollectionView/MScrollView.swift; sourceTree = SOURCE_ROOT; tabWidth = 2; };
 		A372A3681C79567A0023C797 /* MessageTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		A372A36A1C7979EB0023C797 /* InputToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputToolbarView.swift; sourceTree = "<group>"; };
 		A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryFollowView.swift; sourceTree = "<group>"; };
 		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCell.swift; sourceTree = "<group>"; };
-		A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElasticCollectionView.swift; path = MCollectionView/ElasticCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		A3DDEECC1C7D88170053BFAE /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A3FC21C91C6EE5AA008566BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A3FC21C91C6EE5AA008566BB /* ViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21CC1C6EE5AA008566BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A3FC21D11C6EE5AA008566BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3FC21D31C6EE5AA008566BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A3FC21D91C6EE5E3008566BB /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionView.swift; path = MCollectionView/MCollectionView.swift; sourceTree = SOURCE_ROOT; };
+		A3FC21D91C6EE5E3008566BB /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; name = MCollectionView.swift; path = MCollectionView/MCollectionView.swift; sourceTree = SOURCE_ROOT; tabWidth = 2; };
 		F690B34384DDA513C7BCA192 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,7 +71,6 @@
 			children = (
 				A372A3641C78F7CC0023C797 /* CGPoint+Util.swift */,
 				A3FC21D91C6EE5E3008566BB /* MCollectionView.swift */,
-				A3B6FB5C1C7A536E003A4FD4 /* ElasticCollectionView.swift */,
 				A372A3661C791DF40023C797 /* MScrollView.swift */,
 			);
 			name = MCollectionView;
@@ -263,7 +260,6 @@
 				A3DDEECF1C7D88430053BFAE /* TestData.swift in Sources */,
 				A3DDEECD1C7D88170053BFAE /* TestCollectionViewController.swift in Sources */,
 				A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */,
-				A3B6FB5D1C7A536E003A4FD4 /* ElasticCollectionView.swift in Sources */,
 				A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* ViewController.swift in Sources */,
 				A3FC21DA1C6EE5E3008566BB /* MCollectionView.swift in Sources */,

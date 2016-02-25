@@ -16,7 +16,7 @@ protocol MScrollViewDelegate{
   func scrollViewDidScroll(scrollView:MScrollView)
   func scrollViewDidEndScroll(scrollView:MScrollView)
 }
-let debug = false
+let debug = true
 
 func p(items:Any...){
   if debug{
@@ -70,8 +70,14 @@ class ScrollAnimation:MotionAnimation{
 
     play()
   }
+
+  override func play() {
+    p("Play")
+    super.play()
+  }
   
   override func stop() {
+    p("Stop")
     super.stop()
     velocity = CGPointZero
   }
@@ -80,7 +86,7 @@ class ScrollAnimation:MotionAnimation{
     let offset = scrollView.contentOffset
     
     // Force
-    let targetOffset = CGPoint(x: targetOffsetX ?? offset.x, y: targetOffsetY ?? offset.y)
+    var targetOffset = CGPoint(x: targetOffsetX ?? offset.x, y: targetOffsetY ?? offset.y)
     let Fspring = -stiffness * (offset - targetOffset)
     
     // Damping
@@ -92,6 +98,7 @@ class ScrollAnimation:MotionAnimation{
     var newOffset = offset + newV * dt;
     
     if let yTarget = scrollView.yEdgeTarget() where targetOffsetY == nil{
+      targetOffset.y = yTarget
       if !scrollView.bounce{
         newOffset.y = yTarget
         velocity.y = 0
@@ -102,6 +109,7 @@ class ScrollAnimation:MotionAnimation{
       }
     }
     if let xTarget = scrollView.xEdgeTarget() where targetOffsetX == nil{
+      targetOffset.x = xTarget
       if !scrollView.bounce{
         newOffset.x = xTarget
         velocity.x = 0
@@ -111,22 +119,17 @@ class ScrollAnimation:MotionAnimation{
         damping.x = 10
       }
     }
-    p("targetY: \(targetOffsetY ?? -1)")
 
     let lowVelocity = abs(newV.x) < threshold && abs(newV.y) < threshold
     if lowVelocity && abs(targetOffset.x - newOffset.x) < threshold && abs(targetOffset.y - newOffset.y) < threshold {
+      p("Set to target: \(targetOffset)")
       velocity = CGPointZero
       scrollView.contentOffset = targetOffset
       targetOffsetX = nil
       targetOffsetY = nil
       return false
-    }else if lowVelocity {
-      velocity = CGPointZero
-      scrollView.contentOffset = newOffset
-      targetOffsetX = nil
-      targetOffsetY = nil
-      return false
-    }else{
+    } else {
+      p("step: \(newOffset)")
       velocity = newV
       scrollView.contentOffset = newOffset
       return true
@@ -284,9 +287,11 @@ class MScrollView: UIView {
     if draging{
       return
     }
+    p("scroll to bottom animate:\(animate)")
+//    p("\(NSThread.callStackSymbols())")
     let target = bottomOffset
     if animate{
-      scrollAnimation.animateToTargetOffset(target, stiffness: 400, damping: 25)
+      scrollAnimation.animateToTargetOffset(target, stiffness: 200, damping: 20)
     }else{
       scrollAnimation.stop()
       contentOffset = target

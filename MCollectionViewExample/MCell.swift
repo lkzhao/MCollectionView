@@ -10,7 +10,6 @@ import UIKit
 
 protocol ReuseableView{
   var identifier:String?{get}
-  func didUpdateOnScreenPosition(center: CGPoint, inContainer:UIView)
 }
 
 class MCell: UIView, ReuseableView {
@@ -41,10 +40,6 @@ class MCell: UIView, ReuseableView {
     default:
       self.m_animate("scale", to: 1.0, damping: 10)
     }
-  }
-  
-  func didUpdateOnScreenPosition(center: CGPoint, inContainer:UIView){
-    
   }
 }
 

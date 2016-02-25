@@ -11,25 +11,28 @@ import MotionAnimation
 
 class ViewController: UIViewController {
 
-  var collectionView:ElasticCollectionView!
+  var collectionView:MCollectionView!
   let inputToolbarView = InputToolbarView()
-  
+
+  var sendingMessages:Set<Int> = []
   var messages:[Message] = TestMessages
   var animateLayout = false
 
   var keyboardFrame:CGRect{
-    return inputToolbarView.keyboardFrame ?? CGRectMake(0, view.frame.height+1, view.frame.width, view.frame.height/2)
+    return inputToolbarView.keyboardFrame ?? CGRectMake(0, view.frame.height, view.frame.width, view.frame.height/2)
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    MotionAnimator.sharedInstance.debugEnabled = true
     if kIsHighPerformanceDevice{
       view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     }
 
-    collectionView = ElasticCollectionView(frame:view.bounds)
+    collectionView = MCollectionView(frame:view.bounds)
     collectionView.dataSource = self
     collectionView.delegate = self
+    collectionView.autoLayoutOnUpdate = false
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
@@ -72,6 +75,26 @@ class ViewController: UIViewController {
   override func prefersStatusBarHidden() -> Bool {
     return true
   }
+
+
+    func adjustedRect(index:Int) -> CGRect{
+        let screenDragLocation = collectionView.contentOffset + collectionView.dragLocation
+        let cellFrame = collectionView.frames[index]
+//        let cellOffset = abs(cellFrame.center.y - screenDragLocation.y) * collectionView.scrollVelocity / 5000
+        let cellOffset = cellFrame.center.distance(screenDragLocation) * collectionView.scrollVelocity / 5000
+        return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+    }
+
+    func adjustedScale(index:Int) -> CGFloat{
+        let cellFrame = collectionView.frames[index]
+        let screenLocation = cellFrame.center - collectionView.contentOffset
+        if screenLocation.y < 25{
+            return min(1,0.5 + (screenLocation.y / 50)*0.5)
+        } else if screenLocation.y > collectionView.bounds.size.height - 50 {
+            return min(1,0.5 + ((collectionView.bounds.size.height - screenLocation.y) / 50)*0.5)
+        }
+        return 1.0
+    }
 }
 
 extension ViewController: MCollectionViewDataSource{
@@ -118,6 +141,36 @@ extension ViewController: MCollectionViewDataSource{
     cellFrame.origin.y = yHeight
     return cellFrame
   }
+
+
+  func collectionView(collectionView:MCollectionView, cellView:UIView, didAppearForIndex index:Int){
+    if sendingMessages.contains(index){
+      // we just sent this message, lets animate it from inputToolbarView to it's position
+      cellView.center = collectionView.contentView.convertPoint(inputToolbarView.center, fromView: view)
+      cellView.bounds = inputToolbarView.bounds
+      cellView.alpha = 0
+      cellView.m_animate("bounds", to: collectionView.frames[index].bounds, stiffness: 150, damping: 20) {
+        self.sendingMessages.remove(index)
+      }
+      cellView.m_animate("alpha", to: 1.0)
+      // no need to animate center, it is done in `didUpdateScreenPositionForIndex`
+    } else {
+      cellView.bounds = collectionView.frames[index].bounds
+    }
+  }
+  func collectionView(collectionView:MCollectionView, cellView:UIView, willDisappearForIndex index:Int){}
+  func collectionView(collectionView:MCollectionView, cellView:UIView, didUpdateScreenPositionForIndex index:Int, screenPosition:CGPoint)
+  {
+    let message = messages[index]
+    if message.type == .Text && message.fromCurrentUser{
+      let distanceFromTop = screenPosition.y
+      let distanceFromBottom = view.bounds.height - distanceFromTop
+      cellView.backgroundColor = UIColor(red: 0, green: (124+(distanceFromBottom/view.bounds.height*100))/255, blue: 1.0, alpha: 1.0)
+    }
+//    p("animate \(index) to \(adjustedRect(index).center) \(collectionView.scrollVelocity)")
+    //      cell.m_animate("scale", to: [adjustedScale(index)], stiffness: 500, damping: 25, threshold: 0.01)
+    cellView.animateCenterTo(adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
+  }
 }
 
 extension ViewController: InputToolbarViewDelegate{
@@ -132,7 +185,9 @@ extension ViewController: InputToolbarViewDelegate{
 //    scrollToEnd()
   }
   func send(text: String) {
-    messages.append(Message(true,content: text))
+    let sendingMessage = Message(true,content: text);
+    sendingMessages.insert(messages.count)
+    messages.append(sendingMessage)
     collectionView.reloadData()
     let animate = collectionView.bottomOffset.y - collectionView.contentOffset.y < view.bounds.height
     collectionView.scrollToBottom(animate)

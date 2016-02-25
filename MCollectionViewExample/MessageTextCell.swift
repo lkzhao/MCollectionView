@@ -70,14 +70,6 @@ class MessageTextCell: MCell {
       fatalError("init(coder:) has not been implemented")
   }
   
-  override func didUpdateOnScreenPosition(center: CGPoint, inContainer view:UIView) {
-    if message.type == .Text && message.fromCurrentUser{
-      let distanceFromTop = center.y
-      let distanceFromBottom = view.bounds.height - distanceFromTop
-      backgroundColor = UIColor(red: 0, green: (124+(distanceFromBottom/view.bounds.height*100))/255, blue: 1.0, alpha: 1.0)
-    }
-  }
-  
   override func layoutSubviews() {
     super.layoutSubviews()
     if showShadow {
