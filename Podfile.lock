@@ -1,17 +1,19 @@
 PODS:
+  - Changeset (1.0.3)
   - MotionAnimation (0.0.5)
-  - NgKeyboardTracker (1.0.8)
 
 DEPENDENCIES:
+  - Changeset
   - MotionAnimation (from `../MotionAnimation`)
-  - NgKeyboardTracker
 
 EXTERNAL SOURCES:
   MotionAnimation:
-    :local: "../MotionAnimation"
+    :path: ../MotionAnimation
 
 SPEC CHECKSUMS:
+  Changeset: ec7194f7b1fe27134eece694a2119ab85972d14e
   MotionAnimation: d9d4060bf4f494dd61bf868b8969a31b1b0b6f2a
-  NgKeyboardTracker: 844e98833c76d76194fc8d1c40ed3efe6a50dc1a
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: f988bec2d56f0d602a6897361be405484fa31fb4
+
+COCOAPODS: 1.0.0.beta.4

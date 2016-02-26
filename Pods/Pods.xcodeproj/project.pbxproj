@@ -7,107 +7,98 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09B05A7469E3641101E5BC84F1EF3D8B /* Pods-MCollectionViewExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B66587FBA1E4FEAB242DD174894BBF10 /* Pods-MCollectionViewExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E277FBE2F2A41FF057B71F485E5B2D1 /* LZPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73F1C8B0146E77416EF65C816D3B37 /* LZPanGestureRecognizer.swift */; };
-		0FD5BA5A93DFCF07E57D63F855B0A83C /* Pods-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BCC458FDD5F692BBB2BFC64BB5701FC /* Pods-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		17AF799D6D0A7CFAE0D1E329625F9019 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */; };
-		23C8A7D0B51ADBDEF042649D188499BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
 		2CA48E056C43E1862C33AE11E9657AFA /* SpringValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939A158918B3153F64DEE841CB37D1B5 /* SpringValueAnimation.swift */; };
-		49E9A82DF074024C7AD613D74B23B711 /* NgPseudoInputAccessoryViewCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B5563532DD7C1B43057154EAEAF051 /* NgPseudoInputAccessoryViewCoordinator.m */; };
-		4DE5E6C7518160E871BC8F87101EB1B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */; };
-		4FBDC368CB75D2015FFD4B2BC14458A1 /* NgPseudoInputAccessoryViewCoordinatorPrivates.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94583CC95A09BD09A623B1B7997D9 /* NgPseudoInputAccessoryViewCoordinatorPrivates.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51D8C4D2BAD95B6688A60D2506145EB9 /* NgKeyboardTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4BCD253D4F6D138E03CC8D99AE2E49 /* NgKeyboardTracker.m */; };
+		31F3BC6EE02A1A993577F2CDB1DE8E8C /* Changeset-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9F989BEF9F6BA04D3F0ACAC1E9A52D /* Changeset-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3FCBF597AE7964FE14695F245F48D0B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF066F8D85A4D7A3B3A04D25E4D2AC88 /* UIKit.framework */; };
+		4676DF858FE3C48714DC55F5D3069344 /* Pods-MCollectionViewExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E9665B685B475DD09AF00890869713 /* Pods-MCollectionViewExample-dummy.m */; };
 		7204CCA91B0ACEF850A31327607536C9 /* NSObject+MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BD935EB31F413C11CC3BC176A32316 /* NSObject+MotionAnimation.swift */; };
-		824D16566E5446C6CC68472135C6EFB7 /* NgKeyboardTracker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CADE802D73D0AB8C31CDEADA1C0B4A /* NgKeyboardTracker-dummy.m */; };
 		8B74BF59F77C0234C17E15040235412F /* ValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A2AEF441D482C3BDFB2EF95DEFFCA0 /* ValueAnimation.swift */; };
 		8C6828BBC690E5DA07A7D6162E38EFB6 /* NSTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859342992FFBA2C3EA443B43E72BE567 /* NSTimer.swift */; };
+		953EA35D204722EDA16883B286E459A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D635D41133915B228CE899EF89DD95CE /* Foundation.framework */; };
 		9794F667D2B7AD1311515D69480D495D /* UIView+MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23E7DD908E2FC17A05B8634B2E99F5F /* UIView+MotionAnimation.swift */; };
 		9817E9B34D213AE5645A521CFD753570 /* CGPoint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A53EE2D5DED03A11F3706171039545 /* CGPoint+Util.swift */; };
 		A9AC6632E882161186E363389A8FEF26 /* MotionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384A5FBCCF82E7B2A0C2373FE334A5D0 /* MotionAnimator.swift */; };
 		B7B439F4C97B85D6E31820BA178DBBCA /* MotionAnimation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8954F28B6317EE8BC5C444A25FF56F9A /* MotionAnimation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BE325BBA724231BFCB76567C6C7CAEE0 /* NgKeyboardTracker-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BF8819E5A212C5C1CE0476B3DE3600E7 /* NgKeyboardTracker-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF89AC49FB1121D61773512D2AEC82EA /* NgPseudoInputAccessoryViewCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = BA444B76C352F0CBE42C6993C6DAFA73 /* NgPseudoInputAccessoryViewCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFBBDD89D31FD8ABD17A764BD0474FC3 /* MotionAnimationPropertyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2E80DA2D9874E58CD9F427AE7CE56 /* MotionAnimationPropertyState.swift */; };
+		C3949B85843FC4C2E812768C107F058F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D635D41133915B228CE899EF89DD95CE /* Foundation.framework */; };
 		C6C5F560E2EB55F4F53EAA84BEB84F15 /* MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA554215279B8AB2D6DAC386E5DCD8 /* MotionAnimation.swift */; };
-		C6C66A429B8408F02797146CAE7704A9 /* NgKeyboardTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = DD274476CADCB582DA4511EB9BCF8E2F /* NgKeyboardTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DB2A38E8B266C3E44CFDA74E69B10494 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
+		CA0D70147B509B0BD9AFCB3621946D2D /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF9611A8477F172A37AA76BE56AB022 /* Changeset.swift */; };
+		DA1AB45DD8C36FEE8C73E69C5BB532E6 /* Changeset-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 772AC9AB89CEB55E85B0CC0CFA84FEE3 /* Changeset-dummy.m */; };
 		ED3889C0A5DF2FEFCBCE8EB1B9FD8F5D /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593F5F29342C0CC70BB8BCB0BA691EFC /* Types.swift */; };
-		F075C2C1BF80B77A3B6DA6CAB8B64647 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5DA93A9F359521A89826BE6DA777 /* Pods-dummy.m */; };
 		F16F58ACEF943096B50A4EC2E6862B42 /* MotionAnimation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC524D85C74A79E53B53D9A15D062D /* MotionAnimation-dummy.m */; };
-		F4287230007AEFB4EA9B6116329BCD6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
 		F44EDC5FA205187EEE9F93F4D4828595 /* time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA172D4334AEAAFAC5B05AC81203CC91 /* time.swift */; };
+		F7AE74F1342DA5F288E0773C14A9E83F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D635D41133915B228CE899EF89DD95CE /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B5A8CE95695A9823EF3133F3042826BA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B21F8EE9E1C0E6FD83E573434F969BD0;
-			remoteInfo = NgKeyboardTracker;
-		};
-		CA3A85E6AEC8C1BB5EFC8A72349D22F7 /* PBXContainerItemProxy */ = {
+		A2A4240D5237AF0CEA381954CC50B64E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 78C5CEA4E61AD2B76E9CEC08F57A043F;
 			remoteInfo = MotionAnimation;
 		};
+		F519167E3CC680C45977DFF9265F5976 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5268172F9D0321D213D07598708942D6;
+			remoteInfo = Changeset;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Changeset.xcconfig; sourceTree = "<group>"; };
 		05AAEAB107FD5897A352F4FE7FC59EA6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08417B12DC79DE572AB10BBE13CEEE49 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08E977E3CBAAE04E9F56473E38FEABEC /* Changeset.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Changeset.modulemap; sourceTree = "<group>"; };
 		08FC524D85C74A79E53B53D9A15D062D /* MotionAnimation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MotionAnimation-dummy.m"; sourceTree = "<group>"; };
-		0976A0B2C297832B5BC7075A9F1CE7FA /* NgKeyboardTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NgKeyboardTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		12A53EE2D5DED03A11F3706171039545 /* CGPoint+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CGPoint+Util.swift"; sourceTree = "<group>"; };
+		17FEE571E7A5E02787B3142A50F242C6 /* Pods-MCollectionViewExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionViewExample-frameworks.sh"; sourceTree = "<group>"; };
 		1BD2E80DA2D9874E58CD9F427AE7CE56 /* MotionAnimationPropertyState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MotionAnimationPropertyState.swift; sourceTree = "<group>"; };
+		23E9665B685B475DD09AF00890869713 /* Pods-MCollectionViewExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MCollectionViewExample-dummy.m"; sourceTree = "<group>"; };
 		25BE6AEFF08F618F029E538650DD8DE1 /* MotionAnimation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = MotionAnimation.modulemap; sourceTree = "<group>"; };
-		2776D646EAE8DE32B7E3B6636E1FD036 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2BCC458FDD5F692BBB2BFC64BB5701FC /* Pods-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-umbrella.h"; sourceTree = "<group>"; };
-		384A5FBCCF82E7B2A0C2373FE334A5D0 /* MotionAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MotionAnimator.swift; sourceTree = "<group>"; tabWidth = 2; };
-		45B5563532DD7C1B43057154EAEAF051 /* NgPseudoInputAccessoryViewCoordinator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NgPseudoInputAccessoryViewCoordinator.m; path = NgKeyboardTracker/NgPseudoInputAccessoryViewCoordinator.m; sourceTree = "<group>"; };
-		49ACEB831BA6F8E93EE686F2F11FB32D /* NgKeyboardTracker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NgKeyboardTracker-prefix.pch"; sourceTree = "<group>"; };
+		2E255D14A0E9E7E26ECBABBAFD269B62 /* Pods-MCollectionViewExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-MCollectionViewExample.modulemap"; sourceTree = "<group>"; };
+		2FA416F7357832FBE55EBEBDEEF75ED4 /* Changeset-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Changeset-prefix.pch"; sourceTree = "<group>"; };
+		344730E4F18C6C5B70DD9F756983A6AB /* Changeset.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Changeset.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		384A5FBCCF82E7B2A0C2373FE334A5D0 /* MotionAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MotionAnimator.swift; sourceTree = "<group>"; };
 		4ACA554215279B8AB2D6DAC386E5DCD8 /* MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MotionAnimation.swift; sourceTree = "<group>"; };
+		4E79378DCBD66E6A679ADE5A0FD8693A /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 		593F5F29342C0CC70BB8BCB0BA691EFC /* Types.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		5B4B1C88D43D1B9BFC855D235BF8BB32 /* MotionAnimation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MotionAnimation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		78BD935EB31F413C11CC3BC176A32316 /* NSObject+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = "NSObject+MotionAnimation.swift"; sourceTree = "<group>"; tabWidth = 2; };
-		79A9DEDC89FE8336BF5FEDAAF75BF7FC /* Pods.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Pods.modulemap; sourceTree = "<group>"; };
+		6BF9611A8477F172A37AA76BE56AB022 /* Changeset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Changeset.swift; path = Changeset/Changeset.swift; sourceTree = "<group>"; };
+		772AC9AB89CEB55E85B0CC0CFA84FEE3 /* Changeset-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Changeset-dummy.m"; sourceTree = "<group>"; };
+		78BD935EB31F413C11CC3BC176A32316 /* NSObject+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "NSObject+MotionAnimation.swift"; sourceTree = "<group>"; };
+		7DDDF8D421E16C564F59DCBA7105F86D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84084C34091EE11C86504EA134057FFA /* MotionAnimation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MotionAnimation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		859342992FFBA2C3EA443B43E72BE567 /* NSTimer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSTimer.swift; sourceTree = "<group>"; };
-		87B213035BAC5F75386F62D3C75D2342 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
-		894E5DA93A9F359521A89826BE6DA777 /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
 		8954F28B6317EE8BC5C444A25FF56F9A /* MotionAnimation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-umbrella.h"; sourceTree = "<group>"; };
+		8D9F989BEF9F6BA04D3F0ACAC1E9A52D /* Changeset-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Changeset-umbrella.h"; sourceTree = "<group>"; };
 		939A158918B3153F64DEE841CB37D1B5 /* SpringValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpringValueAnimation.swift; sourceTree = "<group>"; };
 		94A2AEF441D482C3BDFB2EF95DEFFCA0 /* ValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValueAnimation.swift; sourceTree = "<group>"; };
-		977577C045EDA9D9D1F46E2598D19FC7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
-		A9CADE802D73D0AB8C31CDEADA1C0B4A /* NgKeyboardTracker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NgKeyboardTracker-dummy.m"; sourceTree = "<group>"; };
-		AD4BCD253D4F6D138E03CC8D99AE2E49 /* NgKeyboardTracker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NgKeyboardTracker.m; path = NgKeyboardTracker/NgKeyboardTracker.m; sourceTree = "<group>"; };
-		BA444B76C352F0CBE42C6993C6DAFA73 /* NgPseudoInputAccessoryViewCoordinator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NgPseudoInputAccessoryViewCoordinator.h; path = NgKeyboardTracker/NgPseudoInputAccessoryViewCoordinator.h; sourceTree = "<group>"; };
+		A873AD30D12F4609830FBAD1A1F3F08A /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
+		AF066F8D85A4D7A3B3A04D25E4D2AC88 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		B66587FBA1E4FEAB242DD174894BBF10 /* Pods-MCollectionViewExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MCollectionViewExample-umbrella.h"; sourceTree = "<group>"; };
+		B87155B99792FCE737C6CD2BA8B39B39 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BF8819E5A212C5C1CE0476B3DE3600E7 /* NgKeyboardTracker-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NgKeyboardTracker-umbrella.h"; sourceTree = "<group>"; };
-		C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		C0042E26D8D94C1466A319142980C33C /* Pods-MCollectionViewExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MCollectionViewExample-acknowledgements.plist"; sourceTree = "<group>"; };
 		C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MotionAnimation.xcconfig; sourceTree = "<group>"; };
-		CA9898B904980A07AAD5D89AC9A48EEA /* NgKeyboardTracker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = NgKeyboardTracker.modulemap; sourceTree = "<group>"; };
-		CBC0F7C552B739C909B650A0F42F7F38 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
-		CBD8AE90B419DFEBF8C447A443D5A143 /* NgKeyboardTracker.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NgKeyboardTracker.xcconfig; sourceTree = "<group>"; };
-		D0405803033A2A777B8E4DFA0C1800ED /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		C9BA13812F8A2C1CE7D890B0AF3A4B36 /* Pods-MCollectionViewExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionViewExample-resources.sh"; sourceTree = "<group>"; };
+		CAAA50733D8A0930239231B1CC9D0064 /* Pods_MCollectionViewExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionViewExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D23E7DD908E2FC17A05B8634B2E99F5F /* UIView+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+MotionAnimation.swift"; sourceTree = "<group>"; };
-		DA312349A49333542E6F4B36B329960E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		D635D41133915B228CE899EF89DD95CE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DA73F1C8B0146E77416EF65C816D3B37 /* LZPanGestureRecognizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LZPanGestureRecognizer.swift; sourceTree = "<group>"; };
-		DD274476CADCB582DA4511EB9BCF8E2F /* NgKeyboardTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NgKeyboardTracker.h; path = NgKeyboardTracker/NgKeyboardTracker.h; sourceTree = "<group>"; };
-		E1B94583CC95A09BD09A623B1B7997D9 /* NgPseudoInputAccessoryViewCoordinatorPrivates.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NgPseudoInputAccessoryViewCoordinatorPrivates.h; path = NgKeyboardTracker/NgPseudoInputAccessoryViewCoordinatorPrivates.h; sourceTree = "<group>"; };
-		E7F21354943D9F42A70697D5A5EF72E9 /* Pods-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-frameworks.sh"; sourceTree = "<group>"; };
-		E8446514FBAD26C0E18F24A5715AEF67 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9CCBFA8982EA280AFACE59A055A0082 /* MotionAnimation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-prefix.pch"; sourceTree = "<group>"; };
 		FA172D4334AEAAFAC5B05AC81203CC91 /* time.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = time.swift; sourceTree = "<group>"; };
+		FEBA9AC9FF26AFAA2FDD01F6233AB9F0 /* Pods-MCollectionViewExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MCollectionViewExample-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		12EBE8BB14F766FBD1E496473098E2FB /* Frameworks */ = {
+		44DE2690394B4BE325EF546D3D0656AB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB2A38E8B266C3E44CFDA74E69B10494 /* Foundation.framework in Frameworks */,
+				C3949B85843FC4C2E812768C107F058F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,30 +106,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23C8A7D0B51ADBDEF042649D188499BD /* Foundation.framework in Frameworks */,
-				17AF799D6D0A7CFAE0D1E329625F9019 /* UIKit.framework in Frameworks */,
+				F7AE74F1342DA5F288E0773C14A9E83F /* Foundation.framework in Frameworks */,
+				3FCBF597AE7964FE14695F245F48D0B2 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9AE35C11C75C03328AF3F347008AA297 /* Frameworks */ = {
+		A03F2DCD80D9FB1996F0931DB6B41CFB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4287230007AEFB4EA9B6116329BCD6A /* Foundation.framework in Frameworks */,
-				4DE5E6C7518160E871BC8F87101EB1B3 /* UIKit.framework in Frameworks */,
+				953EA35D204722EDA16883B286E459A9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		18340F12838DEE43507667CC74401EB1 /* iOS */ = {
+		09D18D142547DBBE394A0C0A81D1687B /* Pods-MCollectionViewExample */ = {
 			isa = PBXGroup;
 			children = (
-				6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */,
-				C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */,
+				B87155B99792FCE737C6CD2BA8B39B39 /* Info.plist */,
+				2E255D14A0E9E7E26ECBABBAFD269B62 /* Pods-MCollectionViewExample.modulemap */,
+				FEBA9AC9FF26AFAA2FDD01F6233AB9F0 /* Pods-MCollectionViewExample-acknowledgements.markdown */,
+				C0042E26D8D94C1466A319142980C33C /* Pods-MCollectionViewExample-acknowledgements.plist */,
+				23E9665B685B475DD09AF00890869713 /* Pods-MCollectionViewExample-dummy.m */,
+				17FEE571E7A5E02787B3142A50F242C6 /* Pods-MCollectionViewExample-frameworks.sh */,
+				C9BA13812F8A2C1CE7D890B0AF3A4B36 /* Pods-MCollectionViewExample-resources.sh */,
+				B66587FBA1E4FEAB242DD174894BBF10 /* Pods-MCollectionViewExample-umbrella.h */,
+				4E79378DCBD66E6A679ADE5A0FD8693A /* Pods-MCollectionViewExample.debug.xcconfig */,
+				A873AD30D12F4609830FBAD1A1F3F08A /* Pods-MCollectionViewExample.release.xcconfig */,
 			);
-			name = iOS;
+			name = "Pods-MCollectionViewExample";
+			path = "Target Support Files/Pods-MCollectionViewExample";
 			sourceTree = "<group>";
 		};
 		223282536D62A92A9B6C564B6888B463 /* Development Pods */ = {
@@ -147,6 +146,20 @@
 				EEF30658131E258B498C48A0D75115F1 /* MotionAnimation */,
 			);
 			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		25D87479202888DD89809FAF14D91FC3 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				08E977E3CBAAE04E9F56473E38FEABEC /* Changeset.modulemap */,
+				043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */,
+				772AC9AB89CEB55E85B0CC0CFA84FEE3 /* Changeset-dummy.m */,
+				2FA416F7357832FBE55EBEBDEEF75ED4 /* Changeset-prefix.pch */,
+				8D9F989BEF9F6BA04D3F0ACAC1E9A52D /* Changeset-umbrella.h */,
+				7DDDF8D421E16C564F59DCBA7105F86D /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Changeset";
 			sourceTree = "<group>";
 		};
 		380CDD4CC342ADA034C0CF14D125E102 /* MotionAnimation */ = {
@@ -168,48 +181,39 @@
 			path = MotionAnimation;
 			sourceTree = "<group>";
 		};
+		3EE4ADC2FF6830F9D7690DB4C52C9B29 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				344730E4F18C6C5B70DD9F756983A6AB /* Changeset.framework */,
+				84084C34091EE11C86504EA134057FFA /* MotionAnimation.framework */,
+				CAAA50733D8A0930239231B1CC9D0064 /* Pods_MCollectionViewExample.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				18340F12838DEE43507667CC74401EB1 /* iOS */,
+				E294F3BD993E240DCFCB4DC1329C9F36 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		733A8C64C2185DF341719B1F147448BB /* Pods */ = {
+		4A54F11635DFA94A033F60AB7D641D57 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D3DF9623861E328FE4574F170A2DDF8A /* NgKeyboardTracker */,
+				4FB548763FEA3773F170D0E47802C08F /* Changeset */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		75D98FF52E597A11900E131B6C4E1ADA /* Pods */ = {
+		4FB548763FEA3773F170D0E47802C08F /* Changeset */ = {
 			isa = PBXGroup;
 			children = (
-				E8446514FBAD26C0E18F24A5715AEF67 /* Info.plist */,
-				79A9DEDC89FE8336BF5FEDAAF75BF7FC /* Pods.modulemap */,
-				D0405803033A2A777B8E4DFA0C1800ED /* Pods-acknowledgements.markdown */,
-				87B213035BAC5F75386F62D3C75D2342 /* Pods-acknowledgements.plist */,
-				894E5DA93A9F359521A89826BE6DA777 /* Pods-dummy.m */,
-				E7F21354943D9F42A70697D5A5EF72E9 /* Pods-frameworks.sh */,
-				CBC0F7C552B739C909B650A0F42F7F38 /* Pods-resources.sh */,
-				2BCC458FDD5F692BBB2BFC64BB5701FC /* Pods-umbrella.h */,
-				977577C045EDA9D9D1F46E2598D19FC7 /* Pods.debug.xcconfig */,
-				DA312349A49333542E6F4B36B329960E /* Pods.release.xcconfig */,
+				6BF9611A8477F172A37AA76BE56AB022 /* Changeset.swift */,
+				25D87479202888DD89809FAF14D91FC3 /* Support Files */,
 			);
-			name = Pods;
-			path = "Target Support Files/Pods";
-			sourceTree = "<group>";
-		};
-		7DA6CF614AB6D8D70057C3900197C501 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5B4B1C88D43D1B9BFC855D235BF8BB32 /* MotionAnimation.framework */,
-				0976A0B2C297832B5BC7075A9F1CE7FA /* NgKeyboardTracker.framework */,
-				08417B12DC79DE572AB10BBE13CEEE49 /* Pods.framework */,
-			);
-			name = Products;
+			path = Changeset;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -218,45 +222,18 @@
 				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
 				223282536D62A92A9B6C564B6888B463 /* Development Pods */,
 				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
-				733A8C64C2185DF341719B1F147448BB /* Pods */,
-				7DA6CF614AB6D8D70057C3900197C501 /* Products */,
-				B7B80995527643776607AFFA75B91E24 /* Targets Support Files */,
+				4A54F11635DFA94A033F60AB7D641D57 /* Pods */,
+				3EE4ADC2FF6830F9D7690DB4C52C9B29 /* Products */,
+				C718FCF6F4C22354402459A4C2B5E611 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		B7B80995527643776607AFFA75B91E24 /* Targets Support Files */ = {
+		C718FCF6F4C22354402459A4C2B5E611 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				75D98FF52E597A11900E131B6C4E1ADA /* Pods */,
+				09D18D142547DBBE394A0C0A81D1687B /* Pods-MCollectionViewExample */,
 			);
 			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		BFF5D0C8025CC8657607140A9A611432 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				2776D646EAE8DE32B7E3B6636E1FD036 /* Info.plist */,
-				CA9898B904980A07AAD5D89AC9A48EEA /* NgKeyboardTracker.modulemap */,
-				CBD8AE90B419DFEBF8C447A443D5A143 /* NgKeyboardTracker.xcconfig */,
-				A9CADE802D73D0AB8C31CDEADA1C0B4A /* NgKeyboardTracker-dummy.m */,
-				49ACEB831BA6F8E93EE686F2F11FB32D /* NgKeyboardTracker-prefix.pch */,
-				BF8819E5A212C5C1CE0476B3DE3600E7 /* NgKeyboardTracker-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/NgKeyboardTracker";
-			sourceTree = "<group>";
-		};
-		D3DF9623861E328FE4574F170A2DDF8A /* NgKeyboardTracker */ = {
-			isa = PBXGroup;
-			children = (
-				DD274476CADCB582DA4511EB9BCF8E2F /* NgKeyboardTracker.h */,
-				AD4BCD253D4F6D138E03CC8D99AE2E49 /* NgKeyboardTracker.m */,
-				BA444B76C352F0CBE42C6993C6DAFA73 /* NgPseudoInputAccessoryViewCoordinator.h */,
-				45B5563532DD7C1B43057154EAEAF051 /* NgPseudoInputAccessoryViewCoordinator.m */,
-				E1B94583CC95A09BD09A623B1B7997D9 /* NgPseudoInputAccessoryViewCoordinatorPrivates.h */,
-				BFF5D0C8025CC8657607140A9A611432 /* Support Files */,
-			);
-			path = NgKeyboardTracker;
 			sourceTree = "<group>";
 		};
 		DC5D2E053F87CC9C7E98CDF47C1035D2 /* Support Files */ = {
@@ -273,6 +250,15 @@
 			path = "../MCollectionView/Pods/Target Support Files/MotionAnimation";
 			sourceTree = "<group>";
 		};
+		E294F3BD993E240DCFCB4DC1329C9F36 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D635D41133915B228CE899EF89DD95CE /* Foundation.framework */,
+				AF066F8D85A4D7A3B3A04D25E4D2AC88 /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		EEF30658131E258B498C48A0D75115F1 /* MotionAnimation */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +272,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		141A28721C94F4F39CA35C4897270F1F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31F3BC6EE02A1A993577F2CDB1DE8E8C /* Changeset-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		29C36981FA131472321703EDDE86FA5A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,45 +288,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8F28A0DD8265E3736A18C25AEE32A7D3 /* Headers */ = {
+		2A1919945CA5223625DE9250861173DB /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FD5BA5A93DFCF07E57D63F855B0A83C /* Pods-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30C20E3365BE682F6492CC31DC34F46 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BE325BBA724231BFCB76567C6C7CAEE0 /* NgKeyboardTracker-umbrella.h in Headers */,
-				C6C66A429B8408F02797146CAE7704A9 /* NgKeyboardTracker.h in Headers */,
-				BF89AC49FB1121D61773512D2AEC82EA /* NgPseudoInputAccessoryViewCoordinator.h in Headers */,
-				4FBDC368CB75D2015FFD4B2BC14458A1 /* NgPseudoInputAccessoryViewCoordinatorPrivates.h in Headers */,
+				09B05A7469E3641101E5BC84F1EF3D8B /* Pods-MCollectionViewExample-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		08E8FCE420A0745F1988600671BDD6C6 /* Pods */ = {
+		5268172F9D0321D213D07598708942D6 /* Changeset */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 039FD8921944045563A3DBADCA59FBF7 /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildConfigurationList = C7378E2AA1D07F4AD3F3FFB37BC08B7B /* Build configuration list for PBXNativeTarget "Changeset" */;
 			buildPhases = (
-				E56B40D72B010DECB24AB9FDD7F2E89C /* Sources */,
-				12EBE8BB14F766FBD1E496473098E2FB /* Frameworks */,
-				8F28A0DD8265E3736A18C25AEE32A7D3 /* Headers */,
+				2E9F6D6981B87D35D7F11A26BE7FEFBE /* Sources */,
+				44DE2690394B4BE325EF546D3D0656AB /* Frameworks */,
+				141A28721C94F4F39CA35C4897270F1F /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				8A46DFFB32010CADE4393B60B051629A /* PBXTargetDependency */,
-				9460DCC32964A4BD54CD0F0CC2FCFA9D /* PBXTargetDependency */,
 			);
-			name = Pods;
-			productName = Pods;
-			productReference = 08417B12DC79DE572AB10BBE13CEEE49 /* Pods.framework */;
+			name = Changeset;
+			productName = Changeset;
+			productReference = 344730E4F18C6C5B70DD9F756983A6AB /* Changeset.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		78C5CEA4E61AD2B76E9CEC08F57A043F /* MotionAnimation */ = {
@@ -349,24 +330,26 @@
 			);
 			name = MotionAnimation;
 			productName = MotionAnimation;
-			productReference = 5B4B1C88D43D1B9BFC855D235BF8BB32 /* MotionAnimation.framework */;
+			productReference = 84084C34091EE11C86504EA134057FFA /* MotionAnimation.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B21F8EE9E1C0E6FD83E573434F969BD0 /* NgKeyboardTracker */ = {
+		DF8EA8C2B3E1866472E62E210504203E /* Pods-MCollectionViewExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1E56317507B69D9DE9996AFDB65DFB0C /* Build configuration list for PBXNativeTarget "NgKeyboardTracker" */;
+			buildConfigurationList = FD574084E327A68015D1E8317AB31431 /* Build configuration list for PBXNativeTarget "Pods-MCollectionViewExample" */;
 			buildPhases = (
-				76F8A3955645A0991C21EEA3153A679E /* Sources */,
-				9AE35C11C75C03328AF3F347008AA297 /* Frameworks */,
-				A30C20E3365BE682F6492CC31DC34F46 /* Headers */,
+				6F4938A80982E055FA2928412DE0C7F7 /* Sources */,
+				A03F2DCD80D9FB1996F0931DB6B41CFB /* Frameworks */,
+				2A1919945CA5223625DE9250861173DB /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BF19DCFDD21C66F227B8F64E50D4D752 /* PBXTargetDependency */,
+				9D1F1248FF93732E85A8151EDDCA3EBE /* PBXTargetDependency */,
 			);
-			name = NgKeyboardTracker;
-			productName = NgKeyboardTracker;
-			productReference = 0976A0B2C297832B5BC7075A9F1CE7FA /* NgKeyboardTracker.framework */;
+			name = "Pods-MCollectionViewExample";
+			productName = "Pods-MCollectionViewExample";
+			productReference = CAAA50733D8A0930239231B1CC9D0064 /* Pods_MCollectionViewExample.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -375,7 +358,7 @@
 		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
@@ -386,25 +369,32 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 7DA6CF614AB6D8D70057C3900197C501 /* Products */;
+			productRefGroup = 3EE4ADC2FF6830F9D7690DB4C52C9B29 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				5268172F9D0321D213D07598708942D6 /* Changeset */,
 				78C5CEA4E61AD2B76E9CEC08F57A043F /* MotionAnimation */,
-				B21F8EE9E1C0E6FD83E573434F969BD0 /* NgKeyboardTracker */,
-				08E8FCE420A0745F1988600671BDD6C6 /* Pods */,
+				DF8EA8C2B3E1866472E62E210504203E /* Pods-MCollectionViewExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		76F8A3955645A0991C21EEA3153A679E /* Sources */ = {
+		2E9F6D6981B87D35D7F11A26BE7FEFBE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				824D16566E5446C6CC68472135C6EFB7 /* NgKeyboardTracker-dummy.m in Sources */,
-				51D8C4D2BAD95B6688A60D2506145EB9 /* NgKeyboardTracker.m in Sources */,
-				49E9A82DF074024C7AD613D74B23B711 /* NgPseudoInputAccessoryViewCoordinator.m in Sources */,
+				DA1AB45DD8C36FEE8C73E69C5BB532E6 /* Changeset-dummy.m in Sources */,
+				CA0D70147B509B0BD9AFCB3621946D2D /* Changeset.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F4938A80982E055FA2928412DE0C7F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4676DF858FE3C48714DC55F5D3069344 /* Pods-MCollectionViewExample-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,54 +418,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E56B40D72B010DECB24AB9FDD7F2E89C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F075C2C1BF80B77A3B6DA6CAB8B64647 /* Pods-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8A46DFFB32010CADE4393B60B051629A /* PBXTargetDependency */ = {
+		9D1F1248FF93732E85A8151EDDCA3EBE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = MotionAnimation;
 			target = 78C5CEA4E61AD2B76E9CEC08F57A043F /* MotionAnimation */;
-			targetProxy = CA3A85E6AEC8C1BB5EFC8A72349D22F7 /* PBXContainerItemProxy */;
+			targetProxy = A2A4240D5237AF0CEA381954CC50B64E /* PBXContainerItemProxy */;
 		};
-		9460DCC32964A4BD54CD0F0CC2FCFA9D /* PBXTargetDependency */ = {
+		BF19DCFDD21C66F227B8F64E50D4D752 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = NgKeyboardTracker;
-			target = B21F8EE9E1C0E6FD83E573434F969BD0 /* NgKeyboardTracker */;
-			targetProxy = B5A8CE95695A9823EF3133F3042826BA /* PBXContainerItemProxy */;
+			name = Changeset;
+			target = 5268172F9D0321D213D07598708942D6 /* Changeset */;
+			targetProxy = F519167E3CC680C45977DFF9265F5976 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		060ECC07D76FCA2798DA50E825B235BB /* Release */ = {
+		05A7960C91E90A421DC6719C753C0488 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA312349A49333542E6F4B36B329960E /* Pods.release.xcconfig */;
+			baseConfigurationReference = A873AD30D12F4609830FBAD1A1F3F08A /* Pods-MCollectionViewExample.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods/Info.plist";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-MCollectionViewExample/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods/Pods.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = Pods;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_MCollectionViewExample;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -484,82 +469,27 @@
 			};
 			name = Release;
 		};
-		2A5C019737615F0B28DDE11AE9CE5189 /* Release */ = {
+		4DE7A444F4FAD961901932EC9DB06BA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBD8AE90B419DFEBF8C447A443D5A143 /* NgKeyboardTracker.xcconfig */;
+			baseConfigurationReference = 043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/NgKeyboardTracker/NgKeyboardTracker-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/NgKeyboardTracker/Info.plist";
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Changeset/Changeset-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Changeset/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/NgKeyboardTracker/NgKeyboardTracker.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = NgKeyboardTracker;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		3E79FB6325FB60138D0592C680B506DE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/MotionAnimation/MotionAnimation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/MotionAnimation/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/MotionAnimation/MotionAnimation.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = MotionAnimation;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		6824F17F78625A93E7A77BB67E1E5BD8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 977577C045EDA9D9D1F46E2598D19FC7 /* Pods.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods/Pods.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Changeset/Changeset.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = Pods;
+				PRODUCT_NAME = Changeset;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -569,25 +499,31 @@
 			};
 			name = Debug;
 		};
-		A5059E4302BE42B1D8B85A96168942F8 /* Debug */ = {
+		5B11E3FA1A89FD581C8CEEDD8C2691DF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */;
+			baseConfigurationReference = 4E79378DCBD66E6A679ADE5A0FD8693A /* Pods-MCollectionViewExample.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/MotionAnimation/MotionAnimation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/MotionAnimation/Info.plist";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-MCollectionViewExample/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/MotionAnimation/MotionAnimation.modulemap";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = MotionAnimation;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_MCollectionViewExample;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -597,73 +533,7 @@
 			};
 			name = Debug;
 		};
-		A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Debug;
-		};
-		CB7D2DF1547DD7F5F9134C665BC9B602 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBD8AE90B419DFEBF8C447A443D5A143 /* NgKeyboardTracker.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/NgKeyboardTracker/NgKeyboardTracker-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/NgKeyboardTracker/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/NgKeyboardTracker/NgKeyboardTracker.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = NgKeyboardTracker;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		FB45FFD90572718D82AB9092B750F0CA /* Release */ = {
+		811519CB8F683AC06F9C98B55AC40F11 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -683,7 +553,10 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -697,32 +570,152 @@
 			};
 			name = Release;
 		};
+		882EB4391EC2E701934974DA86F7343F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		8C34A9924AC5D464432C4418C5AD1312 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MotionAnimation/MotionAnimation-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MotionAnimation/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MotionAnimation/MotionAnimation.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = MotionAnimation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B92087C462994F9C9A96514E6B31E9BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Changeset/Changeset-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Changeset/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Changeset/Changeset.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Changeset;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EF88C1A6835B873C6A58992B34B2E01F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MotionAnimation/MotionAnimation-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MotionAnimation/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MotionAnimation/MotionAnimation.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = MotionAnimation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		039FD8921944045563A3DBADCA59FBF7 /* Build configuration list for PBXNativeTarget "Pods" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6824F17F78625A93E7A77BB67E1E5BD8 /* Debug */,
-				060ECC07D76FCA2798DA50E825B235BB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1E56317507B69D9DE9996AFDB65DFB0C /* Build configuration list for PBXNativeTarget "NgKeyboardTracker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CB7D2DF1547DD7F5F9134C665BC9B602 /* Debug */,
-				2A5C019737615F0B28DDE11AE9CE5189 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */,
-				FB45FFD90572718D82AB9092B750F0CA /* Release */,
+				882EB4391EC2E701934974DA86F7343F /* Debug */,
+				811519CB8F683AC06F9C98B55AC40F11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C7378E2AA1D07F4AD3F3FFB37BC08B7B /* Build configuration list for PBXNativeTarget "Changeset" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DE7A444F4FAD961901932EC9DB06BA4 /* Debug */,
+				B92087C462994F9C9A96514E6B31E9BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -730,8 +723,17 @@
 		E535FA8F3DA889E62B87A43C20D453D4 /* Build configuration list for PBXNativeTarget "MotionAnimation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A5059E4302BE42B1D8B85A96168942F8 /* Debug */,
-				3E79FB6325FB60138D0592C680B506DE /* Release */,
+				EF88C1A6835B873C6A58992B34B2E01F /* Debug */,
+				8C34A9924AC5D464432C4418C5AD1312 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD574084E327A68015D1E8317AB31431 /* Build configuration list for PBXNativeTarget "Pods-MCollectionViewExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B11E3FA1A89FD581C8CEEDD8C2691DF /* Debug */,
+				05A7960C91E90A421DC6719C753C0488 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

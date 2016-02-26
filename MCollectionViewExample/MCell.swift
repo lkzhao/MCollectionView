@@ -18,7 +18,7 @@ class MCell: UIView, ReuseableView {
   var pressGR:UILongPressGestureRecognizer!
   override init(frame: CGRect) {
     super.init(frame: frame)
-    pressGR = UILongPressGestureRecognizer(target: self, action: "press")
+    pressGR = UILongPressGestureRecognizer(target: self, action: #selector(MCell.press))
     pressGR.delegate = self
     pressGR.minimumPressDuration = 0
     addGestureRecognizer(pressGR)

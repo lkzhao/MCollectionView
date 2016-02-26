@@ -48,8 +48,15 @@ class InputAccessoryFollowView: UIView {
   }
 
   override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-    keyboardFrame = CGRectMake(superview!.frame.origin.x, superview!.frame.origin.y+1, superview!.frame.width, superview!.frame.height-1)
-    delegate?.inputAccessoryViewDidUpdateFrame(keyboardFrame!)
+    let superFrame = superview!.frame
+
+    // this `observeValueForKeyPath` is wrapped inside a UIView animation some how. 
+    // we want to notify our delegate outside the animation so that we dont get 
+    // unwanted animation behavior
+    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        self.keyboardFrame = CGRectMake(superFrame.origin.x, superFrame.origin.y+1, superFrame.width, superFrame.height-1)
+        self.delegate?.inputAccessoryViewDidUpdateFrame(self.keyboardFrame!)
+    }
   }
 
 }

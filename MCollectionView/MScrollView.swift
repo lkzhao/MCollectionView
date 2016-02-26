@@ -15,8 +15,9 @@ protocol MScrollViewDelegate{
   func scrollViewWillStartScroll(scrollView:MScrollView)
   func scrollViewDidScroll(scrollView:MScrollView)
   func scrollViewDidEndScroll(scrollView:MScrollView)
+  func scrollViewDidDrag(scrollView: MScrollView)
 }
-let debug = true
+let debug = false
 
 func p(items:Any...){
   if debug{
@@ -196,7 +197,7 @@ class MScrollView: UIView {
       self.willStartScroll()
     }
     
-    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "scroll:")
+    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MScrollView.scroll(_:)))
     addGestureRecognizer(panGestureRecognizer)
   }
   
@@ -256,7 +257,8 @@ class MScrollView: UIView {
         translation.y = 0
       }
       p("PanGR changed, startingContentOffset: \(startingContentOffset!) translation:\(translation)")
-      var newContentOffset = startingContentOffset! - translation
+      let newContentOffset = startingContentOffset! - translation
+      delegate?.scrollViewDidDrag(self)
 //      if let yTarget = yEdgeTarget(newContentOffset){
 //        newContentOffset.y = newContentOffset.y - (newContentOffset.y - yTarget) / 3
 //      }

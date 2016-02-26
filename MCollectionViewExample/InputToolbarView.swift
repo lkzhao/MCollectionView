@@ -17,7 +17,8 @@ import AVFoundation
 
 class InputToolbarView: MCell {
   var textView:UITextView!
-  var sendButton:UIButton!
+  var sendButton:UIImageView!
+  var showingPlaceholder = true
   var keyboardFrame:CGRect?{
     return accessoryView.keyboardFrame
   }
@@ -39,10 +40,9 @@ class InputToolbarView: MCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    sendButton = UIButton(type: UIButtonType.System)
+    sendButton = UIImageView(image: UIImage(named: "ic_send"))
     sendButton.tintColor = UIColor(white: 0.6, alpha: 1.0)
-    sendButton.setImage(UIImage(named: "ic_send"), forState: .Normal)
-    sendButton.addTarget(self, action: "sendButtonTapped:", forControlEvents: .TouchUpInside)
+    sendButton.contentMode = .Center
     addSubview(sendButton)
 
     textView = UITextView(frame: CGRectZero)
@@ -80,10 +80,43 @@ class InputToolbarView: MCell {
   var recorder:AVAudioRecorder!
   var recordFileURL:NSURL!
   var meterTimer:NSTimer!
-  
-  func sendButtonTapped(sender:UIButton){
-    delegate?.send(textView.text)
-    setText("")
+
+  override func press(){
+    switch pressGR.state{
+    case .Began:
+      self.m_animate("scale", to: 0.9, damping: 10)
+    case .Changed:
+      break
+    default:
+      self.m_animate("scale", to: 1.0, damping: 10)
+      if CGRectContainsPoint(sendButton.frame, pressGR.locationInView(self)){
+        sendButtonTapped()
+      } else if CGRectContainsPoint(self.bounds, pressGR.locationInView(self)) && !textView.isFirstResponder() {
+        textView.becomeFirstResponder()
+      }
+    }
+  }
+
+  var shaking = false
+  func sendButtonTapped(){
+    if !showingPlaceholder && textView.text != ""{
+      delegate?.send(textView.text)
+      setText("")
+    } else {
+      if !shaking{
+        shaking = true
+        let originalCenter = center
+        self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
+          self.animateCenterTo(CGPointMake(originalCenter.x - 10, originalCenter.y), stiffness: 2500, threshold:150) {
+            self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
+              self.animateCenterTo(originalCenter, threshold:1) {
+                self.shaking = false
+              }
+            }
+          }
+        }
+      }
+    }
   }
   @IBAction func cancelRecording(sender: UIButton) {
     self.recorder.stop()
@@ -101,7 +134,7 @@ class InputToolbarView: MCell {
         print("start recording")
         self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.1,
           target:self,
-          selector:"updateAudioMeter",
+          selector:#selector(InputToolbarView.updateAudioMeter),
           userInfo:nil,
           repeats:true)
       } else {
@@ -139,8 +172,12 @@ class InputToolbarView: MCell {
   }
   
   func setText(text:String){
-    textView.text = text
-    textViewDidChange(textView)
+    if text == "" && !textView.isFirstResponder(){
+      showPlaceHolder()
+    } else {
+      textView.text = text
+      textViewDidChange(textView)
+    }
   }
   
   override func sizeThatFits(size: CGSize) -> CGSize {
@@ -157,10 +194,6 @@ extension InputToolbarView: AVAudioRecorderDelegate{
   func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
     print("Record Error: \(error?.localizedDescription)")
   }
-  
-  override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return !self.textView.isFirstResponder()
-  }
 }
 
 extension InputToolbarView: UITextViewDelegate{
@@ -172,16 +205,20 @@ extension InputToolbarView: UITextViewDelegate{
     }
   }
   func textViewDidBeginEditing(textView: UITextView) {
-    if textView.textColor != UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0) {
+    if showingPlaceholder {
+      showingPlaceholder = false
       textView.text = nil
       textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
     }
   }
   func textViewDidEndEditing(textView: UITextView) {
     if textView.text.isEmpty {
-      textView.text = "Send message..."
-      textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 0.7)
-
+      showPlaceHolder()
     }
+  }
+  func showPlaceHolder(){
+    showingPlaceholder = true
+    textView.text = "Send message..."
+    textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 0.7)
   }
 }

@@ -1,6 +1,0 @@
-framework module NgKeyboardTracker {
-  umbrella header "NgKeyboardTracker-umbrella.h"
-
-  export *
-  module * { export * }
-}

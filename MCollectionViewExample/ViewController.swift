@@ -18,8 +18,11 @@ class ViewController: UIViewController {
   var messages:[Message] = TestMessages
   var animateLayout = false
 
-  var keyboardFrame:CGRect{
-    return inputToolbarView.keyboardFrame ?? CGRectMake(0, view.frame.height, view.frame.width, view.frame.height/2)
+  var keyboardHeight:CGFloat{
+    if let keyboardFrame = inputToolbarView.keyboardFrame{
+      return min(CGRectGetMinY(keyboardFrame), view.bounds.height)
+    }
+    return view.bounds.height
   }
 
   override func viewDidLoad() {
@@ -28,7 +31,7 @@ class ViewController: UIViewController {
     if kIsHighPerformanceDevice{
       view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     }
-
+    anchorPoint = CGPointMake(view.bounds.center.x, view.bounds.center.y/2)
     collectionView = MCollectionView(frame:view.bounds)
     collectionView.dataSource = self
     collectionView.delegate = self
@@ -37,13 +40,13 @@ class ViewController: UIViewController {
 
     inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
-    
+
     collectionView.reloadData()
     viewDidLayoutSubviews()
     collectionView.scrollToBottom()
     animateLayout = true
   }
-  
+
   // screen rotation
   override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
     let isAtBottom = collectionView.isAtBottom
@@ -52,18 +55,19 @@ class ViewController: UIViewController {
       if isAtBottom{
         self.collectionView.scrollToBottom()
       }
-    }, completion: nil)
+      }, completion: nil)
   }
 
   // layout
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
+    anchorPoint = CGPointMake(view.bounds.center.x, view.bounds.center.y/2)
     collectionView.frame = view.bounds
     let inputPadding:CGFloat = 10
     let inputSize = inputToolbarView.sizeThatFits(CGSizeMake(view.bounds.width - 2 * inputPadding, view.bounds.height))
-    let inputToolbarFrame = CGRectMake(inputPadding, keyboardFrame.minY - inputSize.height - inputPadding, view.bounds.width - 2*inputPadding, inputSize.height)
+    let inputToolbarFrame = CGRectMake(inputPadding, keyboardHeight - inputSize.height - inputPadding, view.bounds.width - 2*inputPadding, inputSize.height)
     if animateLayout{
-      inputToolbarView.m_animate("center", to: inputToolbarFrame.center, stiffness: 400, damping: 25)
+      inputToolbarView.animateCenterTo(inputToolbarFrame.center, stiffness: 400, damping: 25)
       inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 400, damping: 25)
     }else{
       inputToolbarView.center = inputToolbarFrame.center
@@ -71,47 +75,53 @@ class ViewController: UIViewController {
     }
     collectionView.contentInset = UIEdgeInsetsMake(30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
   }
-  
+
   override func prefersStatusBarHidden() -> Bool {
     return true
   }
 
+  /* anchorPoint is usually where the user drags
+   * it is used to determine the relative offset for each cell
+   * when draging, the cell closer to the anchorPoint will have a lower offset
+   * and vice versa.
+   * value should be within view.bounds
+   */
+  var anchorPoint:CGPoint!
+  func adjustedRect(index:Int) -> CGRect{
+    let screenDragLocation = collectionView.contentOffset + anchorPoint
+    let cellFrame = collectionView.frames[index]
+    //        let cellOffset = abs(cellFrame.center.y - screenDragLocation.y) * collectionView.scrollVelocity / 5000
+    let cellOffset = cellFrame.center.distance(screenDragLocation) * collectionView.scrollVelocity / 5000
+    return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+  }
 
-    func adjustedRect(index:Int) -> CGRect{
-        let screenDragLocation = collectionView.contentOffset + collectionView.dragLocation
-        let cellFrame = collectionView.frames[index]
-//        let cellOffset = abs(cellFrame.center.y - screenDragLocation.y) * collectionView.scrollVelocity / 5000
-        let cellOffset = cellFrame.center.distance(screenDragLocation) * collectionView.scrollVelocity / 5000
-        return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+  func adjustedScale(index:Int) -> CGFloat{
+    let cellFrame = collectionView.frames[index]
+    let screenLocation = cellFrame.center - collectionView.contentOffset
+    if screenLocation.y < 25{
+      return min(1,0.5 + (screenLocation.y / 50)*0.5)
+    } else if screenLocation.y > collectionView.bounds.size.height - 50 {
+      return min(1,0.5 + ((collectionView.bounds.size.height - screenLocation.y) / 50)*0.5)
     }
-
-    func adjustedScale(index:Int) -> CGFloat{
-        let cellFrame = collectionView.frames[index]
-        let screenLocation = cellFrame.center - collectionView.contentOffset
-        if screenLocation.y < 25{
-            return min(1,0.5 + (screenLocation.y / 50)*0.5)
-        } else if screenLocation.y > collectionView.bounds.size.height - 50 {
-            return min(1,0.5 + ((collectionView.bounds.size.height - screenLocation.y) / 50)*0.5)
-        }
-        return 1.0
-    }
+    return 1.0
+  }
 }
 
 extension ViewController: MCollectionViewDataSource{
   func numberOfItemsInCollectionView(collectionView:MCollectionView) -> Int{
     return messages.count
   }
-  
+
   func collectionView(collectionView:MCollectionView, viewForIndex index:Int) -> UIView{
     let v = (collectionView.dequeueReusableViewWithIdentifier("MessageTextCell") ?? MessageTextCell()) as! MessageTextCell
     let frame = collectionView.frames[index]
+    v.message = messages[index]
     v.center = frame.center
     v.bounds = frame.bounds
-    v.message = messages[index]
     v.layer.zPosition = CGFloat(index)
     return v
   }
-  
+
   func collectionView(collectionView:MCollectionView, frameForIndex index:Int) -> CGRect{
     var yHeight:CGFloat = 0
     var xOffset:CGFloat = 10
@@ -120,7 +130,7 @@ extension ViewController: MCollectionViewDataSource{
     if index != 0{
       let lastMessage = messages[index-1]
       let lastFrame = collectionView.frames[index-1]
-      
+
       if message.type == .Image &&
         lastMessage.type == .Image && message.alignment == lastMessage.alignment{
           if message.alignment == .Left && CGRectGetMaxX(lastFrame) + cellFrame.width + 2 < 300{
@@ -149,13 +159,11 @@ extension ViewController: MCollectionViewDataSource{
       cellView.center = collectionView.contentView.convertPoint(inputToolbarView.center, fromView: view)
       cellView.bounds = inputToolbarView.bounds
       cellView.alpha = 0
-      cellView.m_animate("bounds", to: collectionView.frames[index].bounds, stiffness: 150, damping: 20) {
+      cellView.m_animate("bounds", to: collectionView.frames[index].bounds, stiffness: 200, damping: 20) {
         self.sendingMessages.remove(index)
       }
       cellView.m_animate("alpha", to: 1.0)
       // no need to animate center, it is done in `didUpdateScreenPositionForIndex`
-    } else {
-      cellView.bounds = collectionView.frames[index].bounds
     }
   }
   func collectionView(collectionView:MCollectionView, cellView:UIView, willDisappearForIndex index:Int){}
@@ -167,7 +175,7 @@ extension ViewController: MCollectionViewDataSource{
       let distanceFromBottom = view.bounds.height - distanceFromTop
       cellView.backgroundColor = UIColor(red: 0, green: (124+(distanceFromBottom/view.bounds.height*100))/255, blue: 1.0, alpha: 1.0)
     }
-//    p("animate \(index) to \(adjustedRect(index).center) \(collectionView.scrollVelocity)")
+    p("animate \(index) from \(cellView.center) to \(adjustedRect(index).center) \(collectionView.scrollVelocity)")
     //      cell.m_animate("scale", to: [adjustedScale(index)], stiffness: 500, damping: 25, threshold: 0.01)
     cellView.animateCenterTo(adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
   }
@@ -175,14 +183,17 @@ extension ViewController: MCollectionViewDataSource{
 
 extension ViewController: InputToolbarViewDelegate{
   func inputAccessoryViewDidUpdateFrame(frame:CGRect){
+    let oldContentInset = collectionView.contentInset
     self.viewDidLayoutSubviews()
-    let animate = collectionView.bottomOffset.y - collectionView.contentOffset.y < view.bounds.height
-    collectionView.scrollToBottom(animate)
+    if oldContentInset != collectionView.contentInset{
+      anchorPoint = CGPointMake(view.bounds.center.x, view.bounds.center.y/2)
+      collectionView.scrollToBottom(true)
+    }
   }
   func send(audio: NSURL, length: NSTimeInterval) {
-//    let msg = chat.sendAudioMessage(audio, length:length)
-//    chat(chat, didReceiveNewMessage: msg)
-//    scrollToEnd()
+    //    let msg = chat.sendAudioMessage(audio, length:length)
+    //    chat(chat, didReceiveNewMessage: msg)
+    //    scrollToEnd()
   }
   func send(text: String) {
     let sendingMessage = Message(true,content: text);
@@ -205,14 +216,20 @@ extension ViewController: MScrollViewDelegate{
   func scrollViewDidScroll(scrollView: MScrollView) {
     if inputToolbarView.textView.isFirstResponder(){
       if scrollView.draging && scrollView.panGestureRecognizer.velocityInView(scrollView).y > 100{
+        inputToolbarView.stopAllAnimation()
         inputToolbarView.textView.resignFirstResponder()
       }
     }
     inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.bottomOffset.y - 10 || inputToolbarView.textView.isFirstResponder()
   }
-  
+
   func scrollViewDidEndScroll(scrollView: MScrollView) {}
   func scrollViewWillStartScroll(scrollView: MScrollView) {}
   func scrollViewDidEndDraging(scrollView: MScrollView) {}
-  func scrollViewWillBeginDraging(scrollView: MScrollView) {}
+  func scrollViewDidDrag(scrollView: MScrollView) {
+    anchorPoint = scrollView.dragLocation
+  }
+  func scrollViewWillBeginDraging(scrollView: MScrollView) {
+
+  }
 }

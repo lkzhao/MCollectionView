@@ -1,1 +1,0 @@
-../../../NgKeyboardTracker/NgKeyboardTracker/NgPseudoInputAccessoryViewCoordinator.h
