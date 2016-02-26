@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol ReuseableView{
-  var identifier:String?{get}
+protocol MCollectionReuseable{
+  var reuseIdentifier:String?{get}
 }
 
-class MCell: UIView, ReuseableView {
-  var identifier:String? = nil
+class MCell: UIView, MCollectionReuseable {
+  var reuseIdentifier:String? = nil
   
   var pressGR:UILongPressGestureRecognizer!
   override init(frame: CGRect) {

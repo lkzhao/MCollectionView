@@ -34,9 +34,9 @@
 		A372A3681C79567A0023C797 /* MessageTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		A372A36A1C7979EB0023C797 /* InputToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = InputToolbarView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryFollowView.swift; sourceTree = "<group>"; };
-		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCell.swift; sourceTree = "<group>"; };
+		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MCell.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3DDEECC1C7D88170053BFAE /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
-		A3DDEECE1C7D88430053BFAE /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		A3DDEECE1C7D88430053BFAE /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3FC21C91C6EE5AA008566BB /* ViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; tabWidth = 2; };

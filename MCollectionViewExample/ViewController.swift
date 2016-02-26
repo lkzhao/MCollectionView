@@ -152,6 +152,10 @@ extension ViewController: MCollectionViewDataSource{
     return cellFrame
   }
 
+  func collectionView(collectionView: MCollectionView, identifierForIndex index: Int) -> String? {
+    return messages[index].identifier
+  }
+
 
   func collectionView(collectionView:MCollectionView, cellView:UIView, didAppearForIndex index:Int){
     if sendingMessages.contains(index){

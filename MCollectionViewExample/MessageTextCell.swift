@@ -60,7 +60,7 @@ class MessageTextCell: MCell {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    identifier = "MessageTextCell"
+    reuseIdentifier = "MessageTextCell"
     addSubview(textLabel)
     textLabel.frame = frame
     textLabel.numberOfLines = 0

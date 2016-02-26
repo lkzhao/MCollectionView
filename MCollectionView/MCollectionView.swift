@@ -13,6 +13,7 @@ protocol MCollectionViewDataSource{
   func numberOfItemsInCollectionView(collectionView:MCollectionView) -> Int
   func collectionView(collectionView:MCollectionView, viewForIndex:Int) -> UIView
   func collectionView(collectionView:MCollectionView, frameForIndex:Int) -> CGRect
+  func collectionView(collectionView:MCollectionView, identifierForIndex:Int) -> String?
 
   // todo move to delegate
   func collectionView(collectionView:MCollectionView, cellView:UIView, didAppearForIndex index:Int)
@@ -31,8 +32,8 @@ class MCollectionView: MScrollView {
   // turn this off if you want to have different frame set
   var autoLayoutOnUpdate = true
 
-  var visibleCells:[Int:UIView] = [:]
-  var visibleIndexes:Set<Int> = []
+  var visibleCells:[String:UIView] = [:]
+  var visibleIdentifiers:Set<String> = []
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -49,11 +50,11 @@ class MCollectionView: MScrollView {
     super.layoutSubviews()
   }
 
-  func indexesForFrameIntersectFrame(frame:CGRect) -> Set<Int>{
-    var intersect:Set<Int> = []
+  func identifiersForFrameIntersectFrame(frame:CGRect) -> Set<String>{
+    var intersect:Set<String> = []
     for (i, f) in frames.enumerate(){
       if CGRectIntersectsRect(f, frame){
-        intersect.insert(i)
+        intersect.insert(identifiers[i])
       }
     }
     return intersect
@@ -64,25 +65,27 @@ class MCollectionView: MScrollView {
     return reusableViews[identifier]?.popLast()
   }
 
-  private func removeCellFromScreenAtIndex(i:Int){
-    let cell = visibleCells[i]!
-    dataSource?.collectionView(self, cellView: cell, willDisappearForIndex: i)
+  private func removeCellFromScreen(identifier:String){
+    let cell = visibleCells[identifier]!
+//    print("remove \(identifier) \(identifiersMap[identifier]!)")
+    dataSource?.collectionView(self, cellView: cell, willDisappearForIndex: identifiersMap[identifier]!)
     cell.stopAllAnimation()
     cell.removeFromSuperview()
-    if let reusable = cell as? ReuseableView, identifier = reusable.identifier{
+    if let reusable = cell as? MCollectionReuseable, identifier = reusable.reuseIdentifier{
       if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell){
         reusableViews[identifier]?.append(cell)
       } else {
         reusableViews[identifier] = [cell]
       }
     }
-    visibleCells.removeValueForKey(i)
+    visibleCells.removeValueForKey(identifier)
   }
-  private func insertCellToScreenAtIndex(i:Int){
-    if let cell = dataSource?.collectionView(self, viewForIndex: i){
-      visibleCells[i] = cell
+  private func insertCellToScreen(identifier:String){
+    if let cell = dataSource?.collectionView(self, viewForIndex: identifiersMap[identifier]!){
+//      print("insert \(identifier) \(identifiersMap[identifier]!)")
+      visibleCells[identifier] = cell
       contentView.addSubview(cell)
-      dataSource?.collectionView(self, cellView: cell, didAppearForIndex: i)
+      dataSource?.collectionView(self, cellView: cell, didAppearForIndex: identifiersMap[identifier]!)
     }
   }
 
@@ -97,30 +100,40 @@ class MCollectionView: MScrollView {
    * they move out of the visibleFrame.
    */
   private func loadCells(){
-    let indexes = indexesForFrameIntersectFrame(activeFrame)
-    let deletedIndexes = visibleIndexes.subtract(indexes)
-    let newIndexes = indexes.subtract(visibleIndexes)
+    let indexes = identifiersForFrameIntersectFrame(activeFrame)
+    let deletedIndexes = visibleIdentifiers.subtract(indexes)
+    let newIndexes = indexes.subtract(visibleIdentifiers)
     for i in deletedIndexes{
-      removeCellFromScreenAtIndex(i)
+      removeCellFromScreen(i)
     }
     for i in newIndexes{
-      insertCellToScreenAtIndex(i)
+      insertCellToScreen(i)
     }
-    visibleIndexes = indexes
+    visibleIdentifiers = indexes
     layoutCellsIfNecessary()
     for (index, cell) in visibleCells{
-      dataSource?.collectionView(self, cellView:cell, didUpdateScreenPositionForIndex:index, screenPosition:cell.center - contentOffset)
+      dataSource?.collectionView(self, cellView:cell, didUpdateScreenPositionForIndex:identifiersMap[index]!, screenPosition:cell.center - contentOffset)
     }
   }
+
+  var identifiers:[String] = []
+  var identifiersMap:[String:Int] = [:]
 
   // reload number of cells and all their frames
   // similar to [UICollectionView invalidateLayout]
   func reloadData(){
     frames = []
+    identifiers = []
+    identifiersMap = [:]
     if let count = dataSource?.numberOfItemsInCollectionView(self){
+      frames.reserveCapacity(count)
+      identifiers.reserveCapacity(count)
       var unionFrame = CGRectZero
       for i in 0..<count{
         let frame = dataSource!.collectionView(self, frameForIndex: i)
+        let identifier = dataSource!.collectionView(self, identifierForIndex: i) ?? NSUUID().UUIDString
+        identifiersMap[identifier] = i
+        identifiers.append(identifier)
         unionFrame = CGRectUnion(unionFrame, frame)
         frames.append(frame)
       }
@@ -132,8 +145,8 @@ class MCollectionView: MScrollView {
   func layoutCellsIfNecessary(){
     if autoLayoutOnUpdate {
       for (index, cell) in visibleCells{
-        cell.bounds = frames[index].bounds
-        cell.center = frames[index].center
+        cell.bounds = frames[identifiersMap[index]!].bounds
+        cell.center = frames[identifiersMap[index]!].center
       }
     }
   }

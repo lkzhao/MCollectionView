@@ -20,6 +20,7 @@ enum MessageAlignment{
   case Right
 }
 class Message {
+  var identifier:String = NSUUID().UUIDString
   var fromCurrentUser = false
   var content = ""
   var type:MessageType
