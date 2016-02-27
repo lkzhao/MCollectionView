@@ -250,6 +250,7 @@ extension ViewController: MessageTextCellDelegate{
     startingDragLocation = gestureRecognizer.locationInView(collectionView) + collectionView.contentOffset
     startingCellCenter = cell.center
     dragingCell = cell
+    dragingCellCenter = startingCellCenter
     cell.layer.zPosition = CGFloat(500)
   }
   func messageCellDidEndHolding(cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
