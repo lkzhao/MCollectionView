@@ -27,7 +27,9 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    MotionAnimator.sharedInstance.debugEnabled = true
+    #if DEBUG
+      MotionAnimator.sharedInstance.debugEnabled = true
+    #endif
     if kIsHighPerformanceDevice{
       view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     }
@@ -41,9 +43,17 @@ class ViewController: UIViewController {
     inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
 
-    collectionView.reloadData()
+    // stress test
+//    for j in 0...200{
+//      for i in TestMessages{
+//        messages.append(i.copy())
+//      }
+//    }
+    print("Message count:\(messages.count)")
     viewDidLayoutSubviews()
-    collectionView.scrollToBottom()
+    collectionView.reloadData() {
+      self.collectionView.scrollToBottom()
+    }
     animateLayout = true
   }
 
@@ -67,8 +77,8 @@ class ViewController: UIViewController {
     let inputSize = inputToolbarView.sizeThatFits(CGSizeMake(view.bounds.width - 2 * inputPadding, view.bounds.height))
     let inputToolbarFrame = CGRectMake(inputPadding, keyboardHeight - inputSize.height - inputPadding, view.bounds.width - 2*inputPadding, inputSize.height)
     if animateLayout{
-      inputToolbarView.animateCenterTo(inputToolbarFrame.center, stiffness: 400, damping: 25)
-      inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 400, damping: 25)
+      inputToolbarView.animateCenterTo(inputToolbarFrame.center, stiffness: 300, damping: 25)
+      inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 300, damping: 25)
     }else{
       inputToolbarView.center = inputToolbarFrame.center
       inputToolbarView.bounds = inputToolbarFrame.bounds
@@ -105,6 +115,8 @@ class ViewController: UIViewController {
     }
     return 1.0
   }
+
+  var loading = false
 }
 
 extension ViewController: MCollectionViewDataSource{
@@ -119,6 +131,12 @@ extension ViewController: MCollectionViewDataSource{
     v.center = frame.center
     v.bounds = frame.bounds
     v.layer.zPosition = CGFloat(index)
+    v.onTap = {
+      if let index = self.collectionView.indexOfView(v){
+        self.messages.removeAtIndex(index)
+        self.collectionView.reloadData()
+      }
+    }
     return v
   }
 
@@ -152,12 +170,11 @@ extension ViewController: MCollectionViewDataSource{
     return cellFrame
   }
 
-  func collectionView(collectionView: MCollectionView, identifierForIndex index: Int) -> String? {
+  func collectionView(collectionView: MCollectionView, identifierForIndex index: Int) -> String {
     return messages[index].identifier
   }
 
-
-  func collectionView(collectionView:MCollectionView, cellView:UIView, didAppearForIndex index:Int){
+  func collectionView(collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndex index: Int) {
     if sendingMessages.contains(index){
       // we just sent this message, lets animate it from inputToolbarView to it's position
       cellView.center = collectionView.contentView.convertPoint(inputToolbarView.center, fromView: view)
@@ -166,20 +183,35 @@ extension ViewController: MCollectionViewDataSource{
       cellView.m_animate("bounds", to: collectionView.frames[index].bounds, stiffness: 200, damping: 20) {
         self.sendingMessages.remove(index)
       }
-      cellView.m_animate("alpha", to: 1.0)
+      cellView.m_animate("alpha", to: 1.0, damping: 25)
       // no need to animate center, it is done in `didUpdateScreenPositionForIndex`
+    } else {
+      cellView.alpha = 0
+      cellView.m_setValues([0], forCustomProperty: "scale")
+      cellView.m_animate("alpha", to: 1, stiffness:250, damping: 25)
+      cellView.m_animate("scale", to: 1, stiffness:250, damping: 25)
     }
+  }
+
+  func collectionView(collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndex index: Int) {
+    cellView.m_animate("alpha", to: 0, stiffness:250, damping: 25)
+    cellView.m_animate("scale", to: 0, stiffness:250, damping: 25) {
+      cellView.removeFromSuperview()
+    }
+  }
+
+  func collectionView(collectionView:MCollectionView, cellView:UIView, didAppearForIndex index:Int){
+
   }
   func collectionView(collectionView:MCollectionView, cellView:UIView, willDisappearForIndex index:Int){}
   func collectionView(collectionView:MCollectionView, cellView:UIView, didUpdateScreenPositionForIndex index:Int, screenPosition:CGPoint)
   {
-    let message = messages[index]
-    if message.type == .Text && message.fromCurrentUser{
-      let distanceFromTop = screenPosition.y
-      let distanceFromBottom = view.bounds.height - distanceFromTop
-      cellView.backgroundColor = UIColor(red: 0, green: (124+(distanceFromBottom/view.bounds.height*100))/255, blue: 1.0, alpha: 1.0)
-    }
-    p("animate \(index) from \(cellView.center) to \(adjustedRect(index).center) \(collectionView.scrollVelocity)")
+//    let message = messages[index]
+//    if message.type == .Text && message.fromCurrentUser{
+//      let distanceFromTop = screenPosition.y
+//      let distanceFromBottom = view.bounds.height - distanceFromTop
+//      cellView.backgroundColor = UIColor(red: 0, green: (124+(distanceFromBottom/view.bounds.height*100))/255, blue: 1.0, alpha: 1.0)
+//    }
     //      cell.m_animate("scale", to: [adjustedScale(index)], stiffness: 500, damping: 25, threshold: 0.01)
     cellView.animateCenterTo(adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
   }
@@ -204,8 +236,7 @@ extension ViewController: InputToolbarViewDelegate{
     sendingMessages.insert(messages.count)
     messages.append(sendingMessage)
     collectionView.reloadData()
-    let animate = collectionView.bottomOffset.y - collectionView.contentOffset.y < view.bounds.height
-    collectionView.scrollToBottom(animate)
+    collectionView.scrollToBottom(true)
   }
   func inputToolbarViewNeedFrameUpdate() {
     let isAtBottom = collectionView.isAtBottom
@@ -222,6 +253,26 @@ extension ViewController: MScrollViewDelegate{
       if scrollView.draging && scrollView.panGestureRecognizer.velocityInView(scrollView).y > 100{
         inputToolbarView.stopAllAnimation()
         inputToolbarView.textView.resignFirstResponder()
+      }
+    }
+    if scrollView.contentOffset.y < 200{
+      if loading == false{
+        loading = true
+        NSTimer.schedule(delay: 0.5, handler: { (timer) in
+          var newMessage:[Message] = []
+          for i in TestMessages{
+            newMessage.append(i.copy())
+          }
+          let currentOffsetDiff = self.collectionView.frames[0].minY - self.collectionView.contentOffset.y
+          self.messages = newMessage + self.messages
+          print("load new messages count:\(self.messages.count)")
+          self.collectionView.reloadData() {
+            let offset = self.collectionView.frames[newMessage.count].minY - currentOffsetDiff
+            self.collectionView.scrollAnimation.stop()
+            self.collectionView.contentOffset.y = offset
+          }
+          self.loading = false
+        })
       }
     }
     inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.bottomOffset.y - 10 || inputToolbarView.textView.isFirstResponder()

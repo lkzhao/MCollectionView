@@ -109,6 +109,19 @@ class Message {
     }
     return 15
   }
+
+  func copy() -> Message {
+    switch type {
+    case .Image:
+      return Message(fromCurrentUser, image: content)
+    case .Announcement:
+      return Message(announcement: content)
+    case .Text:
+      return Message(fromCurrentUser, content: content)
+    case .Status:
+      return Message(fromCurrentUser, status: content)
+    }
+  }
 }
 
 let TestMessages = [

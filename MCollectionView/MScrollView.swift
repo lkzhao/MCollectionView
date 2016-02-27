@@ -17,13 +17,6 @@ protocol MScrollViewDelegate{
   func scrollViewDidEndScroll(scrollView:MScrollView)
   func scrollViewDidDrag(scrollView: MScrollView)
 }
-let debug = false
-
-func p(items:Any...){
-  if debug{
-    print(items)
-  }
-}
 
 class ScrollAnimation:MotionAnimation{
   var scrollView:MScrollView
@@ -71,14 +64,8 @@ class ScrollAnimation:MotionAnimation{
 
     play()
   }
-
-  override func play() {
-    p("Play")
-    super.play()
-  }
   
   override func stop() {
-    p("Stop")
     super.stop()
     velocity = CGPointZero
   }
@@ -123,14 +110,12 @@ class ScrollAnimation:MotionAnimation{
 
     let lowVelocity = abs(newV.x) < threshold && abs(newV.y) < threshold
     if lowVelocity && abs(targetOffset.x - newOffset.x) < threshold && abs(targetOffset.y - newOffset.y) < threshold {
-      p("Set to target: \(targetOffset)")
       velocity = CGPointZero
       scrollView.contentOffset = targetOffset
       targetOffsetX = nil
       targetOffsetY = nil
       return false
     } else {
-      p("step: \(newOffset)")
       velocity = newV
       scrollView.contentOffset = newOffset
       return true
@@ -147,7 +132,9 @@ class MScrollView: UIView {
   }
   var contentOffset:CGPoint = CGPointZero{
     didSet{
-      p("contentOffset changed: \(oldValue) -> \(contentOffset)")
+      #if DEBUG
+        print("contentOffset changed: \(oldValue) -> \(contentOffset)")
+      #endif
       contentView.frame.origin = CGPointMake(-contentOffset.x+contentInset.left, -contentOffset.y+contentInset.top)
       didScroll()
     }
@@ -157,8 +144,11 @@ class MScrollView: UIView {
       return contentView.frame.size
     }
     set{
-      p("contentSize changed: \(contentSize) -> \(newValue)")
+      #if DEBUG
+        print("contentSize changed: \(contentSize) -> \(newValue)")
+      #endif
       contentView.frame.size = newValue
+      adjustContentOffsetIfNecessary()
     }
   }
   var containerSize:CGSize{
@@ -166,7 +156,10 @@ class MScrollView: UIView {
   }
   var contentInset:UIEdgeInsets = UIEdgeInsetsZero{
     didSet{
-      p("contentInset changed: \(oldValue) \(contentInset)")
+      #if DEBUG
+        print("contentInset changed: \(oldValue) -> \(contentInset)")
+      #endif
+      adjustContentOffsetIfNecessary()
     }
   }
   var visibleFrame:CGRect{
@@ -176,12 +169,8 @@ class MScrollView: UIView {
   var contentView:UIView
   var scrollAnimation:ScrollAnimation!
   
-  var verticalScroll:Bool{
-    return contentSize.height > bounds.size.height
-  }
-  var horizontalScroll:Bool{
-    return contentSize.width > bounds.size.width
-  }
+  var verticalScroll:Bool = true
+  var horizontalScroll:Bool = false
   var bounce = true
   
   override init(frame: CGRect) {
@@ -197,7 +186,7 @@ class MScrollView: UIView {
       self.willStartScroll()
     }
     
-    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MScrollView.scroll(_:)))
+    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "scroll:")
     addGestureRecognizer(panGestureRecognizer)
   }
   
@@ -206,7 +195,7 @@ class MScrollView: UIView {
     if !verticalScroll{
       return nil
     }
-    let yMax = containerSize.height - bounds.size.height
+    let yMax = max(0, containerSize.height - bounds.size.height)
     if yOffset <= 0{
       return 0
     } else if yOffset >= yMax {
@@ -256,7 +245,6 @@ class MScrollView: UIView {
       if !verticalScroll{
         translation.y = 0
       }
-      p("PanGR changed, startingContentOffset: \(startingContentOffset!) translation:\(translation)")
       let newContentOffset = startingContentOffset! - translation
       delegate?.scrollViewDidDrag(self)
 //      if let yTarget = yEdgeTarget(newContentOffset){
@@ -280,21 +268,25 @@ class MScrollView: UIView {
       scrollAnimation.animateDone()
     }
   }
+
+  func adjustContentOffsetIfNecessary(){
+    if yEdgeTarget() != nil || xEdgeTarget() != nil{
+      scrollAnimation.animateDone()
+    }
+  }
   
   func scrollToFrameVisible(frame:CGRect){
     
   }
 
   func scrollToBottom(animate:Bool = false){
-    if draging{
+    if draging || containerSize.height < bounds.height{
       return
     }
-    p("scroll to bottom animate:\(animate)")
-//    p("\(NSThread.callStackSymbols())")
     let target = bottomOffset
     if animate{
       scrollAnimation.animateToTargetOffset(target, stiffness: 200, damping: 20)
-    }else{
+    } else {
       scrollAnimation.stop()
       contentOffset = target
     }

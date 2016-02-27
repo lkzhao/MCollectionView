@@ -11,6 +11,8 @@ import UIKit
 class MessageTextCell: MCell {
   var textLabel = UILabel()
   var imageView:UIImageView?
+
+    var onTap:(()->Void)?
   var message:Message!{
     didSet{
       textLabel.text = message.content
@@ -44,7 +46,7 @@ class MessageTextCell: MCell {
 
       if message.type == .Text {
         if message.fromCurrentUser{
-          backgroundColor = UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0)
+          backgroundColor = UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
           layer.shadowColor = UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0).CGColor
         } else {
           backgroundColor = UIColor(white: showShadow ? 1.0 : 0.95, alpha: 1.0)
@@ -64,6 +66,9 @@ class MessageTextCell: MCell {
     addSubview(textLabel)
     textLabel.frame = frame
     textLabel.numberOfLines = 0
+    layer.shouldRasterize = true;
+    layer.rasterizationScale = UIScreen.mainScreen().scale;
+    opaque = true
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -78,6 +83,18 @@ class MessageTextCell: MCell {
     textLabel.frame = CGRectInset(bounds, message.cellPadding, message.cellPadding)
     imageView?.frame = bounds
   }
+
+    override func press(){
+        super.press()
+        switch pressGR.state{
+        case .Began:
+            break
+        case .Changed:
+            break
+        default:
+            onTap?()
+        }
+    }
 
   static func sizeForText(text:String, fontSize:CGFloat, maxWidth:CGFloat, padding:CGFloat) -> CGSize{
     let maxSize = CGSizeMake(maxWidth, 0)

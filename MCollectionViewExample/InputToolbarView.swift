@@ -84,7 +84,7 @@ class InputToolbarView: MCell {
   override func press(){
     switch pressGR.state{
     case .Began:
-      self.m_animate("scale", to: 0.9, damping: 10)
+      self.m_animate("scale", to: 0.95, damping: 10)
     case .Changed:
       break
     default:
@@ -134,7 +134,7 @@ class InputToolbarView: MCell {
         print("start recording")
         self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.1,
           target:self,
-          selector:#selector(InputToolbarView.updateAudioMeter),
+          selector:"updateAudioMeter",
           userInfo:nil,
           repeats:true)
       } else {
