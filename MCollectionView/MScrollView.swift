@@ -270,9 +270,7 @@ class MScrollView: UIView {
   }
 
   func adjustContentOffsetIfNecessary(){
-    if yEdgeTarget() != nil || xEdgeTarget() != nil{
-      scrollAnimation.animateDone()
-    }
+    scrollAnimation.animateDone()
   }
   
   func scrollToFrameVisible(frame:CGRect){

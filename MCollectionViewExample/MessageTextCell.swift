@@ -8,11 +8,20 @@
 
 import UIKit
 
+protocol MessageTextCellDelegate{
+  func messageCellDidTap(cell:MessageTextCell)
+  func messageCellDidBeginHolding(cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
+  func messageCellDidMoveWhileHolding(cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
+  func messageCellDidEndHolding(cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
+}
+
 class MessageTextCell: MCell {
+  
+  var delegate:MessageTextCellDelegate?
+  
   var textLabel = UILabel()
   var imageView:UIImageView?
 
-    var onTap:(()->Void)?
   var message:Message!{
     didSet{
       textLabel.text = message.content
@@ -43,7 +52,7 @@ class MessageTextCell: MCell {
         layer.shadowOpacity = 0
         backgroundColor = nil
       }
-
+      
       if message.type == .Text {
         if message.fromCurrentUser{
           backgroundColor = UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
@@ -55,11 +64,11 @@ class MessageTextCell: MCell {
       }
     }
   }
-
+  
   var showShadow:Bool{
     return kIsHighPerformanceDevice && message.showShadow
   }
-
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     reuseIdentifier = "MessageTextCell"
@@ -70,9 +79,9 @@ class MessageTextCell: MCell {
     layer.rasterizationScale = UIScreen.mainScreen().scale;
     opaque = true
   }
-
+  
   required init?(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func layoutSubviews() {
@@ -83,19 +92,41 @@ class MessageTextCell: MCell {
     textLabel.frame = CGRectInset(bounds, message.cellPadding, message.cellPadding)
     imageView?.frame = bounds
   }
-
-    override func press(){
-        super.press()
-        switch pressGR.state{
-        case .Began:
-            break
-        case .Changed:
-            break
-        default:
-            onTap?()
-        }
+  
+  
+  var holdTimer:NSTimer?
+  var holding = false
+  override func press(){
+    super.press()
+    switch pressGR.state{
+    case .Began:
+      holdTimer = NSTimer.schedule(delay: 0.5, handler: { (timer) -> Void in
+        self.holding = true
+        self.m_animate("scale", to: 1.1)
+        self.delegate?.messageCellDidBeginHolding(self, gestureRecognizer: self.pressGR)
+      })
+      break
+    case .Changed:
+      if holding{
+        delegate?.messageCellDidMoveWhileHolding(self, gestureRecognizer: pressGR)
+      }
+      break
+    default:
+      holdTimer?.invalidate()
+      holdTimer = nil
+      if holding {
+        delegate?.messageCellDidEndHolding(self, gestureRecognizer: pressGR)
+        holding = false
+      } else if CGRectContainsPoint(bounds, pressGR.locationInView(self)){
+        delegate?.messageCellDidTap(self)
+      }
     }
-
+  }
+  
+  override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return false
+  }
+  
   static func sizeForText(text:String, fontSize:CGFloat, maxWidth:CGFloat, padding:CGFloat) -> CGSize{
     let maxSize = CGSizeMake(maxWidth, 0)
     let font = UIFont.systemFontOfSize(fontSize)

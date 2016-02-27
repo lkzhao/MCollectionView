@@ -17,6 +17,12 @@ class ViewController: UIViewController {
   var sendingMessages:Set<Int> = []
   var messages:[Message] = TestMessages
   var animateLayout = false
+  
+  // cell reorder
+  var dragingCell:UIView?
+  var startingDragLocation:CGPoint?
+  var startingCellCenter:CGPoint?
+  var dragingCellCenter:CGPoint?
 
   var keyboardHeight:CGFloat{
     if let keyboardFrame = inputToolbarView.keyboardFrame{
@@ -131,12 +137,7 @@ extension ViewController: MCollectionViewDataSource{
     v.center = frame.center
     v.bounds = frame.bounds
     v.layer.zPosition = CGFloat(index)
-    v.onTap = {
-      if let index = self.collectionView.indexOfView(v){
-        self.messages.removeAtIndex(index)
-        self.collectionView.reloadData()
-      }
-    }
+    v.delegate = self
     return v
   }
 
@@ -206,14 +207,11 @@ extension ViewController: MCollectionViewDataSource{
   func collectionView(collectionView:MCollectionView, cellView:UIView, willDisappearForIndex index:Int){}
   func collectionView(collectionView:MCollectionView, cellView:UIView, didUpdateScreenPositionForIndex index:Int, screenPosition:CGPoint)
   {
-//    let message = messages[index]
-//    if message.type == .Text && message.fromCurrentUser{
-//      let distanceFromTop = screenPosition.y
-//      let distanceFromBottom = view.bounds.height - distanceFromTop
-//      cellView.backgroundColor = UIColor(red: 0, green: (124+(distanceFromBottom/view.bounds.height*100))/255, blue: 1.0, alpha: 1.0)
-//    }
-    //      cell.m_animate("scale", to: [adjustedScale(index)], stiffness: 500, damping: 25, threshold: 0.01)
-    cellView.animateCenterTo(adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
+    if cellView != dragingCell{
+      cellView.animateCenterTo(adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
+    } else {
+      cellView.animateCenterTo(dragingCellCenter!, stiffness: 500, damping:25)
+    }
   }
 }
 
@@ -247,6 +245,48 @@ extension ViewController: InputToolbarViewDelegate{
   }
 }
 
+extension ViewController: MessageTextCellDelegate{
+  func messageCellDidBeginHolding(cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
+    startingDragLocation = gestureRecognizer.locationInView(collectionView) + collectionView.contentOffset
+    startingCellCenter = cell.center
+    dragingCell = cell
+    cell.layer.zPosition = CGFloat(500)
+  }
+  func messageCellDidEndHolding(cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
+    if let index = collectionView.indexOfView(cell){
+      let center = collectionView.frames[index].center
+      cell.animateCenterTo(center)
+      dragingCell = nil
+      cell.layer.zPosition = CGFloat(index)
+    }
+  }
+  func messageCellDidMoveWhileHolding(cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
+    if let index = collectionView.indexOfView(cell){
+      var center = startingCellCenter!
+      let newLocation = gestureRecognizer.locationInView(collectionView) + collectionView.contentOffset
+      center = center + newLocation - startingDragLocation!
+      if let toIndex = collectionView.indexForItemAtPoint(center) where toIndex != index{
+        messages.insert(messages.removeAtIndex(index), atIndex: toIndex)
+        collectionView.reloadData()
+      }
+      var velocity = CGPointZero
+      if cell.frame.minY - collectionView.contentOffset.y < 100{
+        velocity.y = -500
+      } else if cell.frame.maxY - collectionView.contentOffset.y > collectionView.bounds.height - collectionView.contentInset.bottom - 100{
+        velocity.y = 500
+      }
+      collectionView.scrollAnimation.velocity = velocity
+      collectionView.scrollAnimation.animateDone()
+      dragingCellCenter = center
+    }
+  }
+  func messageCellDidTap(cell: MessageTextCell) {
+    if let index = self.collectionView.indexOfView(cell){
+      self.messages.removeAtIndex(index)
+      self.collectionView.reloadData()
+    }
+  }
+}
 extension ViewController: MScrollViewDelegate{
   func scrollViewDidScroll(scrollView: MScrollView) {
     if inputToolbarView.textView.isFirstResponder(){
@@ -268,7 +308,6 @@ extension ViewController: MScrollViewDelegate{
           print("load new messages count:\(self.messages.count)")
           self.collectionView.reloadData() {
             let offset = self.collectionView.frames[newMessage.count].minY - currentOffsetDiff
-            self.collectionView.scrollAnimation.stop()
             self.collectionView.contentOffset.y = offset
           }
           self.loading = false

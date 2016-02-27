@@ -64,6 +64,15 @@ class MCollectionView: MScrollView {
     }
     return intersect
   }
+  
+  func indexForItemAtPoint(point:CGPoint) -> Int?{
+    for (i, f) in frames.enumerate(){
+      if f.contains(point){
+        return i
+      }
+    }
+    return nil
+  }
 
   var reusableViews:[String:[UIView]] = [:]
   func dequeueReusableViewWithIdentifier(identifier:String) -> UIView?{
@@ -163,6 +172,7 @@ class MCollectionView: MScrollView {
     let oldContentOffset = contentOffset
     framesLoadedBlock?()
     let contentOffsetDiff = contentOffset - oldContentOffset
+    
 
     let newVisibleIndexes = indexesForFrames(frames, intersectFrame: activeFrame)
 
