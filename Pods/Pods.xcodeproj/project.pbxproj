@@ -1,744 +1,1372 @@
-// !$*UTF8*$!
-{
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		09B05A7469E3641101E5BC84F1EF3D8B /* Pods-MCollectionViewExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B66587FBA1E4FEAB242DD174894BBF10 /* Pods-MCollectionViewExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E277FBE2F2A41FF057B71F485E5B2D1 /* LZPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73F1C8B0146E77416EF65C816D3B37 /* LZPanGestureRecognizer.swift */; };
-		2CA48E056C43E1862C33AE11E9657AFA /* SpringValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939A158918B3153F64DEE841CB37D1B5 /* SpringValueAnimation.swift */; };
-		31F3BC6EE02A1A993577F2CDB1DE8E8C /* Changeset-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9F989BEF9F6BA04D3F0ACAC1E9A52D /* Changeset-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3FCBF597AE7964FE14695F245F48D0B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF066F8D85A4D7A3B3A04D25E4D2AC88 /* UIKit.framework */; };
-		4676DF858FE3C48714DC55F5D3069344 /* Pods-MCollectionViewExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E9665B685B475DD09AF00890869713 /* Pods-MCollectionViewExample-dummy.m */; };
-		7204CCA91B0ACEF850A31327607536C9 /* NSObject+MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BD935EB31F413C11CC3BC176A32316 /* NSObject+MotionAnimation.swift */; };
-		8B74BF59F77C0234C17E15040235412F /* ValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A2AEF441D482C3BDFB2EF95DEFFCA0 /* ValueAnimation.swift */; };
-		8C6828BBC690E5DA07A7D6162E38EFB6 /* NSTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859342992FFBA2C3EA443B43E72BE567 /* NSTimer.swift */; };
-		953EA35D204722EDA16883B286E459A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D635D41133915B228CE899EF89DD95CE /* Foundation.framework */; };
-		9794F667D2B7AD1311515D69480D495D /* UIView+MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23E7DD908E2FC17A05B8634B2E99F5F /* UIView+MotionAnimation.swift */; };
-		9817E9B34D213AE5645A521CFD753570 /* CGPoint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A53EE2D5DED03A11F3706171039545 /* CGPoint+Util.swift */; };
-		A9AC6632E882161186E363389A8FEF26 /* MotionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384A5FBCCF82E7B2A0C2373FE334A5D0 /* MotionAnimator.swift */; };
-		B7B439F4C97B85D6E31820BA178DBBCA /* MotionAnimation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8954F28B6317EE8BC5C444A25FF56F9A /* MotionAnimation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BFBBDD89D31FD8ABD17A764BD0474FC3 /* MotionAnimationPropertyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2E80DA2D9874E58CD9F427AE7CE56 /* MotionAnimationPropertyState.swift */; };
-		C3949B85843FC4C2E812768C107F058F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D635D41133915B228CE899EF89DD95CE /* Foundation.framework */; };
-		C6C5F560E2EB55F4F53EAA84BEB84F15 /* MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA554215279B8AB2D6DAC386E5DCD8 /* MotionAnimation.swift */; };
-		CA0D70147B509B0BD9AFCB3621946D2D /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF9611A8477F172A37AA76BE56AB022 /* Changeset.swift */; };
-		DA1AB45DD8C36FEE8C73E69C5BB532E6 /* Changeset-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 772AC9AB89CEB55E85B0CC0CFA84FEE3 /* Changeset-dummy.m */; };
-		ED3889C0A5DF2FEFCBCE8EB1B9FD8F5D /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593F5F29342C0CC70BB8BCB0BA691EFC /* Types.swift */; };
-		F16F58ACEF943096B50A4EC2E6862B42 /* MotionAnimation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FC524D85C74A79E53B53D9A15D062D /* MotionAnimation-dummy.m */; };
-		F44EDC5FA205187EEE9F93F4D4828595 /* time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA172D4334AEAAFAC5B05AC81203CC91 /* time.swift */; };
-		F7AE74F1342DA5F288E0773C14A9E83F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D635D41133915B228CE899EF89DD95CE /* Foundation.framework */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		A2A4240D5237AF0CEA381954CC50B64E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 78C5CEA4E61AD2B76E9CEC08F57A043F;
-			remoteInfo = MotionAnimation;
-		};
-		F519167E3CC680C45977DFF9265F5976 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5268172F9D0321D213D07598708942D6;
-			remoteInfo = Changeset;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXFileReference section */
-		043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Changeset.xcconfig; sourceTree = "<group>"; };
-		05AAEAB107FD5897A352F4FE7FC59EA6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08E977E3CBAAE04E9F56473E38FEABEC /* Changeset.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Changeset.modulemap; sourceTree = "<group>"; };
-		08FC524D85C74A79E53B53D9A15D062D /* MotionAnimation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MotionAnimation-dummy.m"; sourceTree = "<group>"; };
-		12A53EE2D5DED03A11F3706171039545 /* CGPoint+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CGPoint+Util.swift"; sourceTree = "<group>"; };
-		17FEE571E7A5E02787B3142A50F242C6 /* Pods-MCollectionViewExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionViewExample-frameworks.sh"; sourceTree = "<group>"; };
-		1BD2E80DA2D9874E58CD9F427AE7CE56 /* MotionAnimationPropertyState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MotionAnimationPropertyState.swift; sourceTree = "<group>"; };
-		23E9665B685B475DD09AF00890869713 /* Pods-MCollectionViewExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MCollectionViewExample-dummy.m"; sourceTree = "<group>"; };
-		25BE6AEFF08F618F029E538650DD8DE1 /* MotionAnimation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = MotionAnimation.modulemap; sourceTree = "<group>"; };
-		2E255D14A0E9E7E26ECBABBAFD269B62 /* Pods-MCollectionViewExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-MCollectionViewExample.modulemap"; sourceTree = "<group>"; };
-		2FA416F7357832FBE55EBEBDEEF75ED4 /* Changeset-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Changeset-prefix.pch"; sourceTree = "<group>"; };
-		344730E4F18C6C5B70DD9F756983A6AB /* Changeset.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Changeset.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		384A5FBCCF82E7B2A0C2373FE334A5D0 /* MotionAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MotionAnimator.swift; sourceTree = "<group>"; };
-		4ACA554215279B8AB2D6DAC386E5DCD8 /* MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MotionAnimation.swift; sourceTree = "<group>"; };
-		4E79378DCBD66E6A679ADE5A0FD8693A /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
-		593F5F29342C0CC70BB8BCB0BA691EFC /* Types.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		6BF9611A8477F172A37AA76BE56AB022 /* Changeset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Changeset.swift; path = Changeset/Changeset.swift; sourceTree = "<group>"; };
-		772AC9AB89CEB55E85B0CC0CFA84FEE3 /* Changeset-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Changeset-dummy.m"; sourceTree = "<group>"; };
-		78BD935EB31F413C11CC3BC176A32316 /* NSObject+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "NSObject+MotionAnimation.swift"; sourceTree = "<group>"; };
-		7DDDF8D421E16C564F59DCBA7105F86D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84084C34091EE11C86504EA134057FFA /* MotionAnimation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MotionAnimation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		859342992FFBA2C3EA443B43E72BE567 /* NSTimer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSTimer.swift; sourceTree = "<group>"; };
-		8954F28B6317EE8BC5C444A25FF56F9A /* MotionAnimation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-umbrella.h"; sourceTree = "<group>"; };
-		8D9F989BEF9F6BA04D3F0ACAC1E9A52D /* Changeset-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Changeset-umbrella.h"; sourceTree = "<group>"; };
-		939A158918B3153F64DEE841CB37D1B5 /* SpringValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpringValueAnimation.swift; sourceTree = "<group>"; };
-		94A2AEF441D482C3BDFB2EF95DEFFCA0 /* ValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValueAnimation.swift; sourceTree = "<group>"; };
-		A873AD30D12F4609830FBAD1A1F3F08A /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
-		AF066F8D85A4D7A3B3A04D25E4D2AC88 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		B66587FBA1E4FEAB242DD174894BBF10 /* Pods-MCollectionViewExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MCollectionViewExample-umbrella.h"; sourceTree = "<group>"; };
-		B87155B99792FCE737C6CD2BA8B39B39 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		C0042E26D8D94C1466A319142980C33C /* Pods-MCollectionViewExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MCollectionViewExample-acknowledgements.plist"; sourceTree = "<group>"; };
-		C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MotionAnimation.xcconfig; sourceTree = "<group>"; };
-		C9BA13812F8A2C1CE7D890B0AF3A4B36 /* Pods-MCollectionViewExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionViewExample-resources.sh"; sourceTree = "<group>"; };
-		CAAA50733D8A0930239231B1CC9D0064 /* Pods_MCollectionViewExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionViewExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D23E7DD908E2FC17A05B8634B2E99F5F /* UIView+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+MotionAnimation.swift"; sourceTree = "<group>"; };
-		D635D41133915B228CE899EF89DD95CE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		DA73F1C8B0146E77416EF65C816D3B37 /* LZPanGestureRecognizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LZPanGestureRecognizer.swift; sourceTree = "<group>"; };
-		E9CCBFA8982EA280AFACE59A055A0082 /* MotionAnimation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-prefix.pch"; sourceTree = "<group>"; };
-		FA172D4334AEAAFAC5B05AC81203CC91 /* time.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = time.swift; sourceTree = "<group>"; };
-		FEBA9AC9FF26AFAA2FDD01F6233AB9F0 /* Pods-MCollectionViewExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MCollectionViewExample-acknowledgements.markdown"; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		44DE2690394B4BE325EF546D3D0656AB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3949B85843FC4C2E812768C107F058F /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		55658D8E6C4C73ACB3264053005876DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F7AE74F1342DA5F288E0773C14A9E83F /* Foundation.framework in Frameworks */,
-				3FCBF597AE7964FE14695F245F48D0B2 /* UIKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A03F2DCD80D9FB1996F0931DB6B41CFB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				953EA35D204722EDA16883B286E459A9 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		09D18D142547DBBE394A0C0A81D1687B /* Pods-MCollectionViewExample */ = {
-			isa = PBXGroup;
-			children = (
-				B87155B99792FCE737C6CD2BA8B39B39 /* Info.plist */,
-				2E255D14A0E9E7E26ECBABBAFD269B62 /* Pods-MCollectionViewExample.modulemap */,
-				FEBA9AC9FF26AFAA2FDD01F6233AB9F0 /* Pods-MCollectionViewExample-acknowledgements.markdown */,
-				C0042E26D8D94C1466A319142980C33C /* Pods-MCollectionViewExample-acknowledgements.plist */,
-				23E9665B685B475DD09AF00890869713 /* Pods-MCollectionViewExample-dummy.m */,
-				17FEE571E7A5E02787B3142A50F242C6 /* Pods-MCollectionViewExample-frameworks.sh */,
-				C9BA13812F8A2C1CE7D890B0AF3A4B36 /* Pods-MCollectionViewExample-resources.sh */,
-				B66587FBA1E4FEAB242DD174894BBF10 /* Pods-MCollectionViewExample-umbrella.h */,
-				4E79378DCBD66E6A679ADE5A0FD8693A /* Pods-MCollectionViewExample.debug.xcconfig */,
-				A873AD30D12F4609830FBAD1A1F3F08A /* Pods-MCollectionViewExample.release.xcconfig */,
-			);
-			name = "Pods-MCollectionViewExample";
-			path = "Target Support Files/Pods-MCollectionViewExample";
-			sourceTree = "<group>";
-		};
-		223282536D62A92A9B6C564B6888B463 /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EEF30658131E258B498C48A0D75115F1 /* MotionAnimation */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		25D87479202888DD89809FAF14D91FC3 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				08E977E3CBAAE04E9F56473E38FEABEC /* Changeset.modulemap */,
-				043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */,
-				772AC9AB89CEB55E85B0CC0CFA84FEE3 /* Changeset-dummy.m */,
-				2FA416F7357832FBE55EBEBDEEF75ED4 /* Changeset-prefix.pch */,
-				8D9F989BEF9F6BA04D3F0ACAC1E9A52D /* Changeset-umbrella.h */,
-				7DDDF8D421E16C564F59DCBA7105F86D /* Info.plist */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Changeset";
-			sourceTree = "<group>";
-		};
-		380CDD4CC342ADA034C0CF14D125E102 /* MotionAnimation */ = {
-			isa = PBXGroup;
-			children = (
-				12A53EE2D5DED03A11F3706171039545 /* CGPoint+Util.swift */,
-				DA73F1C8B0146E77416EF65C816D3B37 /* LZPanGestureRecognizer.swift */,
-				4ACA554215279B8AB2D6DAC386E5DCD8 /* MotionAnimation.swift */,
-				1BD2E80DA2D9874E58CD9F427AE7CE56 /* MotionAnimationPropertyState.swift */,
-				384A5FBCCF82E7B2A0C2373FE334A5D0 /* MotionAnimator.swift */,
-				78BD935EB31F413C11CC3BC176A32316 /* NSObject+MotionAnimation.swift */,
-				859342992FFBA2C3EA443B43E72BE567 /* NSTimer.swift */,
-				939A158918B3153F64DEE841CB37D1B5 /* SpringValueAnimation.swift */,
-				FA172D4334AEAAFAC5B05AC81203CC91 /* time.swift */,
-				593F5F29342C0CC70BB8BCB0BA691EFC /* Types.swift */,
-				D23E7DD908E2FC17A05B8634B2E99F5F /* UIView+MotionAnimation.swift */,
-				94A2AEF441D482C3BDFB2EF95DEFFCA0 /* ValueAnimation.swift */,
-			);
-			path = MotionAnimation;
-			sourceTree = "<group>";
-		};
-		3EE4ADC2FF6830F9D7690DB4C52C9B29 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				344730E4F18C6C5B70DD9F756983A6AB /* Changeset.framework */,
-				84084C34091EE11C86504EA134057FFA /* MotionAnimation.framework */,
-				CAAA50733D8A0930239231B1CC9D0064 /* Pods_MCollectionViewExample.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E294F3BD993E240DCFCB4DC1329C9F36 /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4A54F11635DFA94A033F60AB7D641D57 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4FB548763FEA3773F170D0E47802C08F /* Changeset */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		4FB548763FEA3773F170D0E47802C08F /* Changeset */ = {
-			isa = PBXGroup;
-			children = (
-				6BF9611A8477F172A37AA76BE56AB022 /* Changeset.swift */,
-				25D87479202888DD89809FAF14D91FC3 /* Support Files */,
-			);
-			path = Changeset;
-			sourceTree = "<group>";
-		};
-		7DB346D0F39D3F0E887471402A8071AB = {
-			isa = PBXGroup;
-			children = (
-				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
-				223282536D62A92A9B6C564B6888B463 /* Development Pods */,
-				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
-				4A54F11635DFA94A033F60AB7D641D57 /* Pods */,
-				3EE4ADC2FF6830F9D7690DB4C52C9B29 /* Products */,
-				C718FCF6F4C22354402459A4C2B5E611 /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		C718FCF6F4C22354402459A4C2B5E611 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				09D18D142547DBBE394A0C0A81D1687B /* Pods-MCollectionViewExample */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		DC5D2E053F87CC9C7E98CDF47C1035D2 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				05AAEAB107FD5897A352F4FE7FC59EA6 /* Info.plist */,
-				25BE6AEFF08F618F029E538650DD8DE1 /* MotionAnimation.modulemap */,
-				C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */,
-				08FC524D85C74A79E53B53D9A15D062D /* MotionAnimation-dummy.m */,
-				E9CCBFA8982EA280AFACE59A055A0082 /* MotionAnimation-prefix.pch */,
-				8954F28B6317EE8BC5C444A25FF56F9A /* MotionAnimation-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../MCollectionView/Pods/Target Support Files/MotionAnimation";
-			sourceTree = "<group>";
-		};
-		E294F3BD993E240DCFCB4DC1329C9F36 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				D635D41133915B228CE899EF89DD95CE /* Foundation.framework */,
-				AF066F8D85A4D7A3B3A04D25E4D2AC88 /* UIKit.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		EEF30658131E258B498C48A0D75115F1 /* MotionAnimation */ = {
-			isa = PBXGroup;
-			children = (
-				380CDD4CC342ADA034C0CF14D125E102 /* MotionAnimation */,
-				DC5D2E053F87CC9C7E98CDF47C1035D2 /* Support Files */,
-			);
-			name = MotionAnimation;
-			path = ../../MotionAnimation;
-			sourceTree = "<group>";
-		};
-/* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		141A28721C94F4F39CA35C4897270F1F /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				31F3BC6EE02A1A993577F2CDB1DE8E8C /* Changeset-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		29C36981FA131472321703EDDE86FA5A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B7B439F4C97B85D6E31820BA178DBBCA /* MotionAnimation-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2A1919945CA5223625DE9250861173DB /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				09B05A7469E3641101E5BC84F1EF3D8B /* Pods-MCollectionViewExample-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
-/* Begin PBXNativeTarget section */
-		5268172F9D0321D213D07598708942D6 /* Changeset */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C7378E2AA1D07F4AD3F3FFB37BC08B7B /* Build configuration list for PBXNativeTarget "Changeset" */;
-			buildPhases = (
-				2E9F6D6981B87D35D7F11A26BE7FEFBE /* Sources */,
-				44DE2690394B4BE325EF546D3D0656AB /* Frameworks */,
-				141A28721C94F4F39CA35C4897270F1F /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Changeset;
-			productName = Changeset;
-			productReference = 344730E4F18C6C5B70DD9F756983A6AB /* Changeset.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		78C5CEA4E61AD2B76E9CEC08F57A043F /* MotionAnimation */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E535FA8F3DA889E62B87A43C20D453D4 /* Build configuration list for PBXNativeTarget "MotionAnimation" */;
-			buildPhases = (
-				9AE6E831954D386C0AF6C0D13EB32F3F /* Sources */,
-				55658D8E6C4C73ACB3264053005876DC /* Frameworks */,
-				29C36981FA131472321703EDDE86FA5A /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MotionAnimation;
-			productName = MotionAnimation;
-			productReference = 84084C34091EE11C86504EA134057FFA /* MotionAnimation.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		DF8EA8C2B3E1866472E62E210504203E /* Pods-MCollectionViewExample */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FD574084E327A68015D1E8317AB31431 /* Build configuration list for PBXNativeTarget "Pods-MCollectionViewExample" */;
-			buildPhases = (
-				6F4938A80982E055FA2928412DE0C7F7 /* Sources */,
-				A03F2DCD80D9FB1996F0931DB6B41CFB /* Frameworks */,
-				2A1919945CA5223625DE9250861173DB /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BF19DCFDD21C66F227B8F64E50D4D752 /* PBXTargetDependency */,
-				9D1F1248FF93732E85A8151EDDCA3EBE /* PBXTargetDependency */,
-			);
-			name = "Pods-MCollectionViewExample";
-			productName = "Pods-MCollectionViewExample";
-			productReference = CAAA50733D8A0930239231B1CC9D0064 /* Pods_MCollectionViewExample.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0700;
-			};
-			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 3EE4ADC2FF6830F9D7690DB4C52C9B29 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				5268172F9D0321D213D07598708942D6 /* Changeset */,
-				78C5CEA4E61AD2B76E9CEC08F57A043F /* MotionAnimation */,
-				DF8EA8C2B3E1866472E62E210504203E /* Pods-MCollectionViewExample */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXSourcesBuildPhase section */
-		2E9F6D6981B87D35D7F11A26BE7FEFBE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DA1AB45DD8C36FEE8C73E69C5BB532E6 /* Changeset-dummy.m in Sources */,
-				CA0D70147B509B0BD9AFCB3621946D2D /* Changeset.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6F4938A80982E055FA2928412DE0C7F7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4676DF858FE3C48714DC55F5D3069344 /* Pods-MCollectionViewExample-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9AE6E831954D386C0AF6C0D13EB32F3F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9817E9B34D213AE5645A521CFD753570 /* CGPoint+Util.swift in Sources */,
-				0E277FBE2F2A41FF057B71F485E5B2D1 /* LZPanGestureRecognizer.swift in Sources */,
-				F16F58ACEF943096B50A4EC2E6862B42 /* MotionAnimation-dummy.m in Sources */,
-				C6C5F560E2EB55F4F53EAA84BEB84F15 /* MotionAnimation.swift in Sources */,
-				BFBBDD89D31FD8ABD17A764BD0474FC3 /* MotionAnimationPropertyState.swift in Sources */,
-				A9AC6632E882161186E363389A8FEF26 /* MotionAnimator.swift in Sources */,
-				7204CCA91B0ACEF850A31327607536C9 /* NSObject+MotionAnimation.swift in Sources */,
-				8C6828BBC690E5DA07A7D6162E38EFB6 /* NSTimer.swift in Sources */,
-				2CA48E056C43E1862C33AE11E9657AFA /* SpringValueAnimation.swift in Sources */,
-				F44EDC5FA205187EEE9F93F4D4828595 /* time.swift in Sources */,
-				ED3889C0A5DF2FEFCBCE8EB1B9FD8F5D /* Types.swift in Sources */,
-				9794F667D2B7AD1311515D69480D495D /* UIView+MotionAnimation.swift in Sources */,
-				8B74BF59F77C0234C17E15040235412F /* ValueAnimation.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9D1F1248FF93732E85A8151EDDCA3EBE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MotionAnimation;
-			target = 78C5CEA4E61AD2B76E9CEC08F57A043F /* MotionAnimation */;
-			targetProxy = A2A4240D5237AF0CEA381954CC50B64E /* PBXContainerItemProxy */;
-		};
-		BF19DCFDD21C66F227B8F64E50D4D752 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Changeset;
-			target = 5268172F9D0321D213D07598708942D6 /* Changeset */;
-			targetProxy = F519167E3CC680C45977DFF9265F5976 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin XCBuildConfiguration section */
-		05A7960C91E90A421DC6719C753C0488 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A873AD30D12F4609830FBAD1A1F3F08A /* Pods-MCollectionViewExample.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-MCollectionViewExample/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_MCollectionViewExample;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		4DE7A444F4FAD961901932EC9DB06BA4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Changeset/Changeset-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Changeset/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Changeset/Changeset.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = Changeset;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		5B11E3FA1A89FD581C8CEEDD8C2691DF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E79378DCBD66E6A679ADE5A0FD8693A /* Pods-MCollectionViewExample.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-MCollectionViewExample/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_MCollectionViewExample;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		811519CB8F683AC06F9C98B55AC40F11 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		882EB4391EC2E701934974DA86F7343F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_DEBUG=1",
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Debug;
-		};
-		8C34A9924AC5D464432C4418C5AD1312 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/MotionAnimation/MotionAnimation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/MotionAnimation/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/MotionAnimation/MotionAnimation.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = MotionAnimation;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		B92087C462994F9C9A96514E6B31E9BE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043CB22378AC34EA5F85E4762C229928 /* Changeset.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Changeset/Changeset-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Changeset/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Changeset/Changeset.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = Changeset;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		EF88C1A6835B873C6A58992B34B2E01F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C60E9DF9F2FDFE7C19B692C7607C3B21 /* MotionAnimation.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/MotionAnimation/MotionAnimation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/MotionAnimation/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/MotionAnimation/MotionAnimation.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = MotionAnimation;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				882EB4391EC2E701934974DA86F7343F /* Debug */,
-				811519CB8F683AC06F9C98B55AC40F11 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C7378E2AA1D07F4AD3F3FFB37BC08B7B /* Build configuration list for PBXNativeTarget "Changeset" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4DE7A444F4FAD961901932EC9DB06BA4 /* Debug */,
-				B92087C462994F9C9A96514E6B31E9BE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E535FA8F3DA889E62B87A43C20D453D4 /* Build configuration list for PBXNativeTarget "MotionAnimation" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EF88C1A6835B873C6A58992B34B2E01F /* Debug */,
-				8C34A9924AC5D464432C4418C5AD1312 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FD574084E327A68015D1E8317AB31431 /* Build configuration list for PBXNativeTarget "Pods-MCollectionViewExample" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5B11E3FA1A89FD581C8CEEDD8C2691DF /* Debug */,
-				05A7960C91E90A421DC6719C753C0488 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>archiveVersion</key>
+	<string>1</string>
+	<key>classes</key>
+	<dict/>
+	<key>objectVersion</key>
+	<string>46</string>
+	<key>objects</key>
+	<dict>
+		<key>0156020C1D3D04363F106E10373FBC70</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>NSTimer.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0242ADAE3FCD74DF9D559D0483D01D80</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>CGPoint+Util.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>02954B302551B3428A0F1C0877162CB1</key>
+		<dict>
+			<key>fileRef</key>
+			<string>2ADAE955D7DA1D1EC491FC2C2760D4B7</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>03760903D5735251AF4F688B7F273846</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>23F7E5EE968BDDEAD6C4CB9AA2E1BBB9</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>0444834556D5B990F3A99F58E3F2CEA0</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>Types.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>086F3347D2F02718F29620BA851B0A94</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>LZPanGestureRecognizer.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>09D18D142547DBBE394A0C0A81D1687B</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>B87155B99792FCE737C6CD2BA8B39B39</string>
+				<string>2E255D14A0E9E7E26ECBABBAFD269B62</string>
+				<string>FEBA9AC9FF26AFAA2FDD01F6233AB9F0</string>
+				<string>C0042E26D8D94C1466A319142980C33C</string>
+				<string>23E9665B685B475DD09AF00890869713</string>
+				<string>17FEE571E7A5E02787B3142A50F242C6</string>
+				<string>C9BA13812F8A2C1CE7D890B0AF3A4B36</string>
+				<string>B66587FBA1E4FEAB242DD174894BBF10</string>
+				<string>4E79378DCBD66E6A679ADE5A0FD8693A</string>
+				<string>A873AD30D12F4609830FBAD1A1F3F08A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods-MCollectionViewExample</string>
+			<key>path</key>
+			<string>Target Support Files/Pods-MCollectionViewExample</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>11FF9D5EE393BA302C02EF4C560F094F</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>NSObject+MotionAnimation.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>176B975109C6F417FDE0DFCFA3874A8C</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>A873AD30D12F4609830FBAD1A1F3F08A</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/Pods-MCollectionViewExample/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MACH_O_TYPE</key>
+				<string>staticlib</string>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PODS_ROOT</key>
+				<string>$(SRCROOT)</string>
+				<key>PRODUCT_NAME</key>
+				<string>Pods_MCollectionViewExample</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>17FEE571E7A5E02787B3142A50F242C6</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample-frameworks.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>18340F12838DEE43507667CC74401EB1</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>6E7E5AF37923BFA48D6994B9BFC6535F</string>
+				<string>C3B7BDF5CE5CB8F095FE12DA55D9A9BB</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>iOS</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1838E548FFC3F787EC6D3A4AA27D8F46</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>time.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>223282536D62A92A9B6C564B6888B463</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>4BC01D3CEE0E0A5E665B49123BFAA01E</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Development Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>23E9665B685B475DD09AF00890869713</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>23F7E5EE968BDDEAD6C4CB9AA2E1BBB9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B66587FBA1E4FEAB242DD174894BBF10</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>ATTRIBUTES</key>
+				<array>
+					<string>Public</string>
+				</array>
+			</dict>
+		</dict>
+		<key>242C3E10A985A57E5FA1150C50885A70</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>739144A612CCD00CCF2B718593DF68DC</string>
+				<string>27875376DEAE60DAD310E59D3A8D62B0</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>27875376DEAE60DAD310E59D3A8D62B0</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C3B7BDF5CE5CB8F095FE12DA55D9A9BB</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>28770D6271D52852A830DB5250969ADA</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>A4C1619B32940911CB6F9F31BD3C635C</string>
+			<key>buildPhases</key>
+			<array>
+				<string>55B6BB5400240E6EF7DD99792DB9E1A3</string>
+				<string>242C3E10A985A57E5FA1150C50885A70</string>
+				<string>DB1847C0A72BAFA3EBBE86F4B5771A79</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>MotionAnimation</string>
+			<key>productName</key>
+			<string>MotionAnimation</string>
+			<key>productReference</key>
+			<string>4998EBB7B29C9BEC110CC7B42B1D271A</string>
+			<key>productType</key>
+			<string>com.apple.product-type.framework</string>
+		</dict>
+		<key>2ADAE955D7DA1D1EC491FC2C2760D4B7</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>MotionAnimator.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>2D85E17F184641D2FCB0C2699C23FE58</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>MotionAnimation-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>2D8E8EC45A3A1A1D94AE762CB5028504</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>A70CDAD61F90AC503C7D04CC22DA2923</string>
+				<string>FB45FFD90572718D82AB9092B750F0CA</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>2E255D14A0E9E7E26ECBABBAFD269B62</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample.modulemap</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>2E8F2355125C594123E99C56D3275D77</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>SpringValueAnimation.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>35AD9250710F83DCCB8785D707F18201</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>MotionAnimationPropertyState.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>37D3FB5634EA5DA3452C9A374BFDBB4D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>1838E548FFC3F787EC6D3A4AA27D8F46</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>3B13CAB371636FB850241DC1F81018AE</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>513A54412BE4BD1D4A80F633798F29AB</string>
+			<key>buildPhases</key>
+			<array>
+				<string>D46F7D1795AE835003AB5BAAF4B8FFCC</string>
+				<string>987A54F3BAC3D6F2269D595C6E7319F9</string>
+				<string>03760903D5735251AF4F688B7F273846</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>4AD89B4E85268BD86FBB12626C9DD3E9</string>
+			</array>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-MCollectionViewExample</string>
+			<key>productName</key>
+			<string>Pods-MCollectionViewExample</string>
+			<key>productReference</key>
+			<string>439BD1A5AF42ABA9DA2CA6CEBB0FF0EB</string>
+			<key>productType</key>
+			<string>com.apple.product-type.framework</string>
+		</dict>
+		<key>3EF8183EA62172AB81C3E06904AFDEA3</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>C251E3861F8768CDCCAF7843A90DFE77</string>
+				<string>E6C7F65C178FD1CF0D9F4B3473E77CE8</string>
+				<string>C36B1B75EA1AEBE7B2A54B30B88C3242</string>
+				<string>D260ED42B04921D09FC7F71A7EB9C372</string>
+				<string>2D85E17F184641D2FCB0C2699C23FE58</string>
+				<string>F49D0435B8B32492D50541A961560D24</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Support Files</string>
+			<key>path</key>
+			<string>../MCollectionView/Pods/Target Support Files/MotionAnimation</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>40129A00E567A0D7F83FEDBA1C87B74F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>23E9665B685B475DD09AF00890869713</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>433CD3331B6C3787F473C941B61FC68F</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>18340F12838DEE43507667CC74401EB1</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>439BD1A5AF42ABA9DA2CA6CEBB0FF0EB</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>Pods_MCollectionViewExample.framework</string>
+			<key>path</key>
+			<string>Pods_MCollectionViewExample.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>4998EBB7B29C9BEC110CC7B42B1D271A</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>name</key>
+			<string>MotionAnimation.framework</string>
+			<key>path</key>
+			<string>MotionAnimation.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>4AD89B4E85268BD86FBB12626C9DD3E9</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>MotionAnimation</string>
+			<key>target</key>
+			<string>28770D6271D52852A830DB5250969ADA</string>
+			<key>targetProxy</key>
+			<string>7AA7FBB9DFA3AD7358C76AF96DBA08D3</string>
+		</dict>
+		<key>4BC01D3CEE0E0A5E665B49123BFAA01E</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>67EC41E3E3554DEF7980956EBCB06C5B</string>
+				<string>3EF8183EA62172AB81C3E06904AFDEA3</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>MotionAnimation</string>
+			<key>path</key>
+			<string>../../MotionAnimation</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4E79378DCBD66E6A679ADE5A0FD8693A</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>513A54412BE4BD1D4A80F633798F29AB</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>E256AAD8CED5AEC73DEDE402664EB607</string>
+				<string>176B975109C6F417FDE0DFCFA3874A8C</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>55B6BB5400240E6EF7DD99792DB9E1A3</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>FBCDBB5A72FFF49C02D7FDCF50EC9525</string>
+				<string>75ADD1AC877BD380B93CE00FF9AEE2D8</string>
+				<string>BC0D38470EE42540EF16DB0CA9D1EFF6</string>
+				<string>57BC36D7AE0AB89265E7F1A205C488ED</string>
+				<string>6639D880A79A5211FF0C59BA17052E2D</string>
+				<string>02954B302551B3428A0F1C0877162CB1</string>
+				<string>C99A3F0B9855BC5309A6FD74239F6462</string>
+				<string>ACE3425FE20E87449A594A81D3E45D05</string>
+				<string>978467948A58B5E46176E79047CE5056</string>
+				<string>37D3FB5634EA5DA3452C9A374BFDBB4D</string>
+				<string>78260A2657F36A0129135C954599B23D</string>
+				<string>E5966097FD571402B19B690CBB77AE21</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>57BC36D7AE0AB89265E7F1A205C488ED</key>
+		<dict>
+			<key>fileRef</key>
+			<string>AC1D024196E930BFA2AAFBD305E98AC9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>6639D880A79A5211FF0C59BA17052E2D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>35AD9250710F83DCCB8785D707F18201</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>67EC41E3E3554DEF7980956EBCB06C5B</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0242ADAE3FCD74DF9D559D0483D01D80</string>
+				<string>086F3347D2F02718F29620BA851B0A94</string>
+				<string>AC1D024196E930BFA2AAFBD305E98AC9</string>
+				<string>35AD9250710F83DCCB8785D707F18201</string>
+				<string>2ADAE955D7DA1D1EC491FC2C2760D4B7</string>
+				<string>11FF9D5EE393BA302C02EF4C560F094F</string>
+				<string>0156020C1D3D04363F106E10373FBC70</string>
+				<string>2E8F2355125C594123E99C56D3275D77</string>
+				<string>1838E548FFC3F787EC6D3A4AA27D8F46</string>
+				<string>0444834556D5B990F3A99F58E3F2CEA0</string>
+				<string>B39A68D78D0254F5AB01C0BD406BD66A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>MotionAnimation</string>
+			<key>path</key>
+			<string>MotionAnimation</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6E7E5AF37923BFA48D6994B9BFC6535F</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>Foundation.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
+		<key>711D321970605EF0161EF5B79588C9AD</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>4998EBB7B29C9BEC110CC7B42B1D271A</string>
+				<string>439BD1A5AF42ABA9DA2CA6CEBB0FF0EB</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>739144A612CCD00CCF2B718593DF68DC</key>
+		<dict>
+			<key>fileRef</key>
+			<string>6E7E5AF37923BFA48D6994B9BFC6535F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>75ADD1AC877BD380B93CE00FF9AEE2D8</key>
+		<dict>
+			<key>fileRef</key>
+			<string>086F3347D2F02718F29620BA851B0A94</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>78260A2657F36A0129135C954599B23D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0444834556D5B990F3A99F58E3F2CEA0</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7AA7FBB9DFA3AD7358C76AF96DBA08D3</key>
+		<dict>
+			<key>containerPortal</key>
+			<string>D41D8CD98F00B204E9800998ECF8427E</string>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>28770D6271D52852A830DB5250969ADA</string>
+			<key>remoteInfo</key>
+			<string>MotionAnimation</string>
+		</dict>
+		<key>7DB346D0F39D3F0E887471402A8071AB</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>BA6428E9F66FD5A23C0A2E06ED26CD2F</string>
+				<string>223282536D62A92A9B6C564B6888B463</string>
+				<string>433CD3331B6C3787F473C941B61FC68F</string>
+				<string>711D321970605EF0161EF5B79588C9AD</string>
+				<string>C718FCF6F4C22354402459A4C2B5E611</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8E91ED75F1E0327DC4D8CB3044CD228A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>6E7E5AF37923BFA48D6994B9BFC6535F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>978467948A58B5E46176E79047CE5056</key>
+		<dict>
+			<key>fileRef</key>
+			<string>2E8F2355125C594123E99C56D3275D77</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>987A54F3BAC3D6F2269D595C6E7319F9</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>8E91ED75F1E0327DC4D8CB3044CD228A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>A4C1619B32940911CB6F9F31BD3C635C</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>CBEDBF842F064992A5FD8F1B7F38988D</string>
+				<string>F48D88E9D5417CB97D90C2F3C828DC0D</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>A70CDAD61F90AC503C7D04CC22DA2923</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES</string>
+				<key>CLANG_WARN_UNREACHABLE_CODE</key>
+				<string>YES</string>
+				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
+				<string>YES</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
+				<key>STRIP_INSTALLED_PRODUCT</key>
+				<string>NO</string>
+				<key>SYMROOT</key>
+				<string>${SRCROOT}/../build</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>A873AD30D12F4609830FBAD1A1F3F08A</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>AC1D024196E930BFA2AAFBD305E98AC9</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>MotionAnimation.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>ACE3425FE20E87449A594A81D3E45D05</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0156020C1D3D04363F106E10373FBC70</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B39A68D78D0254F5AB01C0BD406BD66A</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>ValueAnimation.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B66587FBA1E4FEAB242DD174894BBF10</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample-umbrella.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B87155B99792FCE737C6CD2BA8B39B39</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B951AB4570ACC8352F31896547E6DED9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F49D0435B8B32492D50541A961560D24</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>ATTRIBUTES</key>
+				<array>
+					<string>Public</string>
+				</array>
+			</dict>
+		</dict>
+		<key>BA6428E9F66FD5A23C0A2E06ED26CD2F</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>name</key>
+			<string>Podfile</string>
+			<key>path</key>
+			<string>../Podfile</string>
+			<key>sourceTree</key>
+			<string>SOURCE_ROOT</string>
+			<key>xcLanguageSpecificationIdentifier</key>
+			<string>xcode.lang.ruby</string>
+		</dict>
+		<key>BC0D38470EE42540EF16DB0CA9D1EFF6</key>
+		<dict>
+			<key>fileRef</key>
+			<string>D260ED42B04921D09FC7F71A7EB9C372</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C0042E26D8D94C1466A319142980C33C</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample-acknowledgements.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C251E3861F8768CDCCAF7843A90DFE77</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Info.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C36B1B75EA1AEBE7B2A54B30B88C3242</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>MotionAnimation.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C3B7BDF5CE5CB8F095FE12DA55D9A9BB</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>UIKit.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
+		<key>C718FCF6F4C22354402459A4C2B5E611</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>09D18D142547DBBE394A0C0A81D1687B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Targets Support Files</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C99A3F0B9855BC5309A6FD74239F6462</key>
+		<dict>
+			<key>fileRef</key>
+			<string>11FF9D5EE393BA302C02EF4C560F094F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C9BA13812F8A2C1CE7D890B0AF3A4B36</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample-resources.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CBEDBF842F064992A5FD8F1B7F38988D</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>C36B1B75EA1AEBE7B2A54B30B88C3242</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/MotionAnimation/MotionAnimation-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/MotionAnimation/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/MotionAnimation/MotionAnimation.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>YES</string>
+				<key>PRODUCT_NAME</key>
+				<string>MotionAnimation</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>SWIFT_OPTIMIZATION_LEVEL</key>
+				<string>-Onone</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>D260ED42B04921D09FC7F71A7EB9C372</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>MotionAnimation-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D41D8CD98F00B204E9800998ECF8427E</key>
+		<dict>
+			<key>attributes</key>
+			<dict>
+				<key>LastSwiftUpdateCheck</key>
+				<string>0700</string>
+				<key>LastUpgradeCheck</key>
+				<string>0700</string>
+			</dict>
+			<key>buildConfigurationList</key>
+			<string>2D8E8EC45A3A1A1D94AE762CB5028504</string>
+			<key>compatibilityVersion</key>
+			<string>Xcode 3.2</string>
+			<key>developmentRegion</key>
+			<string>English</string>
+			<key>hasScannedForEncodings</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXProject</string>
+			<key>knownRegions</key>
+			<array>
+				<string>en</string>
+			</array>
+			<key>mainGroup</key>
+			<string>7DB346D0F39D3F0E887471402A8071AB</string>
+			<key>productRefGroup</key>
+			<string>711D321970605EF0161EF5B79588C9AD</string>
+			<key>projectDirPath</key>
+			<string></string>
+			<key>projectReferences</key>
+			<array/>
+			<key>projectRoot</key>
+			<string></string>
+			<key>targets</key>
+			<array>
+				<string>28770D6271D52852A830DB5250969ADA</string>
+				<string>3B13CAB371636FB850241DC1F81018AE</string>
+			</array>
+		</dict>
+		<key>D46F7D1795AE835003AB5BAAF4B8FFCC</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>40129A00E567A0D7F83FEDBA1C87B74F</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>DB1847C0A72BAFA3EBBE86F4B5771A79</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>B951AB4570ACC8352F31896547E6DED9</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>E256AAD8CED5AEC73DEDE402664EB607</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>4E79378DCBD66E6A679ADE5A0FD8693A</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/Pods-MCollectionViewExample/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MACH_O_TYPE</key>
+				<string>staticlib</string>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>YES</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PODS_ROOT</key>
+				<string>$(SRCROOT)</string>
+				<key>PRODUCT_NAME</key>
+				<string>Pods_MCollectionViewExample</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>SWIFT_OPTIMIZATION_LEVEL</key>
+				<string>-Onone</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>E5966097FD571402B19B690CBB77AE21</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B39A68D78D0254F5AB01C0BD406BD66A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>E6C7F65C178FD1CF0D9F4B3473E77CE8</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>MotionAnimation.modulemap</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F48D88E9D5417CB97D90C2F3C828DC0D</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>C36B1B75EA1AEBE7B2A54B30B88C3242</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/MotionAnimation/MotionAnimation-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/MotionAnimation/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/MotionAnimation/MotionAnimation.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>PRODUCT_NAME</key>
+				<string>MotionAnimation</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>F49D0435B8B32492D50541A961560D24</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>MotionAnimation-umbrella.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>FB45FFD90572718D82AB9092B750F0CA</key>
+		<dict>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>gnu++0x</string>
+				<key>CLANG_CXX_LIBRARY</key>
+				<string>libc++</string>
+				<key>CLANG_ENABLE_MODULES</key>
+				<string>YES</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_WARN_BOOL_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
+				<string>YES</string>
+				<key>CLANG_WARN_EMPTY_BODY</key>
+				<string>YES</string>
+				<key>CLANG_WARN_ENUM_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_INT_CONVERSION</key>
+				<string>YES</string>
+				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
+				<string>YES</string>
+				<key>CLANG_WARN_UNREACHABLE_CODE</key>
+				<string>YES</string>
+				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
+				<string>YES</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>ENABLE_NS_ASSERTIONS</key>
+				<string>NO</string>
+				<key>GCC_C_LANGUAGE_STANDARD</key>
+				<string>gnu99</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>RELEASE=1</string>
+				</array>
+				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
+				<string>YES</string>
+				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_FUNCTION</key>
+				<string>YES</string>
+				<key>GCC_WARN_UNUSED_VARIABLE</key>
+				<string>YES</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>STRIP_INSTALLED_PRODUCT</key>
+				<string>NO</string>
+				<key>SYMROOT</key>
+				<string>${SRCROOT}/../build</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>FBCDBB5A72FFF49C02D7FDCF50EC9525</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0242ADAE3FCD74DF9D559D0483D01D80</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>FEBA9AC9FF26AFAA2FDD01F6233AB9F0</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text</string>
+			<key>path</key>
+			<string>Pods-MCollectionViewExample-acknowledgements.markdown</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+	</dict>
+	<key>rootObject</key>
+	<string>D41D8CD98F00B204E9800998ECF8427E</string>
+</dict>
+</plist>

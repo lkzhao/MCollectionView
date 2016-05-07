@@ -84,10 +84,8 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "$CONFIGURATION_BUILD_DIR/Changeset/Changeset.framework"
-  install_framework "$CONFIGURATION_BUILD_DIR/MotionAnimation/MotionAnimation.framework"
+  install_framework "Pods-MCollectionViewExample/MotionAnimation.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "$CONFIGURATION_BUILD_DIR/Changeset/Changeset.framework"
-  install_framework "$CONFIGURATION_BUILD_DIR/MotionAnimation/MotionAnimation.framework"
+  install_framework "Pods-MCollectionViewExample/MotionAnimation.framework"
 fi

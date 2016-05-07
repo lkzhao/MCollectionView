@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Changeset
 
 protocol MCollectionViewDataSource{
   func numberOfItemsInCollectionView(collectionView:MCollectionView) -> Int
@@ -82,7 +81,7 @@ class MCollectionView: MScrollView {
   private func removeCellFrom(inout map:DictionaryTwoWay<UIView, Int>, atIndex index:Int){
     if let cell = map[index]{
       dataSource?.collectionView(self, cellView: cell, willDisappearForIndex: index)
-      cell.stopAllAnimation()
+//      cell.stopAllAnimation()
       cell.removeFromSuperview()
       if let reusable = cell as? MCollectionReuseable, identifier = reusable.reuseIdentifier{
         if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell){

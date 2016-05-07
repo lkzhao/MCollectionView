@@ -28,14 +28,6 @@ class InputToolbarView: MCell {
       accessoryView.delegate = delegate
     }
   }
-  
-  var showShadow:Bool = false{
-    didSet{
-      if showShadow != oldValue{
-        self.m_animate("shadowOpacity", to: [(showShadow ? 0.3 : 0)], stiffness: 100, damping: 20)
-      }
-    }
-  }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -81,21 +73,21 @@ class InputToolbarView: MCell {
   var recordFileURL:NSURL!
   var meterTimer:NSTimer!
 
-  override func press(){
-    switch pressGR.state{
-    case .Began:
-      self.m_animate("scale", to: 0.95, damping: 10)
-    case .Changed:
-      break
-    default:
-      self.m_animate("scale", to: 1.0, damping: 10)
-      if CGRectContainsPoint(sendButton.frame, pressGR.locationInView(self)){
-        sendButtonTapped()
-      } else if CGRectContainsPoint(self.bounds, pressGR.locationInView(self)) && !textView.isFirstResponder() {
-        textView.becomeFirstResponder()
-      }
-    }
-  }
+//  override func press(){
+//    switch pressGR.state{
+//    case .Began:
+//      self.m_animate("scale", to: 0.95, damping: 10)
+//    case .Changed:
+//      break
+//    default:
+//      self.m_animate("scale", to: 1.0, damping: 10)
+//      if CGRectContainsPoint(sendButton.frame, pressGR.locationInView(self)){
+//        sendButtonTapped()
+//      } else if CGRectContainsPoint(self.bounds, pressGR.locationInView(self)) && !textView.isFirstResponder() {
+//        textView.becomeFirstResponder()
+//      }
+//    }
+//  }
 
   var shaking = false
   func sendButtonTapped(){
@@ -106,15 +98,15 @@ class InputToolbarView: MCell {
       if !shaking{
         shaking = true
         let originalCenter = center
-        self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
-          self.animateCenterTo(CGPointMake(originalCenter.x - 10, originalCenter.y), stiffness: 2500, threshold:150) {
-            self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
-              self.animateCenterTo(originalCenter, threshold:1) {
-                self.shaking = false
-              }
-            }
-          }
-        }
+//        self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
+//          self.animateCenterTo(CGPointMake(originalCenter.x - 10, originalCenter.y), stiffness: 2500, threshold:150) {
+//            self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
+//              self.animateCenterTo(originalCenter, threshold:1) {
+//                self.shaking = false
+//              }
+//            }
+//          }
+//        }
       }
     }
   }

@@ -15,7 +15,7 @@ class ViewController: UIViewController {
   let inputToolbarView = InputToolbarView()
 
   var sendingMessages:Set<Int> = []
-  var messages:[Message] = TestMessages
+  var messages:[Message] = TestDiaryMessages
   var animateLayout = false
   
   // cell reorder
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     collectionView.autoLayoutOnUpdate = false
     view.addSubview(collectionView)
 
-    inputToolbarView.delegate = self
+//    inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
 
     // stress test
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
     let inputSize = inputToolbarView.sizeThatFits(CGSizeMake(view.bounds.width - 2 * inputPadding, view.bounds.height))
     let inputToolbarFrame = CGRectMake(inputPadding, keyboardHeight - inputSize.height - inputPadding, view.bounds.width - 2*inputPadding, inputSize.height)
     if animateLayout{
-      inputToolbarView.animateCenterTo(inputToolbarFrame.center, stiffness: 300, damping: 25)
+      inputToolbarView.m_animate("center", to: inputToolbarFrame.center, stiffness: 300, damping: 25)
       inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 300, damping: 25)
     }else{
       inputToolbarView.center = inputToolbarFrame.center
@@ -150,12 +150,13 @@ extension ViewController: MCollectionViewDataSource{
       let lastMessage = messages[index-1]
       let lastFrame = collectionView.frames[index-1]
 
+      let maxWidth = view.bounds.width - 20
       if message.type == .Image &&
         lastMessage.type == .Image && message.alignment == lastMessage.alignment{
-          if message.alignment == .Left && CGRectGetMaxX(lastFrame) + cellFrame.width + 2 < 300{
+          if message.alignment == .Left && CGRectGetMaxX(lastFrame) + cellFrame.width + 2 < maxWidth{
             yHeight = CGRectGetMinY(lastFrame)
             xOffset = CGRectGetMaxX(lastFrame) + 2
-          } else if message.alignment == .Right && CGRectGetMinX(lastFrame) - cellFrame.width - 2 > view.bounds.width - 300{
+          } else if message.alignment == .Right && CGRectGetMinX(lastFrame) - cellFrame.width - 2 > view.bounds.width - maxWidth{
             yHeight = CGRectGetMinY(lastFrame)
             xOffset = CGRectGetMinX(lastFrame) - 2 - cellFrame.width
             cellFrame.origin.x = 0
@@ -208,39 +209,9 @@ extension ViewController: MCollectionViewDataSource{
   func collectionView(collectionView:MCollectionView, cellView:UIView, didUpdateScreenPositionForIndex index:Int, screenPosition:CGPoint)
   {
     if cellView != dragingCell{
-      cellView.animateCenterTo(adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
+      cellView.m_animate("center",to:adjustedRect(index).center, stiffness: 150, damping:20, threshold: 1)
     } else {
-      cellView.animateCenterTo(dragingCellCenter!, stiffness: 500, damping:25)
-    }
-  }
-}
-
-extension ViewController: InputToolbarViewDelegate{
-  func inputAccessoryViewDidUpdateFrame(frame:CGRect){
-    let oldContentInset = collectionView.contentInset
-    self.viewDidLayoutSubviews()
-    if oldContentInset != collectionView.contentInset{
-      anchorPoint = CGPointMake(view.bounds.center.x, view.bounds.center.y/2)
-      collectionView.scrollToBottom(true)
-    }
-  }
-  func send(audio: NSURL, length: NSTimeInterval) {
-    //    let msg = chat.sendAudioMessage(audio, length:length)
-    //    chat(chat, didReceiveNewMessage: msg)
-    //    scrollToEnd()
-  }
-  func send(text: String) {
-    let sendingMessage = Message(true,content: text);
-    sendingMessages.insert(messages.count)
-    messages.append(sendingMessage)
-    collectionView.reloadData()
-    collectionView.scrollToBottom(true)
-  }
-  func inputToolbarViewNeedFrameUpdate() {
-    let isAtBottom = collectionView.isAtBottom
-    self.viewDidLayoutSubviews()
-    if isAtBottom{
-      collectionView.scrollToBottom(true)
+      cellView.m_animate("center",to:dragingCellCenter!, stiffness: 500, damping:25)
     }
   }
 }
@@ -256,7 +227,7 @@ extension ViewController: MessageTextCellDelegate{
   func messageCellDidEndHolding(cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
     if let index = collectionView.indexOfView(cell){
       let center = collectionView.frames[index].center
-      cell.animateCenterTo(center)
+      cell.m_animate("center", to: center)
       dragingCell = nil
       cell.layer.zPosition = CGFloat(index)
     }
@@ -292,7 +263,6 @@ extension ViewController: MScrollViewDelegate{
   func scrollViewDidScroll(scrollView: MScrollView) {
     if inputToolbarView.textView.isFirstResponder(){
       if scrollView.draging && scrollView.panGestureRecognizer.velocityInView(scrollView).y > 100{
-        inputToolbarView.stopAllAnimation()
         inputToolbarView.textView.resignFirstResponder()
       }
     }

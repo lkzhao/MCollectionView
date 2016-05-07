@@ -62,16 +62,12 @@ class MessageTextCell: MCell {
           layer.shadowColor = UIColor(white: 0.8, alpha: 1.0).CGColor
         }
       }
+      showShadow = message.showShadow
     }
-  }
-  
-  var showShadow:Bool{
-    return kIsHighPerformanceDevice && message.showShadow
   }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    reuseIdentifier = "MessageTextCell"
     addSubview(textLabel)
     textLabel.frame = frame
     textLabel.numberOfLines = 0
@@ -91,40 +87,6 @@ class MessageTextCell: MCell {
     }
     textLabel.frame = CGRectInset(bounds, message.cellPadding, message.cellPadding)
     imageView?.frame = bounds
-  }
-  
-  
-  var holdTimer:NSTimer?
-  var holding = false
-  override func press(){
-    super.press()
-    switch pressGR.state{
-    case .Began:
-      holdTimer = NSTimer.schedule(delay: 0.5, handler: { (timer) -> Void in
-        self.holding = true
-        self.m_animate("scale", to: 1.1)
-        self.delegate?.messageCellDidBeginHolding(self, gestureRecognizer: self.pressGR)
-      })
-      break
-    case .Changed:
-      if holding{
-        delegate?.messageCellDidMoveWhileHolding(self, gestureRecognizer: pressGR)
-      }
-      break
-    default:
-      holdTimer?.invalidate()
-      holdTimer = nil
-      if holding {
-        delegate?.messageCellDidEndHolding(self, gestureRecognizer: pressGR)
-        holding = false
-      } else if CGRectContainsPoint(bounds, pressGR.locationInView(self)){
-        delegate?.messageCellDidTap(self)
-      }
-    }
-  }
-  
-  override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-    return false
   }
   
   static func sizeForText(text:String, fontSize:CGFloat, maxWidth:CGFloat, padding:CGFloat) -> CGSize{
@@ -153,7 +115,7 @@ class MessageTextCell: MCell {
       let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth, padding: message.cellPadding)
       return CGRectMake((containerWidth - size.width)/2, 0, size.width, size.height)
     } else {
-      let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: 200, padding: message.cellPadding)
+      let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth - 2*message.cellPadding, padding: message.cellPadding)
       let origin = CGPointMake(message.alignment == .Right ? containerWidth - size.width : 0, 0)
       return CGRect(origin: origin, size: size)
     }
