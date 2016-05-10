@@ -21,6 +21,7 @@ class MessageTextCell: MCell {
   
   var textLabel = UILabel()
   var imageView:UIImageView?
+  var pressGR:UILongPressGestureRecognizer!
 
   var message:Message!{
     didSet{
@@ -30,19 +31,20 @@ class MessageTextCell: MCell {
       
       layer.cornerRadius = message.roundedCornder ? 10 : 0
       
-      imageView?.removeFromSuperview()
       if message.type == .Image{
-        imageView = UIImageView(image: UIImage(named: message.content))
+        imageView = imageView ?? UIImageView()
+        imageView?.image = UIImage(named: message.content)
         imageView?.frame = bounds
         imageView?.contentMode = .ScaleAspectFill
         imageView?.clipsToBounds = true
         imageView?.layer.cornerRadius = layer.cornerRadius
         addSubview(imageView!)
       }else{
+        imageView?.removeFromSuperview()
         imageView = nil
       }
       
-      if showShadow{
+      if message.showShadow{
         layer.shadowOffset = CGSizeMake(0, 5)
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 8
@@ -50,19 +52,11 @@ class MessageTextCell: MCell {
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
       } else {
         layer.shadowOpacity = 0
-        backgroundColor = nil
+        layer.shadowColor = nil
       }
       
-      if message.type == .Text {
-        if message.fromCurrentUser{
-          backgroundColor = UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
-          layer.shadowColor = UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0).CGColor
-        } else {
-          backgroundColor = UIColor(white: showShadow ? 1.0 : 0.95, alpha: 1.0)
-          layer.shadowColor = UIColor(white: 0.8, alpha: 1.0).CGColor
-        }
-      }
-      showShadow = message.showShadow
+      layer.shadowColor = message.shadowColor.CGColor
+      backgroundColor = message.backgroundColor
     }
   }
   
@@ -74,6 +68,33 @@ class MessageTextCell: MCell {
     layer.shouldRasterize = true;
     layer.rasterizationScale = UIScreen.mainScreen().scale;
     opaque = true
+
+    pressGR = UILongPressGestureRecognizer(target: self, action: #selector(press))
+    pressGR.delegate = self
+    pressGR.minimumPressDuration = 0.5
+    addGestureRecognizer(pressGR)
+    
+//    self.m_addVelocityUpdateCallback("center", velocityUpdateCallback: CGPointObserver({ [weak self] velocity in
+//      self?.velocityUpdated(velocity)
+//      }))
+  }
+  
+  func press(){
+    switch pressGR.state{
+    case .Began:
+      tapAnimation = false
+      self.m_animate("scale", to: 1.1)
+      self.m_animate("xyRotation", to: CGPointZero, stiffness: 150, damping: 7)
+      delegate?.messageCellDidBeginHolding(self, gestureRecognizer: pressGR)
+      break
+    case .Changed:
+      delegate?.messageCellDidMoveWhileHolding(self, gestureRecognizer: pressGR)
+      break
+    default:
+      self.m_animate("scale", to: 1.0)
+      delegate?.messageCellDidEndHolding(self, gestureRecognizer: pressGR)
+      tapAnimation = true
+    }
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -82,7 +103,7 @@ class MessageTextCell: MCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    if showShadow {
+    if message?.showShadow ?? false {
       layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
     }
     textLabel.frame = CGRectInset(bounds, message.cellPadding, message.cellPadding)
@@ -119,5 +140,15 @@ class MessageTextCell: MCell {
       let origin = CGPointMake(message.alignment == .Right ? containerWidth - size.width : 0, 0)
       return CGRect(origin: origin, size: size)
     }
+  }
+}
+
+
+extension MessageTextCell:UIGestureRecognizerDelegate{
+  override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    if gestureRecognizer == self.pressGR{
+      return self.delegate != nil
+    }
+    return super.gestureRecognizerShouldBegin(gestureRecognizer)
   }
 }

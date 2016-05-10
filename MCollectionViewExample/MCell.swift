@@ -8,9 +8,6 @@
 
 import UIKit
 
-protocol MCollectionReuseable{
-  var reuseIdentifier:String?{get}
-}
 typealias TapHandler = (MCell)->Void
 
 class MCell: UIView {
@@ -53,8 +50,8 @@ class MCell: UIView {
     t = CATransform3DRotate(t, xyRotation.x, 1.0, 0, 0)
     t = CATransform3DRotate(t, xyRotation.y, 0, 1.0, 0)
     t = CATransform3DRotate(t, rotation, 0, 0, 1.0)
-    //    let k = Float((abs(xyRotation.x) + abs(xyRotation.y)) / π / 1.5)
-    //    layer.opacity = 1 - k
+    let k = Float((abs(xyRotation.x) + abs(xyRotation.y)) / CGFloat(M_PI) / 1.5)
+    layer.opacity = 1 - k
     return CATransform3DScale(t, scale, scale, 1.0)
   }
   
@@ -97,18 +94,30 @@ class MCell: UIView {
       }, setter:{ [weak self] values in
         self?.xyRotation = CGPoint.fromCGFloatValues(values)
       })
+
+    self.m_addVelocityUpdateCallback("center") { [weak self] (values) in
+      self?.velocityUpdated(CGPoint.fromCGFloatValues(values))
+    }
   }
   
-  func applyTheme(){
-    
+  var tilt3D = false{
+    didSet{
+      if tilt3D == false && xyRotation != CGPointZero{
+        self.m_animate("xyRotation", to:CGPointZero, stiffness: 200, damping: 20, threshold: 0.001)
+      }
+    }
+  }
+  func velocityUpdated(velocity: CGPoint) {
+    if tilt3D {
+      let maxRotate = CGFloat(M_PI)/6
+      let rotateX = -(velocity.y / 3000).clamp(-maxRotate,maxRotate)
+      let rotateY = (velocity.x / 3000).clamp(-maxRotate,maxRotate)
+      self.m_animate("xyRotation", to:CGPointMake(rotateX, rotateY), stiffness: 400, damping: 20, threshold: 0.001)
+    }
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  deinit{
-    NSNotificationCenter.defaultCenter().removeObserver(self)
   }
   
   override var bounds: CGRect{
@@ -123,17 +132,7 @@ class MCell: UIView {
     onTap?(self)
   }
   
-  private var appliedTheme = false
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    if !appliedTheme {
-      applyTheme()
-      appliedTheme = true
-    }
-  }
-  
   private(set) var holding = false
-  
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     super.touchesBegan(touches, withEvent: event)
     if let touch = touches.first where tapAnimation{

@@ -1,5 +1,5 @@
 //
-//  TestData.swift
+//  Messages.swift
 //  MCollectionViewExample
 //
 //  Created by YiLun Zhao on 2016-02-23.
@@ -84,6 +84,31 @@ class Message {
       return UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
     }
   }
+  
+  var backgroundColor:UIColor{
+    switch type{
+    case .Text:
+      if fromCurrentUser {
+        return UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
+      } else {
+        return UIColor(white: showShadow ? 1.0 : 0.95, alpha: 1.0)
+      }
+    default:
+      return UIColor.clearColor()
+    }
+  }
+  var shadowColor:UIColor{
+    switch type{
+    case .Text:
+      if fromCurrentUser {
+        return UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0)
+      } else {
+        return UIColor(white: 0.8, alpha: 1.0)
+      }
+    default:
+      return UIColor.clearColor()
+    }
+  }
   var alignment:MessageAlignment{
     switch type{
     case .Announcement: return .Center
@@ -124,74 +149,18 @@ class Message {
   }
 }
 
-let TestDiaryMessages = [
-  Message(false, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus accumsan bibendum tortor, vel ornare magna malesuada vel. Donec a nisi sed enim blandit molestie. Aenean imperdiet libero in purus hendrerit, tempor mollis augue venenatis. Morbi in ultricies nunc, hendrerit malesuada nulla. Nullam porta commodo vestibulum. Ut at tincidunt velit. Ut vel cursus nibh."),
-  Message(false, content: "Etiam lacinia velit sit amet mattis imperdiet. Vestibulum mattis malesuada ipsum. Aliquam fermentum elit id lectus mollis, sed lacinia lectus fringilla. Proin consequat, massa a mattis vulputate, turpis est lobortis felis, ut vehicula ipsum felis vel lorem. In imperdiet elementum velit ut eleifend. Vivamus tempor elit a dolor gravida semper. Integer imperdiet turpis vitae mauris interdum, non aliquam dui dictum."),
-  Message(false, image: "1"),
-  Message(false, image: "2"),
-  Message(false, image: "3"),
-  Message(false, image: "4"),
-  Message(false, image: "5"),
-  Message(false, image: "6"),
-]
 let TestMessages = [
-//  Message(announcement: "MCollectionView"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(announcement: "June 9th 11:30 PM"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(announcement: "Yesterday 11:30 PM"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(false, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(true, content: "Test Content"),
-//  Message(false, content: "Test Content"),
+  Message(announcement: "MCollectionView"),
+  Message(false, content: "Test Content"),
+  Message(true, content: "Test Content"),
+  Message(false, content: "Test Content"),
+  Message(false, content: "Test Content"),
+  Message(false, content: "Test Content"),
+  Message(true, content: "Test Content"),
+  Message(true, content: "Test Content"),
+  Message(true, content: "Test Content"),
+  Message(true, content: "Test Content"),
+  Message(false, content: "Test Content"),
   Message(true, content: "Test Content"),
   Message(announcement: "Today 9:30 AM"),
   Message(true, image: "l1"),
