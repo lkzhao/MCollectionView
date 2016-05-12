@@ -11,11 +11,6 @@ import UIKit
 typealias TapHandler = (MCell)->Void
 
 class MCell: UIView {
-  var identifier:String = ""{
-    didSet{
-      accessibilityIdentifier = identifier
-    }
-  }
   var onTap:TapHandler?{
     didSet{
       if tapGR == nil {
@@ -91,12 +86,12 @@ class MCell: UIView {
     
     self.m_defineCustomProperty("xyRotation", getter: { [weak self] values in
       self?.xyRotation.toCGFloatValues(&values)
-      }, setter:{ [weak self] values in
-        self?.xyRotation = CGPoint.fromCGFloatValues(values)
-      })
+    }, setter:{ [weak self] values in
+      self?.xyRotation = CGPoint.fromCGFloatValues(values)
+    })
 
-    self.m_addVelocityUpdateCallback("center") { [weak self] (values) in
-      self?.velocityUpdated(CGPoint.fromCGFloatValues(values))
+    self.m_addVelocityUpdateCallback("center") { [weak self] (v:CGPoint) in
+      self?.velocityUpdated(v)
     }
   }
   

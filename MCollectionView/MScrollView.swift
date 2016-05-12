@@ -1,6 +1,6 @@
 //
 //  MScrollView.swift
-//  MCollectionViewExample
+//  MCollectionView
 //
 //  Created by YiLun Zhao on 2016-02-20.
 //  Copyright © 2016 lkzhao. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import MotionAnimation
 
-@objc protocol MScrollViewDelegate{
+@objc public protocol MScrollViewDelegate{
   optional func scrollViewWillBeginDraging(scrollView:MScrollView)
   optional func scrollViewDidEndDraging(scrollView:MScrollView)
   optional func scrollViewWillStartScroll(scrollView:MScrollView)
@@ -165,18 +165,19 @@ class ScrollAnimation:MotionAnimation{
 
 
 
-class MScrollView: UIView {
-  var panGestureRecognizer:UIPanGestureRecognizer!
-  var scrollVelocity:CGPoint{
+public class MScrollView: UIView {
+  public weak var delegate:MScrollViewDelegate?
+  public var panGestureRecognizer:UIPanGestureRecognizer!
+  public var scrollVelocity:CGPoint{
     return scrollAnimation.velocity
   }
-  var contentOffset:CGPoint = CGPointZero{
+  public var contentOffset:CGPoint = CGPointZero{
     didSet{
       contentView.frame.origin = CGPointMake(-contentOffset.x+contentInset.left, -contentOffset.y+contentInset.top)
       didScroll()
     }
   }
-  var contentSize:CGSize{
+  public var contentSize:CGSize{
     get{
       return contentView.frame.size
     }
@@ -192,10 +193,10 @@ class MScrollView: UIView {
       }
     }
   }
-  var containerSize:CGSize{
+  public var containerSize:CGSize{
     return CGSizeMake(contentSize.width + contentInset.left + contentInset.right, contentSize.height + contentInset.top + contentInset.bottom)
   }
-  var contentInset:UIEdgeInsets = UIEdgeInsetsZero{
+  public var contentInset:UIEdgeInsets = UIEdgeInsetsZero{
     didSet{
       #if DEBUG
         print("contentInset changed: \(oldValue) -> \(contentInset)")
@@ -206,11 +207,11 @@ class MScrollView: UIView {
       }
     }
   }
-  var visibleFrame:CGRect{
+  public var visibleFrame:CGRect{
     return CGRect(origin: CGPointMake(contentOffset.x - contentInset.left, contentOffset.y - contentInset.top), size: bounds.size)
   }
 
-  var currentPageIndex:Int{
+  public var currentPageIndex:Int{
     if verticalScroll && !horizontalScroll{
       let height = bounds.height
       let page = Int( (contentOffset.y + height/2) / height )
@@ -223,18 +224,28 @@ class MScrollView: UIView {
     fatalError("paged scrollview should only be scrolled in one axis")
   }
   
-  var contentView:UIView
+  public let contentView:UIView = UIView(frame: CGRectZero)
   var scrollAnimation:ScrollAnimation!
   
-  var verticalScroll:Bool = true
-  var alwaysBounceVertical:Bool = false
-  var horizontalScroll:Bool = false
-  var alwaysBounceHorizontal:Bool = false
-  var bounces = true
+  public var verticalScroll:Bool = true
+  public var alwaysBounceVertical:Bool = false
+  public var horizontalScroll:Bool = false
+  public var alwaysBounceHorizontal:Bool = false
+  public var bounces = true
+  public var paged = false
+  public private(set) var draging = false
   
-  override init(frame: CGRect) {
-    contentView = UIView(frame: CGRectZero)
+  public override init(frame: CGRect) {
     super.init(frame: frame)
+    commoninit()
+  }
+  
+  public required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    commoninit()
+  }
+  
+  func commoninit(){
     addSubview(contentView)
     
     scrollAnimation = ScrollAnimation(scrollView: self)
@@ -245,7 +256,7 @@ class MScrollView: UIView {
       self?.willStartScroll()
     }
     
-    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(scroll(_:)))
+    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(scroll))
     panGestureRecognizer.delegate = self
     addGestureRecognizer(panGestureRecognizer)
   }
@@ -278,15 +289,9 @@ class MScrollView: UIView {
     return nil
   }
   
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   var startingContentOffset:CGPoint?
   var startingDragLocation = CGPointZero
   var dragLocation = CGPointZero
-  var draging = false
-  var paged = false
   var pageIndexBeforeDrag = 0
   func scroll(pan:UIPanGestureRecognizer){
     switch pan.state{
@@ -325,22 +330,22 @@ class MScrollView: UIView {
     }
   }
   
-  override func layoutSubviews() {
+  public override func layoutSubviews() {
     super.layoutSubviews()
     adjustContentOffsetIfNecessary()
   }
 
   func adjustContentOffsetIfNecessary(){
-    if !draging{
+    if !draging && scrollAnimation.targetOffsetX == nil && scrollAnimation.targetOffsetY == nil{
       scrollAnimation.animateDone()
     }
   }
   
-  func scrollToFrameVisible(frame:CGRect){
+  public func scrollToFrameVisible(frame:CGRect){
     
   }
 
-  func scrollToPage(index:Int, animate:Bool = false){
+  public func scrollToPage(index:Int, animate:Bool = false){
     let target = horizontalScroll ? CGPointMake(CGFloat(index) * bounds.width, 0) : CGPointMake(0, CGFloat(index) * bounds.height)
     if animate{
       scrollAnimation.animateToTargetOffset(target, stiffness: 200, damping: 20)
@@ -350,7 +355,7 @@ class MScrollView: UIView {
     }
   }
 
-  func scrollToBottom(animate:Bool = false){
+  public func scrollToBottom(animate:Bool = false){
     if draging || containerSize.height < bounds.height{
       return
     }
@@ -362,14 +367,13 @@ class MScrollView: UIView {
       contentOffset = target
     }
   }
-  var isAtBottom:Bool{
+  public var isAtBottom:Bool{
     return contentOffset.y >= bottomOffset.y || scrollAnimation.targetOffsetY >= bottomOffset.y
   }
-  var bottomOffset:CGPoint{
+  public var bottomOffset:CGPoint{
     return CGPointMake(0, containerSize.height - bounds.size.height)
   }
   
-  weak var delegate:MScrollViewDelegate?
   func didScroll(){
     delegate?.scrollViewScrolled?(self)
   }
@@ -382,7 +386,7 @@ class MScrollView: UIView {
 }
 
 extension MScrollView:UIGestureRecognizerDelegate{
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         let superValue = super.gestureRecognizerShouldBegin(gestureRecognizer)
         if gestureRecognizer == panGestureRecognizer && superValue {
             let v = panGestureRecognizer.velocityInView(self.contentView)

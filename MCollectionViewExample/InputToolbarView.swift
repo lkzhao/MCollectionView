@@ -43,8 +43,8 @@ class InputToolbarView: MCell {
     layer.shadowRadius = 30
     layer.shadowColor = UIColor(white: 0.3, alpha: 1.0).CGColor
     layer.cornerRadius = 10
-    self.m_defineCustomProperty("shadowOpacity", initialValues: 0) { (values) -> Void in
-      self.layer.shadowOpacity = Float(values[0])
+    self.m_defineCustomProperty("shadowOpacity", initialValues: 0) { (v:CGFloat) -> Void in
+      self.layer.shadowOpacity = Float(v)
     }
     backgroundColor = UIColor(white: 0.97, alpha: 0.97)
     
@@ -92,7 +92,7 @@ class InputToolbarView: MCell {
     } else {
       if !shaking{
         shaking = true
-        let originalCenter = center
+//        let originalCenter = center
         //        self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
         //          self.animateCenterTo(CGPointMake(originalCenter.x - 10, originalCenter.y), stiffness: 2500, threshold:150) {
         //            self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {

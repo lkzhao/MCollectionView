@@ -8,15 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		6838253C5218F9DEE9569A34 /* Pods_MCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03483F4D849E1E8E7B16E55C /* Pods_MCollectionViewExample.framework */; };
+		A351C3481CE4CCD2005E15A7 /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */; };
+		A351C3491CE4CCD2005E15A7 /* MCollectionViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */; };
+		A351C34A1CE4CCD2005E15A7 /* MScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3471CE4CCD2005E15A7 /* MScrollView.swift */; };
 		A372A3691C79567A0023C797 /* MessageTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageTextCell.swift */; };
 		A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36A1C7979EB0023C797 /* InputToolbarView.swift */; };
 		A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */; };
-		A376F1711CE24D4500AC957B /* DictionaryTwoWay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376F16C1CE24D4500AC957B /* DictionaryTwoWay.swift */; };
-		A376F1721CE24D4500AC957B /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376F16D1CE24D4500AC957B /* MCollectionView.swift */; };
-		A376F1731CE24D4500AC957B /* MCollectionView+Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376F16E1CE24D4500AC957B /* MCollectionView+Section.swift */; };
-		A376F1741CE24D4500AC957B /* MScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376F16F1CE24D4500AC957B /* MScrollView.swift */; };
-		A376F1751CE24D4500AC957B /* MDynamicSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376F1701CE24D4500AC957B /* MDynamicSectionController.swift */; };
-		A376F1771CE24D6E00AC957B /* CGPoint+LZAddtion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376F1761CE24D6E00AC957B /* CGPoint+LZAddtion.swift */; };
 		A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -31,15 +28,12 @@
 		3D8612B153359345EAA68075 /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
 		5AA490A72F36FAF89A094DE5 /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 		9895E98B2E807431B160DEAB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionView.swift; path = MCollectionView/MCollectionView.swift; sourceTree = SOURCE_ROOT; };
+		A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewUtil.swift; path = MCollectionView/MCollectionViewUtil.swift; sourceTree = SOURCE_ROOT; };
+		A351C3471CE4CCD2005E15A7 /* MScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollView.swift; path = MCollectionView/MScrollView.swift; sourceTree = SOURCE_ROOT; };
 		A372A3681C79567A0023C797 /* MessageTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		A372A36A1C7979EB0023C797 /* InputToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = InputToolbarView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryFollowView.swift; sourceTree = "<group>"; };
-		A376F16C1CE24D4500AC957B /* DictionaryTwoWay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryTwoWay.swift; sourceTree = "<group>"; };
-		A376F16D1CE24D4500AC957B /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionView.swift; sourceTree = "<group>"; };
-		A376F16E1CE24D4500AC957B /* MCollectionView+Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MCollectionView+Section.swift"; sourceTree = "<group>"; };
-		A376F16F1CE24D4500AC957B /* MScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MScrollView.swift; sourceTree = "<group>"; };
-		A376F1701CE24D4500AC957B /* MDynamicSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDynamicSectionController.swift; sourceTree = "<group>"; };
-		A376F1761CE24D6E00AC957B /* CGPoint+LZAddtion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+LZAddtion.swift"; sourceTree = "<group>"; };
 		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MCell.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,15 +66,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A351C3441CE4C917005E15A7 /* ChatExample */ = {
+			isa = PBXGroup;
+			children = (
+				A3DDEECE1C7D88430053BFAE /* Messages.swift */,
+				A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */,
+				A372A3681C79567A0023C797 /* MessageTextCell.swift */,
+				A372A36A1C7979EB0023C797 /* InputToolbarView.swift */,
+				A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */,
+			);
+			name = ChatExample;
+			sourceTree = "<group>";
+		};
 		A3DDEED01C7D893D0053BFAE /* MCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				A376F1761CE24D6E00AC957B /* CGPoint+LZAddtion.swift */,
-				A376F16C1CE24D4500AC957B /* DictionaryTwoWay.swift */,
-				A376F16D1CE24D4500AC957B /* MCollectionView.swift */,
-				A376F16E1CE24D4500AC957B /* MCollectionView+Section.swift */,
-				A376F16F1CE24D4500AC957B /* MScrollView.swift */,
-				A376F1701CE24D4500AC957B /* MDynamicSectionController.swift */,
+				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
+				A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */,
+				A351C3471CE4CCD2005E15A7 /* MScrollView.swift */,
 			);
 			name = MCollectionView;
 			sourceTree = "<group>";
@@ -119,12 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				A3DDEED01C7D893D0053BFAE /* MCollectionView */,
-				A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */,
-				A3DDEECE1C7D88430053BFAE /* Messages.swift */,
-				A372A3681C79567A0023C797 /* MessageTextCell.swift */,
 				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
-				A372A36A1C7979EB0023C797 /* InputToolbarView.swift */,
-				A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */,
+				A351C3441CE4C917005E15A7 /* ChatExample */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);
 			path = MCollectionViewExample;
@@ -264,17 +263,14 @@
 			files = (
 				A372A3691C79567A0023C797 /* MessageTextCell.swift in Sources */,
 				A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */,
-				A376F1731CE24D4500AC957B /* MCollectionView+Section.swift in Sources */,
+				A351C3491CE4CCD2005E15A7 /* MCollectionViewUtil.swift in Sources */,
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,
-				A376F1711CE24D4500AC957B /* DictionaryTwoWay.swift in Sources */,
-				A376F1771CE24D6E00AC957B /* CGPoint+LZAddtion.swift in Sources */,
-				A376F1751CE24D4500AC957B /* MDynamicSectionController.swift in Sources */,
 				A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */,
+				A351C34A1CE4CCD2005E15A7 /* MScrollView.swift in Sources */,
+				A351C3481CE4CCD2005E15A7 /* MCollectionView.swift in Sources */,
 				A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
-				A376F1721CE24D4500AC957B /* MCollectionView.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
-				A376F1741CE24D4500AC957B /* MScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +386,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = MCollectionViewExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.MCollectionViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -403,6 +400,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = MCollectionViewExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.MCollectionViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";

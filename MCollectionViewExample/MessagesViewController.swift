@@ -31,7 +31,7 @@ class MessagesViewController: UIViewController {
   var startingDragLocation:CGPoint?
   var startingCellCenter:CGPoint?
   var dragingCellCenter:CGPoint?
-  var lastMoveTimer:NSTimer?
+  var canReorder = true
 
   var keyboardHeight:CGFloat{
     if let keyboardFrame = inputToolbarView.keyboardFrame{
@@ -156,7 +156,6 @@ extension MessagesViewController: MCollectionViewDataSource{
         self.sendingMessages.remove(indexPath.item)
       }
       cellView.m_animate("alpha", to: 1.0, damping: 25)
-      
       //      cellView.m_animate("center",to:frame!.center, stiffness: 150, damping:20, threshold: 1)
     } else if messages[indexPath.item].alignment == .Left{
       let center = cellView.center
@@ -213,6 +212,11 @@ extension MessagesViewController: InputToolbarViewDelegate{
     messages.append(sendingMessage)
     collectionView.reloadData()
     collectionView.scrollToBottom(true)
+    delay(1.0) { 
+      self.messages.append(Message(false,content: text))
+      self.collectionView.reloadData()
+      self.collectionView.scrollToBottom(true)
+    }
   }
   func inputToolbarViewNeedFrameUpdate() {
     let isAtBottom = collectionView.isAtBottom
@@ -248,16 +252,16 @@ extension MessagesViewController: MessageTextCellDelegate{
       var velocity = CGPointZero
       dragingCellCenter = view.convertPoint(center, fromView:collectionView.contentView)
       let fingerPosition = gestureRecognizer.locationInView(view)
-      print(collectionView.indexPathForItemAtPoint(center)?.item, index)
       if fingerPosition.y < 80 && collectionView.contentOffset.y > 0{
         velocity.y = -(80 - fingerPosition.y) * 30
       } else if fingerPosition.y > view.bounds.height - 80 &&
         collectionView.contentOffset.y + collectionView.bounds.height < collectionView.containerSize.height{
         velocity.y = (fingerPosition.y - (view.bounds.height - 80)) * 30
-      } else if let toIndex = collectionView.indexPathForItemAtPoint(center)?.item where toIndex != index && lastMoveTimer == nil{
-        lastMoveTimer = NSTimer.schedule(delay: 0.5, handler: { (timer) in
-          self.lastMoveTimer = nil
-        })
+      } else if let toIndex = collectionView.indexPathForItemAtPoint(center)?.item where toIndex != index && canReorder{
+        canReorder = false
+        delay(0.5) {
+          self.canReorder = true
+        }
         moveMessageAtIndex(index, toIndex: toIndex)
       }
       collectionView.scrollAnimation.velocity = velocity
@@ -273,10 +277,11 @@ extension MessagesViewController: MessageTextCellDelegate{
       var center = startingCellCenter!
       let newLocation = gestureRecognizer.locationInView(collectionView) + collectionView.contentOffset
       center = center + newLocation - startingDragLocation!
-      if let toIndex = collectionView.indexPathForItemAtPoint(center)?.item where toIndex != index && lastMoveTimer == nil{
-        lastMoveTimer = NSTimer.schedule(delay: 0.5, handler: { (timer) in
-          self.lastMoveTimer = nil
-        })
+      if let toIndex = collectionView.indexPathForItemAtPoint(center)?.item where toIndex != index && canReorder{
+        canReorder = false
+        delay(0.5) {
+          self.canReorder = true
+        }
         moveMessageAtIndex(index, toIndex: toIndex)
         center = collectionView.frameForIndexPath(NSIndexPath(forItem: toIndex, inSection: 0))!.center
       } else {
@@ -294,7 +299,6 @@ extension MessagesViewController: MessageTextCellDelegate{
     
   }
   func moveMessageAtIndex(index:Int, toIndex:Int){
-//    collection?.movePostAtIndex?(index, toIndex: toIndex)
     if index == toIndex {
       return
     }
@@ -306,28 +310,29 @@ extension MessagesViewController: MessageTextCellDelegate{
 
 extension MessagesViewController: MScrollViewDelegate{
   func scrollViewScrolled(scrollView: MScrollView) {
+    // dismiss keyboard
     if inputToolbarView.textView.isFirstResponder(){
       if scrollView.draging && scrollView.panGestureRecognizer.velocityInView(scrollView).y > 100{
         inputToolbarView.textView.resignFirstResponder()
       }
     }
-    if scrollView.contentOffset.y < 200{
-      if loading == false{
-        loading = true
-        NSTimer.schedule(delay: 0.5, handler: { (timer) in
-          var newMessage:[Message] = []
-          for i in TestMessages{
-            newMessage.append(i.copy())
-          }
-          let currentOffsetDiff = self.collectionView.frames[0][0].minY - self.collectionView.contentOffset.y
-          self.messages = newMessage + self.messages
-          print("load new messages count:\(self.messages.count)")
-          self.collectionView.reloadData() {
-            let offset = self.collectionView.frames[0][newMessage.count].minY - currentOffsetDiff
-            self.collectionView.contentOffset.y = offset
-          }
-          self.loading = false
-        })
+    
+    // load more messages if we scrolled to the top
+    if scrollView.contentOffset.y < 200 && loading == false{
+      loading = true
+      delay(0.5){
+        var newMessage:[Message] = []
+        for i in TestMessages{
+          newMessage.append(i.copy())
+        }
+        let currentOffsetDiff = self.collectionView.frames[0][0].minY - self.collectionView.contentOffset.y
+        self.messages = newMessage + self.messages
+        print("load new messages count:\(self.messages.count)")
+        self.collectionView.reloadData() {
+          let offset = self.collectionView.frames[0][newMessage.count].minY - currentOffsetDiff
+          self.collectionView.contentOffset.y = offset
+        }
+        self.loading = false
       }
     }
     inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.bottomOffset.y - 10 || inputToolbarView.textView.isFirstResponder()

@@ -1,6 +1,6 @@
 //
 //  MCollectionView.swift
-//  MCollectionViewExample
+//  MCollectionView
 //
 //  Created by YiLun Zhao on 2016-02-12.
 //  Copyright © 2016 lkzhao. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol MCollectionViewDataSource{
+@objc public protocol MCollectionViewDataSource{
   func numberOfSectionsInCollectionView(collectionView:MCollectionView) -> Int
   optional func numberOfNegativeSectionsInCollectionView(collectionView:MCollectionView) -> Int
   func collectionView(collectionView:MCollectionView, numberOfItemsInSection section:Int) -> Int
@@ -31,23 +31,9 @@ import UIKit
   optional func collectionView(collectionView:MCollectionView, cellView:UIView, didUpdateScreenPositionForIndexPath indexPath:NSIndexPath, screenPosition:CGPoint)
 }
 
-class MCollectionView: MScrollView {
-  var debugName:String = ""
-  weak var dataSource:MCollectionViewDataSource?
-
-  private var singleSectionManager:MCollectionViewSingleSectionManager?
-  weak var singleSectionDataSource:MCollectionViewSingleSectionDataSource?{
-    didSet{
-      if let singleSectionDataSource = singleSectionDataSource {
-        singleSectionManager = MCollectionViewSingleSectionManager()
-        singleSectionManager!.singleSectionDataSource = singleSectionDataSource
-        dataSource = singleSectionManager
-      } else {
-        dataSource = nil
-        singleSectionManager = nil
-      }
-    }
-  }
+public class MCollectionView: MScrollView {
+  public var debugName:String = ""
+  public weak var dataSource:MCollectionViewDataSource?
 
   // the computed frames for cells, constructed in reloadData
   var frames:[[CGRect]] = []
@@ -55,20 +41,20 @@ class MCollectionView: MScrollView {
   // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
   // set when they are loaded or when the collection view scrolls
   // turn this off if you want to have different frame set
-  var autoLayoutOnUpdate = true
+  public var autoLayoutOnUpdate = true
 
-  var wabble = false
+  public var wabble = false
 
-  var innerSize:CGSize {
+  public var innerSize:CGSize {
     return CGSizeMake(bounds.width - contentInset.left - contentInset.right, bounds.height - contentInset.top - contentInset.bottom)
   }
 
   // Continuous Layout optimization
-  var optimizeForContinuousLayout = true
+  public var optimizeForContinuousLayout = true
   var visibleIndexStart = NSIndexPath(forItem: 0, inSection: 0)
   var visibleIndexEnd = NSIndexPath(forItem: 0, inSection: 0)
-  var visibleIndexes:Set<NSIndexPath> = []
-  var visibleCells:[UIView]{
+  public var visibleIndexes:Set<NSIndexPath> = []
+  public var visibleCells:[UIView]{
     var cells:[UIView] = []
     for cellIndex in visibleIndexes{
       if let cell = cellForIndexPath(cellIndex){
@@ -78,7 +64,7 @@ class MCollectionView: MScrollView {
     return cells
   }
 
-  func previousIndex(index:NSIndexPath) -> NSIndexPath?{
+  public func previousIndex(index:NSIndexPath) -> NSIndexPath?{
     if index.item > 0{
       return NSIndexPath(forItem: index.item - 1, inSection: index.section)
     }
@@ -91,7 +77,7 @@ class MCollectionView: MScrollView {
     }
     return nil
   }
-  func nextIndex(index:NSIndexPath) -> NSIndexPath?{
+  public func nextIndex(index:NSIndexPath) -> NSIndexPath?{
     if let sectionFrames = framesForSectionIndex(index.section) where sectionFrames.count > index.item + 1{
       return NSIndexPath(forItem: index.item + 1, inSection: index.section)
     }
@@ -110,22 +96,14 @@ class MCollectionView: MScrollView {
   var identifiersToIndexMap:DictionaryTwoWay<String, NSIndexPath> = [:]
 
 
-  var numberOfItems:Int{
+  public var numberOfItems:Int{
     return frames.reduce(0, combine: { (count, section) -> Int in
       return count + section.count
     })
   }
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-
   var lastReloadFrame:CGRect?
-  override func layoutSubviews() {
+  public override func layoutSubviews() {
     super.layoutSubviews()
     if frame != lastReloadFrame {
       lastReloadFrame = frame
@@ -155,7 +133,6 @@ class MCollectionView: MScrollView {
     }
     return intersect
   }
-
   func calculateVisibleIndexesUsingOptimizedMethod() -> Set<NSIndexPath> {
     var indexes = Set<NSIndexPath>()
     let currentFrame = activeFrame
@@ -224,7 +201,7 @@ class MCollectionView: MScrollView {
     return indexes
   }
   
-  func indexPathForItemAtPoint(point:CGPoint) -> NSIndexPath?{
+  public func indexPathForItemAtPoint(point:CGPoint) -> NSIndexPath?{
     for (i, s) in frames.enumerate(){
       for (j, f) in s.enumerate(){
         if f.contains(point){
@@ -235,16 +212,16 @@ class MCollectionView: MScrollView {
     return nil
   }
 
-  func cellForIndexPath(indexPath:NSIndexPath) -> UIView?{
+  public func cellForIndexPath(indexPath:NSIndexPath) -> UIView?{
     return visibleCellToIndexMap[indexPath]
   }
 
   private var reusableViews:[String:[UIView]] = [:]
-  func dequeueReusableView<T:UIView> (viewClass: T.Type) -> T?{
+  public func dequeueReusableView<T:UIView> (viewClass: T.Type) -> T?{
     return reusableViews[String(viewClass)]?.popLast() as? T
   }
 
-  func frameForIndexPath(indexPath:NSIndexPath?) -> CGRect?{
+  public func frameForIndexPath(indexPath:NSIndexPath?) -> CGRect?{
     if let indexPath = indexPath, section = framesForSectionIndex(indexPath.section){
       if section.count > indexPath.item {
         return section[indexPath.item]
@@ -252,7 +229,7 @@ class MCollectionView: MScrollView {
     }
     return nil
   }
-  func framesForSectionIndex(index:Int) -> [CGRect]?{
+  public func framesForSectionIndex(index:Int) -> [CGRect]?{
     if index < 0{
       return nil
     } else {
@@ -296,14 +273,14 @@ class MCollectionView: MScrollView {
     }
   }
 
-  var activeFrameSlop:UIEdgeInsets?{
+  public var activeFrameSlop:UIEdgeInsets?{
     didSet{
       if !reloading && activeFrameSlop != oldValue{
         loadCells()
       }
     }
   }
-  var activeFrame:CGRect{
+  public var activeFrame:CGRect{
     if let activeFrameSlop = activeFrameSlop{
       return CGRectMake(visibleFrame.origin.x + activeFrameSlop.left, visibleFrame.origin.y + activeFrameSlop.top, visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else if wabble {
@@ -336,7 +313,7 @@ class MCollectionView: MScrollView {
     }
   }
 
-  func adjustedRect(indexPath:NSIndexPath) -> CGRect{
+  public func adjustedRect(indexPath:NSIndexPath) -> CGRect{
     let screenDragLocation = contentOffset + dragLocation
     let cellFrame = frameForIndexPath(indexPath)!
     //        let cellOffset = abs(cellFrame.center.y - screenDragLocation.y) * collectionView.scrollVelocity / 5000
@@ -346,24 +323,24 @@ class MCollectionView: MScrollView {
 
 
 
-  func indexPathOfView(view:UIView) -> NSIndexPath?{
+  public func indexPathOfView(view:UIView) -> NSIndexPath?{
     if reloading {
       fatalError("shouldn't call index of view during reload -> wrong index might be returned")
     }
     return visibleCellToIndexMap[view]
   }
 
-  func reloadCellAtIndexPath(indexPath:NSIndexPath){
+  public func reloadCellAtIndexPath(indexPath:NSIndexPath){
     if visibleIndexes.contains(indexPath) {
       removeCellFrom(&visibleCellToIndexMap, atIndexPath: indexPath)
       insertCellTo(&visibleCellToIndexMap, atIndexPath: indexPath)
     }
   }
 
-  private(set) var reloading = false
+  public private(set) var reloading = false
   // reload number of cells and all their frames
   // similar to [UICollectionView invalidateLayout]
-  func reloadData(framesLoadedBlock:(()->Void)? = nil){
+  public func reloadData(framesLoadedBlock:(()->Void)? = nil){
 //    print("\(debugName) reloadData")
     if debugName == ""{
 
@@ -393,6 +370,12 @@ class MCollectionView: MScrollView {
     let oldContentOffset = contentOffset
     framesLoadedBlock?()
     let contentOffsetDiff = contentOffset - oldContentOffset
+    if let targetY = scrollAnimation.targetOffsetY {
+      scrollAnimation.targetOffsetY = targetY + contentOffsetDiff.y
+    }
+    if let targetX = scrollAnimation.targetOffsetX {
+      scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
+    }
 
     visibleIndexStart = firstVisibleIndex() ?? NSIndexPath(forItem: 0, inSection: 0)
     visibleIndexEnd = visibleIndexStart
@@ -442,8 +425,8 @@ class MCollectionView: MScrollView {
     self.dataSource?.collectionViewDidReload?(self)
   }
 
-  var floatingCells:[UIView] = []
-  func layoutCellsIfNecessary(){
+  public var floatingCells:[UIView] = []
+  public func layoutCellsIfNecessary(){
     if autoLayoutOnUpdate {
       for (indexPath, cell) in visibleCellToIndexMap.ts{
         if !floatingCells.contains(cell) {
@@ -470,9 +453,11 @@ class MCollectionView: MScrollView {
   var cleanupTimer:NSTimer?
   override func didEndScroll() {
     super.didEndScroll()
-    cleanupTimer = NSTimer.schedule(delay: 0.1) { [weak self] (timer) -> Void in
-      self?.reusableViews.removeAll()
-    }
+    cleanupTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
+  }
+  
+  func cleanup(){
+    reusableViews.removeAll()
   }
 
   deinit{
