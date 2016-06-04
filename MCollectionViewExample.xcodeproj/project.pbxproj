@@ -69,6 +69,7 @@
 		A351C3441CE4C917005E15A7 /* ChatExample */ = {
 			isa = PBXGroup;
 			children = (
+				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
 				A3DDEECE1C7D88430053BFAE /* Messages.swift */,
 				A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */,
 				A372A3681C79567A0023C797 /* MessageTextCell.swift */,
@@ -122,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				A3DDEED01C7D893D0053BFAE /* MCollectionView */,
-				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
 				A351C3441CE4C917005E15A7 /* ChatExample */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);

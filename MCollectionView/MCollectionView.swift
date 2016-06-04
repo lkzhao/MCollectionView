@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public protocol MCollectionViewDataSource{
+@objc public protocol MCollectionViewDelegate{
   func numberOfSectionsInCollectionView(collectionView:MCollectionView) -> Int
   optional func numberOfNegativeSectionsInCollectionView(collectionView:MCollectionView) -> Int
   func collectionView(collectionView:MCollectionView, numberOfItemsInSection section:Int) -> Int
@@ -33,7 +33,7 @@ import UIKit
 
 public class MCollectionView: MScrollView {
   public var debugName:String = ""
-  public weak var dataSource:MCollectionViewDataSource?
+  public weak var collectionDelegate:MCollectionViewDelegate?
 
   // the computed frames for cells, constructed in reloadData
   var frames:[[CGRect]] = []
@@ -239,7 +239,7 @@ public class MCollectionView: MScrollView {
 
   private func removeCellFrom(inout map:DictionaryTwoWay<UIView, NSIndexPath>, atIndexPath indexPath:NSIndexPath){
     if let cell = map[indexPath]{
-      dataSource?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
+      collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
       cell.m_removeAnimationForKey("center")
       cell.removeFromSuperview()
 
@@ -253,23 +253,23 @@ public class MCollectionView: MScrollView {
     }
   }
   private func insertCellTo(inout map:DictionaryTwoWay<UIView, NSIndexPath>, atIndexPath indexPath:NSIndexPath){
-    if let cell = dataSource?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForIndexPath(indexPath)!) where map[cell] == nil{
+    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForIndexPath(indexPath)!) where map[cell] == nil{
       map[cell] = indexPath
       contentView.addSubview(cell)
-      dataSource?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
+      collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
     }
   }
   private func deleteOnScreenCellAtIndex(indexPath:NSIndexPath){
     if let cell = visibleCellToIndexMap[indexPath]{
-      dataSource?.collectionView?(self, didDeleteCellView: cell, atIndexPath: indexPath)
+      collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndexPath: indexPath)
       visibleCellToIndexMap.remove(indexPath)
     }
   }
   private func insertOnScreenCellTo(inout map:DictionaryTwoWay<UIView, NSIndexPath>, atIndexPath indexPath:NSIndexPath){
-    if let cell = dataSource?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForIndexPath(indexPath)!) where map[cell] == nil{
+    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForIndexPath(indexPath)!) where map[cell] == nil{
       map[cell] = indexPath
       contentView.addSubview(cell)
-      dataSource?.collectionView?(self, didInsertCellView: cell, atIndexPath: indexPath)
+      collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndexPath: indexPath)
     }
   }
 
@@ -309,7 +309,7 @@ public class MCollectionView: MScrollView {
     visibleIndexes = indexes
     layoutCellsIfNecessary()
     for (indexPath, cell) in visibleCellToIndexMap.ts{
-      dataSource?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:indexPath, screenPosition:cell.center - contentOffset)
+      collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:indexPath, screenPosition:cell.center - contentOffset)
     }
   }
 
@@ -345,21 +345,21 @@ public class MCollectionView: MScrollView {
     if debugName == ""{
 
     }
-    self.dataSource?.collectionViewWillReload?(self)
+    self.collectionDelegate?.collectionViewWillReload?(self)
     reloading = true
     frames = []
     var newIdentifiersToIndexMap:DictionaryTwoWay<String,NSIndexPath> = [:]
     var newVisibleCellToIndexMap:DictionaryTwoWay<UIView,NSIndexPath> = [:]
     var unionFrame = CGRectZero
-    if let count = dataSource?.numberOfSectionsInCollectionView(self){
+    if let count = collectionDelegate?.numberOfSectionsInCollectionView(self){
       frames.reserveCapacity(count)
       for i in 0..<count{
-        let sectionItemsCount = dataSource?.collectionView(self, numberOfItemsInSection: i) ?? 0
+        let sectionItemsCount = collectionDelegate?.collectionView(self, numberOfItemsInSection: i) ?? 0
         frames.append([CGRect]())
         for j in 0..<sectionItemsCount{
           let indexPath = NSIndexPath(forItem: j, inSection: i)
-          let frame = dataSource!.collectionView(self, frameForIndexPath: indexPath)
-          let identifier = dataSource!.collectionView(self, identifierForIndexPath: indexPath)
+          let frame = collectionDelegate!.collectionView(self, frameForIndexPath: indexPath)
+          let identifier = collectionDelegate!.collectionView(self, identifierForIndexPath: indexPath)
           newIdentifiersToIndexMap[identifier] = indexPath
           unionFrame = CGRectUnion(unionFrame, frame)
           frames[i].append(frame)
@@ -400,9 +400,9 @@ public class MCollectionView: MScrollView {
       cell.center = cell.center + contentOffsetDiff
       newVisibleCellToIndexMap[newIndex] = cell
       if oldIndex == newIndex{
-        dataSource?.collectionView?(self, didReloadCellView: cell, atIndexPath: newIndex)
+        collectionDelegate?.collectionView?(self, didReloadCellView: cell, atIndexPath: newIndex)
       } else {
-        dataSource?.collectionView?(self, didMoveCellView: cell, fromIndexPath: oldIndex, toIndexPath: newIndex)
+        collectionDelegate?.collectionView?(self, didMoveCellView: cell, fromIndexPath: oldIndex, toIndexPath: newIndex)
       }
     }
     for identifier in deletedVisibleIdentifiers{
@@ -419,10 +419,10 @@ public class MCollectionView: MScrollView {
     identifiersToIndexMap = newIdentifiersToIndexMap
     layoutCellsIfNecessary()
     for (index, cell) in visibleCellToIndexMap.ts{
-      dataSource?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:index, screenPosition:cell.center - contentOffset)
+      collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:index, screenPosition:cell.center - contentOffset)
     }
     reloading = false
-    self.dataSource?.collectionViewDidReload?(self)
+    self.collectionDelegate?.collectionViewDidReload?(self)
   }
 
   public var floatingCells:[UIView] = []

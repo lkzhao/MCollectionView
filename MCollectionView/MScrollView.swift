@@ -53,7 +53,7 @@ class ScrollAnimation:MotionAnimation{
       let finalOffsetY = CGFloat(page) * height
       if finalOffsetY >= 0 && finalOffsetY <= scrollView.contentSize.height{
         if scrollView.pageIndexBeforeDrag != page{
-          scrollView.delegate?.scrollView?(scrollView, willSwitchFromPage:scrollView.pageIndexBeforeDrag, toPage:page)
+          scrollView.scrollDelegate?.scrollView?(scrollView, willSwitchFromPage:scrollView.pageIndexBeforeDrag, toPage:page)
         }
         targetOffsetY = finalOffsetY
         stiffness.y = 100
@@ -72,7 +72,7 @@ class ScrollAnimation:MotionAnimation{
       let finalOffsetX = CGFloat(page) * width
       if finalOffsetX >= 0 && finalOffsetX <= scrollView.contentSize.width{
         if scrollView.pageIndexBeforeDrag != page{
-          scrollView.delegate?.scrollView?(scrollView, willSwitchFromPage:scrollView.pageIndexBeforeDrag, toPage:page)
+          scrollView.scrollDelegate?.scrollView?(scrollView, willSwitchFromPage:scrollView.pageIndexBeforeDrag, toPage:page)
         }
         targetOffsetX = finalOffsetX
         stiffness.x = 100
@@ -166,7 +166,7 @@ class ScrollAnimation:MotionAnimation{
 
 
 public class MScrollView: UIView {
-  public weak var delegate:MScrollViewDelegate?
+  public weak var scrollDelegate:MScrollViewDelegate?
   public var panGestureRecognizer:UIPanGestureRecognizer!
   public var scrollVelocity:CGPoint{
     return scrollAnimation.velocity
@@ -301,7 +301,7 @@ public class MScrollView: UIView {
       startingContentOffset = contentOffset
       dragLocation = pan.locationInView(self)
       startingDragLocation = dragLocation
-      delegate?.scrollViewWillBeginDraging?(self)
+      scrollDelegate?.scrollViewWillBeginDraging?(self)
       draging = true
       break
     case .Changed:
@@ -320,12 +320,12 @@ public class MScrollView: UIView {
       if let xTarget = xEdgeTarget(newContentOffset){
         newContentOffset.x = newContentOffset.x - (newContentOffset.x - xTarget) / 2
       }
-      delegate?.scrollViewDidDrag?(self)
+      scrollDelegate?.scrollViewDidDrag?(self)
       scrollAnimation.animateToTargetOffset(newContentOffset)
     default:
       scrollAnimation.animateDone()
       draging = false
-      delegate?.scrollViewDidEndDraging?(self)
+      scrollDelegate?.scrollViewDidEndDraging?(self)
       break
     }
   }
@@ -375,13 +375,13 @@ public class MScrollView: UIView {
   }
   
   func didScroll(){
-    delegate?.scrollViewScrolled?(self)
+    scrollDelegate?.scrollViewScrolled?(self)
   }
   func didEndScroll(){
-    delegate?.scrollViewDidEndScroll?(self)
+    scrollDelegate?.scrollViewDidEndScroll?(self)
   }
   func willStartScroll(){
-    delegate?.scrollViewWillStartScroll?(self)
+    scrollDelegate?.scrollViewWillStartScroll?(self)
   }
 }
 

@@ -46,20 +46,24 @@ class MessagesViewController: UIViewController {
       MotionAnimator.sharedInstance.debugEnabled = true
     #endif
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
+    view.clipsToBounds = true
     collectionView = MCollectionView(frame:view.bounds)
-    collectionView.dataSource = self
-    collectionView.delegate = self
+    collectionView.collectionDelegate = self
+    collectionView.scrollDelegate = self
     collectionView.wabble = true
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
     inputToolbarView.layer.zPosition = 2000
-
-    viewDidLayoutSubviews()
-    collectionView.reloadData() {
-      self.collectionView.scrollToBottom()
-    }
+    
+    layout(false)
+    collectionView.reloadData()
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    collectionView.scrollToBottom()
   }
 
   // screen rotation
@@ -70,28 +74,33 @@ class MessagesViewController: UIViewController {
       if isAtBottom{
         self.collectionView.scrollToBottom()
       }
-      }, completion: nil)
+    }, completion: nil)
   }
 
-  // layout
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
+  func layout(animate:Bool = true){
     collectionView.frame = view.bounds
     let inputPadding:CGFloat = 10
     let inputSize = inputToolbarView.sizeThatFits(CGSizeMake(view.bounds.width - 2 * inputPadding, view.bounds.height))
     let inputToolbarFrame = CGRectMake(inputPadding, keyboardHeight - inputSize.height - inputPadding, view.bounds.width - 2*inputPadding, inputSize.height)
-    inputToolbarView.m_animate("center", to: inputToolbarFrame.center, stiffness: 300, damping: 25)
-    inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 300, damping: 25)
-    collectionView.contentInset = UIEdgeInsetsMake(30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
+    if animate {
+      inputToolbarView.m_animate("center", to: inputToolbarFrame.center, stiffness: 300, damping: 25)
+      inputToolbarView.m_animate("bounds", to: inputToolbarFrame.bounds, stiffness: 300, damping: 25)
+    } else {
+      inputToolbarView.bounds = inputToolbarFrame.bounds;
+      inputToolbarView.center = inputToolbarFrame.center;
+    }
+    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
   }
 
-  override func prefersStatusBarHidden() -> Bool {
-    return true
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    layout()
   }
 }
 
 
-extension MessagesViewController: MCollectionViewDataSource{
+// collectionview datasource and layout
+extension MessagesViewController: MCollectionViewDelegate{
   func numberOfSectionsInCollectionView(collectionView: MCollectionView) -> Int {
     return 1
   }
@@ -152,7 +161,7 @@ extension MessagesViewController: MCollectionViewDataSource{
       cellView.bounds = inputToolbarView.bounds
       cellView.alpha = 0
       let frame = collectionView.frameForIndexPath(indexPath)
-      cellView.m_animate("bounds", to: frame!.bounds, stiffness: 200, damping: 20) {
+      cellView.m_animate("bounds", to: frame!.bounds, stiffness: 300, damping: 30) {
         self.sendingMessages.remove(indexPath.item)
       }
       cellView.m_animate("alpha", to: 1.0, damping: 25)
@@ -198,6 +207,7 @@ extension MessagesViewController: MCollectionViewDataSource{
   }
 }
 
+// For sending new messages
 extension MessagesViewController: InputToolbarViewDelegate{
   func inputAccessoryViewDidUpdateFrame(frame:CGRect){
     let oldContentInset = collectionView.contentInset
@@ -227,6 +237,8 @@ extension MessagesViewController: InputToolbarViewDelegate{
   }
 }
 
+
+// For reordering
 extension MessagesViewController: MessageTextCellDelegate{
   func messageCellDidBeginHolding(cell:MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
     if dragingCell != nil{
@@ -298,6 +310,7 @@ extension MessagesViewController: MessageTextCellDelegate{
   func messageCellDidTap(cell: MessageTextCell) {
     
   }
+
   func moveMessageAtIndex(index:Int, toIndex:Int){
     if index == toIndex {
       return
@@ -317,10 +330,11 @@ extension MessagesViewController: MScrollViewDelegate{
       }
     }
     
+    // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
-    if scrollView.contentOffset.y < 200 && loading == false{
+    if scrollView.contentOffset.y < 400 && loading == false{
       loading = true
-      delay(0.5){
+      delay(0.5){ // Simulate network request
         var newMessage:[Message] = []
         for i in TestMessages{
           newMessage.append(i.copy())
