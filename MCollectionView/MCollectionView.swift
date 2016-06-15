@@ -467,7 +467,7 @@ public class MCollectionView: MScrollView {
     reusableViews.removeAll()
   }
 
-  deinit{
-    print("MCollectionView \(self.debugName) deinit")
-  }
+//  deinit{
+//    print("MCollectionView \(self.debugName) deinit")
+//  }
 }
