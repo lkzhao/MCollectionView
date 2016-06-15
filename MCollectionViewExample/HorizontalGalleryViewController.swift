@@ -1,5 +1,5 @@
 //
-//  HorizontalRowsViewController.swift
+//  HorizontalGalleryViewController.swift
 //  MCollectionViewExample
 //
 //  Created by Luke Zhao on 2016-06-14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HorizontalRowsViewController: UIViewController {
+class HorizontalGalleryViewController: UIViewController {
   var images:[UIImage] = [
     UIImage(named: "l1")!,
     UIImage(named: "l2")!,
@@ -35,10 +35,27 @@ class HorizontalRowsViewController: UIViewController {
     }
     return minWidth
   }
+  
+  var collectionView:MCollectionView!
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    collectionView = MCollectionView(frame:view.bounds)
+    collectionView.collectionDelegate = self
+    collectionView.wabble = true
+    collectionView.horizontalScroll = true
+    collectionView.verticalScroll = false
+    view.addSubview(collectionView)
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    collectionView.frame = view.bounds
+    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 10, 10, 10, 10)
+  }
 }
 
 // mark MCollectionViewDataSource
-extension HorizontalRowsViewController:MCollectionViewDelegate{
+extension HorizontalGalleryViewController:MCollectionViewDelegate{
   func numberOfSectionsInCollectionView(collectionView: MCollectionView) -> Int {
     return 1
   }

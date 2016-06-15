@@ -14,7 +14,7 @@ class MessagesViewController: UIViewController {
   var collectionView:MCollectionView!
   let inputToolbarView = InputToolbarView()
 
-  var sendingMessages:Set<Int> = []
+  var sendingMessage = false
   var messages:[Message] = TestMessages
   var loading = false
   
@@ -52,6 +52,7 @@ class MessagesViewController: UIViewController {
     collectionView.scrollDelegate = self
     collectionView.wabble = true
     collectionView.optimizeForContinuousLayout = true
+    collectionView.autoRemoveCells = false
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
@@ -82,7 +83,7 @@ class MessagesViewController: UIViewController {
     }
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
     if isAtBottom{
-      collectionView.scrollToBottom()
+      collectionView.scrollToBottom(animate)
     }
   }
 
@@ -149,30 +150,29 @@ extension MessagesViewController: MCollectionViewDelegate{
   }
   
   func collectionView(collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: NSIndexPath) {
-    if sendingMessages.contains(indexPath.item){
+    let frame = collectionView.frameForIndexPath(indexPath)!
+    if sendingMessage && indexPath.item == messages.count - 1{
       // we just sent this message, lets animate it from inputToolbarView to it's position
       cellView.center = collectionView.contentView.convertPoint(inputToolbarView.center, fromView: view)
       cellView.bounds = inputToolbarView.bounds
       cellView.alpha = 0
-      let frame = collectionView.frameForIndexPath(indexPath)
-      cellView.m_animate("bounds", to: frame!.bounds, stiffness: 300, damping: 30) {
-        self.sendingMessages.remove(indexPath.item)
-      }
       cellView.m_animate("alpha", to: 1.0, damping: 25)
-      //      cellView.m_animate("center",to:frame!.center, stiffness: 150, damping:20, threshold: 1)
-    } else if messages[indexPath.item].alignment == .Left{
-      let center = cellView.center
-      cellView.center = CGPointMake(center.x - view.bounds.width, center.y)
-      cellView.m_animate("center", to: center, stiffness:250, damping: 20)
-    } else if messages[indexPath.item].alignment == .Right{
-      let center = cellView.center
-      cellView.center = CGPointMake(center.x + view.bounds.width, center.y)
-      cellView.m_animate("center", to: center, stiffness:250, damping: 20)
-    } else {
-      cellView.alpha = 0
-      cellView.m_setValues([0], forCustomProperty: "scale")
-      cellView.m_animate("alpha", to: 1, stiffness:250, damping: 25)
-      cellView.m_animate("scale", to: 1, stiffness:250, damping: 25)
+      cellView.m_animate("bounds", to: frame.bounds, stiffness: 300, damping: 30)
+    } else if (collectionView.visibleFrame.intersects(frame)){
+      if messages[indexPath.item].alignment == .Left{
+        let center = cellView.center
+        cellView.center = CGPointMake(center.x - view.bounds.width, center.y)
+        cellView.m_animate("center", to: center, stiffness:250, damping: 20)
+      } else if messages[indexPath.item].alignment == .Right{
+        let center = cellView.center
+        cellView.center = CGPointMake(center.x + view.bounds.width, center.y)
+        cellView.m_animate("center", to: center, stiffness:250, damping: 20)
+      } else {
+        cellView.alpha = 0
+        cellView.m_setValues([0], forCustomProperty: "scale")
+        cellView.m_animate("alpha", to: 1, stiffness:250, damping: 25)
+        cellView.m_animate("scale", to: 1, stiffness:250, damping: 25)
+      }
     }
   }
   
@@ -211,23 +211,21 @@ extension MessagesViewController: InputToolbarViewDelegate{
     }
   }
   func send(text: String) {
-    let sendingMessage = Message(true,content: text);
-    sendingMessages.insert(messages.count)
-    messages.append(sendingMessage)
+    messages.append(Message(true, content: text))
+    
+    sendingMessage = true
     collectionView.reloadData()
+    sendingMessage = false
+
     collectionView.scrollToBottom(true)
-    delay(1.0) { 
-      self.messages.append(Message(false,content: text))
+    delay(1.0) {
+      self.messages.append(Message(false, content: text))
       self.collectionView.reloadData()
       self.collectionView.scrollToBottom(true)
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
-    let isAtBottom = collectionView.isAtBottom
-    self.viewDidLayoutSubviews()
-    if isAtBottom{
-      collectionView.scrollToBottom(true)
-    }
+    layout(true)
   }
 }
 

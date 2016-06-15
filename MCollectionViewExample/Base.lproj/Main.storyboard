@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A201w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgK-bW-0De">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgK-bW-0De">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -16,14 +16,14 @@
                         <sections>
                             <tableViewSection id="4TE-vm-A2b">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ecR-Rv-8LX" style="IBUITableViewCellStyleDefault" id="CQG-fN-QSP">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="mzZ-hK-F0O" style="IBUITableViewCellStyleDefault" id="hCS-8k-qoa">
                                         <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CQG-fN-QSP" id="GJ5-bS-Gaz">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCS-8k-qoa" id="A4D-Hm-Sgg">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Chat Example (Advance)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ecR-Rv-8LX">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Horizontal Rows" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mzZ-hK-F0O">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -33,7 +33,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="4Ci-Dg-TIK" kind="show" id="5DS-iv-SGH"/>
+                                            <segue destination="rY3-Tn-GR4" kind="show" id="MgE-6v-x4w"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="BcB-I1-Kia" style="IBUITableViewCellStyleDefault" id="zau-Ds-xW4">
@@ -56,14 +56,14 @@
                                             <segue destination="5cu-tU-PHL" kind="show" id="pNK-Zh-bft"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="mzZ-hK-F0O" style="IBUITableViewCellStyleDefault" id="hCS-8k-qoa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ecR-Rv-8LX" style="IBUITableViewCellStyleDefault" id="CQG-fN-QSP">
                                         <rect key="frame" x="0.0" y="152" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCS-8k-qoa" id="A4D-Hm-Sgg">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CQG-fN-QSP" id="GJ5-bS-Gaz">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Horizontal Rows" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mzZ-hK-F0O">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Chat Example (Advance)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ecR-Rv-8LX">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -73,7 +73,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="rY3-Tn-GR4" kind="show" id="MgE-6v-x4w"/>
+                                            <segue destination="4Ci-Dg-TIK" kind="show" id="5DS-iv-SGH"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -110,10 +110,10 @@
             </objects>
             <point key="canvasLocation" x="253" y="1169"/>
         </scene>
-        <!--Horizontal Rows View Controller-->
+        <!--Horizontal Gallery View Controller-->
         <scene sceneID="O0j-dF-51s">
             <objects>
-                <viewController id="rY3-Tn-GR4" customClass="HorizontalRowsViewController" customModule="MCollectionViewExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="rY3-Tn-GR4" customClass="HorizontalGalleryViewController" customModule="MCollectionViewExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Fav-eJ-8Mh"/>
                         <viewControllerLayoutGuide type="bottom" id="Ycf-vy-v13"/>

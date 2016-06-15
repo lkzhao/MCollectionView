@@ -24,6 +24,7 @@ class GridViewController: UIViewController {
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
+    collectionView.frame = view.bounds
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length, 0, 0, 0)
   }
 }
@@ -55,11 +56,5 @@ extension GridViewController: MCollectionViewDelegate{
   func collectionView(collectionView: MCollectionView, frameForIndexPath indexPath: NSIndexPath) -> CGRect {
     let i = indexPath.item
     return CGRectMake(CGFloat(i % 20) * 60, CGFloat(i / 20) * 60, 50, 50)
-  }
-  
-  func collectionView(collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: NSIndexPath) {
-//    cellView.alpha = 0
-//    cellView.m_setValues([0], forCustomProperty: "scale")
-5
   }
 }

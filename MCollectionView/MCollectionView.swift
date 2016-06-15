@@ -19,7 +19,6 @@ import UIKit
   optional func collectionViewWillReload(collectionView:MCollectionView)
   optional func collectionViewDidReload(collectionView:MCollectionView)
 
-  // todo move to delegate
   optional func collectionView(collectionView:MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: NSIndexPath)
   optional func collectionView(collectionView:MCollectionView, didDeleteCellView cellView: UIView, atIndexPath indexPath: NSIndexPath)
   optional func collectionView(collectionView:MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: NSIndexPath)
@@ -41,7 +40,12 @@ public class MCollectionView: MScrollView {
   // set when they are loaded or when the collection view scrolls
   // turn this off if you want to have different frame set
   public var autoLayoutOnUpdate = true
-
+  
+  // Remove cell from view hierarchy if the cell is being deleted.
+  // Might want to turn this off if you want to do some animation when
+  // cell is being deleted
+  public var autoRemoveCells = true
+  
   public var wabble = false
 
   public var innerSize:CGSize {
@@ -260,6 +264,9 @@ public class MCollectionView: MScrollView {
   }
   private func deleteOnScreenCellAtIndex(indexPath:NSIndexPath){
     if let cell = visibleCellToIndexMap[indexPath]{
+      if autoRemoveCells {
+        cell.removeFromSuperview()
+      }
       collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndexPath: indexPath)
       visibleCellToIndexMap.remove(indexPath)
     }

@@ -8,10 +8,10 @@
 
 import UIKit
 
-typealias TapHandler = (MCell)->Void
+public typealias TapHandler = (MCell)->Void
 
-class MCell: UIView {
-  var onTap:TapHandler?{
+public class MCell: UIView {
+  public var onTap:TapHandler?{
     didSet{
       if tapGR == nil {
         tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
@@ -20,20 +20,28 @@ class MCell: UIView {
     }
   }
   
-  var tapAnimation = true
-  var tapGR:UITapGestureRecognizer!
+  public var tapAnimation = true
+  public var tapGR:UITapGestureRecognizer!
   
-  var xyRotation:CGPoint = CGPointZero{
+  public var tilt3D = false{
+    didSet{
+      if tilt3D == false && xyRotation != CGPointZero{
+        self.m_animate("xyRotation", to:CGPointZero, stiffness: 200, damping: 20, threshold: 0.001)
+      }
+    }
+  }
+
+  public var xyRotation:CGPoint = CGPointZero{
     didSet{
       layer.transform = makeTransform3D()
     }
   }
-  var rotation:CGFloat = 0{
+  public var rotation:CGFloat = 0{
     didSet{
       layer.transform = makeTransform3D()
     }
   }
-  var scale:CGFloat = 1{
+  public var scale:CGFloat = 1{
     didSet{
       layer.transform = makeTransform3D()
     }
@@ -50,12 +58,12 @@ class MCell: UIView {
     return CATransform3DScale(t, scale, scale, 1.0)
   }
   
-  var shadowColor:UIColor = UIColor(white:0.5, alpha:0.5){
+  public var shadowColor:UIColor = UIColor(white:0.5, alpha:0.5){
     didSet{
       updateShadow()
     }
   }
-  var showShadow:Bool = false{
+  public var showShadow:Bool = false{
     didSet{
       updateShadow()
     }
@@ -72,7 +80,7 @@ class MCell: UIView {
       layer.shadowOpacity = 0
     }
   }
-  override init(frame: CGRect) {
+  public override init(frame: CGRect) {
     super.init(frame: frame)
     layer.shouldRasterize = true
     layer.rasterizationScale = UIScreen.mainScreen().scale
@@ -95,13 +103,6 @@ class MCell: UIView {
     }
   }
   
-  var tilt3D = false{
-    didSet{
-      if tilt3D == false && xyRotation != CGPointZero{
-        self.m_animate("xyRotation", to:CGPointZero, stiffness: 200, damping: 20, threshold: 0.001)
-      }
-    }
-  }
   func velocityUpdated(velocity: CGPoint) {
     if tilt3D {
       let maxRotate = CGFloat(M_PI)/6
@@ -111,11 +112,11 @@ class MCell: UIView {
     }
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override var bounds: CGRect{
+  public override var bounds: CGRect{
     didSet{
       if showShadow {
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
@@ -127,8 +128,8 @@ class MCell: UIView {
     onTap?(self)
   }
   
-  private(set) var holding = false
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  public private(set) var holding = false
+  public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     super.touchesBegan(touches, withEvent: event)
     if let touch = touches.first where tapAnimation{
       var loc = touch.locationInView(self)
@@ -146,7 +147,7 @@ class MCell: UIView {
     }
     holding = true
   }
-  override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
     super.touchesMoved(touches, withEvent: event)
     if let touch = touches.first where tapAnimation {
       var loc = touch.locationInView(self)
@@ -162,7 +163,7 @@ class MCell: UIView {
       }
     }
   }
-  override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
     super.touchesEnded(touches, withEvent: event)
     if tapAnimation {
       self.m_animate("scale", to: 1.0, stiffness: 150, damping: 7)
@@ -170,7 +171,7 @@ class MCell: UIView {
     }
     holding = false
   }
-  override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+  public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
     super.touchesCancelled(touches, withEvent: event)
     if tapAnimation {
       self.m_animate("scale", to: 1.0, stiffness: 150, damping: 7)
