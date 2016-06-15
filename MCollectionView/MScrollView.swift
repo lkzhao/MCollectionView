@@ -221,7 +221,7 @@ public class MScrollView: UIView {
       let page = Int( (contentOffset.x + width/2) / width )
       return page
     }
-    fatalError("paged scrollview should only be scrolled in one axis")
+    return 0
   }
   
   public let contentView:UIView = UIView(frame: CGRectZero)
@@ -267,7 +267,7 @@ public class MScrollView: UIView {
       return nil
     }
     let yMax = max(0, containerSize.height - bounds.size.height)
-    if yOffset <= 0{
+    if yOffset <= 0 {
       return 0
     } else if yOffset >= yMax {
       return yMax

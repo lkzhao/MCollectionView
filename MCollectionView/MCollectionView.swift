@@ -9,8 +9,7 @@
 import UIKit
 
 @objc public protocol MCollectionViewDelegate{
-  func numberOfSectionsInCollectionView(collectionView:MCollectionView) -> Int
-  optional func numberOfNegativeSectionsInCollectionView(collectionView:MCollectionView) -> Int
+  optional func numberOfSectionsInCollectionView(collectionView:MCollectionView) -> Int
   func collectionView(collectionView:MCollectionView, numberOfItemsInSection section:Int) -> Int
   func collectionView(collectionView:MCollectionView, viewForIndexPath indexPath:NSIndexPath, initialFrame:CGRect) -> UIView
   func collectionView(collectionView:MCollectionView, frameForIndexPath indexPath:NSIndexPath) -> CGRect
@@ -50,7 +49,7 @@ public class MCollectionView: MScrollView {
   }
 
   // Continuous Layout optimization
-  public var optimizeForContinuousLayout = true
+  public var optimizeForContinuousLayout = false
   var visibleIndexStart = NSIndexPath(forItem: 0, inSection: 0)
   var visibleIndexEnd = NSIndexPath(forItem: 0, inSection: 0)
   public var visibleIndexes:Set<NSIndexPath> = []
@@ -351,21 +350,22 @@ public class MCollectionView: MScrollView {
     var newIdentifiersToIndexMap:DictionaryTwoWay<String,NSIndexPath> = [:]
     var newVisibleCellToIndexMap:DictionaryTwoWay<UIView,NSIndexPath> = [:]
     var unionFrame = CGRectZero
-    if let count = collectionDelegate?.numberOfSectionsInCollectionView(self){
-      frames.reserveCapacity(count)
-      for i in 0..<count{
-        let sectionItemsCount = collectionDelegate?.collectionView(self, numberOfItemsInSection: i) ?? 0
-        frames.append([CGRect]())
-        for j in 0..<sectionItemsCount{
-          let indexPath = NSIndexPath(forItem: j, inSection: i)
-          let frame = collectionDelegate!.collectionView(self, frameForIndexPath: indexPath)
-          let identifier = collectionDelegate!.collectionView(self, identifierForIndexPath: indexPath)
-          newIdentifiersToIndexMap[identifier] = indexPath
-          unionFrame = CGRectUnion(unionFrame, frame)
-          frames[i].append(frame)
-        }
+    let count = collectionDelegate?.numberOfSectionsInCollectionView?(self) ?? 1
+    
+    frames.reserveCapacity(count)
+    for i in 0..<count{
+      let sectionItemsCount = collectionDelegate?.collectionView(self, numberOfItemsInSection: i) ?? 0
+      frames.append([CGRect]())
+      for j in 0..<sectionItemsCount{
+        let indexPath = NSIndexPath(forItem: j, inSection: i)
+        let frame = collectionDelegate!.collectionView(self, frameForIndexPath: indexPath)
+        let identifier = collectionDelegate!.collectionView(self, identifierForIndexPath: indexPath)
+        newIdentifiersToIndexMap[identifier] = indexPath
+        unionFrame = CGRectUnion(unionFrame, frame)
+        frames[i].append(frame)
       }
     }
+    
     contentSize = unionFrame.size
     let oldContentOffset = contentOffset
     framesLoadedBlock?()

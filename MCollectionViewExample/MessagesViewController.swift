@@ -51,6 +51,7 @@ class MessagesViewController: UIViewController {
     collectionView.collectionDelegate = self
     collectionView.scrollDelegate = self
     collectionView.wabble = true
+    collectionView.optimizeForContinuousLayout = true
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
@@ -66,18 +67,8 @@ class MessagesViewController: UIViewController {
     collectionView.scrollToBottom()
   }
 
-  // screen rotation
-  override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-    let isAtBottom = collectionView.isAtBottom
-    coordinator.animateAlongsideTransition({ (context) -> Void in
-      self.viewDidLayoutSubviews()
-      if isAtBottom{
-        self.collectionView.scrollToBottom()
-      }
-    }, completion: nil)
-  }
-
   func layout(animate:Bool = true){
+    let isAtBottom = collectionView.isAtBottom
     collectionView.frame = view.bounds
     let inputPadding:CGFloat = 10
     let inputSize = inputToolbarView.sizeThatFits(CGSizeMake(view.bounds.width - 2 * inputPadding, view.bounds.height))
@@ -90,6 +81,9 @@ class MessagesViewController: UIViewController {
       inputToolbarView.center = inputToolbarFrame.center;
     }
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 0, view.bounds.height - CGRectGetMinY(inputToolbarFrame) + 20, 0)
+    if isAtBottom{
+      collectionView.scrollToBottom()
+    }
   }
 
   override func viewDidLayoutSubviews() {

@@ -21,6 +21,10 @@
 		A3FC21CD1C6EE5AA008566BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3FC21CB1C6EE5AA008566BB /* Main.storyboard */; };
 		A3FC21CF1C6EE5AA008566BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */; };
 		A3FC21D21C6EE5AA008566BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */; };
+		B102FC591D10FE0100408DD6 /* HorizontalRowsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalRowsViewController.swift */; };
+		B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5A1D10FEB900408DD6 /* ImageCell.swift */; };
+		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
+		B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136E99F1D04BA5700D02FCA /* GridViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +47,10 @@
 		A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A3FC21D11C6EE5AA008566BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3FC21D31C6EE5AA008566BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B102FC581D10FE0100408DD6 /* HorizontalRowsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalRowsViewController.swift; sourceTree = "<group>"; };
+		B102FC5A1D10FEB900408DD6 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		B102FC5C1D10FF5100408DD6 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +100,7 @@
 		A3DDEED11C7D894D0053BFAE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B102FC5C1D10FF5100408DD6 /* Random.swift */,
 				A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */,
 				A3FC21CB1C6EE5AA008566BB /* Main.storyboard */,
 				A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */,
@@ -124,9 +133,20 @@
 			children = (
 				A3DDEED01C7D893D0053BFAE /* MCollectionView */,
 				A351C3441CE4C917005E15A7 /* ChatExample */,
+				B136E9A11D04C0D500D02FCA /* GridExample */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);
 			path = MCollectionViewExample;
+			sourceTree = "<group>";
+		};
+		B136E9A11D04C0D500D02FCA /* GridExample */ = {
+			isa = PBXGroup;
+			children = (
+				B136E99F1D04BA5700D02FCA /* GridViewController.swift */,
+				B102FC581D10FE0100408DD6 /* HorizontalRowsViewController.swift */,
+				B102FC5A1D10FEB900408DD6 /* ImageCell.swift */,
+			);
+			name = GridExample;
 			sourceTree = "<group>";
 		};
 		EC25C4A2F8C98015DF6E5671 /* Pods */ = {
@@ -262,15 +282,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				A372A3691C79567A0023C797 /* MessageTextCell.swift in Sources */,
+				B102FC591D10FE0100408DD6 /* HorizontalRowsViewController.swift in Sources */,
 				A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */,
 				A351C3491CE4CCD2005E15A7 /* MCollectionViewUtil.swift in Sources */,
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,
+				B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */,
+				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */,
 				A351C34A1CE4CCD2005E15A7 /* MScrollView.swift in Sources */,
 				A351C3481CE4CCD2005E15A7 /* MCollectionView.swift in Sources */,
 				A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
+				B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
