@@ -9,10 +9,10 @@
 import UIKit
 
 protocol MessageTextCellDelegate{
-  func messageCellDidTap(cell:MessageTextCell)
-  func messageCellDidBeginHolding(cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
-  func messageCellDidMoveWhileHolding(cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
-  func messageCellDidEndHolding(cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
+  func messageCellDidTap(_ cell:MessageTextCell)
+  func messageCellDidBeginHolding(_ cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
+  func messageCellDidMoveWhileHolding(_ cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
+  func messageCellDidEndHolding(_ cell:MessageTextCell, gestureRecognizer:UILongPressGestureRecognizer)
 }
 
 class MessageTextCell: MCell {
@@ -27,15 +27,15 @@ class MessageTextCell: MCell {
     didSet{
       textLabel.text = message.content
       textLabel.textColor = message.textColor
-      textLabel.font = UIFont.systemFontOfSize(message.fontSize)
+      textLabel.font = UIFont.systemFont(ofSize: message.fontSize)
       
       layer.cornerRadius = message.roundedCornder ? 10 : 0
       
-      if message.type == .Image{
+      if message.type == .image{
         imageView = imageView ?? UIImageView()
         imageView?.image = UIImage(named: message.content)
         imageView?.frame = bounds
-        imageView?.contentMode = .ScaleAspectFill
+        imageView?.contentMode = .scaleAspectFill
         imageView?.clipsToBounds = true
         imageView?.layer.cornerRadius = layer.cornerRadius
         addSubview(imageView!)
@@ -45,17 +45,17 @@ class MessageTextCell: MCell {
       }
       
       if message.showShadow{
-        layer.shadowOffset = CGSizeMake(0, 5)
+        layer.shadowOffset = CGSize(width: 0, height: 5)
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 8
-        layer.shadowColor = UIColor(white: 0.6, alpha: 1.0).CGColor
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
+        layer.shadowColor = UIColor(white: 0.6, alpha: 1.0).cgColor
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
       } else {
         layer.shadowOpacity = 0
         layer.shadowColor = nil
       }
       
-      layer.shadowColor = message.shadowColor.CGColor
+      layer.shadowColor = message.shadowColor.cgColor
       backgroundColor = message.backgroundColor
     }
   }
@@ -66,8 +66,8 @@ class MessageTextCell: MCell {
     textLabel.frame = frame
     textLabel.numberOfLines = 0
     layer.shouldRasterize = true;
-    layer.rasterizationScale = UIScreen.mainScreen().scale;
-    opaque = true
+    layer.rasterizationScale = UIScreen.main.scale;
+    isOpaque = true
 
     pressGR = UILongPressGestureRecognizer(target: self, action: #selector(press))
     pressGR.delegate = self
@@ -81,13 +81,13 @@ class MessageTextCell: MCell {
   
   func press(){
     switch pressGR.state{
-    case .Began:
+    case .began:
       tapAnimation = false
       self.m_animate("scale", to: 1.1)
-      self.m_animate("xyRotation", to: CGPointZero, stiffness: 150, damping: 7)
+      self.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
       delegate?.messageCellDidBeginHolding(self, gestureRecognizer: pressGR)
       break
-    case .Changed:
+    case .changed:
       delegate?.messageCellDidMoveWhileHolding(self, gestureRecognizer: pressGR)
       break
     default:
@@ -104,24 +104,24 @@ class MessageTextCell: MCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     if message?.showShadow ?? false {
-      layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
+      layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     }
-    textLabel.frame = CGRectInset(bounds, message.cellPadding, message.cellPadding)
+    textLabel.frame = bounds.insetBy(dx: message.cellPadding, dy: message.cellPadding)
     imageView?.frame = bounds
   }
   
-  static func sizeForText(text:String, fontSize:CGFloat, maxWidth:CGFloat, padding:CGFloat) -> CGSize{
-    let maxSize = CGSizeMake(maxWidth, 0)
-    let font = UIFont.systemFontOfSize(fontSize)
-    var rect = text.boundingRectWithSize(maxSize, options: .UsesLineFragmentOrigin , attributes: [ NSFontAttributeName : font ], context: nil)
-    rect.size = CGSizeMake(ceil(rect.size.width) + 2 * padding, ceil(rect.size.height) + 2 * padding)
+  static func sizeForText(_ text:String, fontSize:CGFloat, maxWidth:CGFloat, padding:CGFloat) -> CGSize{
+    let maxSize = CGSize(width: maxWidth, height: 0)
+    let font = UIFont.systemFont(ofSize: fontSize)
+    var rect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin , attributes: [ NSFontAttributeName : font ], context: nil)
+    rect.size = CGSize(width: ceil(rect.size.width) + 2 * padding, height: ceil(rect.size.height) + 2 * padding)
     return rect.size
   }
   
-  static func frameForMessage(message:Message, containerWidth:CGFloat) -> CGRect{
-    if message.type == .Image{
+  static func frameForMessage(_ message:Message, containerWidth:CGFloat) -> CGRect{
+    if message.type == .image{
       var imageSize = UIImage(named: message.content)!.size
-      let maxImageSize = CGSizeMake(CGFloat.max, 120)
+      let maxImageSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 120)
       if imageSize.width > maxImageSize.width{
         imageSize.height /= imageSize.width/maxImageSize.width
         imageSize.width = maxImageSize.width
@@ -130,14 +130,14 @@ class MessageTextCell: MCell {
         imageSize.width /= imageSize.height/maxImageSize.height
         imageSize.height = maxImageSize.height
       }
-      return CGRect(origin: CGPointMake(message.alignment == .Right ? containerWidth - imageSize.width : 0, 0), size: imageSize)
+      return CGRect(origin: CGPoint(x: message.alignment == .right ? containerWidth - imageSize.width : 0, y: 0), size: imageSize)
     }
-    if message.alignment == .Center{
+    if message.alignment == .center{
       let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth, padding: message.cellPadding)
-      return CGRectMake((containerWidth - size.width)/2, 0, size.width, size.height)
+      return CGRect(x: (containerWidth - size.width)/2, y: 0, width: size.width, height: size.height)
     } else {
       let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth - 2*message.cellPadding, padding: message.cellPadding)
-      let origin = CGPointMake(message.alignment == .Right ? containerWidth - size.width : 0, 0)
+      let origin = CGPoint(x: message.alignment == .right ? containerWidth - size.width : 0, y: 0)
       return CGRect(origin: origin, size: size)
     }
   }
@@ -145,7 +145,7 @@ class MessageTextCell: MCell {
 
 
 extension MessageTextCell:UIGestureRecognizerDelegate{
-  override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+  override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     if gestureRecognizer == self.pressGR{
       return self.delegate != nil
     }

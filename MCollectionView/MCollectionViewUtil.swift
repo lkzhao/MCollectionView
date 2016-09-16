@@ -9,44 +9,44 @@
 import UIKit
 
 extension CGFloat{
-  func clamp(a:CGFloat, _ b:CGFloat) -> CGFloat{
+  func clamp(_ a:CGFloat, _ b:CGFloat) -> CGFloat{
     return self < a ? a : (self > b ? b : self)
   }
 }
 
 extension CGPoint{
-  func translate(dx:CGFloat, dy:CGFloat) -> CGPoint{
-    return CGPointMake(self.x+dx, self.y+dy)
+  func translate(_ dx:CGFloat, dy:CGFloat) -> CGPoint{
+    return CGPoint(x: self.x+dx, y: self.y+dy)
   }
   
-  func transform(t:CGAffineTransform) -> CGPoint{
-    return CGPointApplyAffineTransform(self, t)
+  func transform(_ t:CGAffineTransform) -> CGPoint{
+    return self.applying(t)
   }
   
-  func distance(b:CGPoint)->CGFloat{
+  func distance(_ b:CGPoint)->CGFloat{
     return sqrt(pow(self.x-b.x,2)+pow(self.y-b.y,2));
   }
 }
 func +(left: CGPoint, right: CGPoint) -> CGPoint {
-  return CGPointMake(left.x + right.x, left.y + right.y)
+  return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
 func -(left: CGPoint, right: CGPoint) -> CGPoint {
-  return CGPointMake(left.x - right.x, left.y - right.y)
+  return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
 func /(left: CGPoint, right: CGFloat) -> CGPoint {
-  return CGPointMake(left.x/right, left.y/right)
+  return CGPoint(x: left.x/right, y: left.y/right)
 }
 func *(left: CGPoint, right: CGFloat) -> CGPoint {
-  return CGPointMake(left.x*right, left.y*right)
+  return CGPoint(x: left.x*right, y: left.y*right)
 }
 func *(left: CGFloat, right: CGPoint) -> CGPoint {
   return right * left
 }
 func *(left: CGPoint, right: CGPoint) -> CGPoint {
-  return CGPointMake(left.x*right.x, left.y*right.y)
+  return CGPoint(x: left.x*right.x, y: left.y*right.y)
 }
 prefix func -(point:CGPoint) -> CGPoint {
-  return CGPointZero - point
+  return CGPoint.zero - point
 }
 
 extension CGRect{
@@ -66,21 +66,17 @@ extension CGRect{
     return UIEdgeInsetsMake(topEdgeValue, leftEdgeValue, bottomEdgeValue, rightEdgeValue)
   }
   var center:CGPoint{
-    return CGPointMake(origin.x + size.width/2, origin.y + size.height/2)
+    return CGPoint(x: origin.x + size.width/2, y: origin.y + size.height/2)
   }
   var bounds:CGRect{
-    return CGRect(origin: CGPointZero, size: size)
+    return CGRect(origin: CGPoint.zero, size: size)
   }
 }
 
 
-func delay(delay:Double, closure:()->()) {
-  dispatch_after(
-    dispatch_time(
-      DISPATCH_TIME_NOW,
-      Int64(delay * Double(NSEC_PER_SEC))
-    ),
-    dispatch_get_main_queue(), closure)
+func delay(_ delay:Double, closure:@escaping ()->()) {
+  DispatchQueue.main.asyncAfter(
+    deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }
 
 
@@ -88,7 +84,7 @@ func delay(delay:Double, closure:()->()) {
 //  https://gist.github.com/CanTheAlmighty/70b3bf66eb1f2a5cee28
 //
 
-struct DictionaryTwoWay<S:Hashable,T:Hashable> : DictionaryLiteralConvertible
+struct DictionaryTwoWay<S:Hashable,T:Hashable> : ExpressibleByDictionaryLiteral
 {
   // Literal convertible
   typealias Key   = S
@@ -169,14 +165,14 @@ struct DictionaryTwoWay<S:Hashable,T:Hashable> : DictionaryLiteralConvertible
     }
   }
   
-  mutating func remove(key: S) {
-    if let item = st.removeValueForKey(key){
-      ts.removeValueForKey(item)
+  mutating func remove(_ key: S) {
+    if let item = st.removeValue(forKey: key){
+      ts.removeValue(forKey: item)
     }
   }
-  mutating func remove(key: T) {
-    if let item = ts.removeValueForKey(key){
-      st.removeValueForKey(item)
+  mutating func remove(_ key: T) {
+    if let item = ts.removeValue(forKey: key){
+      st.removeValue(forKey: item)
     }
   }
 }

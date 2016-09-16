@@ -8,7 +8,7 @@
 
 import UIKit
 @objc protocol InputAccessoryFollowViewDelegate{
-  func inputAccessoryViewDidUpdateFrame(frame:CGRect)
+  func inputAccessoryViewDidUpdateFrame(_ frame:CGRect)
 }
 class InputAccessoryFollowView: UIView {
   weak var delegate:InputAccessoryFollowViewDelegate?
@@ -16,9 +16,9 @@ class InputAccessoryFollowView: UIView {
   var keyboardFrame:CGRect?
   
   init() {
-    super.init(frame: CGRectMake(0, 0, 1, 1))
-    backgroundColor = .clearColor()
-    userInteractionEnabled = false
+    super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+    backgroundColor = .clear
+    isUserInteractionEnabled = false
   }
 
   required init(coder aDecoder: NSCoder) {
@@ -26,14 +26,14 @@ class InputAccessoryFollowView: UIView {
   }
   
   var observedSuperview:UIView?
-  override func willMoveToSuperview(newSuperview: UIView?) {
+  override func willMove(toSuperview newSuperview: UIView?) {
     removeSuperviewObserver()
     if let s = newSuperview{
       addSuperviewObserver(s)
     }
-    super.willMoveToSuperview(newSuperview)
+    super.willMove(toSuperview: newSuperview)
   }
-  func addSuperviewObserver(superview:UIView){
+  func addSuperviewObserver(_ superview:UIView){
     superview.addObserver(self, forKeyPath: "center", options: NSKeyValueObservingOptions(), context: nil)
     observedSuperview = superview
   }
@@ -47,14 +47,14 @@ class InputAccessoryFollowView: UIView {
     removeSuperviewObserver()
   }
 
-  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     let superFrame = superview!.frame
 
     // this `observeValueForKeyPath` is wrapped inside a UIView animation some how. 
     // we want to notify our delegate outside the animation so that we dont get 
     // unwanted animation behavior
-    dispatch_async(dispatch_get_main_queue()) { () -> Void in
-        self.keyboardFrame = CGRectMake(superFrame.origin.x, superFrame.origin.y+1, superFrame.width, superFrame.height-1)
+    DispatchQueue.main.async { () -> Void in
+        self.keyboardFrame = CGRect(x: superFrame.origin.x, y: superFrame.origin.y+1, width: superFrame.width, height: superFrame.height-1)
         self.delegate?.inputAccessoryViewDidUpdateFrame(self.keyboardFrame!)
     }
   }

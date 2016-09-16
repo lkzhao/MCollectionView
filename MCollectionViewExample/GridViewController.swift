@@ -33,28 +33,28 @@ class GridViewController: UIViewController {
 
 // collectionview datasource and layout
 extension GridViewController: MCollectionViewDelegate{
-  func numberOfSectionsInCollectionView(collectionView: MCollectionView) -> Int {
+  func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int {
     return 1
   }
   
-  func collectionView(collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
     return 400
   }
   
-  func collectionView(collectionView: MCollectionView, viewForIndexPath indexPath: NSIndexPath, initialFrame: CGRect) -> UIView {
+  func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
     let v = collectionView.dequeueReusableView(UILabel) ?? UILabel()
-    v.backgroundColor = UIColor.lightGrayColor()
-    v.text = "\(indexPath.item)"
+    v.backgroundColor = UIColor.lightGray
+    v.text = "\((indexPath as NSIndexPath).item)"
     v.frame = initialFrame
     return v
   }
   
-  func collectionView(collectionView: MCollectionView, identifierForIndexPath indexPath: NSIndexPath) -> String {
-    return "\(indexPath.item)"
+  func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
+    return "\((indexPath as NSIndexPath).item)"
   }
   
-  func collectionView(collectionView: MCollectionView, frameForIndexPath indexPath: NSIndexPath) -> CGRect {
-    let i = indexPath.item
-    return CGRectMake(CGFloat(i % 20) * 60, CGFloat(i / 20) * 60, 50, 50)
+  func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
+    let i = (indexPath as NSIndexPath).item
+    return CGRect(x: CGFloat(i % 20) * 60, y: CGFloat(i / 20) * 60, width: 50, height: 50)
   }
 }

@@ -28,7 +28,7 @@ class HorizontalGalleryViewController: UIViewController {
   
   func getMinRow() -> (Int, CGFloat) {
     var minWidth:(Int, CGFloat) = (0,rowWidth[0])
-    for (index, width) in rowWidth.enumerate(){
+    for (index, width) in rowWidth.enumerated(){
       if width < minWidth.1 {
         minWidth = (index, width)
       }
@@ -56,16 +56,16 @@ class HorizontalGalleryViewController: UIViewController {
 
 // mark MCollectionViewDataSource
 extension HorizontalGalleryViewController:MCollectionViewDelegate{
-  func numberOfSectionsInCollectionView(collectionView: MCollectionView) -> Int {
+  func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int {
     return 1
   }
   
-  func collectionView(collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
     return images.count
   }
   
-  func collectionView(collectionView: MCollectionView, viewForIndexPath indexPath: NSIndexPath, initialFrame: CGRect) -> UIView {
-    let image = images[indexPath.item]
+  func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
+    let image = images[(indexPath as NSIndexPath).item]
     let cell = collectionView.dequeueReusableView(ImageCell) ?? ImageCell(frame:initialFrame)
     cell.center = initialFrame.center
     cell.bounds = initialFrame.bounds
@@ -76,30 +76,30 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate{
     return cell
   }
   
-  func collectionViewWillReload(collectionView: MCollectionView) {
+  func collectionViewWillReload(_ collectionView: MCollectionView) {
     numColumns = max(1, Int(collectionView.innerSize.width) / 400)
     numRows = max(2, Int(collectionView.innerSize.height) / 180)
     
-    rowWidth = Array<CGFloat>(count:numRows, repeatedValue: 0)
+    rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
   }
   
-  func collectionView(collectionView: MCollectionView, frameForIndexPath indexPath: NSIndexPath) -> CGRect {
-    let image = images[indexPath.item]
+  func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
+    let image = images[(indexPath as NSIndexPath).item]
     let avaliableHeight = (collectionView.innerSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
     let width = collectionView.innerSize.width / CGFloat(numColumns)
-    var imgSize = sizeForImage(image.size, maxSize: CGSizeMake(width, avaliableHeight))
+    var imgSize = sizeForImage(image.size, maxSize: CGSize(width: width, height: avaliableHeight))
     //        var imgSize = CGSizeMake(200, 200)
     imgSize.height = avaliableHeight
     let (rowIndex, offsetX) = getMinRow()
     rowWidth[rowIndex] += imgSize.width + 10
-    return CGRect(origin: CGPointMake(offsetX, CGFloat(rowIndex) * (avaliableHeight + 10)), size: imgSize)
+    return CGRect(origin: CGPoint(x: offsetX, y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: imgSize)
   }
   
-  func collectionView(collectionView: MCollectionView, identifierForIndexPath indexPath: NSIndexPath) -> String {
-    return "\(indexPath.item)"
+  func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
+    return "\((indexPath as NSIndexPath).item)"
   }
   
-  func collectionView(collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: NSIndexPath) {
-    (cellView as! ImageCell).image = images[indexPath.item]
+  func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
+    (cellView as! ImageCell).image = images[(indexPath as NSIndexPath).item]
   }
 }

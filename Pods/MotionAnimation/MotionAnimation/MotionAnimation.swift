@@ -9,19 +9,19 @@
 import UIKit
 
 public protocol MotionAnimationDelegate:class {
-  func animationDidStop(animation:MotionAnimation)
-  func animationDidPerformStep(animation:MotionAnimation)
+  func animationDidStop(_ animation:MotionAnimation)
+  func animationDidPerformStep(_ animation:MotionAnimation)
 }
 
-public class MotionAnimation: NSObject {
+open class MotionAnimation: NSObject {
   internal var animator:MotionAnimator?
 
-  weak public var delegate:MotionAnimationDelegate?
-  public var onCompletion:((animation:MotionAnimation) -> Void)?
-  public var onUpdate:((animation:MotionAnimation) -> Void)?
-  public var willStartPlaying:(()->Void)? = nil
+  weak open var delegate:MotionAnimationDelegate?
+  open var onCompletion:((_ animation:MotionAnimation) -> Void)?
+  open var onUpdate:((_ animation:MotionAnimation) -> Void)?
+  open var willStartPlaying:(()->Void)? = nil
 
-  public var playing:Bool {
+  open var playing:Bool {
     return animator != nil
   }
 
@@ -30,33 +30,29 @@ public class MotionAnimation: NSObject {
     if playImmediately { play() }
   }
 
-  public func play(){
+  open func play(){
     if !playing{
       willStartPlaying?()
       MotionAnimator.sharedInstance.addAnimation(self)
     }
   }
 
-  public func stop(){
+  open func stop(){
     MotionAnimator.sharedInstance.removeAnimation(self)
   }
-}
-
-// override point for subclass
-extension MotionAnimation{
-  public func willUpdate() {
-
-  }
-
+  
+  
+  
+  // override point for subclass
+  open func willUpdate() {}
+  
   // returning true means require next update(not yet reached target state)
   // behaviors can call animator.addAnimation to wake up the animator when
   // the target value changed
-  public func update(dt:CGFloat) -> Bool{
+  open func update(_ dt:CGFloat) -> Bool{
     return false
   }
-
+  
   // this will be called on main thread. sync value back to the animated object
-  public func didUpdate(){
-
-  }
+  open func didUpdate(){}
 }

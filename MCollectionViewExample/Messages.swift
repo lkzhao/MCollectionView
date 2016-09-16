@@ -9,74 +9,74 @@
 import UIKit
 
 enum MessageType{
-  case Text
-  case Announcement
-  case Status
-  case Image
+  case text
+  case announcement
+  case status
+  case image
 }
 enum MessageAlignment{
-  case Left
-  case Center
-  case Right
+  case left
+  case center
+  case right
 }
 class Message {
-  var identifier:String = NSUUID().UUIDString
+  var identifier:String = UUID().uuidString
   var fromCurrentUser = false
   var content = ""
   var type:MessageType
   
   init(_ fromCurrentUser:Bool, content:String){
     self.fromCurrentUser = fromCurrentUser
-    self.type = .Text
+    self.type = .text
     self.content = content
   }
   init(_ fromCurrentUser:Bool, status:String){
     self.fromCurrentUser = fromCurrentUser
-    self.type = .Status
+    self.type = .status
     self.content = status
   }
   init(_ fromCurrentUser:Bool, image:String){
     self.fromCurrentUser = fromCurrentUser
-    self.type = .Image
+    self.type = .image
     self.content = image
   }
   init(announcement:String){
-    self.type = .Announcement
+    self.type = .announcement
     self.content = announcement
   }
   
   var fontSize:CGFloat{
     switch type{
-    case .Text: return 14
+    case .text: return 14
     default: return 12
     }
   }
   var cellPadding:CGFloat{
     switch type{
-    case .Announcement: return 4
-    case .Text: return 15
-    case .Status: return 2
-    case .Image: return 0
+    case .announcement: return 4
+    case .text: return 15
+    case .status: return 2
+    case .image: return 0
     }
   }
   var showShadow:Bool{
     switch type{
-    case .Text: return true
-    case .Image: return true
+    case .text: return true
+    case .image: return true
     default: return false
     }
   }
   var roundedCornder:Bool{
     switch type{
-    case .Announcement: return false
+    case .announcement: return false
     default: return true
     }
   }
   var textColor:UIColor{
     switch type{
-    case .Text:
+    case .text:
       if fromCurrentUser {
-        return UIColor.whiteColor()
+        return UIColor.white
       } else {
         return UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 1.0)
       }
@@ -87,49 +87,49 @@ class Message {
   
   var backgroundColor:UIColor{
     switch type{
-    case .Text:
+    case .text:
       if fromCurrentUser {
         return UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
       } else {
         return UIColor(white: showShadow ? 1.0 : 0.95, alpha: 1.0)
       }
     default:
-      return UIColor.clearColor()
+      return UIColor.clear
     }
   }
   var shadowColor:UIColor{
     switch type{
-    case .Text:
+    case .text:
       if fromCurrentUser {
         return UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0)
       } else {
         return UIColor(white: 0.8, alpha: 1.0)
       }
     default:
-      return UIColor.clearColor()
+      return UIColor.clear
     }
   }
   var alignment:MessageAlignment{
     switch type{
-    case .Announcement: return .Center
-    default: return (fromCurrentUser ? .Right : .Left)
+    case .announcement: return .center
+    default: return (fromCurrentUser ? .right : .left)
     }
   }
 
-  func verticalPaddingBetweenMessage(previousMessage:Message) -> CGFloat{
-    if type == .Image && previousMessage.type == .Image{
+  func verticalPaddingBetweenMessage(_ previousMessage:Message) -> CGFloat{
+    if type == .image && previousMessage.type == .image{
       return 2
     }
-    if type == .Announcement{
+    if type == .announcement{
       return 15
     }
-    if previousMessage.type == .Announcement{
+    if previousMessage.type == .announcement{
       return 5
     }
-    if type == .Status{
+    if type == .status{
       return 3
     }
-    if type == .Text && type == previousMessage.type && fromCurrentUser == previousMessage.fromCurrentUser{
+    if type == .text && type == previousMessage.type && fromCurrentUser == previousMessage.fromCurrentUser{
       return 5
     }
     return 15
@@ -137,13 +137,13 @@ class Message {
 
   func copy() -> Message {
     switch type {
-    case .Image:
+    case .image:
       return Message(fromCurrentUser, image: content)
-    case .Announcement:
+    case .announcement:
       return Message(announcement: content)
-    case .Text:
+    case .text:
       return Message(fromCurrentUser, content: content)
-    case .Status:
+    case .status:
       return Message(fromCurrentUser, status: content)
     }
   }

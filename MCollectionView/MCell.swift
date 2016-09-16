@@ -10,8 +10,8 @@ import UIKit
 
 public typealias TapHandler = (MCell)->Void
 
-public class MCell: UIView {
-  public var onTap:TapHandler?{
+open class MCell: UIView {
+  open var onTap:TapHandler?{
     didSet{
       if tapGR == nil {
         tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
@@ -20,28 +20,28 @@ public class MCell: UIView {
     }
   }
   
-  public var tapAnimation = true
-  public var tapGR:UITapGestureRecognizer!
+  open var tapAnimation = true
+  open var tapGR:UITapGestureRecognizer!
   
-  public var tilt3D = false{
+  open var tilt3D = false{
     didSet{
-      if tilt3D == false && xyRotation != CGPointZero{
-        self.m_animate("xyRotation", to:CGPointZero, stiffness: 200, damping: 20, threshold: 0.001)
+      if tilt3D == false && xyRotation != CGPoint.zero{
+        self.m_animate("xyRotation", to:CGPoint.zero, stiffness: 200, damping: 20, threshold: 0.001)
       }
     }
   }
 
-  public var xyRotation:CGPoint = CGPointZero{
+  open var xyRotation:CGPoint = CGPoint.zero{
     didSet{
       layer.transform = makeTransform3D()
     }
   }
-  public var rotation:CGFloat = 0{
+  open var rotation:CGFloat = 0{
     didSet{
       layer.transform = makeTransform3D()
     }
   }
-  public var scale:CGFloat = 1{
+  open var scale:CGFloat = 1{
     didSet{
       layer.transform = makeTransform3D()
     }
@@ -58,12 +58,12 @@ public class MCell: UIView {
     return CATransform3DScale(t, scale, scale, 1.0)
   }
   
-  public var shadowColor:UIColor = UIColor(white:0.5, alpha:0.5){
+  open var shadowColor:UIColor = UIColor(white:0.5, alpha:0.5){
     didSet{
       updateShadow()
     }
   }
-  public var showShadow:Bool = false{
+  open var showShadow:Bool = false{
     didSet{
       updateShadow()
     }
@@ -71,11 +71,11 @@ public class MCell: UIView {
   
   func updateShadow(){
     if showShadow {
-      layer.shadowOffset = CGSizeMake(0, 5)
+      layer.shadowOffset = CGSize(width: 0, height: 5)
       layer.shadowOpacity = 0.3
       layer.shadowRadius = 8
-      layer.shadowColor = shadowColor.CGColor
-      layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
+      layer.shadowColor = shadowColor.cgColor
+      layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     } else {
       layer.shadowOpacity = 0
     }
@@ -83,8 +83,8 @@ public class MCell: UIView {
   public override init(frame: CGRect) {
     super.init(frame: frame)
     layer.shouldRasterize = true
-    layer.rasterizationScale = UIScreen.mainScreen().scale
-    opaque = true
+    layer.rasterizationScale = UIScreen.main.scale
+    isOpaque = true
     
     self.m_defineCustomProperty("scale", getter: { [weak self] values in
       self?.scale.toCGFloatValues(&values)
@@ -103,12 +103,12 @@ public class MCell: UIView {
     }
   }
   
-  func velocityUpdated(velocity: CGPoint) {
+  func velocityUpdated(_ velocity: CGPoint) {
     if tilt3D {
       let maxRotate = CGFloat(M_PI)/6
       let rotateX = -(velocity.y / 3000).clamp(-maxRotate,maxRotate)
       let rotateY = (velocity.x / 3000).clamp(-maxRotate,maxRotate)
-      self.m_animate("xyRotation", to:CGPointMake(rotateX, rotateY), stiffness: 400, damping: 20, threshold: 0.001)
+      self.m_animate("xyRotation", to:CGPoint(x: rotateX, y: rotateY), stiffness: 400, damping: 20, threshold: 0.001)
     }
   }
   
@@ -116,10 +116,10 @@ public class MCell: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public override var bounds: CGRect{
+  open override var bounds: CGRect{
     didSet{
       if showShadow {
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).CGPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
       }
     }
   }
@@ -128,14 +128,14 @@ public class MCell: UIView {
     onTap?(self)
   }
   
-  public private(set) var holding = false
-  public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    super.touchesBegan(touches, withEvent: event)
-    if let touch = touches.first where tapAnimation{
-      var loc = touch.locationInView(self)
-      loc = CGPointMake(loc.x.clamp(0, bounds.width), loc.y.clamp(0, bounds.height))
+  open fileprivate(set) var holding = false
+  open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    if let touch = touches.first , tapAnimation{
+      var loc = touch.location(in: self)
+      loc = CGPoint(x: loc.x.clamp(0, bounds.width), y: loc.y.clamp(0, bounds.height))
       loc = loc - bounds.center
-      let rotation = CGPointMake(-loc.y / bounds.height, loc.x / bounds.width)
+      let rotation = CGPoint(x: -loc.y / bounds.height, y: loc.x / bounds.width)
       if #available(iOS 9.0, *) {
         let force = touch.maximumPossibleForce == 0 ? 1 : touch.force
         self.m_animate("scale", to: 0.95 - force*0.01, stiffness: 150, damping: 7)
@@ -147,13 +147,13 @@ public class MCell: UIView {
     }
     holding = true
   }
-  public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    super.touchesMoved(touches, withEvent: event)
-    if let touch = touches.first where tapAnimation {
-      var loc = touch.locationInView(self)
-      loc = CGPointMake(loc.x.clamp(0, bounds.width), loc.y.clamp(0, bounds.height))
+  open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesMoved(touches, with: event)
+    if let touch = touches.first , tapAnimation {
+      var loc = touch.location(in: self)
+      loc = CGPoint(x: loc.x.clamp(0, bounds.width), y: loc.y.clamp(0, bounds.height))
       loc = loc - bounds.center
-      let rotation = CGPointMake(-loc.y / bounds.height, loc.x / bounds.width)
+      let rotation = CGPoint(x: -loc.y / bounds.height, y: loc.x / bounds.width)
       if #available(iOS 9.0, *) {
         let force = touch.maximumPossibleForce == 0 ? 1 : touch.force
         self.m_animate("scale", to: 0.95 - force * 0.01, stiffness: 150, damping: 7)
@@ -163,19 +163,19 @@ public class MCell: UIView {
       }
     }
   }
-  public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    super.touchesEnded(touches, withEvent: event)
+  open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesEnded(touches, with: event)
     if tapAnimation {
       self.m_animate("scale", to: 1.0, stiffness: 150, damping: 7)
-      self.m_animate("xyRotation", to: CGPointZero, stiffness: 150, damping: 7)
+      self.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
     }
     holding = false
   }
-  public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-    super.touchesCancelled(touches, withEvent: event)
+  open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
+    super.touchesCancelled(touches!, with: event)
     if tapAnimation {
       self.m_animate("scale", to: 1.0, stiffness: 150, damping: 7)
-      self.m_animate("xyRotation", to: CGPointZero, stiffness: 150, damping: 7)
+      self.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
     }
     holding = false
   }

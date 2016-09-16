@@ -8,7 +8,7 @@
 
 import UIKit
 
-func sizeForImage(imageSize:CGSize, maxSize:CGSize) -> CGSize{
+func sizeForImage(_ imageSize:CGSize, maxSize:CGSize) -> CGSize{
   var imageSize = imageSize
   if imageSize.width > maxSize.width{
     imageSize.height /= imageSize.width/maxSize.width

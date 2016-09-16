@@ -8,15 +8,35 @@
 
 import UIKit
 import MotionAnimation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 @objc public protocol MScrollViewDelegate{
-  optional func scrollViewWillBeginDraging(scrollView:MScrollView)
-  optional func scrollViewDidEndDraging(scrollView:MScrollView)
-  optional func scrollViewWillStartScroll(scrollView:MScrollView)
-  optional func scrollViewScrolled(scrollView:MScrollView)
-  optional func scrollViewDidEndScroll(scrollView:MScrollView)
-  optional func scrollViewDidDrag(scrollView: MScrollView)
-  optional func scrollView(scrollView: MScrollView, willSwitchFromPage fromPage:Int, toPage: Int)
+  @objc optional func scrollViewWillBeginDraging(_ scrollView:MScrollView)
+  @objc optional func scrollViewDidEndDraging(_ scrollView:MScrollView)
+  @objc optional func scrollViewWillStartScroll(_ scrollView:MScrollView)
+  @objc optional func scrollViewScrolled(_ scrollView:MScrollView)
+  @objc optional func scrollViewDidEndScroll(_ scrollView:MScrollView)
+  @objc optional func scrollViewDidDrag(_ scrollView: MScrollView)
+  @objc optional func scrollView(_ scrollView: MScrollView, willSwitchFromPage fromPage:Int, toPage: Int)
 }
 
 class ScrollAnimation:MotionAnimation{
@@ -27,10 +47,10 @@ class ScrollAnimation:MotionAnimation{
   }
   var targetOffsetX:CGFloat?
   var targetOffsetY:CGFloat?
-  var velocity = CGPointZero
-  var damping:CGPoint = CGPointMake(3, 3)
+  var velocity = CGPoint.zero
+  var damping:CGPoint = CGPoint(x: 3, y: 3)
   var threshold:CGFloat = 0.1
-  var stiffness:CGPoint = CGPointMake(50, 50)
+  var stiffness:CGPoint = CGPoint(x: 50, y: 50)
   
   var initiallyOutOfBound = false
   func animateDone(){
@@ -38,8 +58,8 @@ class ScrollAnimation:MotionAnimation{
     targetOffsetX = nil
     targetOffsetY = nil
     // default value
-    stiffness = CGPointMake(50, 50)
-    damping = CGPointMake(3, 3)
+    stiffness = CGPoint(x: 50, y: 50)
+    damping = CGPoint(x: 3, y: 3)
 
     if let yTarget = scrollView.yEdgeTarget(){
       // initially out of bound
@@ -83,27 +103,27 @@ class ScrollAnimation:MotionAnimation{
     play()
   }
   
-  func animateToTargetOffset(target:CGPoint, stiffness: CGFloat = 1000, damping:CGFloat = 30){
+  func animateToTargetOffset(_ target:CGPoint, stiffness: CGFloat = 1000, damping:CGFloat = 30){
     targetOffsetY = target.y
     targetOffsetX = target.x
     // default value
-    self.stiffness = CGPointMake(stiffness, stiffness)
-    self.damping = CGPointMake(damping, damping)
+    self.stiffness = CGPoint(x: stiffness, y: stiffness)
+    self.damping = CGPoint(x: damping, y: damping)
 
     play()
   }
   
   override func stop() {
     super.stop()
-    velocity = CGPointZero
+    velocity = CGPoint.zero
   }
 
-  private var offset:CGPoint = CGPointZero
-  private var yTarget:CGFloat?
-  private var xTarget:CGFloat?
-  private var bounces:Bool = false
+  fileprivate var offset:CGPoint = CGPoint.zero
+  fileprivate var yTarget:CGFloat?
+  fileprivate var xTarget:CGFloat?
+  fileprivate var bounces:Bool = false
   override func willUpdate(){
-    offset = scrollView?.contentOffset ?? CGPointZero
+    offset = scrollView?.contentOffset ?? CGPoint.zero
     yTarget = scrollView?.yEdgeTarget()
     xTarget = scrollView?.xEdgeTarget()
     bounces = scrollView?.bounces ?? false
@@ -112,7 +132,7 @@ class ScrollAnimation:MotionAnimation{
     scrollView?.contentOffset = offset
   }
 
-  override func update(dt:CGFloat) -> Bool{
+  override func update(_ dt:CGFloat) -> Bool{
     // Force
     var targetOffset = CGPoint(x: targetOffsetX ?? offset.x, y: targetOffsetY ?? offset.y)
     let Fspring = -stiffness * (offset - targetOffset)
@@ -150,7 +170,7 @@ class ScrollAnimation:MotionAnimation{
 
     let lowVelocity = abs(newV.x) < threshold && abs(newV.y) < threshold
     if lowVelocity && abs(targetOffset.x - newOffset.x) < threshold && abs(targetOffset.y - newOffset.y) < threshold {
-      velocity = CGPointZero
+      velocity = CGPoint.zero
       offset = targetOffset
       targetOffsetX = nil
       targetOffsetY = nil
@@ -165,19 +185,19 @@ class ScrollAnimation:MotionAnimation{
 
 
 
-public class MScrollView: UIView {
-  public weak var scrollDelegate:MScrollViewDelegate?
-  public var panGestureRecognizer:UIPanGestureRecognizer!
-  public var scrollVelocity:CGPoint{
+open class MScrollView: UIView {
+  open weak var scrollDelegate:MScrollViewDelegate?
+  open var panGestureRecognizer:UIPanGestureRecognizer!
+  open var scrollVelocity:CGPoint{
     return scrollAnimation.velocity
   }
-  public var contentOffset:CGPoint = CGPointZero{
+  open var contentOffset:CGPoint = CGPoint.zero{
     didSet{
-      contentView.frame.origin = CGPointMake(-contentOffset.x+contentInset.left, -contentOffset.y+contentInset.top)
+      contentView.frame.origin = CGPoint(x: -contentOffset.x+contentInset.left, y: -contentOffset.y+contentInset.top)
       didScroll()
     }
   }
-  public var contentSize:CGSize{
+  open var contentSize:CGSize{
     get{
       return contentView.frame.size
     }
@@ -193,25 +213,25 @@ public class MScrollView: UIView {
       }
     }
   }
-  public var containerSize:CGSize{
-    return CGSizeMake(contentSize.width + contentInset.left + contentInset.right, contentSize.height + contentInset.top + contentInset.bottom)
+  open var containerSize:CGSize{
+    return CGSize(width: contentSize.width + contentInset.left + contentInset.right, height: contentSize.height + contentInset.top + contentInset.bottom)
   }
-  public var contentInset:UIEdgeInsets = UIEdgeInsetsZero{
+  open var contentInset:UIEdgeInsets = UIEdgeInsets.zero{
     didSet{
       #if DEBUG
         print("contentInset changed: \(oldValue) -> \(contentInset)")
       #endif
-      contentView.frame.origin = CGPointMake(-contentOffset.x+contentInset.left, -contentOffset.y+contentInset.top)
+      contentView.frame.origin = CGPoint(x: -contentOffset.x+contentInset.left, y: -contentOffset.y+contentInset.top)
       if contentInset.top < oldValue.top || contentInset.bottom < oldValue.bottom || contentInset.left < oldValue.left || contentInset.right < oldValue.right {
         adjustContentOffsetIfNecessary()
       }
     }
   }
-  public var visibleFrame:CGRect{
-    return CGRect(origin: CGPointMake(contentOffset.x - contentInset.left, contentOffset.y - contentInset.top), size: bounds.size)
+  open var visibleFrame:CGRect{
+    return CGRect(origin: CGPoint(x: contentOffset.x - contentInset.left, y: contentOffset.y - contentInset.top), size: bounds.size)
   }
 
-  public var currentPageIndex:Int{
+  open var currentPageIndex:Int{
     if verticalScroll && !horizontalScroll{
       let height = bounds.height
       let page = Int( (contentOffset.y + height/2) / height )
@@ -224,16 +244,16 @@ public class MScrollView: UIView {
     return 0
   }
   
-  public let contentView:UIView = UIView(frame: CGRectZero)
+  open let contentView:UIView = UIView(frame: CGRect.zero)
   var scrollAnimation:ScrollAnimation!
   
-  public var verticalScroll:Bool = true
-  public var alwaysBounceVertical:Bool = false
-  public var horizontalScroll:Bool = false
-  public var alwaysBounceHorizontal:Bool = false
-  public var bounces = true
-  public var paged = false
-  public private(set) var draging = false
+  open var verticalScroll:Bool = true
+  open var alwaysBounceVertical:Bool = false
+  open var horizontalScroll:Bool = false
+  open var alwaysBounceHorizontal:Bool = false
+  open var bounces = true
+  open var paged = false
+  open fileprivate(set) var draging = false
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
@@ -261,7 +281,7 @@ public class MScrollView: UIView {
     addGestureRecognizer(panGestureRecognizer)
   }
   
-  func yEdgeTarget(offset:CGPoint? = nil) -> CGFloat?{
+  func yEdgeTarget(_ offset:CGPoint? = nil) -> CGFloat?{
     let yOffset = (offset ?? self.contentOffset).y
     if !verticalScroll{
       return nil
@@ -275,7 +295,7 @@ public class MScrollView: UIView {
     return nil
   }
   
-  func xEdgeTarget(offset:CGPoint? = nil) -> CGFloat?{
+  func xEdgeTarget(_ offset:CGPoint? = nil) -> CGFloat?{
     let xOffset = (offset ?? self.contentOffset).x
     if !horizontalScroll{
       return nil
@@ -290,22 +310,22 @@ public class MScrollView: UIView {
   }
   
   var startingContentOffset:CGPoint?
-  var startingDragLocation = CGPointZero
-  var dragLocation = CGPointZero
+  var startingDragLocation = CGPoint.zero
+  var dragLocation = CGPoint.zero
   var pageIndexBeforeDrag = 0
-  func scroll(pan:UIPanGestureRecognizer){
+  func scroll(_ pan:UIPanGestureRecognizer){
     switch pan.state{
-    case .Began:
+    case .began:
       pageIndexBeforeDrag = self.currentPageIndex
       scrollAnimation.stop()
       startingContentOffset = contentOffset
-      dragLocation = pan.locationInView(self)
+      dragLocation = pan.location(in: self)
       startingDragLocation = dragLocation
       scrollDelegate?.scrollViewWillBeginDraging?(self)
       draging = true
       break
-    case .Changed:
-      dragLocation = pan.locationInView(self)
+    case .changed:
+      dragLocation = pan.location(in: self)
       var translation = dragLocation - startingDragLocation
       if !horizontalScroll{
         translation.x = 0
@@ -330,7 +350,7 @@ public class MScrollView: UIView {
     }
   }
   
-  public override func layoutSubviews() {
+  open override func layoutSubviews() {
     super.layoutSubviews()
     adjustContentOffsetIfNecessary()
   }
@@ -341,12 +361,12 @@ public class MScrollView: UIView {
     }
   }
   
-  public func scrollToFrameVisible(frame:CGRect){
+  open func scrollToFrameVisible(_ frame:CGRect){
     
   }
 
-  public func scrollToPage(index:Int, animate:Bool = false){
-    let target = horizontalScroll ? CGPointMake(CGFloat(index) * bounds.width, 0) : CGPointMake(0, CGFloat(index) * bounds.height)
+  open func scrollToPage(_ index:Int, animate:Bool = false){
+    let target = horizontalScroll ? CGPoint(x: CGFloat(index) * bounds.width, y: 0) : CGPoint(x: 0, y: CGFloat(index) * bounds.height)
     if animate{
       scrollAnimation.animateToTargetOffset(target, stiffness: 200, damping: 20)
     } else {
@@ -355,7 +375,7 @@ public class MScrollView: UIView {
     }
   }
 
-  public func scrollToBottom(animate:Bool = false){
+  open func scrollToBottom(_ animate:Bool = false){
     if draging || containerSize.height < bounds.height{
       return
     }
@@ -367,11 +387,11 @@ public class MScrollView: UIView {
       contentOffset = target
     }
   }
-  public var isAtBottom:Bool{
+  open var isAtBottom:Bool{
     return contentOffset.y >= bottomOffset.y || scrollAnimation.targetOffsetY >= bottomOffset.y
   }
-  public var bottomOffset:CGPoint{
-    return CGPointMake(0, containerSize.height - bounds.size.height)
+  open var bottomOffset:CGPoint{
+    return CGPoint(x: 0, y: containerSize.height - bounds.size.height)
   }
   
   func didScroll(){
@@ -386,10 +406,10 @@ public class MScrollView: UIView {
 }
 
 extension MScrollView:UIGestureRecognizerDelegate{
-    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let superValue = super.gestureRecognizerShouldBegin(gestureRecognizer)
         if gestureRecognizer == panGestureRecognizer && superValue {
-            let v = panGestureRecognizer.velocityInView(self.contentView)
+            let v = panGestureRecognizer.velocity(in: self.contentView)
             if verticalScroll && !horizontalScroll {
                 return (alwaysBounceVertical || containerSize.height > bounds.height) && abs(v.y) >= abs(v.x)
             } else if horizontalScroll && !verticalScroll{
