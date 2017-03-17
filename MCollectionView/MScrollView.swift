@@ -209,8 +209,9 @@ open class MScrollView: UIView {
       let newSize = newValue.size
       contentView.bounds = newValue.bounds
       contentView.center = newValue.center
+
+      // content shrinks. we might need to move the contentOffset to fill empty space
       if oldSize.width > newSize.width || oldSize.height > newSize.height {
-        // only adjust contentOffset if we are setting a smaller size
         adjustContentOffsetIfNecessary()
       }
     }
@@ -224,6 +225,8 @@ open class MScrollView: UIView {
         print("contentInset changed: \(oldValue) -> \(contentInset)")
       #endif
       contentOffset = CGPoint(x: contentOffset.x - contentInset.left + oldValue.left, y: contentOffset.y - contentInset.top + oldValue.top)
+
+      // inset shrinks. we might need to move the contentOffset to fill empty space
       if contentInset.top < oldValue.top || contentInset.bottom < oldValue.bottom || contentInset.left < oldValue.left || contentInset.right < oldValue.right {
         adjustContentOffsetIfNecessary()
       }
