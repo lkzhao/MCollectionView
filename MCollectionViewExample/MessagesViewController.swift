@@ -105,7 +105,7 @@ extension MessagesViewController: MCollectionViewDelegate{
   }
   
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
-    let v = collectionView.dequeueReusableView(MessageTextCell) ?? MessageTextCell()
+    let v = collectionView.dequeueReusableView(MessageTextCell.self) ?? MessageTextCell()
     v.message = messages[(indexPath as NSIndexPath).item]
     v.center = initialFrame.center
     v.bounds = initialFrame.bounds

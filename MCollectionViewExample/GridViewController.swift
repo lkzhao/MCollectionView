@@ -42,7 +42,7 @@ extension GridViewController: MCollectionViewDelegate{
   }
   
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
-    let v = collectionView.dequeueReusableView(UILabel) ?? UILabel()
+    let v = collectionView.dequeueReusableView(UILabel.self) ?? UILabel()
     v.backgroundColor = UIColor.lightGray
     v.text = "\((indexPath as NSIndexPath).item)"
     v.frame = initialFrame
