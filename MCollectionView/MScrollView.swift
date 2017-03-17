@@ -71,7 +71,7 @@ class ScrollAnimation:MotionAnimation{
       let velocityFactor:CGFloat = (scrollView.scrollVelocity.y/5).clamp(-height/2, height/2)
       let page = Int((scrollView.contentOffset.y + height/2 + velocityFactor) / height)
       let finalOffsetY = CGFloat(page) * height
-      if finalOffsetY >= 0 && finalOffsetY <= scrollView.contentSize.height{
+      if finalOffsetY >= scrollView.contentFrame.minY && finalOffsetY <= scrollView.contentFrame.maxY {
         if scrollView.pageIndexBeforeDrag != page{
           scrollView.scrollDelegate?.scrollView?(scrollView, willSwitchFromPage:scrollView.pageIndexBeforeDrag, toPage:page)
         }
@@ -90,7 +90,7 @@ class ScrollAnimation:MotionAnimation{
       let velocityFactor:CGFloat = (scrollView.scrollVelocity.x/5).clamp(-width/2, width/2)
       let page = Int((scrollView.contentOffset.x + width/2 + velocityFactor) / width)
       let finalOffsetX = CGFloat(page) * width
-      if finalOffsetX >= 0 && finalOffsetX <= scrollView.contentSize.width{
+      if finalOffsetX >= scrollView.contentFrame.minX && finalOffsetX <= scrollView.contentFrame.maxX{
         if scrollView.pageIndexBeforeDrag != page{
           scrollView.scrollDelegate?.scrollView?(scrollView, willSwitchFromPage:scrollView.pageIndexBeforeDrag, toPage:page)
         }
@@ -193,35 +193,37 @@ open class MScrollView: UIView {
   }
   open var contentOffset:CGPoint = CGPoint.zero{
     didSet{
-      contentView.frame.origin = CGPoint(x: -contentOffset.x+contentInset.left, y: -contentOffset.y+contentInset.top)
+      contentView.transform = CGAffineTransform.identity.translatedBy(x: -contentOffset.x, y: -contentOffset.y)
       didScroll()
     }
   }
-  open var contentSize:CGSize{
+  open var contentFrame:CGRect {
     get{
-      return contentView.frame.size
+      return CGRect(center: contentView.center, size: contentView.bounds.size)
     }
     set{
       #if DEBUG
-        print("contentSize changed: \(contentSize) -> \(newValue)")
+        print("contentFrame changed: \(contentFrame) -> \(newValue)")
       #endif
-      let oldSize = contentView.frame.size
-      contentView.frame.size = newValue
-      if oldSize.width > newValue.width || oldSize.height > newValue.height {
+      let oldSize = contentView.bounds.size
+      let newSize = newValue.size
+      contentView.bounds = newValue.bounds
+      contentView.center = newValue.center
+      if oldSize.width > newSize.width || oldSize.height > newSize.height {
         // only adjust contentOffset if we are setting a smaller size
         adjustContentOffsetIfNecessary()
       }
     }
   }
-  open var containerSize:CGSize{
-    return CGSize(width: contentSize.width + contentInset.left + contentInset.right, height: contentSize.height + contentInset.top + contentInset.bottom)
+  open var containerFrame:CGRect{
+    return UIEdgeInsetsInsetRect(contentFrame, -contentInset)
   }
   open var contentInset:UIEdgeInsets = UIEdgeInsets.zero{
     didSet{
       #if DEBUG
         print("contentInset changed: \(oldValue) -> \(contentInset)")
       #endif
-      contentView.frame.origin = CGPoint(x: -contentOffset.x+contentInset.left, y: -contentOffset.y+contentInset.top)
+      contentOffset = CGPoint(x: contentOffset.x - contentInset.left + oldValue.left, y: contentOffset.y - contentInset.top + oldValue.top)
       if contentInset.top < oldValue.top || contentInset.bottom < oldValue.bottom || contentInset.left < oldValue.left || contentInset.right < oldValue.right {
         adjustContentOffsetIfNecessary()
       }
@@ -286,9 +288,9 @@ open class MScrollView: UIView {
     if !verticalScroll{
       return nil
     }
-    let yMax = max(0, containerSize.height - bounds.size.height)
-    if yOffset <= 0 {
-      return 0
+    let yMax = max(containerFrame.minY, containerFrame.maxY - bounds.size.height)
+    if yOffset <= containerFrame.minY {
+      return containerFrame.minY
     } else if yOffset >= yMax {
       return yMax
     }
@@ -300,9 +302,9 @@ open class MScrollView: UIView {
     if !horizontalScroll{
       return nil
     }
-    let xMax = max(0, containerSize.width - bounds.width)
-    if xOffset <= 0{
-      return 0
+    let xMax = max(containerFrame.minX, containerFrame.maxX - bounds.width)
+    if xOffset <= containerFrame.minX {
+      return containerFrame.minX
     } else if xOffset >= xMax {
       return xMax
     }
@@ -376,7 +378,7 @@ open class MScrollView: UIView {
   }
 
   open func scrollToBottom(_ animate:Bool = false){
-    if draging || containerSize.height < bounds.height{
+    if draging || containerFrame.height < bounds.height{
       return
     }
     let target = bottomOffset
@@ -391,7 +393,7 @@ open class MScrollView: UIView {
     return contentOffset.y >= bottomOffset.y || scrollAnimation.targetOffsetY >= bottomOffset.y
   }
   open var bottomOffset:CGPoint{
-    return CGPoint(x: 0, y: containerSize.height - bounds.size.height)
+    return CGPoint(x: 0, y: containerFrame.maxY - bounds.size.height)
   }
   
   func didScroll(){
@@ -411,9 +413,9 @@ extension MScrollView:UIGestureRecognizerDelegate{
         if gestureRecognizer == panGestureRecognizer && superValue {
             let v = panGestureRecognizer.velocity(in: self.contentView)
             if verticalScroll && !horizontalScroll {
-                return (alwaysBounceVertical || containerSize.height > bounds.height) && abs(v.y) >= abs(v.x)
+                return (alwaysBounceVertical || containerFrame.height > bounds.height) && abs(v.y) >= abs(v.x)
             } else if horizontalScroll && !verticalScroll{
-                return (alwaysBounceHorizontal || containerSize.width > bounds.width) && abs(v.y) <= abs(v.x)
+                return (alwaysBounceHorizontal || containerFrame.width > bounds.width) && abs(v.y) <= abs(v.x)
             } else {
                 return verticalScroll && horizontalScroll
             }

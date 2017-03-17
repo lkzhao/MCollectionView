@@ -246,7 +246,6 @@ open class MCollectionView: MScrollView {
   open func wabbleRect(_ indexPath:IndexPath) -> CGRect{
     let screenDragLocation = contentOffset + dragLocation
     let cellFrame = frameForIndexPath(indexPath)!
-    //        let cellOffset = abs(cellFrame.center.y - screenDragLocation.y) * collectionView.scrollVelocity / 5000
     let cellOffset = cellFrame.center.distance(screenDragLocation) * scrollVelocity / 5000
     return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
   }
@@ -292,7 +291,7 @@ open class MCollectionView: MScrollView {
       }
     }
     
-    contentSize = unionFrame.size
+    contentFrame = unionFrame
     let oldContentOffset = contentOffset
     framesLoadedBlock?()
     let contentOffsetDiff = contentOffset - oldContentOffset

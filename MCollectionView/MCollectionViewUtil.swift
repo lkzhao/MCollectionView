@@ -48,6 +48,16 @@ func *(left: CGPoint, right: CGPoint) -> CGPoint {
 prefix func -(point:CGPoint) -> CGPoint {
   return CGPoint.zero - point
 }
+func /(left: CGSize, right: CGFloat) -> CGSize {
+  return CGSize(width: left.width/right, height: left.height/right)
+}
+func -(left: CGPoint, right: CGSize) -> CGPoint {
+  return CGPoint(x: left.x - right.width, y: left.y - right.height)
+}
+
+prefix func -(inset: UIEdgeInsets) -> UIEdgeInsets {
+  return UIEdgeInsets(top: -inset.top, left: -inset.left, bottom: -inset.bottom, right: -inset.right)
+}
 
 extension CGRect{
   var leftEdgeValue:CGFloat{
@@ -71,8 +81,11 @@ extension CGRect{
   var bounds:CGRect{
     return CGRect(origin: CGPoint.zero, size: size)
   }
+  init(center:CGPoint, size:CGSize) {
+    self.origin = center - size / 2
+    self.size = size
+  }
 }
-
 
 func delay(_ delay:Double, closure:@escaping ()->()) {
   DispatchQueue.main.asyncAfter(

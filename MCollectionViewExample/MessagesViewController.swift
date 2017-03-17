@@ -259,7 +259,7 @@ extension MessagesViewController: MessageTextCellDelegate{
       if fingerPosition.y < 80 && collectionView.contentOffset.y > 0{
         velocity.y = -(80 - fingerPosition.y) * 30
       } else if fingerPosition.y > view.bounds.height - 80 &&
-        collectionView.contentOffset.y + collectionView.bounds.height < collectionView.containerSize.height{
+        collectionView.contentOffset.y < collectionView.bottomOffset.y {
         velocity.y = (fingerPosition.y - (view.bounds.height - 80)) * 30
       } else if let toIndex = (collectionView.indexPathForItemAtPoint(center) as NSIndexPath?)?.item , toIndex != index && canReorder{
         canReorder = false
