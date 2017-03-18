@@ -8,13 +8,13 @@
 
 import UIKit
 
-extension CGFloat {
+public extension CGFloat {
   func clamp(_ a: CGFloat, _ b: CGFloat) -> CGFloat {
     return self < a ? a : (self > b ? b : self)
   }
 }
 
-extension CGPoint {
+public extension CGPoint {
   func translate(_ dx: CGFloat, dy: CGFloat) -> CGPoint {
     return CGPoint(x: self.x+dx, y: self.y+dy)
   }
@@ -27,39 +27,39 @@ extension CGPoint {
     return sqrt(pow(self.x-b.x, 2)+pow(self.y-b.y, 2))
   }
 }
-func +(left: CGPoint, right: CGPoint) -> CGPoint {
+public func +(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
-func -(left: CGPoint, right: CGPoint) -> CGPoint {
+public func -(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
-func /(left: CGPoint, right: CGFloat) -> CGPoint {
+public func /(left: CGPoint, right: CGFloat) -> CGPoint {
   return CGPoint(x: left.x/right, y: left.y/right)
 }
-func *(left: CGPoint, right: CGFloat) -> CGPoint {
+public func *(left: CGPoint, right: CGFloat) -> CGPoint {
   return CGPoint(x: left.x*right, y: left.y*right)
 }
-func *(left: CGFloat, right: CGPoint) -> CGPoint {
+public func *(left: CGFloat, right: CGPoint) -> CGPoint {
   return right * left
 }
-func *(left: CGPoint, right: CGPoint) -> CGPoint {
+public func *(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x*right.x, y: left.y*right.y)
 }
-prefix func -(point: CGPoint) -> CGPoint {
+public prefix func -(point: CGPoint) -> CGPoint {
   return CGPoint.zero - point
 }
-func /(left: CGSize, right: CGFloat) -> CGSize {
+public func /(left: CGSize, right: CGFloat) -> CGSize {
   return CGSize(width: left.width/right, height: left.height/right)
 }
-func -(left: CGPoint, right: CGSize) -> CGPoint {
+public func -(left: CGPoint, right: CGSize) -> CGPoint {
   return CGPoint(x: left.x - right.width, y: left.y - right.height)
 }
 
-prefix func -(inset: UIEdgeInsets) -> UIEdgeInsets {
+public prefix func -(inset: UIEdgeInsets) -> UIEdgeInsets {
   return UIEdgeInsets(top: -inset.top, left: -inset.left, bottom: -inset.bottom, right: -inset.right)
 }
 
-extension CGRect {
+public extension CGRect {
   var leftEdgeValue: CGFloat {
     return origin.x
   }
@@ -87,7 +87,7 @@ extension CGRect {
   }
 }
 
-func delay(_ delay: Double, closure:@escaping ()->Void) {
+public func delay(_ delay: Double, closure:@escaping ()->Void) {
   DispatchQueue.main.asyncAfter(
     deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MCollectionView
 
 protocol MessageTextCellDelegate {
   func messageCellDidTap(_ cell: MessageTextCell)

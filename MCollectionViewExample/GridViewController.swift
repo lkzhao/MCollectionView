@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MCollectionView
 
 class GridViewController: UIViewController {
 

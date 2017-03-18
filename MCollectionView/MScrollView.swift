@@ -290,6 +290,11 @@ extension MScrollView {
       return containerFrame.maxX - bounds.size.width
     }
   }
+
+  open func scroll(with velocity:CGPoint) {
+    scrollAnimation.velocity = velocity
+    scrollAnimation.animateDone()
+  }
 }
 
 extension MScrollView:UIGestureRecognizerDelegate {

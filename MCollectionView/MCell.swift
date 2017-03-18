@@ -124,7 +124,7 @@ open class MCell: UIView {
     }
   }
 
-  func tap() {
+  open func tap() {
     onTap?(self)
   }
 

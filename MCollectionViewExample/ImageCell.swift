@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MCollectionView
 
 func sizeForImage(_ imageSize: CGSize, maxSize: CGSize) -> CGSize {
   var imageSize = imageSize

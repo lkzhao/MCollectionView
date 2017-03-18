@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MCollectionView
 
 @objc protocol InputToolbarViewDelegate: InputAccessoryFollowViewDelegate {
   func send(_ text: String)

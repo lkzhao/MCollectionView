@@ -6,11 +6,11 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MotionAnimation:
-    :path: "~/Projects/MotionAnimation"
+    :path: ~/Projects/MotionAnimation
 
 SPEC CHECKSUMS:
   MotionAnimation: 0257eb90f766f6d58c70524f956faf8d56c5e7bf
 
-PODFILE CHECKSUM: 1e10518dfde51a89c3b6abf6c9f8a7bee70c8bd6
+PODFILE CHECKSUM: 54a72625451e45e3d6808e4051f1b03ff030af0f
 
 COCOAPODS: 1.1.1

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MCollectionView
 
 class HorizontalGalleryViewController: UIViewController {
   var images: [UIImage] = [

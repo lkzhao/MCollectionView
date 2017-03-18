@@ -7,13 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A351C3481CE4CCD2005E15A7 /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */; };
-		A351C3491CE4CCD2005E15A7 /* MCollectionViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */; };
-		A351C34A1CE4CCD2005E15A7 /* MScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3471CE4CCD2005E15A7 /* MScrollView.swift */; };
+		1ED023C132E059B00ECCFE71 /* Pods_MCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85D17B4D7E06CD859A66B3A /* Pods_MCollectionViewExample.framework */; };
 		A372A3691C79567A0023C797 /* MessageTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageTextCell.swift */; };
 		A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36A1C7979EB0023C797 /* InputToolbarView.swift */; };
 		A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */; };
-		A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
 		A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */; };
@@ -25,14 +22,49 @@
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
 		B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136E99F1D04BA5700D02FCA /* GridViewController.swift */; };
 		B14DD9941E7C43B100B11FF1 /* GridReorderableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */; };
-		B14DD9981E7C43F100B11FF1 /* MCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */; };
-		B18D26E61E7DA3F7000FC7CA /* MScrollAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */; };
-		B1DC14091E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */; };
-		EE8F6F31D1F8C1B1D9503658 /* Pods_MCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85D17B4D7E06CD859A66B3A /* Pods_MCollectionViewExample.framework */; };
+		B1B7B0541E7DAD1F00F2483E /* MCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B1B7B0571E7DAD1F00F2483E /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
+		B1B7B0581E7DAD1F00F2483E /* MCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B1B7B05D1E7DAD2700F2483E /* MCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */; };
+		B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */; };
+		B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */; };
+		B1B7B0601E7DAD2700F2483E /* MCollectionView+VisibleIndexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */; };
+		B1B7B0611E7DAD2700F2483E /* MCollectionViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */; };
+		B1B7B0621E7DAD2700F2483E /* MScrollAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */; };
+		B1B7B0631E7DAD2700F2483E /* MScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3471CE4CCD2005E15A7 /* MScrollView.swift */; };
+		E973A9E4E80694E7D4BE3181 /* Pods_MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E10930CE9C6E6BA55D5D3D6 /* Pods_MCollectionView.framework */; };
+		F79FD88970EBCD1327808C47 /* Pods_MCollectionViewExamples.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DDF15F0437C560EA1822C51 /* Pods_MCollectionViewExamples.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B1B7B0551E7DAD1F00F2483E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3FC21BC1C6EE5AA008566BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1B7B04F1E7DAD1E00F2483E;
+			remoteInfo = MCollectionView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B1B7B05C1E7DAD1F00F2483E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B1B7B0581E7DAD1F00F2483E /* MCollectionView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04200AC14D874DC76B9DA1A7 /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
+		2DDF15F0437C560EA1822C51 /* Pods_MCollectionViewExamples.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionViewExamples.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E10930CE9C6E6BA55D5D3D6 /* Pods_MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E7BA013C1AED3825956BADA /* Pods-MCollectionView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.release.xcconfig"; sourceTree = "<group>"; };
 		9895E98B2E807431B160DEAB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionView.swift; path = MCollectionView/MCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewUtil.swift; path = MCollectionView/MCollectionViewUtil.swift; sourceTree = SOURCE_ROOT; };
@@ -57,7 +89,13 @@
 		B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridReorderableViewController.swift; sourceTree = "<group>"; };
 		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewDelegate.swift; path = ../MCollectionView/MCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollAnimation.swift; path = MCollectionView/MScrollAnimation.swift; sourceTree = SOURCE_ROOT; };
+		B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCollectionView.h; sourceTree = "<group>"; };
+		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MCollectionView+VisibleIndexes.swift"; path = "MCollectionView/MCollectionView+VisibleIndexes.swift"; sourceTree = SOURCE_ROOT; };
+		B1E23AEEB64AA02AC2EA119D /* Pods-MCollectionViewExamples.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExamples.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExamples/Pods-MCollectionViewExamples.release.xcconfig"; sourceTree = "<group>"; };
+		BD3F684806DCCD81A324ABB1 /* Pods-MCollectionView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.debug.xcconfig"; sourceTree = "<group>"; };
+		E09392DBE19C8DA6129E759C /* Pods-MCollectionViewExamples.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExamples.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExamples/Pods-MCollectionViewExamples.debug.xcconfig"; sourceTree = "<group>"; };
 		EA3C3193A0D33214E8BDA7BD /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,7 +104,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE8F6F31D1F8C1B1D9503658 /* Pods_MCollectionViewExample.framework in Frameworks */,
+				B1B7B0571E7DAD1F00F2483E /* MCollectionView.framework in Frameworks */,
+				F79FD88970EBCD1327808C47 /* Pods_MCollectionViewExamples.framework in Frameworks */,
+				1ED023C132E059B00ECCFE71 /* Pods_MCollectionViewExample.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1B7B04C1E7DAD1E00F2483E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E973A9E4E80694E7D4BE3181 /* Pods_MCollectionView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +126,8 @@
 			children = (
 				9895E98B2E807431B160DEAB /* Pods.framework */,
 				A85D17B4D7E06CD859A66B3A /* Pods_MCollectionViewExample.framework */,
+				2E10930CE9C6E6BA55D5D3D6 /* Pods_MCollectionView.framework */,
+				2DDF15F0437C560EA1822C51 /* Pods_MCollectionViewExamples.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -94,7 +144,7 @@
 			name = "ChatExample (Advance)";
 			sourceTree = "<group>";
 		};
-		A3DDEED01C7D893D0053BFAE /* MCollectionView */ = {
+		A3DDEED01C7D893D0053BFAE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
@@ -105,7 +155,8 @@
 				B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */,
 				A351C3471CE4CCD2005E15A7 /* MScrollView.swift */,
 			);
-			name = MCollectionView;
+			name = Sources;
+			path = MCollectionViewExample;
 			sourceTree = "<group>";
 		};
 		A3DDEED11C7D894D0053BFAE /* Supporting Files */ = {
@@ -130,20 +181,12 @@
 			name = HorizontalGalleryExample;
 			sourceTree = "<group>";
 		};
-		A3E7918B1D1102C8005D9410 /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
-				B136E9A11D04C0D500D02FCA /* GridExample */,
-				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
-			);
-			name = Examples;
-			sourceTree = "<group>";
-		};
 		A3FC21BB1C6EE5AA008566BB = {
 			isa = PBXGroup;
 			children = (
-				A3FC21C61C6EE5AA008566BB /* MCollectionViewExample */,
+				A3DDEED01C7D893D0053BFAE /* Sources */,
+				A3FC21C61C6EE5AA008566BB /* Examples */,
+				B1B7B0511E7DAD1F00F2483E /* MCollectionView */,
 				A3FC21C51C6EE5AA008566BB /* Products */,
 				25AB763F974152906E852BFF /* Frameworks */,
 				A7622C0465A1EC7849B1C288 /* Pods */,
@@ -156,17 +199,20 @@
 			isa = PBXGroup;
 			children = (
 				A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */,
+				B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A3FC21C61C6EE5AA008566BB /* MCollectionViewExample */ = {
+		A3FC21C61C6EE5AA008566BB /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				A3DDEED01C7D893D0053BFAE /* MCollectionView */,
-				A3E7918B1D1102C8005D9410 /* Examples */,
+				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
+				B136E9A11D04C0D500D02FCA /* GridExample */,
+				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);
+			name = Examples;
 			path = MCollectionViewExample;
 			sourceTree = "<group>";
 		};
@@ -175,6 +221,10 @@
 			children = (
 				04200AC14D874DC76B9DA1A7 /* Pods-MCollectionViewExample.debug.xcconfig */,
 				EA3C3193A0D33214E8BDA7BD /* Pods-MCollectionViewExample.release.xcconfig */,
+				BD3F684806DCCD81A324ABB1 /* Pods-MCollectionView.debug.xcconfig */,
+				6E7BA013C1AED3825956BADA /* Pods-MCollectionView.release.xcconfig */,
+				E09392DBE19C8DA6129E759C /* Pods-MCollectionViewExamples.debug.xcconfig */,
+				B1E23AEEB64AA02AC2EA119D /* Pods-MCollectionViewExamples.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -188,28 +238,70 @@
 			name = GridExample;
 			sourceTree = "<group>";
 		};
+		B1B7B0511E7DAD1F00F2483E /* MCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */,
+				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
+			);
+			path = MCollectionView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B1B7B04D1E7DAD1E00F2483E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1B7B0541E7DAD1F00F2483E /* MCollectionView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		A3FC21C31C6EE5AA008566BB /* MCollectionViewExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3FC21D61C6EE5AA008566BB /* Build configuration list for PBXNativeTarget "MCollectionViewExample" */;
 			buildPhases = (
-				C15DECDB9C11CC8792F0AC96 /* [CP] Check Pods Manifest.lock */,
+				A5F27FEBD5C783E7C508BB7B /* [CP] Check Pods Manifest.lock */,
 				A3FC21C01C6EE5AA008566BB /* Sources */,
 				A3FC21C11C6EE5AA008566BB /* Frameworks */,
 				A3FC21C21C6EE5AA008566BB /* Resources */,
-				48D3288F1660FCB4CD7C9E6F /* [CP] Embed Pods Frameworks */,
-				55F379264D9BD78E730F7AF6 /* [CP] Copy Pods Resources */,
+				B1B7B05C1E7DAD1F00F2483E /* Embed Frameworks */,
+				E1608003592606C35512DE79 /* [CP] Embed Pods Frameworks */,
+				37F00C3E143D2F8A02C4AE25 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B1B7B0561E7DAD1F00F2483E /* PBXTargetDependency */,
 			);
 			name = MCollectionViewExample;
 			productName = MCollectionViewExample;
 			productReference = A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B1B7B04F1E7DAD1E00F2483E /* MCollectionView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1B7B0591E7DAD1F00F2483E /* Build configuration list for PBXNativeTarget "MCollectionView" */;
+			buildPhases = (
+				A955F177DE48CE331A44492E /* [CP] Check Pods Manifest.lock */,
+				B1B7B04B1E7DAD1E00F2483E /* Sources */,
+				B1B7B04C1E7DAD1E00F2483E /* Frameworks */,
+				B1B7B04D1E7DAD1E00F2483E /* Headers */,
+				B1B7B04E1E7DAD1E00F2483E /* Resources */,
+				D8D7FF96DA0758C956529035 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MCollectionView;
+			productName = MCollectionView;
+			productReference = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -226,9 +318,14 @@
 						DevelopmentTeam = 4VSEW78TKT;
 						LastSwiftMigration = 0800;
 					};
+					B1B7B04F1E7DAD1E00F2483E = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 4VSEW78TKT;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
-			buildConfigurationList = A3FC21BF1C6EE5AA008566BB /* Build configuration list for PBXProject "MCollectionViewExample" */;
+			buildConfigurationList = A3FC21BF1C6EE5AA008566BB /* Build configuration list for PBXProject "MCollectionView" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -242,6 +339,7 @@
 			projectRoot = "";
 			targets = (
 				A3FC21C31C6EE5AA008566BB /* MCollectionViewExample */,
+				B1B7B04F1E7DAD1E00F2483E /* MCollectionView */,
 			);
 		};
 /* End PBXProject section */
@@ -257,25 +355,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		48D3288F1660FCB4CD7C9E6F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
+		B1B7B04E1E7DAD1E00F2483E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
-		55F379264D9BD78E730F7AF6 /* [CP] Copy Pods Resources */ = {
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		37F00C3E143D2F8A02C4AE25 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -290,7 +380,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C15DECDB9C11CC8792F0AC96 /* [CP] Check Pods Manifest.lock */ = {
+		A5F27FEBD5C783E7C508BB7B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -305,6 +395,51 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A955F177DE48CE331A44492E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D8D7FF96DA0758C956529035 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1608003592606C35512DE79 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -313,27 +448,42 @@
 			buildActionMask = 2147483647;
 			files = (
 				B14DD9941E7C43B100B11FF1 /* GridReorderableViewController.swift in Sources */,
-				B1DC14091E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift in Sources */,
 				A372A3691C79567A0023C797 /* MessageTextCell.swift in Sources */,
 				B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */,
-				A3B6FB5B1C7A3697003A4FD4 /* MCell.swift in Sources */,
-				A351C3491CE4CCD2005E15A7 /* MCollectionViewUtil.swift in Sources */,
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,
 				B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */,
-				B14DD9981E7C43F100B11FF1 /* MCollectionViewDelegate.swift in Sources */,
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				A372A36C1C7979EB0023C797 /* InputToolbarView.swift in Sources */,
-				A351C34A1CE4CCD2005E15A7 /* MScrollView.swift in Sources */,
-				A351C3481CE4CCD2005E15A7 /* MCollectionView.swift in Sources */,
 				A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
-				B18D26E61E7DA3F7000FC7CA /* MScrollAnimation.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
 				B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B1B7B04B1E7DAD1E00F2483E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1B7B0601E7DAD2700F2483E /* MCollectionView+VisibleIndexes.swift in Sources */,
+				B1B7B0611E7DAD2700F2483E /* MCollectionViewUtil.swift in Sources */,
+				B1B7B05D1E7DAD2700F2483E /* MCell.swift in Sources */,
+				B1B7B0621E7DAD2700F2483E /* MScrollAnimation.swift in Sources */,
+				B1B7B0631E7DAD2700F2483E /* MScrollView.swift in Sources */,
+				B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */,
+				B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B1B7B0561E7DAD1F00F2483E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1B7B04F1E7DAD1E00F2483E /* MCollectionView */;
+			targetProxy = B1B7B0551E7DAD1F00F2483E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A3FC21CB1C6EE5AA008566BB /* Main.storyboard */ = {
@@ -477,10 +627,63 @@
 			};
 			name = Release;
 		};
+		B1B7B05A1E7DAD1F00F2483E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD3F684806DCCD81A324ABB1 /* Pods-MCollectionView.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4VSEW78TKT;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MCollectionView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.MCollectionView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B1B7B05B1E7DAD1F00F2483E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E7BA013C1AED3825956BADA /* Pods-MCollectionView.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4VSEW78TKT;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MCollectionView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.MCollectionView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A3FC21BF1C6EE5AA008566BB /* Build configuration list for PBXProject "MCollectionViewExample" */ = {
+		A3FC21BF1C6EE5AA008566BB /* Build configuration list for PBXProject "MCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3FC21D41C6EE5AA008566BB /* Debug */,
@@ -494,6 +697,15 @@
 			buildConfigurations = (
 				A3FC21D71C6EE5AA008566BB /* Debug */,
 				A3FC21D81C6EE5AA008566BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1B7B0591E7DAD1F00F2483E /* Build configuration list for PBXNativeTarget "MCollectionView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1B7B05A1E7DAD1F00F2483E /* Debug */,
+				B1B7B05B1E7DAD1F00F2483E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

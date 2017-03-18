@@ -13,7 +13,8 @@ open class MCollectionView: MScrollView {
   open weak var collectionDelegate: MCollectionViewDelegate?
 
   // the computed frames for cells, constructed in reloadData
-  var frames: [[CGRect]] = []
+  // TODO: set this to private
+  open var frames: [[CGRect]] = []
 
   // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
   // set when they are loaded or when the collection view scrolls
@@ -39,7 +40,7 @@ open class MCollectionView: MScrollView {
   // Continuous Layout optimization
   open var optimizeForContinuousLayout = false
 
-  override init(frame: CGRect) {
+  public override init(frame: CGRect) {
     super.init(frame: frame)
     initialize()
   }

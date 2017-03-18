@@ -8,6 +8,7 @@
 
 import UIKit
 import MotionAnimation
+import MCollectionView
 
 class MessagesViewController: UIViewController {
 
@@ -262,8 +263,7 @@ extension MessagesViewController: MessageTextCellDelegate {
         }
         moveMessageAtIndex(index, toIndex: toIndex)
       }
-      collectionView.scrollAnimation.velocity = velocity
-      collectionView.scrollAnimation.animateDone()
+      collectionView.scroll(with:velocity)
     }
   }
   func messageCellDidEndHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
