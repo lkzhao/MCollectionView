@@ -66,13 +66,13 @@
 		2E10930CE9C6E6BA55D5D3D6 /* Pods_MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E7BA013C1AED3825956BADA /* Pods-MCollectionView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.release.xcconfig"; sourceTree = "<group>"; };
 		9895E98B2E807431B160DEAB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionView.swift; path = MCollectionView/MCollectionView.swift; sourceTree = SOURCE_ROOT; };
-		A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewUtil.swift; path = MCollectionView/MCollectionViewUtil.swift; sourceTree = SOURCE_ROOT; };
-		A351C3471CE4CCD2005E15A7 /* MScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollView.swift; path = MCollectionView/MScrollView.swift; sourceTree = SOURCE_ROOT; };
+		A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionView.swift; path = MCollectionView.swift; sourceTree = "<group>"; };
+		A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewUtil.swift; path = MCollectionViewUtil.swift; sourceTree = "<group>"; };
+		A351C3471CE4CCD2005E15A7 /* MScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollView.swift; path = MScrollView.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		A372A36A1C7979EB0023C797 /* InputToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = InputToolbarView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryFollowView.swift; sourceTree = "<group>"; };
-		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; name = MCell.swift; path = ../MCollectionView/MCell.swift; sourceTree = "<group>"; tabWidth = 2; };
+		A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; name = MCell.swift; path = MCell.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* MCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,12 +87,12 @@
 		B102FC5C1D10FF5100408DD6 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 		B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridReorderableViewController.swift; sourceTree = "<group>"; };
-		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewDelegate.swift; path = ../MCollectionView/MCollectionViewDelegate.swift; sourceTree = "<group>"; };
-		B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollAnimation.swift; path = MCollectionView/MScrollAnimation.swift; sourceTree = SOURCE_ROOT; };
+		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewDelegate.swift; path = MCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollAnimation.swift; path = MScrollAnimation.swift; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCollectionView.h; sourceTree = "<group>"; };
 		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MCollectionView+VisibleIndexes.swift"; path = "MCollectionView/MCollectionView+VisibleIndexes.swift"; sourceTree = SOURCE_ROOT; };
+		B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MCollectionView+VisibleIndexes.swift"; path = "MCollectionView+VisibleIndexes.swift"; sourceTree = "<group>"; };
 		B1E23AEEB64AA02AC2EA119D /* Pods-MCollectionViewExamples.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExamples.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExamples/Pods-MCollectionViewExamples.release.xcconfig"; sourceTree = "<group>"; };
 		BD3F684806DCCD81A324ABB1 /* Pods-MCollectionView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.debug.xcconfig"; sourceTree = "<group>"; };
 		E09392DBE19C8DA6129E759C /* Pods-MCollectionViewExamples.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExamples.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExamples/Pods-MCollectionViewExamples.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,41 +135,43 @@
 		A351C3441CE4C917005E15A7 /* ChatExample (Advance) */ = {
 			isa = PBXGroup;
 			children = (
+				A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */,
+				A372A36A1C7979EB0023C797 /* InputToolbarView.swift */,
+				A372A3681C79567A0023C797 /* MessageTextCell.swift */,
 				A3DDEECE1C7D88430053BFAE /* Messages.swift */,
 				A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */,
-				A372A3681C79567A0023C797 /* MessageTextCell.swift */,
-				A372A36A1C7979EB0023C797 /* InputToolbarView.swift */,
-				A372A36B1C7979EB0023C797 /* InputAccessoryFollowView.swift */,
 			);
 			name = "ChatExample (Advance)";
+			path = "ChatExample (Advance)";
 			sourceTree = "<group>";
 		};
 		A3DDEED01C7D893D0053BFAE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
-				B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */,
-				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
 				B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */,
+				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
+				B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */,
 				A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */,
 				B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */,
 				A351C3471CE4CCD2005E15A7 /* MScrollView.swift */,
 			);
 			name = Sources;
-			path = MCollectionViewExample;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		A3DDEED11C7D894D0053BFAE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B102FC5C1D10FF5100408DD6 /* Random.swift */,
 				A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */,
-				A3FC21CB1C6EE5AA008566BB /* Main.storyboard */,
 				A3FC21CE1C6EE5AA008566BB /* Assets.xcassets */,
-				A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */,
 				A3FC21D31C6EE5AA008566BB /* Info.plist */,
+				A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */,
+				A3FC21CB1C6EE5AA008566BB /* Main.storyboard */,
+				B102FC5C1D10FF5100408DD6 /* Random.swift */,
 			);
 			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */ = {
@@ -179,17 +181,18 @@
 				B102FC5A1D10FEB900408DD6 /* ImageCell.swift */,
 			);
 			name = HorizontalGalleryExample;
+			path = HorizontalGalleryExample;
 			sourceTree = "<group>";
 		};
 		A3FC21BB1C6EE5AA008566BB = {
 			isa = PBXGroup;
 			children = (
-				A3DDEED01C7D893D0053BFAE /* Sources */,
 				A3FC21C61C6EE5AA008566BB /* Examples */,
-				B1B7B0511E7DAD1F00F2483E /* MCollectionView */,
-				A3FC21C51C6EE5AA008566BB /* Products */,
 				25AB763F974152906E852BFF /* Frameworks */,
+				B1B7B0511E7DAD1F00F2483E /* MCollectionView */,
 				A7622C0465A1EC7849B1C288 /* Pods */,
+				A3FC21C51C6EE5AA008566BB /* Products */,
+				A3DDEED01C7D893D0053BFAE /* Sources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -207,13 +210,13 @@
 		A3FC21C61C6EE5AA008566BB /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
-				B136E9A11D04C0D500D02FCA /* GridExample */,
 				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
+				B136E9A11D04C0D500D02FCA /* GridExample */,
+				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);
 			name = Examples;
-			path = MCollectionViewExample;
+			path = Examples;
 			sourceTree = "<group>";
 		};
 		A7622C0465A1EC7849B1C288 /* Pods */ = {
@@ -232,17 +235,18 @@
 		B136E9A11D04C0D500D02FCA /* GridExample */ = {
 			isa = PBXGroup;
 			children = (
-				B136E99F1D04BA5700D02FCA /* GridViewController.swift */,
 				B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */,
+				B136E99F1D04BA5700D02FCA /* GridViewController.swift */,
 			);
 			name = GridExample;
+			path = GridExample;
 			sourceTree = "<group>";
 		};
 		B1B7B0511E7DAD1F00F2483E /* MCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */,
 				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
+				B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */,
 			);
 			path = MCollectionView;
 			sourceTree = "<group>";
@@ -492,6 +496,7 @@
 				A3FC21CC1C6EE5AA008566BB /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */ = {
@@ -500,6 +505,7 @@
 				A3FC21D11C6EE5AA008566BB /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -601,7 +607,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4VSEW78TKT;
-				INFOPLIST_FILE = MCollectionViewExample/Info.plist;
+				INFOPLIST_FILE = "Examples/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.MCollectionViewExample;
@@ -618,7 +624,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4VSEW78TKT;
-				INFOPLIST_FILE = MCollectionViewExample/Info.plist;
+				INFOPLIST_FILE = "Examples/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.MCollectionViewExample;
