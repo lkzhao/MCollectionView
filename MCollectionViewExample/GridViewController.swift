@@ -9,8 +9,8 @@
 import UIKit
 
 class GridViewController: UIViewController {
-  
-  var collectionView:MCollectionView!
+
+  var collectionView: MCollectionView!
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
@@ -21,7 +21,7 @@ class GridViewController: UIViewController {
     collectionView.horizontalScroll = true
     view.addSubview(collectionView)
   }
-  
+
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     collectionView.frame = view.bounds
@@ -29,18 +29,16 @@ class GridViewController: UIViewController {
   }
 }
 
-
-
 // collectionview datasource and layout
-extension GridViewController: MCollectionViewDelegate{
+extension GridViewController: MCollectionViewDelegate {
   func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int {
     return 1
   }
-  
+
   func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
     return 400
   }
-  
+
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
     let v = collectionView.dequeueReusableView(UILabel.self) ?? UILabel()
     v.backgroundColor = UIColor.lightGray
@@ -48,11 +46,11 @@ extension GridViewController: MCollectionViewDelegate{
     v.frame = initialFrame
     return v
   }
-  
+
   func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
     return "\((indexPath as NSIndexPath).item)"
   }
-  
+
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
     let i = (indexPath as NSIndexPath).item
     return CGRect(x: CGFloat(i % 20) * 60, y: CGFloat(i / 20) * 60, width: 50, height: 50)

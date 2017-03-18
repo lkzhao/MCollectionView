@@ -9,45 +9,45 @@
 import UIKit
 import AVFoundation
 
-@objc protocol InputToolbarViewDelegate:InputAccessoryFollowViewDelegate{
-  func send(_ text:String)
+@objc protocol InputToolbarViewDelegate: InputAccessoryFollowViewDelegate {
+  func send(_ text: String)
   func inputToolbarViewNeedFrameUpdate()
 }
 
 class InputToolbarView: MCell {
-  var textView:UITextView!
-  var sendButton:UIImageView!
+  var textView: UITextView!
+  var sendButton: UIImageView!
   var showingPlaceholder = true
-  var keyboardFrame:CGRect?{
+  var keyboardFrame: CGRect? {
     return accessoryView.keyboardFrame
   }
-  var accessoryView:InputAccessoryFollowView!
-  weak var delegate:InputToolbarViewDelegate?{
-    didSet{
+  var accessoryView: InputAccessoryFollowView!
+  weak var delegate: InputToolbarViewDelegate? {
+    didSet {
       accessoryView.delegate = delegate
     }
   }
-  
+
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
+
     sendButton = UIImageView(image: UIImage(named: "ic_send"))
     sendButton.tintColor = UIColor(white: 0.6, alpha: 1.0)
     sendButton.contentMode = .center
     addSubview(sendButton)
-    
+
     textView = UITextView(frame: CGRect.zero)
     addSubview(textView)
-    
+
     layer.shadowOffset = CGSize.zero
     layer.shadowRadius = 30
     layer.shadowColor = UIColor(white: 0.3, alpha: 1.0).cgColor
     layer.cornerRadius = 10
-    self.m_defineCustomProperty("shadowOpacity", initialValues: 0) { (v:CGFloat) -> Void in
+    self.m_defineCustomProperty("shadowOpacity", initialValues: 0) { (v: CGFloat) -> Void in
       self.layer.shadowOpacity = Float(v)
     }
     backgroundColor = UIColor(white: 0.97, alpha: 0.97)
-    
+
     textView.delegate = self
     textView.backgroundColor = .clear
     textView.font = UIFont.systemFont(ofSize: 17)
@@ -55,42 +55,41 @@ class InputToolbarView: MCell {
     accessoryView = InputAccessoryFollowView()
     accessoryView.autoresizingMask = .flexibleHeight
     textView.inputAccessoryView = accessoryView
-    
-    
+
     tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
     addGestureRecognizer(tapGR)
   }
-  
+
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
   override func layoutSubviews() {
     super.layoutSubviews()
     sendButton.bounds.size = CGSize(width: 44, height: 44)
     sendButton.frame.origin = CGPoint(x: bounds.width - sendButton.frame.width, y: (bounds.height - sendButton.frame.height)/2)
     textView.frame = CGRect(x: 8, y: 8, width: bounds.width - sendButton.frame.width, height: bounds.height - 16)
   }
-  
-  var recorder:AVAudioRecorder!
-  var recordFileURL:URL!
-  var meterTimer:Timer!
-  
+
+  var recorder: AVAudioRecorder!
+  var recordFileURL: URL!
+  var meterTimer: Timer!
+
   override func tap() {
-    if sendButton.frame.contains(tapGR.location(in: self)){
+    if sendButton.frame.contains(tapGR.location(in: self)) {
       sendButtonTapped()
     } else if self.bounds.contains(tapGR.location(in: self)) && !textView.isFirstResponder {
       textView.becomeFirstResponder()
     }
   }
-  
+
   var shaking = false
-  func sendButtonTapped(){
+  func sendButtonTapped() {
     if !showingPlaceholder && textView.text != ""{
       delegate?.send(textView.text)
       setText("")
     } else {
-      if !shaking{
+      if !shaking {
         shaking = true
 //        let originalCenter = center
         //        self.animateCenterTo(CGPointMake(originalCenter.x + 10, originalCenter.y), stiffness: 2500, threshold:150) {
@@ -105,16 +104,16 @@ class InputToolbarView: MCell {
       }
     }
   }
-  
-  func setText(_ text:String){
-    if text == "" && !textView.isFirstResponder{
+
+  func setText(_ text: String) {
+    if text == "" && !textView.isFirstResponder {
       showPlaceHolder()
     } else {
       textView.text = text
       textViewDidChange(textView)
     }
   }
-  
+
   override func sizeThatFits(_ size: CGSize) -> CGSize {
     let textSize = textView.sizeThatFits(CGSize(width: size.width - 16, height: size.height - 16))
     let newHeight = min(textSize.height + 16, 100)
@@ -122,10 +121,10 @@ class InputToolbarView: MCell {
   }
 }
 
-extension InputToolbarView: UITextViewDelegate{
+extension InputToolbarView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     let size = self.sizeThatFits(CGSize(width: frame.width, height: CGFloat.greatestFiniteMagnitude))
-    if size.height != frame.height{
+    if size.height != frame.height {
       self.delegate?.inputToolbarViewNeedFrameUpdate()
       self.layoutIfNeeded()
     }
@@ -142,7 +141,7 @@ extension InputToolbarView: UITextViewDelegate{
       showPlaceHolder()
     }
   }
-  func showPlaceHolder(){
+  func showPlaceHolder() {
     showingPlaceholder = true
     textView.text = "Send message..."
     textView.textColor = UIColor(red: 131/255, green: 138/255, blue: 147/255, alpha: 0.7)

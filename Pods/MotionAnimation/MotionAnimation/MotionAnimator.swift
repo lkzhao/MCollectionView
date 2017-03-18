@@ -8,28 +8,28 @@
 
 import UIKit
 @objc
-public protocol MotionAnimatorObserver{
-  func animatorDidUpdate(_ animator:MotionAnimator, dt:CGFloat)
+public protocol MotionAnimatorObserver {
+  func animatorDidUpdate(_ animator: MotionAnimator, dt: CGFloat)
 }
 
 open class MotionAnimator: NSObject {
   open static let sharedInstance = MotionAnimator()
-  var updateObservers:[MotionAnimationObserverKey:Weak<MotionAnimatorObserver>] = [:]
+  var updateObservers: [MotionAnimationObserverKey:Weak<MotionAnimatorObserver>] = [:]
 
   open var debugEnabled = false
-  var displayLinkPaused:Bool{
-    get{
+  var displayLinkPaused: Bool {
+    get {
       return displayLink == nil
     }
-    set{
+    set {
       newValue ? stop() : start()
     }
   }
-  var animations:[MotionAnimation] = []
-  var pendingStopAnimations:[MotionAnimation] = []
-  var displayLink : CADisplayLink!
+  var animations: [MotionAnimation] = []
+  var pendingStopAnimations: [MotionAnimation] = []
+  var displayLink: CADisplayLink!
 
-  override init(){
+  override init() {
     super.init()
   }
 
@@ -37,9 +37,9 @@ open class MotionAnimator: NSObject {
     _removeAllPendingStopAnimations()
 
     let duration = CGFloat(displayLink.duration)
-    for b in animations{
+    for b in animations {
       b.willUpdate()
-      if !b.update(duration){
+      if !b.update(duration) {
         b.animator = nil
         pendingStopAnimations.append(b)
       }
@@ -50,18 +50,18 @@ open class MotionAnimator: NSObject {
 
     _removeAllPendingStopAnimations()
 
-    if animations.count == 0{
+    if animations.count == 0 {
       displayLinkPaused = true
     }
-    for (_, o) in updateObservers{
+    for (_, o) in updateObservers {
       o.value?.animatorDidUpdate(self, dt: duration)
     }
   }
 
   // must be called in mutex
-  func _removeAllPendingStopAnimations(){
-    for b in pendingStopAnimations{
-      if let index = animations.index(of: b){
+  func _removeAllPendingStopAnimations() {
+    for b in pendingStopAnimations {
+      if let index = animations.index(of: b) {
         animations.remove(at: index)
         b.delegate?.animationDidStop(b)
         b.onCompletion?(b)
@@ -70,22 +70,22 @@ open class MotionAnimator: NSObject {
     pendingStopAnimations.removeAll()
   }
 
-  open func addUpdateObserver(_ observer:MotionAnimatorObserver) -> MotionAnimationObserverKey {
+  open func addUpdateObserver(_ observer: MotionAnimatorObserver) -> MotionAnimationObserverKey {
     let key = UUID()
     updateObservers[key] = Weak(value: observer)
     return key
   }
 
-  open func observerWithKey(_ observerKey:MotionAnimationObserverKey) -> MotionAnimatorObserver? {
+  open func observerWithKey(_ observerKey: MotionAnimationObserverKey) -> MotionAnimatorObserver? {
     return updateObservers[observerKey]?.value
   }
 
-  open func removeUpdateObserverWithKey(_ observerKey:MotionAnimationObserverKey) {
+  open func removeUpdateObserverWithKey(_ observerKey: MotionAnimationObserverKey) {
     updateObservers.removeValue(forKey: observerKey)
   }
 
-  open func addAnimation(_ b:MotionAnimation){
-    if let index = pendingStopAnimations.index(of: b){
+  open func addAnimation(_ b: MotionAnimation) {
+    if let index = pendingStopAnimations.index(of: b) {
       pendingStopAnimations.remove(at: index)
     }
     if animations.index(of: b) == nil {
@@ -96,10 +96,10 @@ open class MotionAnimator: NSObject {
     }
     b.animator = self
   }
-  open func hasAnimation(_ b:MotionAnimation) -> Bool{
+  open func hasAnimation(_ b: MotionAnimation) -> Bool {
     return animations.index(of: b) != nil && pendingStopAnimations.index(of: b) == nil
   }
-  open func removeAnimation(_ b:MotionAnimation){
+  open func removeAnimation(_ b: MotionAnimation) {
     if animations.index(of: b) != nil {
       pendingStopAnimations.append(b)
     }
@@ -107,7 +107,7 @@ open class MotionAnimator: NSObject {
   }
 
   func start() {
-    if !displayLinkPaused{
+    if !displayLinkPaused {
       return
     }
     displayLink = CADisplayLink(target: self, selector: #selector(update))
@@ -116,7 +116,7 @@ open class MotionAnimator: NSObject {
   }
 
   func stop() {
-    if displayLinkPaused{
+    if displayLinkPaused {
       return
     }
     displayLink.isPaused = true
@@ -125,11 +125,7 @@ open class MotionAnimator: NSObject {
     printDebugMsg("displayLink ended")
   }
 
-  func printDebugMsg(_ str:String){
+  func printDebugMsg(_ str: String) {
     if debugEnabled { print(str) }
   }
 }
-
-
-
-

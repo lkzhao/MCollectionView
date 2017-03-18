@@ -9,7 +9,7 @@ import CoreGraphics
 
 public extension Int {
     /// Returns a random Int point number between 0 and Int.max.
-    public static var random:Int {
+    public static var random: Int {
         get {
             return Int.random(Int.max)
         }
@@ -39,7 +39,7 @@ public extension Int {
 }
 public extension Double {
     /// Returns a random floating point number between 0.0 and 1.0, inclusive.
-    public static var random:Double {
+    public static var random: Double {
         get {
             return Double(arc4random()) / 0xFFFFFFFF
         }
@@ -58,7 +58,7 @@ public extension Double {
 }
 public extension Float {
     /// Returns a random floating point number between 0.0 and 1.0, inclusive.
-    public static var random:Float {
+    public static var random: Float {
         get {
             return Float(arc4random()) / 0xFFFFFFFF
         }
@@ -77,13 +77,13 @@ public extension Float {
 }
 public extension CGFloat {
     /// Randomly returns either 1.0 or -1.0.
-    public static var randomSign:CGFloat {
+    public static var randomSign: CGFloat {
         get {
             return (arc4random_uniform(2) == 0) ? 1.0 : -1.0
         }
     }
     /// Returns a random floating point number between 0.0 and 1.0, inclusive.
-    public static var random:CGFloat {
+    public static var random: CGFloat {
         get {
             return CGFloat(Float.random)
         }

@@ -8,40 +8,40 @@
 
 import UIKit
 
-func sizeForImage(_ imageSize:CGSize, maxSize:CGSize) -> CGSize{
+func sizeForImage(_ imageSize: CGSize, maxSize: CGSize) -> CGSize {
   var imageSize = imageSize
-  if imageSize.width > maxSize.width{
+  if imageSize.width > maxSize.width {
     imageSize.height /= imageSize.width/maxSize.width
     imageSize.width = maxSize.width
   }
-  if imageSize.height > maxSize.height{
+  if imageSize.height > maxSize.height {
     imageSize.width /= imageSize.height/maxSize.height
     imageSize.height = maxSize.height
   }
   return imageSize
 }
 
-class ImageCell: MCell{
+class ImageCell: MCell {
   var imageView = UIImageView()
-  var image:UIImage?{
-    didSet{
+  var image: UIImage? {
+    didSet {
       imageView.image = image
     }
   }
-  
-  override init(frame:CGRect) {
+
+  override init(frame: CGRect) {
     super.init(frame: frame)
     imageView.clipsToBounds = true
     imageView.layer.cornerRadius = 7
     addSubview(imageView)
     showShadow = true
   }
-  
+
   override func layoutSubviews() {
     super.layoutSubviews()
     imageView.frame = bounds
   }
-  
+
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }

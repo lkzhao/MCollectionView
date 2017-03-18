@@ -7,14 +7,14 @@
 //
 
 import UIKit
-@objc protocol InputAccessoryFollowViewDelegate{
-  func inputAccessoryViewDidUpdateFrame(_ frame:CGRect)
+@objc protocol InputAccessoryFollowViewDelegate {
+  func inputAccessoryViewDidUpdateFrame(_ frame: CGRect)
 }
 class InputAccessoryFollowView: UIView {
-  weak var delegate:InputAccessoryFollowViewDelegate?
-  
-  var keyboardFrame:CGRect?
-  
+  weak var delegate: InputAccessoryFollowViewDelegate?
+
+  var keyboardFrame: CGRect?
+
   init() {
     super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
     backgroundColor = .clear
@@ -24,26 +24,26 @@ class InputAccessoryFollowView: UIView {
   required init(coder aDecoder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
   }
-  
-  var observedSuperview:UIView?
+
+  var observedSuperview: UIView?
   override func willMove(toSuperview newSuperview: UIView?) {
     removeSuperviewObserver()
-    if let s = newSuperview{
+    if let s = newSuperview {
       addSuperviewObserver(s)
     }
     super.willMove(toSuperview: newSuperview)
   }
-  func addSuperviewObserver(_ superview:UIView){
+  func addSuperviewObserver(_ superview: UIView) {
     superview.addObserver(self, forKeyPath: "center", options: NSKeyValueObservingOptions(), context: nil)
     observedSuperview = superview
   }
-  func removeSuperviewObserver(){
-    if let os = observedSuperview{
+  func removeSuperviewObserver() {
+    if let os = observedSuperview {
       os.removeObserver(self, forKeyPath: "center")
       observedSuperview = nil
     }
   }
-  deinit{
+  deinit {
     removeSuperviewObserver()
   }
 
