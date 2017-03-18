@@ -8,6 +8,16 @@
 
 import UIKit
 
+@objc public protocol MScrollViewDelegate {
+  @objc optional func scrollViewWillBeginDraging(_ scrollView: MScrollView)
+  @objc optional func scrollViewDidEndDraging(_ scrollView: MScrollView)
+  @objc optional func scrollViewWillStartScroll(_ scrollView: MScrollView)
+  @objc optional func scrollViewScrolled(_ scrollView: MScrollView)
+  @objc optional func scrollViewDidEndScroll(_ scrollView: MScrollView)
+  @objc optional func scrollViewDidDrag(_ scrollView: MScrollView)
+  @objc optional func scrollView(_ scrollView: MScrollView, willSwitchFromPage fromPage: Int, toPage: Int)
+}
+
 @objc public protocol MCollectionViewDelegate: MScrollViewDelegate {
 
   /// Data source

@@ -26,7 +26,7 @@
 		B1B7B0571E7DAD1F00F2483E /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
 		B1B7B0581E7DAD1F00F2483E /* MCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B1B7B05D1E7DAD2700F2483E /* MCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */; };
-		B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */; };
+		B1B7B05E1E7DAD2700F2483E /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* Delegate.swift */; };
 		B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */; };
 		B1B7B0601E7DAD2700F2483E /* MCollectionView+VisibleIndexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */; };
 		B1B7B0611E7DAD2700F2483E /* MCollectionViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */; };
@@ -86,7 +86,7 @@
 		B102FC5C1D10FF5100408DD6 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 		B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridReorderableViewController.swift; sourceTree = "<group>"; };
-		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		B14DD9951E7C43E500B11FF1 /* Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegate.swift; sourceTree = "<group>"; };
 		B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MScrollAnimation.swift; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCollectionView.h; sourceTree = "<group>"; };
@@ -140,11 +140,11 @@
 			isa = PBXGroup;
 			children = (
 				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
+				B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */,
 				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
 				B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */,
-				B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */,
 				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
-				B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */,
+				B14DD9951E7C43E500B11FF1 /* Delegate.swift */,
 				A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */,
 				B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */,
 				A351C3471CE4CCD2005E15A7 /* MScrollView.swift */,
@@ -451,7 +451,7 @@
 				B1B7B0621E7DAD2700F2483E /* MScrollAnimation.swift in Sources */,
 				B1B7B0631E7DAD2700F2483E /* MScrollView.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */,
-				B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */,
+				B1B7B05E1E7DAD2700F2483E /* Delegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

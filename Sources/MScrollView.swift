@@ -8,15 +8,16 @@
 
 import UIKit
 import MotionAnimation
+import UIKit.UIGestureRecognizerSubclass
 
-@objc public protocol MScrollViewDelegate {
-  @objc optional func scrollViewWillBeginDraging(_ scrollView: MScrollView)
-  @objc optional func scrollViewDidEndDraging(_ scrollView: MScrollView)
-  @objc optional func scrollViewWillStartScroll(_ scrollView: MScrollView)
-  @objc optional func scrollViewScrolled(_ scrollView: MScrollView)
-  @objc optional func scrollViewDidEndScroll(_ scrollView: MScrollView)
-  @objc optional func scrollViewDidDrag(_ scrollView: MScrollView)
-  @objc optional func scrollView(_ scrollView: MScrollView, willSwitchFromPage fromPage: Int, toPage: Int)
+class ImmediatePanGestureRecognizer: UIPanGestureRecognizer {
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    if (state == .began) {
+      return
+    }
+    super.touchesBegan(touches, with: event)
+    state = .began
+  }
 }
 
 open class MScrollView: UIView {
@@ -115,7 +116,7 @@ open class MScrollView: UIView {
       self?.willStartScroll()
     }
 
-    panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+    panGestureRecognizer = ImmediatePanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     panGestureRecognizer.delegate = self
     addGestureRecognizer(panGestureRecognizer)
   }
