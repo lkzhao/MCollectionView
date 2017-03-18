@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public protocol MCollectionViewDelegate {
+@objc public protocol MCollectionViewDelegate: MScrollViewDelegate {
 
   /// Data source
   @objc optional func numberOfSectionsInCollectionView(_ collectionView:MCollectionView) -> Int

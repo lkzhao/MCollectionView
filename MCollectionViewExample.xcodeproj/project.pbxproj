@@ -26,6 +26,7 @@
 		B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136E99F1D04BA5700D02FCA /* GridViewController.swift */; };
 		B14DD9941E7C43B100B11FF1 /* GridReorderableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */; };
 		B14DD9981E7C43F100B11FF1 /* MCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */; };
+		B18D26E61E7DA3F7000FC7CA /* MScrollAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */; };
 		B1DC14091E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */; };
 		EE8F6F31D1F8C1B1D9503658 /* Pods_MCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85D17B4D7E06CD859A66B3A /* Pods_MCollectionViewExample.framework */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 		B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridReorderableViewController.swift; sourceTree = "<group>"; };
 		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCollectionViewDelegate.swift; path = ../MCollectionView/MCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MScrollAnimation.swift; path = MCollectionView/MScrollAnimation.swift; sourceTree = SOURCE_ROOT; };
 		B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MCollectionView+VisibleIndexes.swift"; path = "MCollectionView/MCollectionView+VisibleIndexes.swift"; sourceTree = SOURCE_ROOT; };
 		EA3C3193A0D33214E8BDA7BD /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +102,7 @@
 				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
 				B1DC14081E7C6DEC0030A446 /* MCollectionView+VisibleIndexes.swift */,
 				A351C3461CE4CCD2005E15A7 /* MCollectionViewUtil.swift */,
+				B18D26E51E7DA3F7000FC7CA /* MScrollAnimation.swift */,
 				A351C3471CE4CCD2005E15A7 /* MScrollView.swift */,
 			);
 			name = MCollectionView;
@@ -324,6 +327,7 @@
 				A351C3481CE4CCD2005E15A7 /* MCollectionView.swift in Sources */,
 				A372A36D1C7979EB0023C797 /* InputAccessoryFollowView.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
+				B18D26E61E7DA3F7000FC7CA /* MScrollAnimation.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
 				B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */,
 			);

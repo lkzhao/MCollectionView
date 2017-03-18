@@ -61,15 +61,11 @@ class MessagesViewController: UIViewController {
     
     layout(false)
     collectionView.reloadData()
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    collectionView.scrollToBottom()
+    collectionView.scroll(to: .bottom, animate:false)
   }
 
   func layout(_ animate:Bool = true){
-    let isAtBottom = collectionView.isAtBottom
+    let isAtBottom = collectionView.isAt(.bottom)
     collectionView.frame = view.bounds
     let inputPadding:CGFloat = 10
     let inputSize = inputToolbarView.sizeThatFits(CGSize(width: view.bounds.width - 2 * inputPadding, height: view.bounds.height))
@@ -83,7 +79,7 @@ class MessagesViewController: UIViewController {
     }
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 0, view.bounds.height - inputToolbarFrame.minY + 20, 0)
     if isAtBottom{
-      collectionView.scrollToBottom(animate)
+      collectionView.scroll(to: .bottom, animate: animate)
     }
   }
 
@@ -207,7 +203,7 @@ extension MessagesViewController: InputToolbarViewDelegate{
     let oldContentInset = collectionView.contentInset
     self.viewDidLayoutSubviews()
     if oldContentInset != collectionView.contentInset{
-      collectionView.scrollToBottom(true)
+      collectionView.scroll(to: .bottom)
     }
   }
   func send(_ text: String) {
@@ -217,11 +213,11 @@ extension MessagesViewController: InputToolbarViewDelegate{
     collectionView.reloadData()
     sendingMessage = false
 
-    collectionView.scrollToBottom(true)
+    collectionView.scroll(to: .bottom)
     delay(1.0) {
       self.messages.append(Message(false, content: text))
       self.collectionView.reloadData()
-      self.collectionView.scrollToBottom(true)
+      self.collectionView.scroll(to: .bottom)
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
@@ -259,7 +255,7 @@ extension MessagesViewController: MessageTextCellDelegate{
       if fingerPosition.y < 80 && collectionView.contentOffset.y > 0{
         velocity.y = -(80 - fingerPosition.y) * 30
       } else if fingerPosition.y > view.bounds.height - 80 &&
-        collectionView.contentOffset.y < collectionView.bottomOffset.y {
+        collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
         velocity.y = (fingerPosition.y - (view.bounds.height - 80)) * 30
       } else if let toIndex = (collectionView.indexPathForItemAtPoint(center) as NSIndexPath?)?.item , toIndex != index && canReorder{
         canReorder = false
@@ -341,6 +337,6 @@ extension MessagesViewController: MScrollViewDelegate{
         self.loading = false
       }
     }
-    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.bottomOffset.y - 10 || inputToolbarView.textView.isFirstResponder
+    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.offsetAt(.bottom) - 10 || inputToolbarView.textView.isFirstResponder
   }
 }
