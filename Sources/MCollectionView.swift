@@ -8,25 +8,37 @@
 
 import UIKit
 
-open class MCollectionView: MScrollView {
-  open var debugName: String = ""
-  open weak var collectionDelegate: MCollectionViewDelegate?
-
-  // the computed frames for cells, constructed in reloadData
-  private var frames: [[CGRect]] = []
+public class MCollectionView: MScrollView {
+  public weak var collectionDelegate: MCollectionViewDelegate?
 
   // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
   // set when they are loaded or when the collection view scrolls
   // turn this off if you want to manually set its frame
-  open var autoLayoutOnUpdate = true
+  public var autoLayoutOnUpdate = true
 
   // Remove cell from view hierarchy if the cell is being deleted.
   // Might want to turn this off if you want to do some animation when
   // cell is being deleted
-  open var autoRemoveCells = true
+  public var autoRemoveCells = true
 
   // wabble animation
-  open var wabble = false
+  public var wabble = false
+
+  // inner size is the frame size minus the inset
+  public var innerSize: CGSize {
+    return CGSize(width: bounds.width - contentInset.left - contentInset.right, height: bounds.height - contentInset.top - contentInset.bottom)
+  }
+
+  public var numberOfItems: Int {
+    return frames.reduce(0, { (count, section) -> Int in
+      return count + section.count
+    })
+  }
+
+
+
+  // the computed frames for cells, constructed in reloadData
+  var frames: [[CGRect]] = []
 
   // for moving cells
   var pressGR: UILongPressGestureRecognizer!
@@ -38,28 +50,23 @@ open class MCollectionView: MScrollView {
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, IndexPath> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, IndexPath> = [:]
 
-  // inner size is the frame size minus the inset
-  open var innerSize: CGSize {
-    return CGSize(width: bounds.width - contentInset.left - contentInset.right, height: bounds.height - contentInset.top - contentInset.bottom)
-  }
-
-  open var numberOfItems: Int {
-    return frames.reduce(0, { (count, section) -> Int in
-      return count + section.count
-    })
-  }
+  var lastReloadFrame: CGRect?
+  var floatingCells: [UIView] = []
+  var reusableViews: [String:[UIView]] = [:]
+  var cleanupTimer: Timer?
+  var reloading = false
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    initialize()
+    commonInit()
   }
 
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    initialize()
+    commonInit()
   }
 
-  func initialize() {
+  func commonInit() {
     pressGR = UILongPressGestureRecognizer(target: self, action: #selector(press))
     pressGR.delegate = self
     pressGR.minimumPressDuration = 0.5
@@ -69,7 +76,7 @@ open class MCollectionView: MScrollView {
   func press() {
     switch pressGR.state {
     case .began:
-      if let indexPath = indexPathForItem(at: pressGR.location(in: self)),
+      if let indexPath = indexPathForCell(at: pressGR.location(in: self)),
         collectionDelegate?.collectionView?(self, canMoveItemAt: indexPath) == true {
         // TODO
       }
@@ -81,8 +88,7 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  var lastReloadFrame: CGRect?
-  open override func layoutSubviews() {
+  public override func layoutSubviews() {
     super.layoutSubviews()
     if frame != lastReloadFrame {
       lastReloadFrame = frame
@@ -90,87 +96,14 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  open func indexPathForItem(at point: CGPoint) -> IndexPath? {
-    for (i, s) in frames.enumerated() {
-      for (j, f) in s.enumerated() {
-        if f.contains(point) {
-          return IndexPath(item: j, section: i)
-        }
-      }
-    }
-    return nil
-  }
-  open func cell(for indexPath: IndexPath) -> UIView? {
-    return visibleCellToIndexMap[indexPath]
-  }
-  open func frameForCell(at indexPath: IndexPath?) -> CGRect? {
-    if let indexPath = indexPath, let section = framesForCells(in: indexPath.section) {
-      if section.count > indexPath.item {
-        return section[indexPath.item]
-      }
-    }
-    return nil
-  }
-  open func framesForCells(in section: Int) -> [CGRect]? {
-    if section < 0 {
-      return nil
-    } else {
-      return frames.count > section ? frames[section] : nil
-    }
-  }
-
-  fileprivate var reusableViews: [String:[UIView]] = [:]
-  open func dequeueReusableView<T: UIView> (_ viewClass: T.Type) -> T? {
-    return reusableViews[String(describing: viewClass)]?.popLast() as? T
-  }
-
-  fileprivate func disappearCell(at indexPath: IndexPath) {
-    if let cell = visibleCellToIndexMap[indexPath] {
-      collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
-      cell.m_removeAnimationForKey("center")
-      cell.removeFromSuperview()
-
-      let identifier = "\(type(of: cell))"
-      if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell) {
-        reusableViews[identifier]?.append(cell)
-      } else {
-        reusableViews[identifier] = [cell]
-      }
-      visibleCellToIndexMap.remove(indexPath)
-    }
-  }
-  fileprivate func appearCell(at indexPath: IndexPath) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
-      visibleCellToIndexMap[cell] = indexPath
-      contentView.addSubview(cell)
-      collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
-    }
-  }
-  fileprivate func deleteCell(at indexPath: IndexPath) {
-    if let cell = visibleCellToIndexMap[indexPath] {
-      if autoRemoveCells {
-        cell.removeFromSuperview()
-      }
-      collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndexPath: indexPath)
-      visibleCellToIndexMap.remove(indexPath)
-    }
-  }
-  fileprivate func insertCell(at indexPath: IndexPath) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
-      visibleCellToIndexMap[cell] = indexPath
-      contentView.addSubview(cell)
-      collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndexPath: indexPath)
-    }
-  }
-
-  open var activeFrameSlop: UIEdgeInsets? {
+  public var activeFrameSlop: UIEdgeInsets? {
     didSet {
       if !reloading && activeFrameSlop != oldValue {
         loadCells()
       }
     }
   }
-  open var activeFrame: CGRect {
+  public var activeFrame: CGRect {
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else if wabble {
@@ -183,7 +116,7 @@ open class MCollectionView: MScrollView {
 
   /*
    * Update visibleCells & visibleIndexes according to scrollView's visibleFrame
-   * load the view for cells that move into the visibleFrame and recycles them when
+   * load cells that move into the visibleFrame and recycles them when
    * they move out of the visibleFrame.
    */
   fileprivate func loadCells() {
@@ -203,32 +136,8 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  open func wabbleRect(_ indexPath: IndexPath) -> CGRect {
-    let screenDragLocation = contentOffset + dragLocation
-    let cellFrame = frameForCell(at: indexPath)!
-    let cellOffset = cellFrame.center.distance(screenDragLocation) * scrollVelocity / 5000
-    return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
-  }
-
-  open func indexPathOfView(_ view: UIView) -> IndexPath? {
-    if reloading {
-      fatalError("shouldn't call index of view during reload -> wrong index might be returned")
-    }
-    return visibleCellToIndexMap[view]
-  }
-
-  open func reloadCellAtIndexPath(_ indexPath: IndexPath) {
-    if visibleIndexes.contains(indexPath) {
-      disappearCell(at: indexPath)
-      appearCell(at: indexPath)
-    }
-  }
-
-  open fileprivate(set) var reloading = false
-  // reload number of cells and all their frames
-  // similar to [UICollectionView invalidateLayout]
-  open func reloadData(_ framesLoadedBlock:(() -> Void)? = nil) {
-//    print("\(debugName) reloadData")
+  // reload all frames. will automatically diff insertion & deletion
+  public func reloadData(_ framesLoadedBlock:(() -> Void)? = nil) {
     self.collectionDelegate?.collectionViewWillReload?(self)
     reloading = true
 
@@ -320,8 +229,15 @@ open class MCollectionView: MScrollView {
     self.collectionDelegate?.collectionViewDidReload?(self)
   }
 
-  open var floatingCells: [UIView] = []
-  open func layoutCellsIfNecessary() {
+
+  public func wabbleRect(_ indexPath: IndexPath) -> CGRect {
+    let screenDragLocation = contentOffset + dragLocation
+    let cellFrame = frameForCell(at: indexPath)!
+    let cellOffset = cellFrame.center.distance(screenDragLocation) * scrollVelocity / 5000
+    return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+  }
+
+  public func layoutCellsIfNecessary() {
     if autoLayoutOnUpdate {
       for (indexPath, cell) in visibleCellToIndexMap.ts {
         if !floatingCells.contains(cell) {
@@ -345,17 +261,96 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  var cleanupTimer: Timer?
   override func didEndScroll() {
     super.didEndScroll()
     cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
   }
 
+  public func dequeueReusableView<T: UIView> (_ viewClass: T.Type) -> T? {
+    return reusableViews[String(describing: viewClass)]?.popLast() as? T
+  }
+
+  fileprivate func disappearCell(at indexPath: IndexPath) {
+    if let cell = visibleCellToIndexMap[indexPath] {
+      collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
+      cell.m_removeAnimationForKey("center")
+      cell.removeFromSuperview()
+
+      let identifier = "\(type(of: cell))"
+      if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell) {
+        reusableViews[identifier]?.append(cell)
+      } else {
+        reusableViews[identifier] = [cell]
+      }
+      visibleCellToIndexMap.remove(indexPath)
+    }
+  }
+  fileprivate func appearCell(at indexPath: IndexPath) {
+    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
+      visibleCellToIndexMap[cell] = indexPath
+      contentView.addSubview(cell)
+      collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
+    }
+  }
+  fileprivate func deleteCell(at indexPath: IndexPath) {
+    if let cell = visibleCellToIndexMap[indexPath] {
+      if autoRemoveCells {
+        cell.removeFromSuperview()
+      }
+      collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndexPath: indexPath)
+      visibleCellToIndexMap.remove(indexPath)
+    }
+  }
+  fileprivate func insertCell(at indexPath: IndexPath) {
+    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
+      visibleCellToIndexMap[cell] = indexPath
+      contentView.addSubview(cell)
+      collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndexPath: indexPath)
+    }
+  }
+
   func cleanup() {
     reusableViews.removeAll()
   }
+}
 
-//  deinit{
-//    print("MCollectionView \(self.debugName) deinit")
-//  }
+extension MCollectionView {
+  public func indexPathForCell(at point: CGPoint) -> IndexPath? {
+    for (i, s) in frames.enumerated() {
+      for (j, f) in s.enumerated() {
+        if f.contains(point) {
+          return IndexPath(item: j, section: i)
+        }
+      }
+    }
+    return nil
+  }
+
+  public func indexPath(for cell: UIView) -> IndexPath? {
+    if reloading {
+      fatalError("shouldn't call index of view during reload -> wrong index might be returned")
+    }
+    return visibleCellToIndexMap[cell]
+  }
+
+  public func cell(at indexPath: IndexPath) -> UIView? {
+    return visibleCellToIndexMap[indexPath]
+  }
+
+  public func frameForCell(at indexPath: IndexPath?) -> CGRect? {
+    if let indexPath = indexPath, let section = framesForCells(in: indexPath.section) {
+      if section.count > indexPath.item {
+        return section[indexPath.item]
+      }
+    }
+    return nil
+  }
+
+  public func framesForCells(in section: Int) -> [CGRect]? {
+    if section < 0 {
+      return nil
+    } else {
+      return frames.count > section ? frames[section] : nil
+    }
+  }
 }

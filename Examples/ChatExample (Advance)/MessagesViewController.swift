@@ -243,7 +243,7 @@ extension MessagesViewController: MessageTextCellDelegate {
     if cell != dragingCell {
       return
     }
-    if let index = (collectionView.indexPathOfView(cell) as NSIndexPath?)?.item {
+    if let index = collectionView.indexPath(for: cell)?.item {
       var center = startingCellCenter!
       let newLocation = gestureRecognizer.location(in: collectionView) + collectionView.contentOffset
       center = center + newLocation - startingDragLocation!
@@ -255,7 +255,7 @@ extension MessagesViewController: MessageTextCellDelegate {
       } else if fingerPosition.y > view.bounds.height - 80 &&
         collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
         velocity.y = (fingerPosition.y - (view.bounds.height - 80)) * 30
-      } else if let toIndex = (collectionView.indexPathForItem(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
+      } else if let toIndex = (collectionView.indexPathForCell(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
         canReorder = false
         delay(0.5) {
           self.canReorder = true
@@ -269,12 +269,12 @@ extension MessagesViewController: MessageTextCellDelegate {
     if cell != dragingCell {
       return
     }
-    if let index = (collectionView.indexPathOfView(cell) as NSIndexPath?)?.item {
+    if let index = collectionView.indexPath(for: cell)?.item {
       // one last check if we need to move
       var center = startingCellCenter!
       let newLocation = gestureRecognizer.location(in: collectionView) + collectionView.contentOffset
       center = center + newLocation - startingDragLocation!
-      if let toIndex = (collectionView.indexPathForItem(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
+      if let toIndex = (collectionView.indexPathForCell(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
         canReorder = false
         delay(0.5) {
           self.canReorder = true
