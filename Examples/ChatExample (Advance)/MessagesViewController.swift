@@ -120,7 +120,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     var cellFrame = MessageTextCell.frameForMessage(messages[(indexPath as NSIndexPath).item], containerWidth: collectionView.frame.width - 2 * xOffset)
     if (indexPath as NSIndexPath).item != 0 {
       let lastMessage = messages[(indexPath as NSIndexPath).item-1]
-      let lastFrame = collectionView.frameForIndexPath(IndexPath(item: (indexPath as NSIndexPath).item - 1, section: (indexPath as NSIndexPath).section))!
+      let lastFrame = collectionView.frameForCell(at: IndexPath(item: (indexPath as NSIndexPath).item - 1, section: (indexPath as NSIndexPath).section))!
 
       let maxWidth = view.bounds.width - 20
       if message.type == .image &&
@@ -145,7 +145,7 @@ extension MessagesViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    let frame = collectionView.frameForIndexPath(indexPath)!
+    let frame = collectionView.frameForCell(at: indexPath)!
     if sendingMessage && (indexPath as NSIndexPath).item == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       cellView.center = collectionView.contentView.convert(inputToolbarView.center, from: view)
@@ -178,7 +178,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     }
   }
   func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForIndexPath(indexPath) {
+    if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: indexPath) {
       cellView.message = messages[(indexPath as NSIndexPath).item]
       if cellView != dragingCell {
         cellView.m_animate("bounds", to:frame.bounds, stiffness: 150, damping:20, threshold: 1)
@@ -255,7 +255,7 @@ extension MessagesViewController: MessageTextCellDelegate {
       } else if fingerPosition.y > view.bounds.height - 80 &&
         collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
         velocity.y = (fingerPosition.y - (view.bounds.height - 80)) * 30
-      } else if let toIndex = (collectionView.indexPathForItemAtPoint(center) as NSIndexPath?)?.item, toIndex != index && canReorder {
+      } else if let toIndex = (collectionView.indexPathForItem(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
         canReorder = false
         delay(0.5) {
           self.canReorder = true
@@ -274,15 +274,15 @@ extension MessagesViewController: MessageTextCellDelegate {
       var center = startingCellCenter!
       let newLocation = gestureRecognizer.location(in: collectionView) + collectionView.contentOffset
       center = center + newLocation - startingDragLocation!
-      if let toIndex = (collectionView.indexPathForItemAtPoint(center) as NSIndexPath?)?.item, toIndex != index && canReorder {
+      if let toIndex = (collectionView.indexPathForItem(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
         canReorder = false
         delay(0.5) {
           self.canReorder = true
         }
         moveMessageAtIndex(index, toIndex: toIndex)
-        center = collectionView.frameForIndexPath(IndexPath(item: toIndex, section: 0))!.center
+        center = collectionView.frameForCell(at: IndexPath(item: toIndex, section: 0))!.center
       } else {
-        center = collectionView.frameForIndexPath(IndexPath(item: index, section: 0))!.center
+        center = collectionView.frameForCell(at: IndexPath(item: index, section: 0))!.center
       }
       dragingCellCenter = nil
       dragingCell = nil
@@ -324,11 +324,11 @@ extension MessagesViewController: MScrollViewDelegate {
         for i in TestMessages {
           newMessage.append(i.copy())
         }
-        let currentOffsetDiff = self.collectionView.frames[0][0].minY - self.collectionView.contentOffset.y
+        let currentOffsetDiff = self.collectionView.frameForCell(at: IndexPath(item:0, section:0))!.minY - self.collectionView.contentOffset.y
         self.messages = newMessage + self.messages
         print("load new messages count:\(self.messages.count)")
         self.collectionView.reloadData {
-          let offset = self.collectionView.frames[0][newMessage.count].minY - currentOffsetDiff
+          let offset = self.collectionView.frameForCell(at: IndexPath(item:newMessage.count, section:0))!.minY - currentOffsetDiff
           self.collectionView.contentOffset.y = offset
         }
         self.loading = false

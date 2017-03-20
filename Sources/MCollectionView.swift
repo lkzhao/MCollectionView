@@ -13,8 +13,7 @@ open class MCollectionView: MScrollView {
   open weak var collectionDelegate: MCollectionViewDelegate?
 
   // the computed frames for cells, constructed in reloadData
-  // TODO: set this to private
-  open var frames: [[CGRect]] = []
+  private var frames: [[CGRect]] = []
 
   // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
   // set when they are loaded or when the collection view scrolls
@@ -32,9 +31,22 @@ open class MCollectionView: MScrollView {
   // for moving cells
   var pressGR: UILongPressGestureRecognizer!
 
+  // visible indexes & cell
+  let visibleIndexesManager = MCollectionViewVisibleIndexesManager()
+  var visibleIndexes: Set<IndexPath> = []
+  var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
+  var visibleCellToIndexMap: DictionaryTwoWay<UIView, IndexPath> = [:]
+  var identifiersToIndexMap: DictionaryTwoWay<String, IndexPath> = [:]
+
   // inner size is the frame size minus the inset
   open var innerSize: CGSize {
     return CGSize(width: bounds.width - contentInset.left - contentInset.right, height: bounds.height - contentInset.top - contentInset.bottom)
+  }
+
+  open var numberOfItems: Int {
+    return frames.reduce(0, { (count, section) -> Int in
+      return count + section.count
+    })
   }
 
   public override init(frame: CGRect) {
@@ -57,7 +69,7 @@ open class MCollectionView: MScrollView {
   func press() {
     switch pressGR.state {
     case .began:
-      if let indexPath = indexPathForItemAtPoint(pressGR.location(in: self)),
+      if let indexPath = indexPathForItem(at: pressGR.location(in: self)),
         collectionDelegate?.collectionView?(self, canMoveItemAt: indexPath) == true {
         // TODO
       }
@@ -69,27 +81,6 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  private let visibleIndexesManager = MCollectionViewVisibleIndexesManager()
-  open var visibleIndexes: Set<IndexPath> = []
-  open var visibleCells: [UIView] {
-    var cells: [UIView] = []
-    for cellIndex in visibleIndexes {
-      if let cell = cellForIndexPath(cellIndex) {
-        cells.append(cell)
-      }
-    }
-    return cells
-  }
-
-  var visibleCellToIndexMap: DictionaryTwoWay<UIView, IndexPath> = [:]
-  var identifiersToIndexMap: DictionaryTwoWay<String, IndexPath> = [:]
-
-  open var numberOfItems: Int {
-    return frames.reduce(0, { (count, section) -> Int in
-      return count + section.count
-    })
-  }
-
   var lastReloadFrame: CGRect?
   open override func layoutSubviews() {
     super.layoutSubviews()
@@ -99,31 +90,7 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  func firstVisibleIndex() -> IndexPath? {
-    let activeFrame = self.activeFrame
-    for (i, s) in frames.enumerated() {
-      for (j, f) in s.enumerated() {
-        if f.intersects(activeFrame) {
-          return IndexPath(item: j, section: i)
-        }
-      }
-    }
-    return nil
-  }
-
-  func indexesForFramesIntersectingFrame(_ frame: CGRect) -> Set<IndexPath> {
-    var intersect: Set<IndexPath> = []
-    for (i, s) in frames.enumerated() {
-      for (j, f) in s.enumerated() {
-        if f.intersects(frame) {
-          intersect.insert(IndexPath(item: j, section: i))
-        }
-      }
-    }
-    return intersect
-  }
-
-  open func indexPathForItemAtPoint(_ point: CGPoint) -> IndexPath? {
+  open func indexPathForItem(at point: CGPoint) -> IndexPath? {
     for (i, s) in frames.enumerated() {
       for (j, f) in s.enumerated() {
         if f.contains(point) {
@@ -133,24 +100,22 @@ open class MCollectionView: MScrollView {
     }
     return nil
   }
-
-  open func cellForIndexPath(_ indexPath: IndexPath) -> UIView? {
+  open func cell(for indexPath: IndexPath) -> UIView? {
     return visibleCellToIndexMap[indexPath]
   }
-
-  open func frameForIndexPath(_ indexPath: IndexPath?) -> CGRect? {
-    if let indexPath = indexPath, let section = framesForSectionIndex((indexPath as NSIndexPath).section) {
-      if section.count > (indexPath as NSIndexPath).item {
-        return section[(indexPath as NSIndexPath).item]
+  open func frameForCell(at indexPath: IndexPath?) -> CGRect? {
+    if let indexPath = indexPath, let section = framesForCells(in: indexPath.section) {
+      if section.count > indexPath.item {
+        return section[indexPath.item]
       }
     }
     return nil
   }
-  open func framesForSectionIndex(_ index: Int) -> [CGRect]? {
-    if index < 0 {
+  open func framesForCells(in section: Int) -> [CGRect]? {
+    if section < 0 {
       return nil
     } else {
-      return frames.count > index ? frames[index] : nil
+      return frames.count > section ? frames[section] : nil
     }
   }
 
@@ -159,8 +124,8 @@ open class MCollectionView: MScrollView {
     return reusableViews[String(describing: viewClass)]?.popLast() as? T
   }
 
-  fileprivate func removeCellFrom(_ map:inout DictionaryTwoWay<UIView, IndexPath>, atIndexPath indexPath: IndexPath) {
-    if let cell = map[indexPath] {
+  fileprivate func disappearCell(at indexPath: IndexPath) {
+    if let cell = visibleCellToIndexMap[indexPath] {
       collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
       cell.m_removeAnimationForKey("center")
       cell.removeFromSuperview()
@@ -171,17 +136,17 @@ open class MCollectionView: MScrollView {
       } else {
         reusableViews[identifier] = [cell]
       }
-      map.remove(indexPath)
+      visibleCellToIndexMap.remove(indexPath)
     }
   }
-  fileprivate func insertCellTo(_ map:inout DictionaryTwoWay<UIView, IndexPath>, atIndexPath indexPath: IndexPath) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForIndexPath(indexPath)!), map[cell] == nil {
-      map[cell] = indexPath
+  fileprivate func appearCell(at indexPath: IndexPath) {
+    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
+      visibleCellToIndexMap[cell] = indexPath
       contentView.addSubview(cell)
       collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
     }
   }
-  fileprivate func deleteOnScreenCellAtIndex(_ indexPath: IndexPath) {
+  fileprivate func deleteCell(at indexPath: IndexPath) {
     if let cell = visibleCellToIndexMap[indexPath] {
       if autoRemoveCells {
         cell.removeFromSuperview()
@@ -190,9 +155,9 @@ open class MCollectionView: MScrollView {
       visibleCellToIndexMap.remove(indexPath)
     }
   }
-  fileprivate func insertOnScreenCellTo(_ map:inout DictionaryTwoWay<UIView, IndexPath>, atIndexPath indexPath: IndexPath) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForIndexPath(indexPath)!), map[cell] == nil {
-      map[cell] = indexPath
+  fileprivate func insertCell(at indexPath: IndexPath) {
+    if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
+      visibleCellToIndexMap[cell] = indexPath
       contentView.addSubview(cell)
       collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndexPath: indexPath)
     }
@@ -226,10 +191,10 @@ open class MCollectionView: MScrollView {
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
-      removeCellFrom(&visibleCellToIndexMap, atIndexPath: i)
+      disappearCell(at: i)
     }
     for i in newIndexes {
-      insertCellTo(&visibleCellToIndexMap, atIndexPath: i)
+      appearCell(at: i)
     }
     visibleIndexes = indexes
     layoutCellsIfNecessary()
@@ -240,7 +205,7 @@ open class MCollectionView: MScrollView {
 
   open func wabbleRect(_ indexPath: IndexPath) -> CGRect {
     let screenDragLocation = contentOffset + dragLocation
-    let cellFrame = frameForIndexPath(indexPath)!
+    let cellFrame = frameForCell(at: indexPath)!
     let cellOffset = cellFrame.center.distance(screenDragLocation) * scrollVelocity / 5000
     return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
   }
@@ -254,8 +219,8 @@ open class MCollectionView: MScrollView {
 
   open func reloadCellAtIndexPath(_ indexPath: IndexPath) {
     if visibleIndexes.contains(indexPath) {
-      removeCellFrom(&visibleCellToIndexMap, atIndexPath: indexPath)
-      insertCellTo(&visibleCellToIndexMap, atIndexPath: indexPath)
+      disappearCell(at: indexPath)
+      appearCell(at: indexPath)
     }
   }
 
@@ -334,18 +299,19 @@ open class MCollectionView: MScrollView {
         collectionDelegate?.collectionView?(self, didMoveCellView: cell, fromIndexPath: oldIndex, toIndexPath: newIndex)
       }
     }
+
     for identifier in deletedVisibleIdentifiers {
-      // delete the cell
-      deleteOnScreenCellAtIndex(identifiersToIndexMap[identifier]!)
-    }
-    for identifier in insertedVisibleIdentifiers {
-      // insert the cell
-      insertOnScreenCellTo(&newVisibleCellToIndexMap, atIndexPath: newIdentifiersToIndexMap[identifier]!)
+      deleteCell(at: identifiersToIndexMap[identifier]!)
     }
 
     visibleIndexes = newVisibleIndexes
     visibleCellToIndexMap = newVisibleCellToIndexMap
     identifiersToIndexMap = newIdentifiersToIndexMap
+
+    for identifier in insertedVisibleIdentifiers {
+      insertCell(at: identifiersToIndexMap[identifier]!)
+    }
+
     layoutCellsIfNecessary()
     for (index, cell) in visibleCellToIndexMap.ts {
       collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:index, screenPosition:cell.center - contentOffset)
@@ -362,7 +328,7 @@ open class MCollectionView: MScrollView {
           if wabble {
             cell.m_animate("center", to:wabbleRect(indexPath).center, stiffness: 150, damping:20, threshold: 1)
           } else {
-            let f = frameForIndexPath(indexPath)!
+            let f = frameForCell(at: indexPath)!
             cell.bounds = f.bounds
             cell.center = f.center
           }
