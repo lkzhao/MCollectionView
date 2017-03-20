@@ -23,9 +23,9 @@ class MessagesViewController: UIViewController {
   var dragingCell: UIView? {
     didSet {
       if let dragingCell = dragingCell {
-        collectionView.floatingCells = [dragingCell]
-      } else {
-        collectionView.floatingCells = []
+        collectionView.float(cell: dragingCell)
+      } else if let oldValue = oldValue {
+        collectionView.unfloat(cell: oldValue)
       }
     }
   }

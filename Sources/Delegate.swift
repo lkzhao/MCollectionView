@@ -33,9 +33,9 @@ import UIKit
 
   /// Move
   @objc optional func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
-  @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath)
+  @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool
 
-  /// Event
+  /// Callback during reloadData
   @objc optional func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath)
   @objc optional func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndexPath indexPath: IndexPath)
   @objc optional func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath)

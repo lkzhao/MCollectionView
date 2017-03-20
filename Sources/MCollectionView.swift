@@ -35,23 +35,22 @@ public class MCollectionView: MScrollView {
     })
   }
 
-
+  public var overlayView = UIView()
 
   // the computed frames for cells, constructed in reloadData
   var frames: [[CGRect]] = []
 
-  // for moving cells
-  var pressGR: UILongPressGestureRecognizer!
-
   // visible indexes & cell
-  let visibleIndexesManager = MCollectionViewVisibleIndexesManager()
+  let visibleIndexesManager = VisibleIndexesManager()
+  let moveManager = MoveManager()
   var visibleIndexes: Set<IndexPath> = []
   var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, IndexPath> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, IndexPath> = [:]
 
   var lastReloadFrame: CGRect?
-  var floatingCells: [UIView] = []
+  // TODO: change this to private
+  var floatingCells: Set<UIView> = []
   var reusableViews: [String:[UIView]] = [:]
   var cleanupTimer: Timer?
   var reloading = false
@@ -67,29 +66,14 @@ public class MCollectionView: MScrollView {
   }
 
   func commonInit() {
-    pressGR = UILongPressGestureRecognizer(target: self, action: #selector(press))
-    pressGR.delegate = self
-    pressGR.minimumPressDuration = 0.5
-    addGestureRecognizer(pressGR)
-  }
-
-  func press() {
-    switch pressGR.state {
-    case .began:
-      if let indexPath = indexPathForCell(at: pressGR.location(in: self)),
-        collectionDelegate?.collectionView?(self, canMoveItemAt: indexPath) == true {
-        // TODO
-      }
-      break
-    case .changed:
-      break
-    default:
-      break
-    }
+    overlayView.isUserInteractionEnabled = false
+    addSubview(overlayView)
+    moveManager.collectionView = self
   }
 
   public override func layoutSubviews() {
     super.layoutSubviews()
+    overlayView.frame = bounds
     if frame != lastReloadFrame {
       lastReloadFrame = frame
       reloadData()
@@ -114,13 +98,17 @@ public class MCollectionView: MScrollView {
     }
   }
 
+  func getVisibleIndexes() -> Set<IndexPath> {
+    return visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
+  }
+
   /*
    * Update visibleCells & visibleIndexes according to scrollView's visibleFrame
    * load cells that move into the visibleFrame and recycles them when
    * they move out of the visibleFrame.
    */
   fileprivate func loadCells() {
-    let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
+    let indexes = getVisibleIndexes()
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
@@ -182,7 +170,7 @@ public class MCollectionView: MScrollView {
       scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
     }
 
-    let newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
+    let newVisibleIndexes = getVisibleIndexes()
 
     let newVisibleIdentifiers = Set(newVisibleIndexes.map { index in
       return newIdentifiersToIndexMap[index]!
@@ -311,6 +299,36 @@ public class MCollectionView: MScrollView {
 
   func cleanup() {
     reusableViews.removeAll()
+  }
+}
+
+extension MCollectionView {
+  public func isFloating(cell: UIView) -> Bool {
+    return floatingCells.contains(cell)
+  }
+
+  public func float(cell: UIView) {
+    if visibleCellToIndexMap[cell] == nil {
+      fatalError("Unable to float a cell that is not on screen")
+    }
+    floatingCells.insert(cell)
+    cell.center = overlayView.convert(cell.center, from: cell.superview)
+    overlayView.addSubview(cell)
+  }
+
+  public func unfloat(cell: UIView) {
+    guard isFloating(cell: cell) else {
+      return
+    }
+
+    floatingCells.remove(cell)
+    cell.center = contentView.convert(cell.center, from: cell.superview)
+    contentView.addSubview(cell)
+
+    // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
+    let index = indexPath(for: cell)!
+    let frame = frameForCell(at: index)!
+    cell.m_animate("center", to:frame.center, stiffness: 500, damping: 25)
   }
 }
 

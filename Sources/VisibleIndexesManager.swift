@@ -68,12 +68,10 @@ public class LinearVisibleIndexesManager {
     return visibleIndexes
   }
 
-  public init(){
-    
-  }
+  public init() {}
 }
 
-class MCollectionViewVisibleIndexesManager {
+class VisibleIndexesManager {
   var verticalVisibleIndexManager = LinearVisibleIndexesManager()
   var horizontalVisibleIndexManager = LinearVisibleIndexesManager()
 
