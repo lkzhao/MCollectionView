@@ -52,7 +52,6 @@ class MessagesViewController: UIViewController {
     collectionView.collectionDelegate = self
     collectionView.scrollDelegate = self
     collectionView.wabble = true
-    collectionView.optimizeForContinuousLayout = true
     collectionView.autoRemoveCells = false
     view.addSubview(collectionView)
 

@@ -303,10 +303,12 @@ extension MScrollView:UIGestureRecognizerDelegate {
     let superValue = super.gestureRecognizerShouldBegin(gestureRecognizer)
     if gestureRecognizer == panGestureRecognizer && superValue {
       let velocity = panGestureRecognizer.velocity(in: self.contentView)
-      if abs(velocity.y) >= abs(velocity.x) {
+      if abs(velocity.y) > abs(velocity.x) {
         return allowToScrollVertically
-      } else {
+      } else if abs(velocity.y) < abs(velocity.x) {
         return allowToScrollHorizontally
+      } else {
+        return allowToScrollVertically || allowToScrollHorizontally
       }
     }
     return superValue
