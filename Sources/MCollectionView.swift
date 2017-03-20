@@ -270,14 +270,16 @@ open class MCollectionView: MScrollView {
 //    print("\(debugName) reloadData")
     self.collectionDelegate?.collectionViewWillReload?(self)
     reloading = true
+
+    // ask the delegate for all cell's identifier & frames
     frames = []
     var newIdentifiersToIndexMap: DictionaryTwoWay<String, IndexPath> = [:]
     var newVisibleCellToIndexMap: DictionaryTwoWay<UIView, IndexPath> = [:]
     var unionFrame = CGRect.zero
-    let count = collectionDelegate?.numberOfSectionsInCollectionView?(self) ?? 1
+    let sectionCount = collectionDelegate?.numberOfSectionsInCollectionView?(self) ?? 1
 
-    frames.reserveCapacity(count)
-    for i in 0..<count {
+    frames.reserveCapacity(sectionCount)
+    for i in 0..<sectionCount {
       let sectionItemsCount = collectionDelegate?.collectionView(self, numberOfItemsInSection: i) ?? 0
       frames.append([CGRect]())
       for j in 0..<sectionItemsCount {
@@ -290,9 +292,18 @@ open class MCollectionView: MScrollView {
       }
     }
 
+    // set scrollview's contentFrame to be the unionFrame
     contentFrame = unionFrame
+
     let oldContentOffset = contentOffset
+
+    // This block is called to for the application to adjust the contentOffset,
+    // usually used when the application inserted some cells at the top. The application
+    // have to manually adjust the contentOffset so that the collection doesn't just jump to the top.
     framesLoadedBlock?()
+
+    // When the scrollview is deccelerating, if we reloaded some data and adjusted the contentOffset,
+    // we have to update the animations targetOffset, otherwise it will animate to the incorrect position
     let contentOffsetDiff = contentOffset - oldContentOffset
     if let targetY = scrollAnimation.targetOffsetY {
       scrollAnimation.targetOffsetY = targetY + contentOffsetDiff.y
@@ -300,6 +311,7 @@ open class MCollectionView: MScrollView {
     if let targetX = scrollAnimation.targetOffsetX {
       scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
     }
+
 
     visibleIndexStart = firstVisibleIndex() ?? IndexPath(item: 0, section: 0)
     visibleIndexEnd = visibleIndexStart
