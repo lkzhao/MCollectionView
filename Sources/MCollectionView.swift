@@ -37,9 +37,6 @@ open class MCollectionView: MScrollView {
     return CGSize(width: bounds.width - contentInset.left - contentInset.right, height: bounds.height - contentInset.top - contentInset.bottom)
   }
 
-  // Continuous Layout optimization
-  open var optimizeForContinuousLayout = false
-
   public override init(frame: CGRect) {
     super.init(frame: frame)
     initialize()
@@ -72,8 +69,7 @@ open class MCollectionView: MScrollView {
     }
   }
 
-  var visibleIndexStart = IndexPath(item: 0, section: 0)
-  var visibleIndexEnd = IndexPath(item: 0, section: 0)
+  private let visibleIndexesManager = MCollectionViewVisibleIndexesManager()
   open var visibleIndexes: Set<IndexPath> = []
   open var visibleCells: [UIView] {
     var cells: [UIView] = []
@@ -226,7 +222,7 @@ open class MCollectionView: MScrollView {
    * they move out of the visibleFrame.
    */
   fileprivate func loadCells() {
-    let indexes = calculateVisibleIndexesFromActiveFrame()
+    let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
@@ -291,7 +287,7 @@ open class MCollectionView: MScrollView {
         frames[i].append(frame)
       }
     }
-
+    visibleIndexesManager.reload(with: frames)
     // set scrollview's contentFrame to be the unionFrame
     contentFrame = unionFrame
 
@@ -312,10 +308,7 @@ open class MCollectionView: MScrollView {
       scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
     }
 
-
-    visibleIndexStart = firstVisibleIndex() ?? IndexPath(item: 0, section: 0)
-    visibleIndexEnd = visibleIndexStart
-    let newVisibleIndexes = calculateVisibleIndexesFromActiveFrame()
+    let newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
 
     let newVisibleIdentifiers = Set(newVisibleIndexes.map { index in
       return newIdentifiersToIndexMap[index]!
