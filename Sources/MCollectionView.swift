@@ -313,6 +313,7 @@ extension MCollectionView {
     }
     floatingCells.insert(cell)
     cell.center = overlayView.convert(cell.center, from: cell.superview)
+    cell.m_animate("center", to:cell.center, stiffness: 500, damping: 25)
     overlayView.addSubview(cell)
   }
 

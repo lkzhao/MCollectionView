@@ -19,21 +19,6 @@ class MessagesViewController: UIViewController {
   var messages: [Message] = TestMessages
   var loading = false
 
-  // cell reorder
-  var dragingCell: UIView? {
-    didSet {
-      if let dragingCell = dragingCell {
-        collectionView.float(cell: dragingCell)
-      } else if let oldValue = oldValue {
-        collectionView.unfloat(cell: oldValue)
-      }
-    }
-  }
-  var startingDragLocation: CGPoint?
-  var startingCellCenter: CGPoint?
-  var dragingCellCenter: CGPoint?
-  var canReorder = true
-
   var keyboardHeight: CGFloat {
     if let keyboardFrame = inputToolbarView.keyboardFrame {
       return min(keyboardFrame.minY, view.bounds.height)
@@ -101,11 +86,10 @@ extension MessagesViewController: MCollectionViewDelegate {
 
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
     let v = collectionView.dequeueReusableView(MessageTextCell.self) ?? MessageTextCell()
-    v.message = messages[(indexPath as NSIndexPath).item]
+    v.message = messages[indexPath.item]
     v.center = initialFrame.center
     v.bounds = initialFrame.bounds
     v.layer.zPosition = CGFloat((indexPath as NSIndexPath).item) * 200
-    v.delegate = self
     return v
   }
 
@@ -180,7 +164,7 @@ extension MessagesViewController: MCollectionViewDelegate {
   func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
     if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: indexPath) {
       cellView.message = messages[(indexPath as NSIndexPath).item]
-      if cellView != dragingCell {
+      if !collectionView.isFloating(cell: cellView) {
         cellView.m_animate("bounds", to:frame.bounds, stiffness: 150, damping:20, threshold: 1)
         cellView.m_animate("center", to:frame.center, stiffness: 150, damping:20, threshold: 1)
         cellView.m_animate("scale", to: 1, stiffness:250, damping: 25)
@@ -189,10 +173,13 @@ extension MessagesViewController: MCollectionViewDelegate {
     }
   }
 
-  func collectionView(_ collectionView: MCollectionView, cellView: UIView, didUpdateScreenPositionForIndexPath indexPath: IndexPath, screenPosition: CGPoint) {
-    if let dragingCellCenter = dragingCellCenter, cellView == dragingCell {
-      cellView.m_animate("center", to:collectionView.contentView.convert(dragingCellCenter, from: view), stiffness: 500, damping: 25)
-    }
+  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+
+  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
+    messages.insert(messages.remove(at: indexPath.item), at: to.item)
+    return true
   }
 }
 
@@ -221,88 +208,6 @@ extension MessagesViewController: InputToolbarViewDelegate {
   }
   func inputToolbarViewNeedFrameUpdate() {
     layout(true)
-  }
-}
-
-// For reordering
-extension MessagesViewController: MessageTextCellDelegate {
-  func messageCellDidBeginHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
-    if dragingCell != nil {
-      return
-    }
-    cell.tilt3D = true
-    startingDragLocation = gestureRecognizer.location(in: collectionView) + collectionView.contentOffset
-    startingCellCenter = cell.center
-    dragingCell = cell
-    dragingCellCenter = startingCellCenter
-    cell.layer.zPosition = CGFloat(messages.count + 100)*1000
-
-    messageCellDidMoveWhileHolding(cell, gestureRecognizer: gestureRecognizer)
-  }
-  func messageCellDidMoveWhileHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
-    if cell != dragingCell {
-      return
-    }
-    if let index = collectionView.indexPath(for: cell)?.item {
-      var center = startingCellCenter!
-      let newLocation = gestureRecognizer.location(in: collectionView) + collectionView.contentOffset
-      center = center + newLocation - startingDragLocation!
-      var velocity = CGPoint.zero
-      dragingCellCenter = view.convert(center, from:collectionView.contentView)
-      let fingerPosition = gestureRecognizer.location(in: view)
-      if fingerPosition.y < 80 && collectionView.contentOffset.y > 0 {
-        velocity.y = -(80 - fingerPosition.y) * 30
-      } else if fingerPosition.y > view.bounds.height - 80 &&
-        collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
-        velocity.y = (fingerPosition.y - (view.bounds.height - 80)) * 30
-      } else if let toIndex = (collectionView.indexPathForCell(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
-        canReorder = false
-        delay(0.5) {
-          self.canReorder = true
-        }
-        moveMessageAtIndex(index, toIndex: toIndex)
-      }
-      collectionView.scroll(with:velocity)
-    }
-  }
-  func messageCellDidEndHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer) {
-    if cell != dragingCell {
-      return
-    }
-    if let index = collectionView.indexPath(for: cell)?.item {
-      // one last check if we need to move
-      var center = startingCellCenter!
-      let newLocation = gestureRecognizer.location(in: collectionView) + collectionView.contentOffset
-      center = center + newLocation - startingDragLocation!
-      if let toIndex = (collectionView.indexPathForCell(at: center) as NSIndexPath?)?.item, toIndex != index && canReorder {
-        canReorder = false
-        delay(0.5) {
-          self.canReorder = true
-        }
-        moveMessageAtIndex(index, toIndex: toIndex)
-        center = collectionView.frameForCell(at: IndexPath(item: toIndex, section: 0))!.center
-      } else {
-        center = collectionView.frameForCell(at: IndexPath(item: index, section: 0))!.center
-      }
-      dragingCellCenter = nil
-      dragingCell = nil
-      cell.tilt3D = false
-      cell.layer.zPosition = CGFloat(index)*1000
-      cell.m_animate("center", to:center, stiffness: 150, damping: 15)
-    }
-  }
-
-  func messageCellDidTap(_ cell: MessageTextCell) {
-
-  }
-
-  func moveMessageAtIndex(_ index: Int, toIndex: Int) {
-    if index == toIndex {
-      return
-    }
-    let m = messages.remove(at: index)
-    messages.insert(m, at: toIndex)
-    collectionView.reloadData()
   }
 }
 
