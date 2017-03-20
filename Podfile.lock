@@ -2,15 +2,11 @@ PODS:
   - MotionAnimation (0.1.2)
 
 DEPENDENCIES:
-  - MotionAnimation (from `~/Projects/MotionAnimation`)
-
-EXTERNAL SOURCES:
-  MotionAnimation:
-    :path: ~/Projects/MotionAnimation
+  - MotionAnimation (~> 0.1)
 
 SPEC CHECKSUMS:
-  MotionAnimation: 0257eb90f766f6d58c70524f956faf8d56c5e7bf
+  MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
 
-PODFILE CHECKSUM: 54a72625451e45e3d6808e4051f1b03ff030af0f
+PODFILE CHECKSUM: 84a2867e712776331e21b39a1a5cd3bd4709e8cf
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0.beta.1

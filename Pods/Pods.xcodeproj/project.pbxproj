@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F7C60AE77E80923E1C395AF7852142A /* MotionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BB0CFE70B079BC7B65EC4DDA173D65 /* MotionAnimator.swift */; };
+		0E202AFE2222BB1F326A732F168D8EFF /* SpringValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD7FD05CC868BB12BDB76E9CAE2E9C /* SpringValueAnimation.swift */; };
 		1F00FC7095724421192C67A8D642F877 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
-		229F842F46C7D4BFA3D58F9B9CA2928B /* ValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F82A26BB634C816745EADA146D21F20 /* ValueAnimation.swift */; };
-		41567CCEE4EA008E1589C570C7325B69 /* NSObject+MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9C58DE7F673AD1447D333FFED5967 /* NSObject+MotionAnimation.swift */; };
-		61540B2065A1E10B83F71DF96F3C7E84 /* MotionAnimation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B650C358190B4736C2BF894A616D719 /* MotionAnimation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3F7CA752E72A421D8EDEF51AFF96E606 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560B8B71207133EF0DEA097A019CEE5A /* Types.swift */; };
+		58ACBC767C8E50CDC6860974C0665B93 /* MotionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0B74DC145212FAF80D8C9670CC4313 /* MotionAnimator.swift */; };
+		61540B2065A1E10B83F71DF96F3C7E84 /* MotionAnimation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B585F7A3A72FD4259319E2D2EE4A401F /* MotionAnimation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7268834BF889072E5BB15FA052321ABF /* Pods-MCollectionViewExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0726B5D542CFA849F1AF19F0FF7B3F4F /* Pods-MCollectionViewExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A9AABA85883FC51C9C97CBBC3D1AABB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
-		8A9C6134F1682D8BFA841C44B8DC845E /* MotionAnimationPropertyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD415585B1C9EF94163D6B096220661 /* MotionAnimationPropertyState.swift */; };
-		8EE3C35223FB5CC7B71EC9297243C159 /* SpringValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE4E42C843F5B6CADB5C344C024E46 /* SpringValueAnimation.swift */; };
-		A9F8F363C53B0EE58254BF81DDF95B4E /* MotionAnimation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 931BC5AFE46B9EB284045255C374FAC5 /* MotionAnimation-dummy.m */; };
+		A9F8F363C53B0EE58254BF81DDF95B4E /* MotionAnimation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DDACADAE3A92528804AA552665A0D5 /* MotionAnimation-dummy.m */; };
+		B67AC5F62B7F18ABD1E03F7F11ABC375 /* MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3021FE6B28A0AE0542E2BC7C8527F657 /* MotionAnimation.swift */; };
 		B95CDBBCB3651C13D830ADF48F1E6B26 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
 		BC65483AAF52ED246A9BD22D9315406E /* Pods-MCollectionView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1900D311CFFBEA22207609B2DA152E57 /* Pods-MCollectionView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C360A59758C40F5A242F60A89C304122 /* MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E06A5B662596EA38CEBC9CC6EF3232 /* MotionAnimation.swift */; };
+		C3B8A498E6ACE2A2C4EEFF1A07DE65AB /* NSObject+MotionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4EAA19C98063B99AE22B4B0487C2AD /* NSObject+MotionAnimation.swift */; };
+		CD4F94246198EE2554110CADDAC0D16A /* ValueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C3C26EF2587A5F79650C08BF6E698F /* ValueAnimation.swift */; };
 		E897DE23CE9D0AC56E47A1E59E84AC6C /* Pods-MCollectionViewExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE829128F7D9879002BB06C15EA2F74 /* Pods-MCollectionViewExample-dummy.m */; };
 		EB64F1175372ABF2105DDF8DF6B96272 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */; };
 		EC3D7796EF798010356E6A0056D7E426 /* Pods-MCollectionView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B06C49BF5FA9AA8B65857BD4FB60457 /* Pods-MCollectionView-dummy.m */; };
-		FFEE68B694A41ACC44BF96A631149EE6 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D8B318F93C3917F5AC07428A7FAD63 /* Types.swift */; };
+		FB63C788599573A91D24E2A16239D818 /* MotionAnimationPropertyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2566A3275D969B41067AFC756B5E8770 /* MotionAnimationPropertyState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,42 +46,42 @@
 /* Begin PBXFileReference section */
 		0726B5D542CFA849F1AF19F0FF7B3F4F /* Pods-MCollectionViewExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MCollectionViewExample-umbrella.h"; sourceTree = "<group>"; };
 		091DD35540BACCE8D3766F2F94067EF5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BD415585B1C9EF94163D6B096220661 /* MotionAnimationPropertyState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MotionAnimationPropertyState.swift; path = ../../../Snapchat/Dev/MotionAnimation/MotionAnimation/MotionAnimationPropertyState.swift; sourceTree = "<group>"; };
 		0E123FD52C2C94B2ABA6F6E2F4969CAE /* Pods-MCollectionViewExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MCollectionViewExample-acknowledgements.markdown"; sourceTree = "<group>"; };
+		0F0B74DC145212FAF80D8C9670CC4313 /* MotionAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MotionAnimator.swift; path = MotionAnimation/MotionAnimator.swift; sourceTree = "<group>"; };
+		12DDACADAE3A92528804AA552665A0D5 /* MotionAnimation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MotionAnimation-dummy.m"; sourceTree = "<group>"; };
 		1621ED38553C6F4C37440C79C7ED57FC /* Pods-MCollectionViewExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionViewExample-frameworks.sh"; sourceTree = "<group>"; };
 		1900D311CFFBEA22207609B2DA152E57 /* Pods-MCollectionView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MCollectionView-umbrella.h"; sourceTree = "<group>"; };
-		1A9695B30676A6F911C1E9170AE4F1AB /* MotionAnimation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-prefix.pch"; sourceTree = "<group>"; };
 		1A9D131BE842C4CE441C2FEBFA4D57DD /* MotionAnimation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MotionAnimation.framework; path = MotionAnimation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B06C49BF5FA9AA8B65857BD4FB60457 /* Pods-MCollectionView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MCollectionView-dummy.m"; sourceTree = "<group>"; };
-		43BB0CFE70B079BC7B65EC4DDA173D65 /* MotionAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MotionAnimator.swift; path = ../../../Snapchat/Dev/MotionAnimation/MotionAnimation/MotionAnimator.swift; sourceTree = "<group>"; };
+		2566A3275D969B41067AFC756B5E8770 /* MotionAnimationPropertyState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MotionAnimationPropertyState.swift; path = MotionAnimation/MotionAnimationPropertyState.swift; sourceTree = "<group>"; };
+		2D183613BFAE458AD5DD03E827017907 /* MotionAnimation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MotionAnimation.xcconfig; sourceTree = "<group>"; };
+		3021FE6B28A0AE0542E2BC7C8527F657 /* MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MotionAnimation.swift; path = MotionAnimation/MotionAnimation.swift; sourceTree = "<group>"; };
 		4D06772AE08C3159162CD62D5145ED02 /* Pods-MCollectionView-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionView-resources.sh"; sourceTree = "<group>"; };
-		54D9629439FACCABCC6064B31F74507A /* MotionAnimation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MotionAnimation.modulemap; sourceTree = "<group>"; };
-		57A9C58DE7F673AD1447D333FFED5967 /* NSObject+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+MotionAnimation.swift"; path = "../../../Snapchat/Dev/MotionAnimation/MotionAnimation/NSObject+MotionAnimation.swift"; sourceTree = "<group>"; };
+		5267361ED4C446D74420015333454694 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		560B8B71207133EF0DEA097A019CEE5A /* Types.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Types.swift; path = MotionAnimation/Types.swift; sourceTree = "<group>"; };
 		5B4D2DC282EBB49388DD0AD643145278 /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
 		5CE829128F7D9879002BB06C15EA2F74 /* Pods-MCollectionViewExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MCollectionViewExample-dummy.m"; sourceTree = "<group>"; };
-		5DAE644C7D3F70982B7537E7BF90817C /* MotionAnimation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MotionAnimation.xcconfig; sourceTree = "<group>"; };
-		5F82A26BB634C816745EADA146D21F20 /* ValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ValueAnimation.swift; path = ../../../Snapchat/Dev/MotionAnimation/MotionAnimation/ValueAnimation.swift; sourceTree = "<group>"; };
 		616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6B55D32ABA16934A822B5F366C6C59F6 /* Pods_MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MCollectionView.framework; path = "Pods-MCollectionView.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C4EAA19C98063B99AE22B4B0487C2AD /* NSObject+MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSObject+MotionAnimation.swift"; path = "MotionAnimation/NSObject+MotionAnimation.swift"; sourceTree = "<group>"; };
 		7240AE127C600D17FC2B699E17028CBA /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 		75DF3812D5532A9AF3CD58FA5785B51C /* Pods-MCollectionViewExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MCollectionViewExample-resources.sh"; sourceTree = "<group>"; };
-		7DEE4E42C843F5B6CADB5C344C024E46 /* SpringValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpringValueAnimation.swift; path = ../../../Snapchat/Dev/MotionAnimation/MotionAnimation/SpringValueAnimation.swift; sourceTree = "<group>"; };
 		7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		931BC5AFE46B9EB284045255C374FAC5 /* MotionAnimation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MotionAnimation-dummy.m"; sourceTree = "<group>"; };
+		81C3C26EF2587A5F79650C08BF6E698F /* ValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ValueAnimation.swift; path = MotionAnimation/ValueAnimation.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		95B671D38063D20FBEBA37ADC914996E /* Pods-MCollectionViewExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MCollectionViewExample-acknowledgements.plist"; sourceTree = "<group>"; };
 		9B1B195D64E7A644FE25E2BF40746B86 /* Pods-MCollectionView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionView.release.xcconfig"; sourceTree = "<group>"; };
-		9B650C358190B4736C2BF894A616D719 /* MotionAnimation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-umbrella.h"; sourceTree = "<group>"; };
 		A1266F76B6199744B7DE3B7A3B1D3C64 /* Pods-MCollectionView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-MCollectionView.modulemap"; sourceTree = "<group>"; };
+		B585F7A3A72FD4259319E2D2EE4A401F /* MotionAnimation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-umbrella.h"; sourceTree = "<group>"; };
+		B5FD7FD05CC868BB12BDB76E9CAE2E9C /* SpringValueAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpringValueAnimation.swift; path = MotionAnimation/SpringValueAnimation.swift; sourceTree = "<group>"; };
 		B618BF0B7EB8EA07471AB2AE17319F2F /* Pods-MCollectionViewExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-MCollectionViewExample.modulemap"; sourceTree = "<group>"; };
-		B9C18D80002DE04530B7933197312B3E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9864E13D914987ADF52838D0688B9BA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CCB5330E1B5527F483AA98295B7DE637 /* MotionAnimation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MotionAnimation.modulemap; sourceTree = "<group>"; };
 		D0EDC68B63F28DDD6DEA9AC3977845B4 /* Pods_MCollectionViewExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MCollectionViewExample.framework; path = "Pods-MCollectionViewExample.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D51250E606B4193131A30A388E13F1A5 /* Pods-MCollectionView-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MCollectionView-acknowledgements.plist"; sourceTree = "<group>"; };
 		D806BBABA09D523B8EAE761988B4E1B8 /* Pods-MCollectionView-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MCollectionView-acknowledgements.markdown"; sourceTree = "<group>"; };
 		DE4F8FCD6630F3D61154CFDD29336264 /* Pods-MCollectionView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCollectionView.debug.xcconfig"; sourceTree = "<group>"; };
-		E5E06A5B662596EA38CEBC9CC6EF3232 /* MotionAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MotionAnimation.swift; path = ../../../Snapchat/Dev/MotionAnimation/MotionAnimation/MotionAnimation.swift; sourceTree = "<group>"; };
-		F3D8B318F93C3917F5AC07428A7FAD63 /* Types.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Types.swift; path = ../../../Snapchat/Dev/MotionAnimation/MotionAnimation/Types.swift; sourceTree = "<group>"; };
+		F6232BA92565438A404D4175ED9CE768 /* MotionAnimation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MotionAnimation-prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,21 +113,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01E3374EF432F8270F0CCAD21BAD5AE4 /* MotionAnimation */ = {
-			isa = PBXGroup;
-			children = (
-				E5E06A5B662596EA38CEBC9CC6EF3232 /* MotionAnimation.swift */,
-				0BD415585B1C9EF94163D6B096220661 /* MotionAnimationPropertyState.swift */,
-				43BB0CFE70B079BC7B65EC4DDA173D65 /* MotionAnimator.swift */,
-				57A9C58DE7F673AD1447D333FFED5967 /* NSObject+MotionAnimation.swift */,
-				7DEE4E42C843F5B6CADB5C344C024E46 /* SpringValueAnimation.swift */,
-				F3D8B318F93C3917F5AC07428A7FAD63 /* Types.swift */,
-				5F82A26BB634C816745EADA146D21F20 /* ValueAnimation.swift */,
-			);
-			name = MotionAnimation;
-			path = MotionAnimation;
-			sourceTree = "<group>";
-		};
 		0356139BF04ACBC32AFCFE9BE6CDC38F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +121,36 @@
 				D0EDC68B63F28DDD6DEA9AC3977845B4 /* Pods_MCollectionViewExample.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0A7E3270C0CD359078866215F1F12455 /* MotionAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				3021FE6B28A0AE0542E2BC7C8527F657 /* MotionAnimation.swift */,
+				2566A3275D969B41067AFC756B5E8770 /* MotionAnimationPropertyState.swift */,
+				0F0B74DC145212FAF80D8C9670CC4313 /* MotionAnimator.swift */,
+				6C4EAA19C98063B99AE22B4B0487C2AD /* NSObject+MotionAnimation.swift */,
+				B5FD7FD05CC868BB12BDB76E9CAE2E9C /* SpringValueAnimation.swift */,
+				560B8B71207133EF0DEA097A019CEE5A /* Types.swift */,
+				81C3C26EF2587A5F79650C08BF6E698F /* ValueAnimation.swift */,
+				250B358E42E590D445FCFDB9DB953842 /* Support Files */,
+			);
+			name = MotionAnimation;
+			path = MotionAnimation;
+			sourceTree = "<group>";
+		};
+		250B358E42E590D445FCFDB9DB953842 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5267361ED4C446D74420015333454694 /* Info.plist */,
+				CCB5330E1B5527F483AA98295B7DE637 /* MotionAnimation.modulemap */,
+				2D183613BFAE458AD5DD03E827017907 /* MotionAnimation.xcconfig */,
+				12DDACADAE3A92528804AA552665A0D5 /* MotionAnimation-dummy.m */,
+				F6232BA92565438A404D4175ED9CE768 /* MotionAnimation-prefix.pch */,
+				B585F7A3A72FD4259319E2D2EE4A401F /* MotionAnimation-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MotionAnimation";
 			sourceTree = "<group>";
 		};
 		39ABD17234B3EAFFC4DC81519B19E44D /* Pods-MCollectionViewExample */ = {
@@ -154,14 +169,6 @@
 			);
 			name = "Pods-MCollectionViewExample";
 			path = "Target Support Files/Pods-MCollectionViewExample";
-			sourceTree = "<group>";
-		};
-		4256628C8D8878673356913E8521B8A8 /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				CCC696CF0FFAC4A61D05E39D0ACE5EC5 /* MotionAnimation */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
@@ -189,12 +196,20 @@
 			path = "Target Support Files/Pods-MCollectionView";
 			sourceTree = "<group>";
 		};
+		72C5C083920F90B556BF6E386DAC3801 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0A7E3270C0CD359078866215F1F12455 /* MotionAnimation */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				4256628C8D8878673356913E8521B8A8 /* Development Pods */,
 				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
+				72C5C083920F90B556BF6E386DAC3801 /* Pods */,
 				0356139BF04ACBC32AFCFE9BE6CDC38F /* Products */,
 				9B923578373A084AEFBF4FE0BB1DBB69 /* Targets Support Files */,
 			);
@@ -209,16 +224,6 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		CCC696CF0FFAC4A61D05E39D0ACE5EC5 /* MotionAnimation */ = {
-			isa = PBXGroup;
-			children = (
-				01E3374EF432F8270F0CCAD21BAD5AE4 /* MotionAnimation */,
-				FD61030ADBE8CDCB109FE8734F5984D5 /* Support Files */,
-			);
-			name = MotionAnimation;
-			path = /Users/lkzhao/Projects/MotionAnimation;
-			sourceTree = "<absolute>";
-		};
 		E6EE98446B568159EE277B68FD442AF0 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,20 +231,6 @@
 				7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */,
 			);
 			name = iOS;
-			sourceTree = "<group>";
-		};
-		FD61030ADBE8CDCB109FE8734F5984D5 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				B9C18D80002DE04530B7933197312B3E /* Info.plist */,
-				54D9629439FACCABCC6064B31F74507A /* MotionAnimation.modulemap */,
-				5DAE644C7D3F70982B7537E7BF90817C /* MotionAnimation.xcconfig */,
-				931BC5AFE46B9EB284045255C374FAC5 /* MotionAnimation-dummy.m */,
-				1A9695B30676A6F911C1E9170AE4F1AB /* MotionAnimation-prefix.pch */,
-				9B650C358190B4736C2BF894A616D719 /* MotionAnimation-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../../Snapchat/Dev/MCollectionView/Pods/Target Support Files/MotionAnimation";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,13 +366,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9F8F363C53B0EE58254BF81DDF95B4E /* MotionAnimation-dummy.m in Sources */,
-				C360A59758C40F5A242F60A89C304122 /* MotionAnimation.swift in Sources */,
-				8A9C6134F1682D8BFA841C44B8DC845E /* MotionAnimationPropertyState.swift in Sources */,
-				0F7C60AE77E80923E1C395AF7852142A /* MotionAnimator.swift in Sources */,
-				41567CCEE4EA008E1589C570C7325B69 /* NSObject+MotionAnimation.swift in Sources */,
-				8EE3C35223FB5CC7B71EC9297243C159 /* SpringValueAnimation.swift in Sources */,
-				FFEE68B694A41ACC44BF96A631149EE6 /* Types.swift in Sources */,
-				229F842F46C7D4BFA3D58F9B9CA2928B /* ValueAnimation.swift in Sources */,
+				B67AC5F62B7F18ABD1E03F7F11ABC375 /* MotionAnimation.swift in Sources */,
+				FB63C788599573A91D24E2A16239D818 /* MotionAnimationPropertyState.swift in Sources */,
+				58ACBC767C8E50CDC6860974C0665B93 /* MotionAnimator.swift in Sources */,
+				C3B8A498E6ACE2A2C4EEFF1A07DE65AB /* NSObject+MotionAnimation.swift in Sources */,
+				0E202AFE2222BB1F326A732F168D8EFF /* SpringValueAnimation.swift in Sources */,
+				3F7CA752E72A421D8EDEF51AFF96E606 /* Types.swift in Sources */,
+				CD4F94246198EE2554110CADDAC0D16A /* ValueAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,7 +516,7 @@
 		};
 		4C29CC8635A17F7F3953EA7E8EFC78D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DAE644C7D3F70982B7537E7BF90817C /* MotionAnimation.xcconfig */;
+			baseConfigurationReference = 2D183613BFAE458AD5DD03E827017907 /* MotionAnimation.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -557,7 +548,7 @@
 		};
 		BC75367783D3E4C40BAABC8E95E0611B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DAE644C7D3F70982B7537E7BF90817C /* MotionAnimation.xcconfig */;
+			baseConfigurationReference = 2D183613BFAE458AD5DD03E827017907 /* MotionAnimation.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";

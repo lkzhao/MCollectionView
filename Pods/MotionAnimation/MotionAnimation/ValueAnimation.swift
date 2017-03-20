@@ -10,21 +10,21 @@ import UIKit
 
 public typealias CGFloatValueBlock = ((inout [CGFloat]) -> Void)
 
-open class ValueAnimation: MotionAnimation {
-  private var getter: CGFloatValueBlock
-  private var setter: CGFloatValueBlock
-  public var velocity: [CGFloat]
-  public var values: [CGFloat]
-  public var target: [CGFloat] {
-    didSet {
+open class ValueAnimation:MotionAnimation {
+  private var getter:CGFloatValueBlock
+  private var setter:CGFloatValueBlock
+  public var velocity:[CGFloat]
+  public var values:[CGFloat]
+  public var target:[CGFloat]{
+    didSet{
       getter(&values)
-      if target != values {
+      if target != values{
         play()
       }
     }
   }
 
-  public init(count: Int, getter:@escaping CGFloatValueBlock, setter:@escaping CGFloatValueBlock, target: [CGFloat]? = nil, velocity: [CGFloat]? = nil) {
+  public init(count:Int, getter:@escaping CGFloatValueBlock, setter:@escaping CGFloatValueBlock, target:[CGFloat]? = nil, velocity:[CGFloat]? = nil) {
     self.getter = getter
     self.setter = setter
     var values = Array<CGFloat>(repeating: 0, count: count)

@@ -12,17 +12,17 @@ public typealias MotionAnimationObserverKey = UUID
 public typealias MotionAnimationValueObserver = ([CGFloat]) -> Void
 
 public protocol MotionAnimationAnimatable {
-  func defaultGetterAndSetterForKey(_ key: String) -> (CGFloatValueBlock, CGFloatValueBlock)?
+  func defaultGetterAndSetterForKey(_ key:String) -> (CGFloatValueBlock, CGFloatValueBlock)?
 }
 
 class Weak<T: AnyObject> {
-  weak var value: T?
+  weak var value : T?
   init (value: T) {
     self.value = value
   }
 }
 
-extension UIView:MotionAnimationAnimatable {
+extension UIView:MotionAnimationAnimatable{
   public func defaultGetterAndSetterForKey(_ key: String) -> (CGFloatValueBlock, CGFloatValueBlock)? {
     switch key {
     case "frame", "bounds":
@@ -61,20 +61,21 @@ extension UIView:MotionAnimationAnimatable {
   }
 }
 
-public protocol MotionAnimatableProperty {
-  var CGFloatValues: [CGFloat] { get }
-  static func fromCGFloatValues(_ values: [CGFloat]) -> Self
+
+public protocol MotionAnimatableProperty{
+  var CGFloatValues:[CGFloat] { get }
+  static func fromCGFloatValues(_ values:[CGFloat]) -> Self
   func toCGFloatValues(_ values:inout [CGFloat])
 }
 
-extension UIColor:MotionAnimatableProperty {
-  public var CGFloatValues: [CGFloat] {
-    var r: CGFloat = 0
-    var g: CGFloat = 0
-    var b: CGFloat = 0
-    var a: CGFloat = 0
+extension UIColor:MotionAnimatableProperty{
+  public var CGFloatValues:[CGFloat] {
+    var r : CGFloat = 0
+    var g : CGFloat = 0
+    var b : CGFloat = 0
+    var a : CGFloat = 0
     self.getRed(&r, green: &g, blue: &b, alpha: &a)
-    return [r, g, b, a]
+    return [r,g,b,a]
   }
   public static func fromCGFloatValues(_ values: [CGFloat]) -> Self {
     return self.init(red: values[0], green: values[1], blue: values[2], alpha: values[3])
@@ -84,12 +85,12 @@ extension UIColor:MotionAnimatableProperty {
   }
 }
 
-extension CGRect:MotionAnimatableProperty {
-  public var CGFloatValues: [CGFloat] {
+extension CGRect:MotionAnimatableProperty{
+  public var CGFloatValues:[CGFloat] {
     return [self.origin.x, self.origin.y, self.width, self.height]
   }
   public static func fromCGFloatValues(_ values: [CGFloat]) -> CGRect {
-    return CGRect(x: values[0], y: values[1], width: values[2], height: values[3])
+    return CGRect(x: values[0],y: values[1],width: values[2],height: values[3])
   }
   public func toCGFloatValues(_ values: inout [CGFloat]) {
     values[0] = self.origin.x
@@ -99,8 +100,8 @@ extension CGRect:MotionAnimatableProperty {
   }
 }
 
-extension Double:MotionAnimatableProperty {
-    public var CGFloatValues: [CGFloat] {
+extension Double:MotionAnimatableProperty{
+    public var CGFloatValues:[CGFloat] {
         return [CGFloat(self)]
     }
     public static func fromCGFloatValues(_ values: [CGFloat]) -> Double {
@@ -110,8 +111,8 @@ extension Double:MotionAnimatableProperty {
         values[0] = CGFloat(self)
     }
 }
-extension CGFloat:MotionAnimatableProperty {
-  public var CGFloatValues: [CGFloat] {
+extension CGFloat:MotionAnimatableProperty{
+  public var CGFloatValues:[CGFloat] {
     return [self]
   }
   public static func fromCGFloatValues(_ values: [CGFloat]) -> CGFloat {
@@ -122,8 +123,8 @@ extension CGFloat:MotionAnimatableProperty {
   }
 }
 
-extension Int:MotionAnimatableProperty {
-    public var CGFloatValues: [CGFloat] {
+extension Int:MotionAnimatableProperty{
+    public var CGFloatValues: [CGFloat]{
         return CGFloat(self).CGFloatValues
     }
     public static func fromCGFloatValues(_ values: [CGFloat]) -> Int {
@@ -134,8 +135,8 @@ extension Int:MotionAnimatableProperty {
     }
 }
 
-extension CGPoint:MotionAnimatableProperty {
-  public var CGFloatValues: [CGFloat] {
+extension CGPoint:MotionAnimatableProperty{
+  public var CGFloatValues:[CGFloat] {
     return [self.x, self.y]
   }
   public static func fromCGFloatValues(_ values: [CGFloat]) -> CGPoint {
@@ -147,8 +148,8 @@ extension CGPoint:MotionAnimatableProperty {
   }
 }
 
-extension CGSize:MotionAnimatableProperty {
-  public var CGFloatValues: [CGFloat] {
+extension CGSize:MotionAnimatableProperty{
+  public var CGFloatValues:[CGFloat] {
     return [self.width, self.height]
   }
   public static func fromCGFloatValues(_ values: [CGFloat]) -> CGSize {
@@ -159,3 +160,4 @@ extension CGSize:MotionAnimatableProperty {
     values[1] = self.height
   }
 }
+
