@@ -109,7 +109,7 @@ class VisibleIndexesManager {
     let (vInserted, vRemoved) = verticalVisibleIndexManager.visibleIndexes(min: rect.minY, max: rect.maxY)
     let (hInserted, hRemoved) = horizontalVisibleIndexManager.visibleIndexes(min: rect.minX, max: rect.maxX)
 
-    // Ideally we just do a intersection between horizontal visible indexes with vertical visible indexes
+    // Ideally we just do a intersection between horizontal visible indexes & vertical visible indexes
     // However, perform intersections on sets is expansive in some cases. 
     // for example: all the cells are horizontally visible in a vertical scroll view.
     // Therefore, everytime horizontal visible indexes is equal to all indexes. Doing an interaction 

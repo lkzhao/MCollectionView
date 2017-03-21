@@ -104,9 +104,7 @@ public class MCollectionView: MScrollView {
    * they move out of the visibleFrame.
    */
   fileprivate func loadCells() {
-    let start = CACurrentMediaTime()
     let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
-    print(CACurrentMediaTime() - start)
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {

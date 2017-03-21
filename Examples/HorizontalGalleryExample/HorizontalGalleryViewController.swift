@@ -38,8 +38,10 @@ class HorizontalGalleryViewController: UIViewController {
   }
 
   var collectionView: MCollectionView!
+  var start:TimeInterval = 0
   override func viewDidLoad() {
     super.viewDidLoad()
+    start = CACurrentMediaTime()
     collectionView = MCollectionView(frame:view.bounds)
     collectionView.collectionDelegate = self
     collectionView.wabble = true
@@ -52,6 +54,11 @@ class HorizontalGalleryViewController: UIViewController {
     super.viewDidLayoutSubviews()
     collectionView.frame = view.bounds
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 10, 10, 10, 10)
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    print("HorizontalGalleryViewController used \(CACurrentMediaTime() - start) to initialize 90000 cells")
   }
 }
 
