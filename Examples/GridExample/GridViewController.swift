@@ -12,8 +12,12 @@ import MCollectionView
 class GridViewController: UIViewController {
 
   var collectionView: MCollectionView!
+  var items:[Int] = []
   override func viewDidLoad() {
     super.viewDidLoad()
+    for i in 1...400 {
+      items.append(i)
+    }
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     view.clipsToBounds = true
     collectionView = MCollectionView(frame:view.bounds)
@@ -37,23 +41,33 @@ extension GridViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 400
+    return items.count
   }
 
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
     let v = collectionView.dequeueReusableView(UILabel.self) ?? UILabel()
     v.backgroundColor = UIColor.lightGray
-    v.text = "\((indexPath as NSIndexPath).item)"
+    v.text = "\(items[indexPath.item])"
     v.frame = initialFrame
     return v
   }
 
   func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
-    return "\((indexPath as NSIndexPath).item)"
+    return "\(items[indexPath.item])"
   }
 
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
-    let i = (indexPath as NSIndexPath).item
+    let i = indexPath.item
     return CGRect(x: CGFloat(i % 20) * 60, y: CGFloat(i / 20) * 60, width: 50, height: 50)
   }
+
+  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+
+  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
+    items.insert(items.remove(at: indexPath.item), at: to.item)
+    return true
+  }
+
 }

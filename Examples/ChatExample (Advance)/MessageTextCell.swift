@@ -9,20 +9,9 @@
 import UIKit
 import MCollectionView
 
-protocol MessageTextCellDelegate {
-  func messageCellDidTap(_ cell: MessageTextCell)
-  func messageCellDidBeginHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer)
-  func messageCellDidMoveWhileHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer)
-  func messageCellDidEndHolding(_ cell: MessageTextCell, gestureRecognizer: UILongPressGestureRecognizer)
-}
-
 class MessageTextCell: MCell {
-
-  var delegate: MessageTextCellDelegate?
-
   var textLabel = UILabel()
   var imageView: UIImageView?
-  var pressGR: UILongPressGestureRecognizer!
 
   var message: Message! {
     didSet {
@@ -69,33 +58,6 @@ class MessageTextCell: MCell {
     layer.shouldRasterize = true
     layer.rasterizationScale = UIScreen.main.scale
     isOpaque = true
-
-    pressGR = UILongPressGestureRecognizer(target: self, action: #selector(press))
-    pressGR.delegate = self
-    pressGR.minimumPressDuration = 0.5
-    addGestureRecognizer(pressGR)
-
-//    self.m_addVelocityUpdateCallback("center", velocityUpdateCallback: CGPointObserver({ [weak self] velocity in
-//      self?.velocityUpdated(velocity)
-//      }))
-  }
-
-  func press() {
-    switch pressGR.state {
-    case .began:
-      tapAnimation = false
-      self.m_animate("scale", to: 1.1)
-      self.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
-      delegate?.messageCellDidBeginHolding(self, gestureRecognizer: pressGR)
-      break
-    case .changed:
-      delegate?.messageCellDidMoveWhileHolding(self, gestureRecognizer: pressGR)
-      break
-    default:
-      self.m_animate("scale", to: 1.0)
-      delegate?.messageCellDidEndHolding(self, gestureRecognizer: pressGR)
-      tapAnimation = true
-    }
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -141,14 +103,5 @@ class MessageTextCell: MCell {
       let origin = CGPoint(x: message.alignment == .right ? containerWidth - size.width : 0, y: 0)
       return CGRect(origin: origin, size: size)
     }
-  }
-}
-
-extension MessageTextCell:UIGestureRecognizerDelegate {
-  override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    if gestureRecognizer == self.pressGR {
-      return self.delegate != nil
-    }
-    return super.gestureRecognizerShouldBegin(gestureRecognizer)
   }
 }
