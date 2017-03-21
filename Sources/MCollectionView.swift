@@ -98,17 +98,13 @@ public class MCollectionView: MScrollView {
     }
   }
 
-  func getVisibleIndexes() -> Set<IndexPath> {
-    return visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
-  }
-
   /*
    * Update visibleCells & visibleIndexes according to scrollView's visibleFrame
    * load cells that move into the visibleFrame and recycles them when
    * they move out of the visibleFrame.
    */
   fileprivate func loadCells() {
-    let indexes = getVisibleIndexes()
+    let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
@@ -170,7 +166,15 @@ public class MCollectionView: MScrollView {
       scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
     }
 
-    let newVisibleIndexes = getVisibleIndexes()
+    var newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
+    for cell in floatingCells {
+      let cellIdentifier = identifiersToIndexMap[visibleCellToIndexMap[cell]!]!
+      if let index = newIdentifiersToIndexMap[cellIdentifier] {
+        newVisibleIndexes.insert(index)
+      } else {
+        unfloat(cell: cell)
+      }
+    }
 
     let newVisibleIdentifiers = Set(newVisibleIndexes.map { index in
       return newIdentifiersToIndexMap[index]!
@@ -313,7 +317,7 @@ extension MCollectionView {
     }
     floatingCells.insert(cell)
     cell.center = overlayView.convert(cell.center, from: cell.superview)
-    cell.m_animate("center", to:cell.center, stiffness: 500, damping: 25)
+    cell.m_animate("center", to:cell.center, stiffness: 300, damping: 25)
     overlayView.addSubview(cell)
   }
 
@@ -329,7 +333,7 @@ extension MCollectionView {
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
     let index = indexPath(for: cell)!
     let frame = frameForCell(at: index)!
-    cell.m_animate("center", to:frame.center, stiffness: 500, damping: 25)
+    cell.m_animate("center", to:frame.center, stiffness: 300, damping: 25)
   }
 }
 

@@ -9,13 +9,16 @@
 import UIKit
 import MCollectionView
 
+let kGridCellSize = CGSize(width: 100, height: 100)
+let kGridSize = (width: 20, height: 20)
+let kGridCellPadding:CGFloat = 10
 class GridViewController: UIViewController {
 
   var collectionView: MCollectionView!
   var items:[Int] = []
   override func viewDidLoad() {
     super.viewDidLoad()
-    for i in 1...400 {
+    for i in 1...kGridSize.width * kGridSize.height {
       items.append(i)
     }
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
@@ -58,16 +61,10 @@ extension GridViewController: MCollectionViewDelegate {
 
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
     let i = indexPath.item
-    return CGRect(x: CGFloat(i % 20) * 60, y: CGFloat(i / 20) * 60, width: 50, height: 50)
-  }
-
-  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-    return true
-  }
-
-  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
-    items.insert(items.remove(at: indexPath.item), at: to.item)
-    return true
+    return CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
+                  y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
+                  width: kGridCellSize.width,
+                  height: kGridCellSize.height)
   }
 
 }

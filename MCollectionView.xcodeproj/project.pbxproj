@@ -251,8 +251,8 @@
 		B136E9A11D04C0D500D02FCA /* GridExample */ = {
 			isa = PBXGroup;
 			children = (
-				B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */,
 				B136E99F1D04BA5700D02FCA /* GridViewController.swift */,
+				B14DD9931E7C43B100B11FF1 /* GridReorderableViewController.swift */,
 			);
 			path = GridExample;
 			sourceTree = "<group>";
