@@ -31,18 +31,29 @@ class MoveContext: NSObject {
 
     if let index = collectionView.indexPath(for: cell) {
       let location = gestureRecognizer.location(in: nil)
-      cell.m_animate("center", to:location - startingLocationDiffInCell, stiffness: 500, damping: 25)
+      cell.m_animate("center", to:location - startingLocationDiffInCell, stiffness: 1000, damping: 30)
 
       var scrollVelocity = CGPoint.zero
-      if location.y < 80 && collectionView.contentOffset.y > 0 {
-        scrollVelocity.y = -(80 - location.y) * 30
-      } else if location.y > collectionView.bounds.height - 80 &&
+      if location.y < collectionView.contentInset.top + 80 && collectionView.contentOffset.y > collectionView.offsetAt(.top) {
+        scrollVelocity.y = -(collectionView.contentInset.top + 80 - location.y) * 30
+      } else if location.y > collectionView.bounds.height - collectionView.contentInset.bottom - 80 ,
         collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
-        scrollVelocity.y = (location.y - (collectionView.bounds.height - 80)) * 30
-      } else if let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
-        toIndex != index,
+        scrollVelocity.y = (location.y - (collectionView.bounds.height - collectionView.contentInset.bottom - 80)) * 30
+      }
+
+      if location.x < collectionView.contentInset.left + 80 && collectionView.contentOffset.x > collectionView.offsetAt(.left) {
+        scrollVelocity.x = -(collectionView.contentInset.left + 80 - location.x) * 30
+      } else if location.x > collectionView.bounds.width - collectionView.contentInset.right - 80 ,
+        collectionView.contentOffset.x < collectionView.offsetAt(.right) {
+        scrollVelocity.x = (location.x - (collectionView.bounds.width - collectionView.contentInset.right - 80)) * 30
+      }
+
+      if scrollVelocity == .zero,
         canReorder,
-        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true {
+        let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
+        toIndex != index,
+        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
+      {
         canReorder = false
         delay(0.1) {
           self.canReorder = true
