@@ -27,13 +27,14 @@ import UIKit
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect
   func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String
 
+  /// Move
+  @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool
+  @objc optional func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool
+  @objc optional func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at indexPath: IndexPath)
+
   /// Reload
   @objc optional func collectionViewWillReload(_ collectionView: MCollectionView)
   @objc optional func collectionViewDidReload(_ collectionView: MCollectionView)
-
-  /// Move
-  @objc optional func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
-  @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool
 
   /// Callback during reloadData
   @objc optional func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath)

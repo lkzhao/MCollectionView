@@ -79,7 +79,7 @@ class MoveManager: NSObject {
       if let indexPath = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
         let cell = collectionView.cell(at: indexPath),
         !collectionView.isFloating(cell: cell),
-        collectionView.collectionDelegate?.collectionView?(collectionView, canMoveItemAt: indexPath) == true {
+        collectionView.collectionDelegate?.collectionView?(collectionView, willDrag: cell, at: indexPath) == true {
         collectionView.panGestureRecognizer.isEnabled = false
         collectionView.panGestureRecognizer.isEnabled = true
         collectionView.float(cell: cell)
@@ -94,8 +94,12 @@ class MoveManager: NSObject {
     default:
       gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
       if let moveContext = contexts[gestureRecognizer] {
-        collectionView.unfloat(cell: moveContext.cell)
         contexts[gestureRecognizer] = nil
+        let cell = moveContext.cell
+        if let index = collectionView.indexPath(for: cell), collectionView.isFloating(cell: cell) {
+          collectionView.unfloat(cell: cell)
+          collectionView.collectionDelegate?.collectionView?(collectionView, didDrag: cell, at: index)
+        }
       }
       break
     }

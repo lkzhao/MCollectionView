@@ -68,7 +68,7 @@ open class MScrollView: UIView {
     }
   }
   open var visibleFrame: CGRect {
-    return CGRect(origin: CGPoint(x: contentOffset.x - contentInset.left, y: contentOffset.y - contentInset.top), size: bounds.size)
+    return CGRect(origin: contentOffset, size: bounds.size)
   }
 
   open var currentPageIndex: Int {

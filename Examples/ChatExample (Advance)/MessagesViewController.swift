@@ -70,7 +70,7 @@ class MessagesViewController: UIViewController {
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    layout()
+    layout(false)
   }
 }
 
@@ -174,13 +174,27 @@ extension MessagesViewController: MCollectionViewDelegate {
     }
   }
 
-  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-    return true
-  }
-
   func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
     messages.insert(messages.remove(at: indexPath.item), at: to.item)
     return true
+  }
+
+  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool {
+    if let cell = cell as? MCell {
+      cell.tilt3D = true
+      cell.tapAnimation = false
+      cell.m_animate("scale", to: 1.1)
+      cell.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
+    }
+    return true
+  }
+
+  func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at indexPath: IndexPath) {
+    if let cell = cell as? MCell {
+      cell.tilt3D = false
+      cell.tapAnimation = true
+      cell.m_animate("scale", to: 1)
+    }
   }
 }
 

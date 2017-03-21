@@ -10,7 +10,7 @@ import UIKit
 import MCollectionView
 
 class GridReorderableViewController: GridViewController {
-  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool {
     return true
   }
 
