@@ -3,9 +3,9 @@ platform :ios, "8.0"
 use_frameworks!
 
 target 'MCollectionView' do
-	pod "MotionAnimation", :path => "~/Projects/MotionAnimation"
+  pod 'MotionAnimation', :git => 'https://github.com/lkzhao/MotionAnimation.git'
 end
 
 target 'MCollectionViewExample' do
-	pod "MotionAnimation", :path => "~/Projects/MotionAnimation"
+  pod 'MotionAnimation', :git => 'https://github.com/lkzhao/MotionAnimation.git'
 end
