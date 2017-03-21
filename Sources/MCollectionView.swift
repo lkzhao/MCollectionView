@@ -121,7 +121,7 @@ public class MCollectionView: MScrollView {
   }
 
   // reload all frames. will automatically diff insertion & deletion
-  public func reloadData(_ framesLoadedBlock:(() -> Void)? = nil) {
+  public func reloadData() {
     self.collectionDelegate?.collectionViewWillReload?(self)
     reloading = true
 
@@ -146,25 +146,11 @@ public class MCollectionView: MScrollView {
       }
     }
     visibleIndexesManager.reload(with: frames)
-    // set scrollview's contentFrame to be the unionFrame
-    contentFrame = unionFrame
 
     let oldContentOffset = contentOffset
-
-    // This block is called to for the application to adjust the contentOffset,
-    // usually used when the application inserted some cells at the top. The application
-    // have to manually adjust the contentOffset so that the collection doesn't just jump to the top.
-    framesLoadedBlock?()
-
-    // When the scrollview is deccelerating, if we reloaded some data and adjusted the contentOffset,
-    // we have to update the animations targetOffset, otherwise it will animate to the incorrect position
+    // set scrollview's contentFrame to be the unionFrame
+    contentFrame = unionFrame
     let contentOffsetDiff = contentOffset - oldContentOffset
-    if let targetY = scrollAnimation.targetOffsetY {
-      scrollAnimation.targetOffsetY = targetY + contentOffsetDiff.y
-    }
-    if let targetX = scrollAnimation.targetOffsetX {
-      scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
-    }
 
     var newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
     for cell in floatingCells {
@@ -192,7 +178,13 @@ public class MCollectionView: MScrollView {
       let oldIndex = identifiersToIndexMap[identifier]!
       let newIndex = newIdentifiersToIndexMap[identifier]!
       let cell = visibleCellToIndexMap[oldIndex]!
-      cell.center = cell.center + contentOffsetDiff
+
+      // need to update these cells' center if contentOffset changed when we set contentFrame. i.e. anchorPoint is .bottomRight
+      // these cells' animation target shifted but their current value did not.
+      if !floatingCells.contains(cell) {
+        cell.center = cell.center + contentOffsetDiff
+      }
+
       newVisibleCellToIndexMap[newIndex] = cell
       if oldIndex == newIndex {
         collectionDelegate?.collectionView?(self, didReloadCellView: cell, atIndexPath: newIndex)

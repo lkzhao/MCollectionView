@@ -38,6 +38,7 @@ class MessagesViewController: UIViewController {
     collectionView.scrollDelegate = self
     collectionView.wabble = true
     collectionView.autoRemoveCells = false
+    collectionView.anchorPoint = .bottomRight
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
@@ -46,11 +47,9 @@ class MessagesViewController: UIViewController {
 
     layout(false)
     collectionView.reloadData()
-    collectionView.scroll(to: .bottom, animate:false)
   }
 
   func layout(_ animate: Bool = true) {
-    let isAtBottom = collectionView.isAt(.bottom)
     collectionView.frame = view.bounds
     let inputPadding: CGFloat = 10
     let inputSize = inputToolbarView.sizeThatFits(CGSize(width: view.bounds.width - 2 * inputPadding, height: view.bounds.height))
@@ -62,15 +61,12 @@ class MessagesViewController: UIViewController {
       inputToolbarView.bounds = inputToolbarFrame.bounds
       inputToolbarView.center = inputToolbarFrame.center
     }
-    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 0, view.bounds.height - inputToolbarFrame.minY + 20, 0)
-    if isAtBottom {
-      collectionView.scroll(to: .bottom, animate: animate)
-    }
+    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 10, view.bounds.height - inputToolbarFrame.minY + 20, 10)
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    layout(false)
+    layout()
   }
 }
 
@@ -99,14 +95,14 @@ extension MessagesViewController: MCollectionViewDelegate {
 
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
     var yHeight: CGFloat = 0
-    var xOffset: CGFloat = 10
+    var xOffset: CGFloat = 0
+    let maxWidth = view.bounds.width - 20
     let message = messages[indexPath.item]
-    var cellFrame = MessageTextCell.frameForMessage(messages[indexPath.item], containerWidth: collectionView.frame.width - 2 * xOffset)
+    var cellFrame = MessageTextCell.frameForMessage(messages[indexPath.item], containerWidth: maxWidth)
     if indexPath.item != 0 {
       let lastMessage = messages[indexPath.item-1]
       let lastFrame = collectionView.frameForCell(at: IndexPath(item: indexPath.item - 1, section: indexPath.section))!
 
-      let maxWidth = view.bounds.width - 20
       if message.type == .image &&
         lastMessage.type == .image && message.alignment == lastMessage.alignment {
         if message.alignment == .left && lastFrame.maxX + cellFrame.width + 2 < maxWidth {
@@ -201,11 +197,7 @@ extension MessagesViewController: MCollectionViewDelegate {
 // For sending new messages
 extension MessagesViewController: InputToolbarViewDelegate {
   func inputAccessoryViewDidUpdateFrame(_ frame: CGRect) {
-    let oldContentInset = collectionView.contentInset
     self.viewDidLayoutSubviews()
-    if oldContentInset != collectionView.contentInset {
-      collectionView.scroll(to: .bottom)
-    }
   }
   func send(_ text: String) {
     messages.append(Message(true, content: text))
@@ -214,11 +206,9 @@ extension MessagesViewController: InputToolbarViewDelegate {
     collectionView.reloadData()
     sendingMessage = false
 
-    collectionView.scroll(to: .bottom)
     delay(1.0) {
       self.messages.append(Message(false, content: text))
       self.collectionView.reloadData()
-      self.collectionView.scroll(to: .bottom)
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
@@ -244,13 +234,9 @@ extension MessagesViewController: MScrollViewDelegate {
         for i in TestMessages {
           newMessage.append(i.copy())
         }
-        let currentOffsetDiff = self.collectionView.frameForCell(at: IndexPath(item:0, section:0))!.minY - self.collectionView.contentOffset.y
         self.messages = newMessage + self.messages
         print("load new messages count:\(self.messages.count)")
-        self.collectionView.reloadData {
-          let offset = self.collectionView.frameForCell(at: IndexPath(item:newMessage.count, section:0))!.minY - currentOffsetDiff
-          self.collectionView.contentOffset.y = offset
-        }
+        self.collectionView.reloadData()
         self.loading = false
       }
     }

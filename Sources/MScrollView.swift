@@ -22,6 +22,23 @@ class ImmediatePanGestureRecognizer: UIPanGestureRecognizer {
 
 open class MScrollView: UIView {
   open weak var scrollDelegate: MScrollViewDelegate?
+
+
+  public enum AnchorPoint {
+    case topLeft
+    case bottomRight
+  }
+
+  // anchorPoint determine the behavior of contentOffset when contentSize or contentInset change.
+  // consider a vertical scroll view with many objects on screen:
+  //   for .topLeft anchorPoint: 
+  //     adding an object at the top will push other objects down on screen
+  //     adding an object at the bottom will have no effect other objects
+  //   for .bottomRight anchorPoint:
+  //     adding an object at the top will have no effect other objects
+  //     adding an object at the bottom will push other objects up
+  public var anchorPoint: AnchorPoint = .topLeft
+
   open var panGestureRecognizer: UIPanGestureRecognizer!
   open var scrollVelocity: CGPoint {
     return scrollAnimation.velocity
@@ -45,6 +62,12 @@ open class MScrollView: UIView {
       contentView.bounds = newValue.bounds
       contentView.center = newValue.center
 
+      if anchorPoint == .bottomRight {
+        var targetOffset = CGPoint(x: newSize.width - oldSize.width + contentOffset.x, y: newSize.height - oldSize.height + contentOffset.y)
+        targetOffset = CGPoint(x: min(targetOffset.x, offsetAt(.right)) , y: min(targetOffset.y, offsetAt(.bottom)))
+        _setContentOffset(targetOffset)
+      }
+
       // content shrinks. we might need to move the contentOffset to fill empty space
       if oldSize.width > newSize.width || oldSize.height > newSize.height {
         adjustContentOffsetIfNecessary()
@@ -59,7 +82,11 @@ open class MScrollView: UIView {
       #if DEBUG
         print("contentInset changed: \(oldValue) -> \(contentInset)")
       #endif
-      contentOffset = CGPoint(x: contentOffset.x - contentInset.left + oldValue.left, y: contentOffset.y - contentInset.top + oldValue.top)
+      if anchorPoint == .topLeft {
+        _setContentOffset(CGPoint(x: contentOffset.x - contentInset.left + oldValue.left, y: contentOffset.y - contentInset.top + oldValue.top))
+      } else {
+        _setContentOffset(CGPoint(x: contentOffset.x + contentInset.right - oldValue.right, y: contentOffset.y + contentInset.bottom - oldValue.bottom))
+      }
 
       // inset shrinks. we might need to move the contentOffset to fill empty space
       if contentInset.top < oldValue.top || contentInset.bottom < oldValue.bottom || contentInset.left < oldValue.left || contentInset.right < oldValue.right {
@@ -69,6 +96,17 @@ open class MScrollView: UIView {
   }
   open var visibleFrame: CGRect {
     return CGRect(origin: contentOffset, size: bounds.size)
+  }
+
+  func _setContentOffset(_ offset: CGPoint) {
+    let contentOffsetDiff = offset - contentOffset
+    if let targetY = scrollAnimation.targetOffsetY {
+      scrollAnimation.targetOffsetY = targetY + contentOffsetDiff.y
+    }
+    if let targetX = scrollAnimation.targetOffsetX {
+      scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
+    }
+    contentOffset = offset
   }
 
   open var currentPageIndex: Int {
@@ -239,11 +277,11 @@ extension MScrollView {
     case top, left, bottom, right
   }
 
-  func isVertical(edge: Edge) -> Bool {
+  public func isVertical(edge: Edge) -> Bool {
     return edge == .top || edge == .bottom
   }
 
-  func contentOffset(at edge: Edge) -> CGPoint {
+  public func contentOffset(at edge: Edge) -> CGPoint {
     if isVertical(edge: edge) {
       return CGPoint(x: contentOffset.x, y: offsetAt(edge))
     } else {
@@ -251,7 +289,7 @@ extension MScrollView {
     }
   }
 
-  open func scroll(to edge: Edge, animate: Bool = true) {
+  public func scroll(to edge: Edge, animate: Bool = true) {
     if draging ||
       (isVertical(edge: edge) && !allowToScrollVertically) ||
       (!isVertical(edge: edge) && !allowToScrollHorizontally) {
@@ -266,7 +304,7 @@ extension MScrollView {
     }
   }
 
-  open func isAt(_ edge: Edge) -> Bool {
+  public func isAt(_ edge: Edge) -> Bool {
     switch edge {
     case .top:
       return scrollAnimation.targetOffsetY ?? contentOffset.y <= offsetAt(edge)
