@@ -89,22 +89,22 @@ extension MessagesViewController: MCollectionViewDelegate {
     v.message = messages[indexPath.item]
     v.center = initialFrame.center
     v.bounds = initialFrame.bounds
-    v.layer.zPosition = CGFloat((indexPath as NSIndexPath).item) * 200
+    v.layer.zPosition = CGFloat(indexPath.item) * 200
     return v
   }
 
   func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
-    return messages[(indexPath as NSIndexPath).item].identifier
+    return messages[indexPath.item].identifier
   }
 
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
     var yHeight: CGFloat = 0
     var xOffset: CGFloat = 10
-    let message = messages[(indexPath as NSIndexPath).item]
-    var cellFrame = MessageTextCell.frameForMessage(messages[(indexPath as NSIndexPath).item], containerWidth: collectionView.frame.width - 2 * xOffset)
-    if (indexPath as NSIndexPath).item != 0 {
-      let lastMessage = messages[(indexPath as NSIndexPath).item-1]
-      let lastFrame = collectionView.frameForCell(at: IndexPath(item: (indexPath as NSIndexPath).item - 1, section: (indexPath as NSIndexPath).section))!
+    let message = messages[indexPath.item]
+    var cellFrame = MessageTextCell.frameForMessage(messages[indexPath.item], containerWidth: collectionView.frame.width - 2 * xOffset)
+    if indexPath.item != 0 {
+      let lastMessage = messages[indexPath.item-1]
+      let lastFrame = collectionView.frameForCell(at: IndexPath(item: indexPath.item - 1, section: indexPath.section))!
 
       let maxWidth = view.bounds.width - 20
       if message.type == .image &&
@@ -130,7 +130,7 @@ extension MessagesViewController: MCollectionViewDelegate {
 
   func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
     let frame = collectionView.frameForCell(at: indexPath)!
-    if sendingMessage && (indexPath as NSIndexPath).item == messages.count - 1 {
+    if sendingMessage && indexPath.item == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       cellView.center = collectionView.contentView.convert(inputToolbarView.center, from: view)
       cellView.bounds = inputToolbarView.bounds
@@ -138,11 +138,11 @@ extension MessagesViewController: MCollectionViewDelegate {
       cellView.m_animate("alpha", to: 1.0, damping: 25)
       cellView.m_animate("bounds", to: frame.bounds, stiffness: 300, damping: 30)
     } else if (collectionView.visibleFrame.intersects(frame)) {
-      if messages[(indexPath as NSIndexPath).item].alignment == .left {
+      if messages[indexPath.item].alignment == .left {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x - view.bounds.width, y: center.y)
         cellView.m_animate("center", to: center, stiffness:250, damping: 20)
-      } else if messages[(indexPath as NSIndexPath).item].alignment == .right {
+      } else if messages[indexPath.item].alignment == .right {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x + view.bounds.width, y: center.y)
         cellView.m_animate("center", to: center, stiffness:250, damping: 20)
@@ -164,12 +164,12 @@ extension MessagesViewController: MCollectionViewDelegate {
 
   func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
     if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: indexPath) {
-      cellView.message = messages[(indexPath as NSIndexPath).item]
+      cellView.message = messages[indexPath.item]
       if !collectionView.isFloating(cell: cellView) {
         cellView.m_animate("bounds", to:frame.bounds, stiffness: 150, damping:20, threshold: 1)
         cellView.m_animate("center", to:frame.center, stiffness: 150, damping:20, threshold: 1)
         cellView.m_animate("scale", to: 1, stiffness:250, damping: 25)
-        cellView.layer.zPosition = CGFloat((indexPath as NSIndexPath).item) * 100
+        cellView.layer.zPosition = CGFloat(indexPath.item) * 100
       }
     }
   }

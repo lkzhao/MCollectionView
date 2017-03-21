@@ -8,10 +8,19 @@
 
 import UIKit
 
+// struct with two elements is allocated in-place.
+// no retain/release. Much faster than IndexPath if used frequently
+public struct CheapIndex {
+  var item:Int
+  var section:Int
+  var indexPath:IndexPath {
+    return IndexPath(item: item, section: section)
+  }
+}
 
 public class LinearVisibleIndexesManager {
-  var minToIndexes: [(CGFloat, IndexPath)] = []
-  var maxToIndexes: [(CGFloat, IndexPath)] = []
+  var minToIndexes: [(CGFloat, CheapIndex)] = []
+  var maxToIndexes: [(CGFloat, CheapIndex)] = []
 
   var lastMin: CGFloat = 0
   var lastMax: CGFloat = 0
@@ -19,9 +28,7 @@ public class LinearVisibleIndexesManager {
   var minIndex: Int = 0
   var maxIndex: Int = -1
 
-  var visibleIndexes = Set<IndexPath>()
-
-  public func reload(minToIndexes:[(CGFloat, IndexPath)], maxToIndexes:[(CGFloat, IndexPath)]) {
+  public func reload(minToIndexes:[(CGFloat, CheapIndex)], maxToIndexes:[(CGFloat, CheapIndex)]) {
     self.minToIndexes = minToIndexes.sorted { left, right in
       return left.0 < right.0
     }
@@ -34,38 +41,38 @@ public class LinearVisibleIndexesManager {
     lastMax = lastMin
     minIndex = 0
     maxIndex = -1
-
-    visibleIndexes.removeAll()
   }
 
-  public func visibleIndexes(min:CGFloat, max:CGFloat) -> Set<IndexPath> {
+  public func visibleIndexes(min:CGFloat, max:CGFloat) -> ([CheapIndex], [CheapIndex]) {
+    var inserted:[CheapIndex] = []
+    var removed:[CheapIndex] = []
     if (max > lastMax) {
       while minIndex < minToIndexes.count, minToIndexes[minIndex].0 < max {
-        visibleIndexes.insert(minToIndexes[minIndex].1)
+        inserted.append(minToIndexes[minIndex].1)
         minIndex += 1
       }
     } else {
       while minIndex > 0, minToIndexes[minIndex-1].0 > max {
-        visibleIndexes.remove(minToIndexes[minIndex-1].1)
+        removed.append(minToIndexes[minIndex-1].1)
         minIndex -= 1
       }
     }
 
     if (min > lastMin) {
       while maxIndex < maxToIndexes.count - 1, maxToIndexes[maxIndex+1].0 < min {
-        visibleIndexes.remove(maxToIndexes[maxIndex+1].1)
+        removed.append(maxToIndexes[maxIndex+1].1)
         maxIndex += 1
       }
     } else {
       while maxIndex >= 0, maxToIndexes[maxIndex].0 > min {
-        visibleIndexes.insert(maxToIndexes[maxIndex].1)
+        inserted.append(maxToIndexes[maxIndex].1)
         maxIndex -= 1
       }
     }
 
     lastMax = max
     lastMin = min
-    return visibleIndexes
+    return (inserted, removed)
   }
 
   public init() {}
@@ -75,11 +82,15 @@ class VisibleIndexesManager {
   var verticalVisibleIndexManager = LinearVisibleIndexesManager()
   var horizontalVisibleIndexManager = LinearVisibleIndexesManager()
 
+  var frames:[[CGRect]] = []
+  var visibleIndexes = Set<IndexPath>()
+
   func reload(with frames:[[CGRect]]) {
-    var flattened: [(CGRect, IndexPath)] = []
+    self.frames = frames
+    var flattened: [(CGRect, CheapIndex)] = []
     for (section, sectionFrames) in frames.enumerated() {
       for (item, frame) in sectionFrames.enumerated() {
-        flattened.append((frame, IndexPath(item: item, section: section)))
+        flattened.append((frame, CheapIndex(item: item, section: section)))
       }
     }
 
@@ -90,9 +101,43 @@ class VisibleIndexesManager {
                                          maxToIndexes: flattened.map({ return ($0.0.maxX, $0.1) }))
   }
 
+  func frame(at indexPath: CheapIndex, isVisibleIn rect:CGRect) -> Bool {
+    return rect.intersects(frames[indexPath.section][indexPath.item])
+  }
+
   func visibleIndexes(for rect:CGRect) -> Set<IndexPath> {
-    let vertical = verticalVisibleIndexManager.visibleIndexes(min: rect.minY, max: rect.maxY)
-    let horizontal = horizontalVisibleIndexManager.visibleIndexes(min: rect.minX, max: rect.maxX)
-    return vertical.intersection(horizontal)
+    let (vInserted, vRemoved) = verticalVisibleIndexManager.visibleIndexes(min: rect.minY, max: rect.maxY)
+    let (hInserted, hRemoved) = horizontalVisibleIndexManager.visibleIndexes(min: rect.minX, max: rect.maxX)
+
+    // Ideally we just do a intersection between horizontal visible indexes with vertical visible indexes
+    // However, perform intersections on sets is expansive in some cases. 
+    // for example: all the cells are horizontally visible in a vertical scroll view.
+    // Therefore, everytime horizontal visible indexes is equal to all indexes. Doing an interaction 
+    // between N elements sets will make this function O(n) everytime.
+    // We want to target O(1) for subsequent calculation. O(n) for the initial calculation.
+    //
+    // instead we do the following:
+    //   calculate diff in visible indexes from each axis
+    //   for all the inserted ones, we check if it is within rect
+    //   for all the removed ones, we remove it directly
+
+    for index in vInserted {
+      if frame(at: index, isVisibleIn: rect) {
+        visibleIndexes.insert(index.indexPath)
+      }
+    }
+    for index in hInserted {
+      if frame(at: index, isVisibleIn: rect) {
+        visibleIndexes.insert(index.indexPath)
+      }
+    }
+    for index in vRemoved {
+      visibleIndexes.remove(index.indexPath)
+    }
+    for index in hRemoved {
+      visibleIndexes.remove(index.indexPath)
+    }
+
+    return visibleIndexes
   }
 }

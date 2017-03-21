@@ -62,11 +62,11 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
-    return images.count
+    return images.count * 10000
   }
 
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
-    let image = images[(indexPath as NSIndexPath).item]
+    let image = images[indexPath.item % images.count]
     let cell = collectionView.dequeueReusableView(ImageCell.self) ?? ImageCell(frame:initialFrame)
     cell.center = initialFrame.center
     cell.bounds = initialFrame.bounds
@@ -83,11 +83,10 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
-    let image = images[(indexPath as NSIndexPath).item]
+    let image = images[indexPath.item % images.count]
     let avaliableHeight = (collectionView.innerSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
     let width = collectionView.innerSize.width / CGFloat(numColumns)
     var imgSize = sizeForImage(image.size, maxSize: CGSize(width: width, height: avaliableHeight))
-    //        var imgSize = CGSizeMake(200, 200)
     imgSize.height = avaliableHeight
     let (rowIndex, offsetX) = getMinRow()
     rowWidth[rowIndex] += imgSize.width + 10
@@ -95,10 +94,6 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
-    return "\((indexPath as NSIndexPath).item)"
-  }
-
-  func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    (cellView as! ImageCell).image = images[(indexPath as NSIndexPath).item]
+    return "\(indexPath.item)"
   }
 }
