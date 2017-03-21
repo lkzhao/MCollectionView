@@ -61,13 +61,4 @@ extension GridViewController: MCollectionViewDelegate {
     return CGRect(x: CGFloat(i % 20) * 60, y: CGFloat(i / 20) * 60, width: 50, height: 50)
   }
 
-  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-    return true
-  }
-
-  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
-    items.insert(items.remove(at: indexPath.item), at: to.item)
-    return true
-  }
-
 }

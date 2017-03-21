@@ -69,7 +69,6 @@ class MoveManager: NSObject {
       nextLongPressGestureRecognizer.delegate = self
       nextLongPressGestureRecognizer.minimumPressDuration = 0.5
       collectionView.addGestureRecognizer(nextLongPressGestureRecognizer)
-//      collectionView.panGestureRecognizer.require(toFail: nextLongPressGestureRecognizer)
     }
   }
 
@@ -77,15 +76,17 @@ class MoveManager: NSObject {
     guard let collectionView = collectionView else { return }
     switch gestureRecognizer.state {
     case .began:
-      collectionView.panGestureRecognizer.isEnabled = false
-      collectionView.panGestureRecognizer.isEnabled = true
-
       if let indexPath = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
         let cell = collectionView.cell(at: indexPath),
         !collectionView.isFloating(cell: cell),
         collectionView.collectionDelegate?.collectionView?(collectionView, canMoveItemAt: indexPath) == true {
+        collectionView.panGestureRecognizer.isEnabled = false
+        collectionView.panGestureRecognizer.isEnabled = true
         collectionView.float(cell: cell)
         contexts[gestureRecognizer] = MoveContext(gesture: gestureRecognizer, cell: cell, in: collectionView)
+      } else {
+        gestureRecognizer.isEnabled = false
+        gestureRecognizer.isEnabled = true
       }
       break
     case .changed:

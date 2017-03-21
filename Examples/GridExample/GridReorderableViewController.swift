@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import MCollectionView
 
 class GridReorderableViewController: GridViewController {
-}
+  func collectionView(_ collectionView: MCollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    return true
+  }
 
-extension GridReorderableViewController {
-
+  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
+    items.insert(items.remove(at: indexPath.item), at: to.item)
+    return true
+  }
 }
