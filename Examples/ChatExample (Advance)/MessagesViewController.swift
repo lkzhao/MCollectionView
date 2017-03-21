@@ -161,6 +161,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       cellView.removeFromSuperview()
     }
   }
+
   func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
     if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: indexPath) {
       cellView.message = messages[(indexPath as NSIndexPath).item]
