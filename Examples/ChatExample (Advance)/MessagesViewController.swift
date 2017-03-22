@@ -85,7 +85,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     v.message = messages[indexPath.item]
     v.center = initialFrame.center
     v.bounds = initialFrame.bounds
-    v.layer.zPosition = CGFloat(indexPath.item) * 200
+    v.layer.zPosition = CGFloat(indexPath.item) * 100
     return v
   }
 
@@ -125,6 +125,7 @@ extension MessagesViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
+    guard !collectionView.isInitialReload else { return }
     let frame = collectionView.frameForCell(at: indexPath)!
     if sendingMessage && indexPath.item == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
@@ -181,6 +182,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       cell.tapAnimation = false
       cell.m_animate("scale", to: 1.1)
       cell.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
+      cell.layer.zPosition = 9999999
     }
     return true
   }
@@ -190,6 +192,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       cell.tilt3D = false
       cell.tapAnimation = true
       cell.m_animate("scale", to: 1)
+      cell.layer.zPosition = CGFloat(indexPath.item) * 100
     }
   }
 }

@@ -24,6 +24,8 @@ public class MCollectionView: MScrollView {
   // wabble animation
   public var wabble = false
 
+  public private(set) var isInitialReload = true
+
   // inner size is the frame size minus the inset
   public var innerSize: CGSize {
     return CGSize(width: bounds.width - contentInset.left - contentInset.right, height: bounds.height - contentInset.top - contentInset.bottom)
@@ -210,6 +212,7 @@ public class MCollectionView: MScrollView {
       collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:index, screenPosition:cell.center - contentOffset)
     }
     reloading = false
+    isInitialReload = false
     self.collectionDelegate?.collectionViewDidReload?(self)
   }
 
