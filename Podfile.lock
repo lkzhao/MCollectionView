@@ -10,7 +10,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MotionAnimation:
-    :commit: 0eb70b43c01de67fa7e2bf5e3824d407753f05d3
+    :commit: c34597ad2fe5078125d61fcfd04fb41ee6c3bd18
     :git: https://github.com/lkzhao/MotionAnimation.git
 
 SPEC CHECKSUMS:

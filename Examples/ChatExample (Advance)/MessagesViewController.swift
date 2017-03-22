@@ -181,9 +181,9 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? MCell {
       cell.tilt3D = true
       cell.tapAnimation = false
-      cell.m_animate("scale", to: 1.1)
-      cell.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 7)
-      cell.layer.zPosition = 9999999
+      cell.m_animate("scale", to: 1.1, stiffness: 150, damping: 20)
+      cell.m_animate("xyRotation", to: CGPoint.zero, stiffness: 150, damping: 20)
+      cell.m_animate("zPosition", to: CGFloat(messages.count) * 100, stiffness: 150, damping: 20)
     }
     return true
   }
@@ -192,8 +192,8 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? MCell {
       cell.tilt3D = false
       cell.tapAnimation = true
-      cell.m_animate("scale", to: 1)
-      cell.layer.zPosition = CGFloat(indexPath.item) * 100
+      cell.m_animate("scale", to: 1, stiffness: 150, damping: 20)
+      cell.m_animate("zPosition", to: CGFloat(indexPath.item) * 100, stiffness: 150, damping: 20)
     }
   }
 }
@@ -208,11 +208,13 @@ extension MessagesViewController: InputToolbarViewDelegate {
 
     sendingMessage = true
     collectionView.reloadData()
+    collectionView.scroll(to: .bottom)
     sendingMessage = false
 
     delay(1.0) {
       self.messages.append(Message(false, content: text))
       self.collectionView.reloadData()
+      self.collectionView.scroll(to: .bottom)
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
@@ -223,11 +225,12 @@ extension MessagesViewController: InputToolbarViewDelegate {
 extension MessagesViewController: MScrollViewDelegate {
   func scrollViewScrolled(_ scrollView: MScrollView) {
     // dismiss keyboard
-//    if inputToolbarView.textView.isFirstResponder {
-//      if scrollView.draging && scrollView.panGestureRecognizer.velocity(in: scrollView).y > 100 {
-//        inputToolbarView.textView.resignFirstResponder()
-//      }
-//    }
+    if inputToolbarView.textView.isFirstResponder,
+      scrollView.draging,
+      scrollView.panGestureRecognizer.velocity(in: nil).y > 100
+    {
+      inputToolbarView.textView.resignFirstResponder()
+    }
 
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
