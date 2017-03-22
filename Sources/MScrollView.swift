@@ -190,6 +190,7 @@ open class MScrollView: UIView {
   }
 
   func commoninit() {
+    clipsToBounds = true
     addSubview(contentView)
 
     scrollAnimation = MScrollAnimation(scrollView: self)
