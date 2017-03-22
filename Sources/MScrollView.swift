@@ -46,10 +46,11 @@ open class MScrollView: UIView {
   open var contentOffset: CGPoint = CGPoint.zero {
     didSet {
       contentView.transform = CGAffineTransform.identity.translatedBy(x: -contentOffset.x, y: -contentOffset.y)
-      didScroll()
     }
   }
-  open var contentFrame: CGRect {
+
+  /// raw value for contentFrame
+  private var _contentFrame:CGRect {
     get {
       return CGRect(center: contentView.center, size: contentView.bounds.size)
     }
@@ -57,56 +58,101 @@ open class MScrollView: UIView {
       #if DEBUG
         print("contentFrame changed: \(contentFrame) -> \(newValue)")
       #endif
-      let oldSize = contentView.bounds.size
-      let newSize = newValue.size
       contentView.bounds = newValue.bounds
       contentView.center = newValue.center
-
-      if anchorPoint == .bottomRight {
-        var targetOffset = CGPoint(x: newSize.width - oldSize.width + contentOffset.x, y: newSize.height - oldSize.height + contentOffset.y)
-        targetOffset = CGPoint(x: min(targetOffset.x, offsetAt(.right)) , y: min(targetOffset.y, offsetAt(.bottom)))
-        _setContentOffset(targetOffset)
-      }
-
-      // content shrinks. we might need to move the contentOffset to fill empty space
-      if oldSize.width > newSize.width || oldSize.height > newSize.height {
-        adjustContentOffsetIfNecessary()
-      }
     }
   }
-  open var containerFrame: CGRect {
-    return UIEdgeInsetsInsetRect(contentFrame, -contentInset)
-  }
-  open var contentInset: UIEdgeInsets = UIEdgeInsets.zero {
+  /// raw value for contentInset
+  private var _contentInset:UIEdgeInsets = UIEdgeInsets.zero {
     didSet {
       #if DEBUG
         print("contentInset changed: \(oldValue) -> \(contentInset)")
       #endif
-      if anchorPoint == .topLeft {
-        _setContentOffset(CGPoint(x: contentOffset.x - contentInset.left + oldValue.left, y: contentOffset.y - contentInset.top + oldValue.top))
-      } else {
-        _setContentOffset(CGPoint(x: contentOffset.x + contentInset.right - oldValue.right, y: contentOffset.y + contentInset.bottom - oldValue.bottom))
-      }
-
-      // inset shrinks. we might need to move the contentOffset to fill empty space
-      if contentInset.top < oldValue.top || contentInset.bottom < oldValue.bottom || contentInset.left < oldValue.left || contentInset.right < oldValue.right {
-        adjustContentOffsetIfNecessary()
-      }
     }
   }
+
+  // public access for contentFrame
+  public var contentFrame: CGRect{
+    get {
+      return _contentFrame
+    }
+    set {
+      setContentFrame(newValue)
+    }
+  }
+  // public access for contentInset
+  public var contentInset: UIEdgeInsets {
+    get {
+      return _contentInset
+    }
+    set {
+      setContentInset(newValue)
+    }
+  }
+
+  open var containerFrame: CGRect {
+    return UIEdgeInsetsInsetRect(contentFrame, -contentInset)
+  }
+
   open var visibleFrame: CGRect {
     return CGRect(origin: contentOffset, size: bounds.size)
   }
 
-  func _setContentOffset(_ offset: CGPoint) {
-    let contentOffsetDiff = offset - contentOffset
-    if let targetY = scrollAnimation.targetOffsetY {
-      scrollAnimation.targetOffsetY = targetY + contentOffsetDiff.y
+  public func setContentOffset(_ targetOffset: CGPoint, clampToEdges:Bool = true, animate: Bool = false) {
+    guard !draging else { return }
+    var targetOffset = targetOffset
+    if clampToEdges {
+      targetOffset = CGPoint(x: targetOffset.x.clamp(offsetAt(.left), offsetAt(.right)),
+                             y: targetOffset.y.clamp(offsetAt(.top), offsetAt(.bottom)))
     }
-    if let targetX = scrollAnimation.targetOffsetX {
-      scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
+    if animate {
+      scrollAnimation.animateToTargetOffset(targetOffset, stiffness: 300, damping: 30)
+    } else {
+      // in case of not animating, if there is a ongoing scroll animation,
+      // we update its target relative to the new contentOffset
+      let contentOffsetDiff = targetOffset - contentOffset
+      if let targetY = scrollAnimation.targetOffsetY {
+        scrollAnimation.targetOffsetY = targetY + contentOffsetDiff.y
+      }
+      if let targetX = scrollAnimation.targetOffsetX {
+        scrollAnimation.targetOffsetX = targetX + contentOffsetDiff.x
+      }
+      contentOffset = targetOffset
     }
-    contentOffset = offset
+  }
+
+  public func setContentInset(_ targetInset: UIEdgeInsets, clampToEdges:Bool = true, animate: Bool = false) {
+    let oldValue = contentInset
+    let targetOffset: CGPoint
+    let currentOffset: CGPoint = CGPoint(x: scrollAnimation.targetOffsetX ?? contentOffset.x,
+                                         y: scrollAnimation.targetOffsetY ?? contentOffset.y)
+    if anchorPoint == .topLeft {
+      targetOffset = CGPoint(x: currentOffset.x - targetInset.left + oldValue.left,
+                             y: currentOffset.y - targetInset.top + oldValue.top)
+    } else {
+      targetOffset = CGPoint(x: currentOffset.x + targetInset.right - oldValue.right,
+                             y: currentOffset.y + targetInset.bottom - oldValue.bottom)
+    }
+    _contentInset = targetInset
+    setContentOffset(targetOffset,
+                     clampToEdges: clampToEdges,
+                     animate: animate)
+  }
+
+  public func setContentFrame(_ targetFrame: CGRect, clampToEdges:Bool = true, animate: Bool = false) {
+    let oldSize = contentView.bounds.size
+    let newSize = targetFrame.size
+    let targetOffset: CGPoint
+    if anchorPoint == .topLeft {
+      targetOffset = self.contentOffset
+    } else {
+      targetOffset = CGPoint(x: newSize.width - oldSize.width + contentOffset.x,
+                              y: newSize.height - oldSize.height + contentOffset.y)
+    }
+    _contentFrame = targetFrame
+    setContentOffset(targetOffset,
+                     clampToEdges: clampToEdges,
+                     animate: animate)
   }
 
   open var currentPageIndex: Int {
@@ -147,6 +193,9 @@ open class MScrollView: UIView {
     addSubview(contentView)
 
     scrollAnimation = MScrollAnimation(scrollView: self)
+    scrollAnimation.onUpdate = { [weak self] animation in
+      self?.didScroll()
+    }
     scrollAnimation.onCompletion = { [weak self] animation in
       self?.didEndScroll()
     }
@@ -228,31 +277,6 @@ open class MScrollView: UIView {
     }
   }
 
-  open override func layoutSubviews() {
-    super.layoutSubviews()
-    adjustContentOffsetIfNecessary()
-  }
-
-  func adjustContentOffsetIfNecessary() {
-    if !draging && scrollAnimation.targetOffsetX == nil && scrollAnimation.targetOffsetY == nil {
-      scrollAnimation.animateDone()
-    }
-  }
-
-  open func scrollToFrameVisible(_ frame: CGRect) {
-
-  }
-
-  open func scrollToPage(_ index: Int, animate: Bool = false) {
-    let target = horizontalScroll ? CGPoint(x: CGFloat(index) * bounds.width, y: 0) : CGPoint(x: 0, y: CGFloat(index) * bounds.height)
-    if animate {
-      scrollAnimation.animateToTargetOffset(target, stiffness: 200, damping: 20)
-    } else {
-      scrollAnimation.stop()
-      contentOffset = target
-    }
-  }
-
   func didScroll() {
     scrollDelegate?.scrollViewScrolled?(self)
   }
@@ -286,6 +310,20 @@ extension MScrollView {
       return CGPoint(x: contentOffset.x, y: offsetAt(edge))
     } else {
       return CGPoint(x: offsetAt(edge), y: contentOffset.y)
+    }
+  }
+
+  open func scrollToFrameVisible(_ frame: CGRect) {
+    // TODO
+  }
+
+  open func scrollToPage(_ index: Int, animate: Bool = false) {
+    let target = horizontalScroll ? CGPoint(x: CGFloat(index) * bounds.width, y: 0) : CGPoint(x: 0, y: CGFloat(index) * bounds.height)
+    if animate {
+      scrollAnimation.animateToTargetOffset(target, stiffness: 200, damping: 20)
+    } else {
+      scrollAnimation.stop()
+      contentOffset = target
     }
   }
 

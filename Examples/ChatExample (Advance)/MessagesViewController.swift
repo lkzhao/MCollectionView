@@ -44,9 +44,6 @@ class MessagesViewController: UIViewController {
     inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
     inputToolbarView.layer.zPosition = 2000
-
-    layout(false)
-    collectionView.reloadData()
   }
 
   func layout(_ animate: Bool = true) {
@@ -61,12 +58,16 @@ class MessagesViewController: UIViewController {
       inputToolbarView.bounds = inputToolbarFrame.bounds
       inputToolbarView.center = inputToolbarFrame.center
     }
-    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 10, view.bounds.height - inputToolbarFrame.minY + 20, 10)
+    collectionView.setContentInset(UIEdgeInsetsMake(topLayoutGuide.length + 30,
+                                                    10,
+                                                    view.bounds.height - inputToolbarFrame.minY + 20,
+                                                    10),
+                                   animate: animate)
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    layout()
+    layout(!collectionView.isInitialReload)
   }
 }
 
@@ -222,11 +223,11 @@ extension MessagesViewController: InputToolbarViewDelegate {
 extension MessagesViewController: MScrollViewDelegate {
   func scrollViewScrolled(_ scrollView: MScrollView) {
     // dismiss keyboard
-    if inputToolbarView.textView.isFirstResponder {
-      if scrollView.draging && scrollView.panGestureRecognizer.velocity(in: scrollView).y > 100 {
-        inputToolbarView.textView.resignFirstResponder()
-      }
-    }
+//    if inputToolbarView.textView.isFirstResponder {
+//      if scrollView.draging && scrollView.panGestureRecognizer.velocity(in: scrollView).y > 100 {
+//        inputToolbarView.textView.resignFirstResponder()
+//      }
+//    }
 
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
