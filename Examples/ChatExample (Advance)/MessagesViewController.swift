@@ -231,22 +231,18 @@ extension MessagesViewController: MScrollViewDelegate {
     {
       inputToolbarView.textView.resignFirstResponder()
     }
+    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.offsetAt(.bottom) - 10 || inputToolbarView.textView.isFirstResponder
 
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
     if scrollView.contentOffset.y < 400 && loading == false {
       loading = true
       delay(0.5) { // Simulate network request
-        var newMessage: [Message] = []
-        for i in TestMessages {
-          newMessage.append(i.copy())
-        }
-        self.messages = newMessage + self.messages
+        self.messages = TestMessages.map{ $0.copy() } + self.messages
         print("load new messages count:\(self.messages.count)")
         self.collectionView.reloadData()
         self.loading = false
       }
     }
-    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.offsetAt(.bottom) - 10 || inputToolbarView.textView.isFirstResponder
   }
 }

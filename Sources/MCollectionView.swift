@@ -93,8 +93,7 @@ public class MCollectionView: MScrollView {
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else if wabble {
-      let maxDim = max(bounds.width, bounds.height) + 200
-      return visibleFrame.insetBy(dx: -(maxDim - bounds.width), dy: -(maxDim - bounds.height))
+      return visibleFrame.insetBy(dx: -abs(scrollVelocity.x) - 100, dy: -abs(scrollVelocity.y) - 100)
     } else {
       return visibleFrame
     }
