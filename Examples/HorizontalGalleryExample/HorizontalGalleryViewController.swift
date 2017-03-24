@@ -69,7 +69,7 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
-    return images.count * 10000
+    return images.count * 100
   }
 
   func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {

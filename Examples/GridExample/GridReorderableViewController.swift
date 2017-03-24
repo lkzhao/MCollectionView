@@ -10,6 +10,12 @@ import UIKit
 import MCollectionView
 
 class GridReorderableViewController: GridViewController {
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    collectionView.anchorPoint = .bottomRight
+  }
+
   func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool {
     return true
   }

@@ -29,7 +29,7 @@ open class MScrollView: UIView {
     case bottomRight
   }
 
-  // anchorPoint determine the behavior of contentOffset when contentSize or contentInset change.
+  // anchorPoint determine the behavior of contentOffset when contentSize/contentInset/frame change.
   // consider a vertical scroll view with many objects on screen:
   //   for .topLeft anchorPoint: 
   //     adding an object at the top will push other objects down on screen
@@ -98,6 +98,17 @@ open class MScrollView: UIView {
     return CGRect(origin: contentOffset, size: bounds.size)
   }
 
+  override open var frame:CGRect {
+    didSet {
+      if anchorPoint == .bottomRight {
+        let newSize = frame.size
+        let oldSize = oldValue.size
+        setContentOffset(CGPoint(x: contentOffset.x - newSize.width + oldSize.width,
+                                 y: contentOffset.y - newSize.height + oldSize.height))
+      }
+    }
+  }
+
   public func setContentOffset(_ targetOffset: CGPoint, clampToEdges:Bool = true, animate: Bool = false) {
     guard !draging else { return }
     var targetOffset = targetOffset
@@ -147,7 +158,7 @@ open class MScrollView: UIView {
       targetOffset = self.contentOffset
     } else {
       targetOffset = CGPoint(x: newSize.width - oldSize.width + contentOffset.x,
-                              y: newSize.height - oldSize.height + contentOffset.y)
+                             y: newSize.height - oldSize.height + contentOffset.y)
     }
     _contentFrame = targetFrame
     setContentOffset(targetOffset,
