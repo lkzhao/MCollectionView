@@ -30,7 +30,7 @@ class MoveContext: NSObject {
     guard gestureRecognizer == gesture, gesture.state == .changed else { return }
 
     if let index = collectionView.indexPath(for: cell) {
-      let location = gestureRecognizer.location(in: nil)
+      let location = gestureRecognizer.location(in: collectionView)
       cell.m_animate("center", to:location - startingLocationDiffInCell, stiffness: 1000, damping: 30)
 
       var scrollVelocity = CGPoint.zero
