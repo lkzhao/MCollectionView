@@ -226,7 +226,7 @@ extension MessagesViewController: MScrollViewDelegate {
   func scrollViewScrolled(_ scrollView: MScrollView) {
     // dismiss keyboard
     if inputToolbarView.textView.isFirstResponder,
-      scrollView.draging,
+      scrollView.isDraging,
       scrollView.panGestureRecognizer.velocity(in: nil).y > 100
     {
       inputToolbarView.textView.resignFirstResponder()

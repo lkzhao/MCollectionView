@@ -48,8 +48,10 @@ class MoveContext: NSObject {
         scrollVelocity.x = (location.x - (collectionView.bounds.width - collectionView.contentInset.right - 80)) * 30
       }
 
-      if scrollVelocity == .zero,
-        canReorder,
+      if scrollVelocity != .zero {
+        collectionView.scroll(with: scrollVelocity)
+      } else if canReorder,
+        !collectionView.isDraging,
         let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
         toIndex != index,
         collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
@@ -60,7 +62,6 @@ class MoveContext: NSObject {
         }
         collectionView.reloadData()
       }
-      collectionView.scroll(with: scrollVelocity)
     }
   }
 }

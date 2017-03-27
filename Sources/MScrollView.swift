@@ -53,7 +53,7 @@ open class MScrollView: UIView {
   open var alwaysBounceHorizontal: Bool = false
   open var bounces = true
   open var paged = false
-  open fileprivate(set) var draging = false
+  open fileprivate(set) var isDraging = false
 
   internal var scrollAnimation: MScrollAnimation!
   internal var lastTranslation: CGPoint?
@@ -263,7 +263,7 @@ open class MScrollView: UIView {
       pageIndexBeforeDrag = self.currentPageIndex
       scrollAnimation.stop()
       scrollDelegate?.scrollViewWillBeginDraging?(self)
-      draging = true
+      isDraging = true
       fallthrough
     case .changed:
       dragLocation = pan.location(in: self)
@@ -277,18 +277,18 @@ open class MScrollView: UIView {
         translation.y = 0
       }
       var newContentOffset = currentTargetOffset - translation
-      if let yTarget = yEdgeTarget(newContentOffset) {
-        newContentOffset.y = newContentOffset.y - (newContentOffset.y - yTarget) / 2
+      if newContentOffset.y > offsetAt(.bottom) || newContentOffset.y < offsetAt(.top) {
+        newContentOffset.y = newContentOffset.y + translation.y / 2
       }
-      if let xTarget = xEdgeTarget(newContentOffset) {
-        newContentOffset.x = newContentOffset.x - (newContentOffset.x - xTarget) / 2
+      if newContentOffset.x > offsetAt(.right) || newContentOffset.x < offsetAt(.left) {
+        newContentOffset.x = newContentOffset.x + translation.x / 2
       }
       scrollDelegate?.scrollViewDidDrag?(self)
       scrollAnimation.animateToTargetOffset(newContentOffset)
     default:
       lastTranslation = nil
       scrollAnimation.animateDone()
-      draging = false
+      isDraging = false
       scrollDelegate?.scrollViewDidEndDraging?(self)
       break
     }
@@ -345,7 +345,7 @@ extension MScrollView {
   }
 
   public func scroll(to edge: Edge, animate: Bool = true) {
-    if draging ||
+    if isDraging ||
       (isVertical(edge: edge) && !allowToScrollVertically) ||
       (!isVertical(edge: edge) && !allowToScrollHorizontally) {
       return
