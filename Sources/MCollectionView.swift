@@ -93,7 +93,7 @@ public class MCollectionView: MScrollView {
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else if wabble {
-      return visibleFrame.insetBy(dx: -abs(scrollVelocity.x) - 100, dy: -abs(scrollVelocity.y) - 100)
+      return visibleFrame.insetBy(dx: -abs(scrollVelocity.x/10).clamp(100, 500), dy: -abs(scrollVelocity.y/10).clamp(100, 500))
     } else {
       return visibleFrame
     }
@@ -228,7 +228,7 @@ public class MCollectionView: MScrollView {
       for (indexPath, cell) in visibleCellToIndexMap.ts {
         if !floatingCells.contains(cell) {
           if wabble {
-            cell.m_animate("center", to:wabbleRect(indexPath).center, stiffness: 150, damping:20, threshold: 1)
+            animator.animate(view: cell, target: wabbleRect(indexPath).center)
           } else {
             let f = frameForCell(at: indexPath)!
             cell.bounds = f.bounds
@@ -260,6 +260,7 @@ public class MCollectionView: MScrollView {
     if let cell = visibleCellToIndexMap[indexPath] {
       collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
       cell.m_removeAnimationForKey("center")
+      animator.stop(view: cell)
       cell.removeFromSuperview()
 
       let identifier = "\(type(of: cell))"

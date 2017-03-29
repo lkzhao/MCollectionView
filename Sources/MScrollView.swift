@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MotionAnimation
 import UIKit.UIGestureRecognizerSubclass
 
 class ImmediatePanGestureRecognizer: UIPanGestureRecognizer {

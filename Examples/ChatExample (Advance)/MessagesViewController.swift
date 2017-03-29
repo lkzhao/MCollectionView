@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MotionAnimation
 import MCollectionView
 
 class MessagesViewController: UIViewController {

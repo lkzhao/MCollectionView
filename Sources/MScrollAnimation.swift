@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import MotionAnimation
+import Animate
 
-class MScrollAnimation: MotionAnimation {
+class MScrollAnimation: Animation {
   weak var scrollView: MScrollView?
   init(scrollView: MScrollView) {
     self.scrollView = scrollView
-    super.init(playImmediately: false)
+    super.init()
   }
 
   var targetOffsetX: CGFloat?
@@ -71,7 +71,7 @@ class MScrollAnimation: MotionAnimation {
       }
     }
 
-    play()
+    start()
   }
 
   func animateToTargetOffset(_ target: CGPoint, stiffness: CGFloat = 1000, damping: CGFloat = 30) {
@@ -81,29 +81,20 @@ class MScrollAnimation: MotionAnimation {
     self.stiffness = CGPoint(x: stiffness, y: stiffness)
     self.damping = CGPoint(x: damping, y: damping)
 
-    play()
+    start()
   }
 
-  override func stop() {
-    super.stop()
+  override func didEnd(finished: Bool) {
     velocity = CGPoint.zero
   }
 
-  fileprivate var offset: CGPoint = CGPoint.zero
-  fileprivate var yTarget: CGFloat?
-  fileprivate var xTarget: CGFloat?
-  fileprivate var bounces: Bool = false
-  override func willUpdate() {
-    offset = scrollView?.contentOffset ?? CGPoint.zero
-    yTarget = scrollView?.yEdgeTarget()
-    xTarget = scrollView?.xEdgeTarget()
-    bounces = scrollView?.bounces ?? false
-  }
-  override func didUpdate() {
-    scrollView?.contentOffset = offset
-  }
+  override func update(dt: TimeInterval) {
+    guard let scrollView = scrollView else { return }
+    let offset = scrollView.contentOffset
+    let yTarget = scrollView.yEdgeTarget()
+    let xTarget = scrollView.xEdgeTarget()
+    let bounces = scrollView.bounces
 
-  override func update(_ dt: CGFloat) -> Bool {
     // Force
     var targetOffset = CGPoint(x: targetOffsetX ?? offset.x, y: targetOffsetY ?? offset.y)
     let Fspring = -stiffness * (offset - targetOffset)
@@ -113,8 +104,8 @@ class MScrollAnimation: MotionAnimation {
 
     let a = Fspring + Fdamper
 
-    var newV = velocity + a * dt
-    var newOffset = offset + newV * dt
+    var newV = velocity + a * CGFloat(dt)
+    var newOffset = offset + newV * CGFloat(dt)
 
     if let yTarget = yTarget {
       if !bounces {
@@ -142,14 +133,13 @@ class MScrollAnimation: MotionAnimation {
     let lowVelocity = abs(newV.x) < threshold && abs(newV.y) < threshold
     if lowVelocity && abs(targetOffset.x - newOffset.x) < threshold && abs(targetOffset.y - newOffset.y) < threshold {
       velocity = CGPoint.zero
-      offset = targetOffset
+      scrollView.contentOffset = targetOffset
       targetOffsetX = nil
       targetOffsetY = nil
-      return false
+      finish()
     } else {
       velocity = newV
-      offset = newOffset
-      return true
+      scrollView.contentOffset = newOffset
     }
   }
 }

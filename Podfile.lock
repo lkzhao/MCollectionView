@@ -1,21 +1,19 @@
 PODS:
-  - MotionAnimation (0.1.2)
+  - Animate (1.0)
+  - pop (1.0.9)
 
 DEPENDENCIES:
-  - MotionAnimation (from `https://github.com/lkzhao/MotionAnimation.git`)
+  - Animate (from `../Animate`)
+  - pop
 
 EXTERNAL SOURCES:
-  MotionAnimation:
-    :git: https://github.com/lkzhao/MotionAnimation.git
-
-CHECKOUT OPTIONS:
-  MotionAnimation:
-    :commit: c34597ad2fe5078125d61fcfd04fb41ee6c3bd18
-    :git: https://github.com/lkzhao/MotionAnimation.git
+  Animate:
+    :path: ../Animate
 
 SPEC CHECKSUMS:
-  MotionAnimation: 0257eb90f766f6d58c70524f956faf8d56c5e7bf
+  Animate: bb8a7e95e3044ce58cfabcfa9658787547946fa0
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
 
-PODFILE CHECKSUM: e1e517384d0ce118e38f6370b843454567a49562
+PODFILE CHECKSUM: 4d14830ce9971f685d7794ed3702f0bd9af3c7f7
 
 COCOAPODS: 1.1.1
