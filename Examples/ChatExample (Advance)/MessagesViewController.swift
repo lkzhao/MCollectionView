@@ -146,15 +146,15 @@ extension MessagesViewController: MCollectionViewDelegate {
       } else {
         cellView.alpha = 0
         cellView.animate.scale.set(0)
-        cellView.animate.alpha.to(1, stiffness:250, damping: 25)
-        cellView.animate.scale.to(1, stiffness:250, damping: 25)
+        cellView.animate.alpha.to(1)
+        cellView.animate.scale.to(1)
       }
     }
   }
 
   func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    cellView.animate.alpha.to(0, stiffness:250, damping: 25)
-    cellView.animate.scale.to(0, stiffness:250, damping: 25) { finished in
+    cellView.animate.alpha.to(0)
+    cellView.animate.scale.to(0) { finished in
       cellView.removeFromSuperview()
     }
   }
@@ -165,7 +165,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       if !collectionView.isFloating(cell: cellView) {
         cellView.animate.bounds.to(frame.bounds, stiffness: 150, damping:20, threshold: 1)
         cellView.animate.center.to(frame.center, stiffness: 150, damping:20, threshold: 1)
-        cellView.animate.scale.to(1, stiffness:250, damping: 25)
+        cellView.animate.scale.to(1)
         cellView.layer.zPosition = CGFloat(indexPath.item) * 100
       }
     }
@@ -180,7 +180,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? MCell {
       cell.tilt3D = true
       cell.tapAnimation = false
-      cell.animate.scale.to(1.1, stiffness: 150, damping: 20)
+      cell.animate.scale.to(1.1)
       cell.animate.rotationX.to(0, stiffness: 150, damping: 20)
       cell.animate.rotationY.to(0, stiffness: 150, damping: 20)
       cell.animate.zPosition.to(CGFloat(messages.count) * 100, stiffness: 150, damping: 20)
@@ -192,7 +192,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? MCell {
       cell.tilt3D = false
       cell.tapAnimation = true
-      cell.animate.scale.to(1, stiffness: 150, damping: 20)
+      cell.animate.scale.to(1)
       cell.animate.zPosition.to( CGFloat(indexPath.item) * 100, stiffness: 150, damping: 20)
     }
   }

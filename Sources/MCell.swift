@@ -60,7 +60,7 @@ open class MCell: UIView {
     layer.rasterizationScale = UIScreen.main.scale
     isOpaque = true
 
-    animate.center.addVelocityChangeObserver { [weak self] (v: CGPoint) in
+    animate.center.addVelocityChangeObserver { [weak self] v in
       self?.velocityUpdated(v)
     }
   }
@@ -101,14 +101,14 @@ open class MCell: UIView {
       if #available(iOS 9.0, *) {
         let force = touch.maximumPossibleForce == 0 ? 1 : touch.force
         let rotation = rotation * (0.21 + force * 0.04)
-        animate.scale.to(0.95 - force*0.01, stiffness: 150, damping: 7)
-        animate.rotationX.to(rotation.x, stiffness: 150, damping: 7)
-        animate.rotationY.to(rotation.y, stiffness: 150, damping: 7)
+        animate.scale.to(0.95 - force*0.01)
+        animate.rotationX.to(rotation.x)
+        animate.rotationY.to(rotation.y)
       } else {
         let rotation = rotation * 0.25
-        animate.scale.to(0.94, stiffness: 150, damping: 7)
-        animate.rotationX.to(rotation.x, stiffness: 150, damping: 7)
-        animate.rotationY.to(rotation.y, stiffness: 150, damping: 7)
+        animate.scale.to(0.94)
+        animate.rotationX.to(rotation.x)
+        animate.rotationY.to(rotation.y)
       }
     }
   }

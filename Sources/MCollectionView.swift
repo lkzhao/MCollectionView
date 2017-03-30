@@ -228,7 +228,7 @@ public class MCollectionView: MScrollView {
       for (indexPath, cell) in visibleCellToIndexMap.ts {
         if !floatingCells.contains(cell) {
           if wabble {
-            animator.animate(view: cell, target: wabbleRect(indexPath).center)
+            cell.animate.center.to(wabbleRect(indexPath).center, stiffness: 150, damping: 20, threshold:1)
           } else {
             let f = frameForCell(at: indexPath)!
             cell.bounds = f.bounds
@@ -259,7 +259,7 @@ public class MCollectionView: MScrollView {
   fileprivate func disappearCell(at indexPath: IndexPath) {
     if let cell = visibleCellToIndexMap[indexPath] {
       collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
-      animator.stop(view: cell)
+      cell.animate.center.stop()
       cell.removeFromSuperview()
 
       let identifier = "\(type(of: cell))"

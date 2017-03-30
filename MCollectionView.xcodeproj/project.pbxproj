@@ -20,7 +20,6 @@
 		B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */; };
 		B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5A1D10FEB900408DD6 /* ImageCell.swift */; };
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
-		B105388B1E89AB3300E64DF2 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B105388A1E89AB3300E64DF2 /* Animator.swift */; };
 		B12F9B241E804C370085F37D /* MCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F9B231E804C370085F37D /* MCollectionViewTests.swift */; };
 		B12F9B261E804C370085F37D /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
 		B12F9B301E8069530085F37D /* MoveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F9B2E1E8067480085F37D /* MoveManager.swift */; };
@@ -102,7 +101,6 @@
 		B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalGalleryViewController.swift; sourceTree = "<group>"; };
 		B102FC5A1D10FEB900408DD6 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		B102FC5C1D10FF5100408DD6 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
-		B105388A1E89AB3300E64DF2 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animator.swift; path = Sources/Animator.swift; sourceTree = SOURCE_ROOT; };
 		B12F9B211E804C370085F37D /* MCollectionViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCollectionViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12F9B231E804C370085F37D /* MCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCollectionViewTests.swift; sourceTree = "<group>"; };
 		B12F9B251E804C370085F37D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -174,7 +172,6 @@
 				B1B7B0521E7DAD1F00F2483E /* MCollectionView.h */,
 				A3B6FB5A1C7A3697003A4FD4 /* MCell.swift */,
 				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
-				B105388A1E89AB3300E64DF2 /* Animator.swift */,
 				B12F9B2E1E8067480085F37D /* MoveManager.swift */,
 				B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */,
 				B14DD9951E7C43E500B11FF1 /* Delegate.swift */,
@@ -536,7 +533,6 @@
 				B1B7B0631E7DAD2700F2483E /* MScrollView.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */,
 				B12F9B301E8069530085F37D /* MoveManager.swift in Sources */,
-				B105388B1E89AB3300E64DF2 /* Animator.swift in Sources */,
 				B1B7B05E1E7DAD2700F2483E /* Delegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
