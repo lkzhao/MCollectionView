@@ -44,9 +44,11 @@ class InputToolbarView: MCell {
     layer.shadowRadius = 30
     layer.shadowColor = UIColor(white: 0.3, alpha: 1.0).cgColor
     layer.cornerRadius = 10
-    self.m_defineCustomProperty("shadowOpacity", initialValues: 0) { (v: CGFloat) -> Void in
-      self.layer.shadowOpacity = Float(v)
-    }
+
+    animate.register(key: "shadowOpacity",
+                     getter: { [weak self] in return self?.layer.shadowOpacity },
+                     setter: { [weak self] in self?.layer.shadowOpacity = $0 })
+    
     backgroundColor = UIColor(white: 0.97, alpha: 0.97)
 
     textView.delegate = self

@@ -259,7 +259,6 @@ public class MCollectionView: MScrollView {
   fileprivate func disappearCell(at indexPath: IndexPath) {
     if let cell = visibleCellToIndexMap[indexPath] {
       collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndexPath: indexPath)
-      cell.m_removeAnimationForKey("center")
       animator.stop(view: cell)
       cell.removeFromSuperview()
 
@@ -312,7 +311,7 @@ extension MCollectionView {
     }
     floatingCells.insert(cell)
     cell.center = overlayView.convert(cell.center, from: cell.superview)
-    cell.m_animate("center", to:cell.center, stiffness: 300, damping: 25)
+    cell.animate.center.to(cell.center, stiffness: 300, damping: 25)
     overlayView.addSubview(cell)
   }
 
@@ -328,7 +327,7 @@ extension MCollectionView {
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
     let index = indexPath(for: cell)!
     let frame = frameForCell(at: index)!
-    cell.m_animate("center", to:frame.center, stiffness: 300, damping: 25)
+    cell.animate.center.to(frame.center, stiffness: 300, damping: 25)
   }
 }
 

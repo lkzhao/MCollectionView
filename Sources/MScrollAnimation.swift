@@ -84,8 +84,20 @@ class MScrollAnimation: Animation {
     start()
   }
 
+  override func willBegin() {
+    super.willBegin()
+    scrollView?.willStartScroll()
+  }
+
   override func didEnd(finished: Bool) {
+    super.didEnd(finished: finished)
     velocity = CGPoint.zero
+    scrollView?.didEndScroll()
+  }
+
+  override func didUpdate() {
+    super.didUpdate()
+    scrollView?.didScroll()
   }
 
   override func update(dt: TimeInterval) {

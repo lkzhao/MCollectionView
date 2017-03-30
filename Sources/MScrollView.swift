@@ -213,15 +213,6 @@ open class MScrollView: UIView {
     addSubview(contentView)
 
     scrollAnimation = MScrollAnimation(scrollView: self)
-    scrollAnimation.onUpdate = { [weak self] animation in
-      self?.didScroll()
-    }
-    scrollAnimation.onCompletion = { [weak self] animation in
-      self?.didEndScroll()
-    }
-    scrollAnimation.willStartPlaying = { [weak self] animation in
-      self?.willStartScroll()
-    }
 
     panGestureRecognizer = ImmediatePanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
     panGestureRecognizer.delegate = self

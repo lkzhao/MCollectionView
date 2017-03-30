@@ -78,7 +78,7 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
     cell.center = initialFrame.center
     cell.bounds = initialFrame.bounds
     cell.image = image
-    cell.rotation = CGFloat.random(-0.035, max: 0.035)
+    // cell.rotation = CGFloat.random(-0.035, max: 0.035)
     return cell
   }
 
