@@ -145,9 +145,8 @@ extension MessagesViewController: MCollectionViewDelegate {
         cellView.animate.center.to(center, stiffness:250, damping: 20)
       } else {
         cellView.alpha = 0
-        cellView.animate.scale.set(0)
+        cellView.animate.scale.from(0).to(1)
         cellView.animate.alpha.to(1)
-        cellView.animate.scale.to(1)
       }
     }
   }

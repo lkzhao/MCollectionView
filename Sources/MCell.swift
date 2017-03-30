@@ -8,6 +8,7 @@
 
 import UIKit
 
+let kTilt3DVelocityListenerIdentifier = "kTilt3DVelocityListenerIdentifier"
 public typealias TapHandler = (MCell) -> Void
 
 open class MCell: UIView {
@@ -25,7 +26,12 @@ open class MCell: UIView {
 
   open var tilt3D = false {
     didSet {
-      if tilt3D == false {
+      if tilt3D {
+        animate.center.velocity.changes.addListenerWith(identifier:kTilt3DVelocityListenerIdentifier) { [weak self] v in
+          self?.velocityUpdated(v)
+        }
+      } else {
+        animate.center.velocity.changes.removeListenerWith(identifier: kTilt3DVelocityListenerIdentifier)
         animate.rotationX.to(0, stiffness: 150, damping: 7)
         animate.rotationY.to(0, stiffness: 150, damping: 7)
       }
@@ -54,25 +60,20 @@ open class MCell: UIView {
       layer.shadowOpacity = 0
     }
   }
+
   public override init(frame: CGRect) {
     super.init(frame: frame)
     layer.shouldRasterize = true
     layer.rasterizationScale = UIScreen.main.scale
     isOpaque = true
-
-    animate.center.addVelocityChangeObserver { [weak self] v in
-      self?.velocityUpdated(v)
-    }
   }
 
   func velocityUpdated(_ velocity: CGPoint) {
-    if tilt3D {
-      let maxRotate = CGFloat.pi/6
-      let rotateX = -(velocity.y / 3000).clamp(-maxRotate, maxRotate)
-      let rotateY = (velocity.x / 3000).clamp(-maxRotate, maxRotate)
-      animate.rotationX.to(rotateX, stiffness: 400, damping: 20)
-      animate.rotationY.to(rotateY, stiffness: 400, damping: 20)
-    }
+    let maxRotate = CGFloat.pi/6
+    let rotateX = -(velocity.y / 3000).clamp(-maxRotate, maxRotate)
+    let rotateY = (velocity.x / 3000).clamp(-maxRotate, maxRotate)
+    animate.rotationX.to(rotateX, stiffness: 400, damping: 20)
+    animate.rotationY.to(rotateY, stiffness: 400, damping: 20)
   }
 
   public required init?(coder aDecoder: NSCoder) {

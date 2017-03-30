@@ -184,6 +184,7 @@ public class MCollectionView: MScrollView {
       // these cells' animation target shifted but their current value did not.
       if !floatingCells.contains(cell) {
         cell.center = cell.center + contentOffsetDiff
+        cell.animate.center.updateWithCurrentState()
       }
 
       newVisibleCellToIndexMap[newIndex] = cell
@@ -311,6 +312,7 @@ extension MCollectionView {
     }
     floatingCells.insert(cell)
     cell.center = overlayView.convert(cell.center, from: cell.superview)
+    cell.animate.center.updateWithCurrentState()
     cell.animate.center.to(cell.center, stiffness: 300, damping: 25)
     overlayView.addSubview(cell)
   }
@@ -322,6 +324,7 @@ extension MCollectionView {
 
     floatingCells.remove(cell)
     cell.center = contentView.convert(cell.center, from: cell.superview)
+    cell.animate.center.updateWithCurrentState()
     contentView.addSubview(cell)
 
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug

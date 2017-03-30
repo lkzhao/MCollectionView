@@ -84,8 +84,8 @@ class MScrollAnimation: Animation {
     start()
   }
 
-  override func willBegin() {
-    super.willBegin()
+  override func willStart() {
+    super.willStart()
     scrollView?.willStartScroll()
   }
 
