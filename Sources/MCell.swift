@@ -27,13 +27,13 @@ open class MCell: UIView {
   open var tilt3D = false {
     didSet {
       if tilt3D {
-        animate.center.velocity.changes.addListenerWith(identifier:kTilt3DVelocityListenerIdentifier) { [weak self] v in
+        a.center.velocity.changes.addListenerWith(identifier:kTilt3DVelocityListenerIdentifier) { [weak self] _, v in
           self?.velocityUpdated(v)
         }
       } else {
-        animate.center.velocity.changes.removeListenerWith(identifier: kTilt3DVelocityListenerIdentifier)
-        animate.rotationX.to(0, stiffness: 150, damping: 7)
-        animate.rotationY.to(0, stiffness: 150, damping: 7)
+        a.center.velocity.changes.removeListenerWith(identifier: kTilt3DVelocityListenerIdentifier)
+        a.rotationX.animateTo(0, stiffness: 150, damping: 7)
+        a.rotationY.animateTo(0, stiffness: 150, damping: 7)
       }
     }
   }
@@ -72,8 +72,8 @@ open class MCell: UIView {
     let maxRotate = CGFloat.pi/6
     let rotateX = -(velocity.y / 3000).clamp(-maxRotate, maxRotate)
     let rotateY = (velocity.x / 3000).clamp(-maxRotate, maxRotate)
-    animate.rotationX.to(rotateX, stiffness: 400, damping: 20)
-    animate.rotationY.to(rotateY, stiffness: 400, damping: 20)
+    a.rotationX.animateTo(rotateX, stiffness: 400, damping: 20)
+    a.rotationY.animateTo(rotateY, stiffness: 400, damping: 20)
   }
 
   public required init?(coder aDecoder: NSCoder) {
@@ -102,14 +102,14 @@ open class MCell: UIView {
       if #available(iOS 9.0, *) {
         let force = touch.maximumPossibleForce == 0 ? 1 : touch.force
         let rotation = rotation * (0.21 + force * 0.04)
-        animate.scale.to(0.95 - force*0.01)
-        animate.rotationX.to(rotation.x)
-        animate.rotationY.to(rotation.y)
+        a.scale.animateTo(0.95 - force*0.01)
+        a.rotationX.animateTo(rotation.x)
+        a.rotationY.animateTo(rotation.y)
       } else {
         let rotation = rotation * 0.25
-        animate.scale.to(0.94)
-        animate.rotationX.to(rotation.x)
-        animate.rotationY.to(rotation.y)
+        a.scale.animateTo(0.94)
+        a.rotationX.animateTo(rotation.x)
+        a.rotationY.animateTo(rotation.y)
       }
     }
   }
@@ -125,18 +125,18 @@ open class MCell: UIView {
   open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesEnded(touches, with: event)
     if tapAnimation {
-      animate.scale.to(1.0, stiffness: 150, damping: 7)
-      animate.rotationX.to(0, stiffness: 150, damping: 7)
-      animate.rotationY.to(0, stiffness: 150, damping: 7)
+      a.scale.animateTo(1.0, stiffness: 150, damping: 7)
+      a.rotationX.animateTo(0, stiffness: 150, damping: 7)
+      a.rotationY.animateTo(0, stiffness: 150, damping: 7)
     }
     holding = false
   }
   open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
     super.touchesCancelled(touches!, with: event)
     if tapAnimation {
-      animate.scale.to(1.0, stiffness: 150, damping: 7)
-      animate.rotationX.to(0, stiffness: 150, damping: 7)
-      animate.rotationY.to(0, stiffness: 150, damping: 7)
+      a.scale.animateTo(1.0, stiffness: 150, damping: 7)
+      a.rotationX.animateTo(0, stiffness: 150, damping: 7)
+      a.rotationY.animateTo(0, stiffness: 150, damping: 7)
     }
     holding = false
   }

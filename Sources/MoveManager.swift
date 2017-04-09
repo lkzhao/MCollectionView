@@ -31,7 +31,7 @@ class MoveContext: NSObject {
 
     if let index = collectionView.indexPath(for: cell) {
       let location = gestureRecognizer.location(in: collectionView)
-      cell.animate.center.to(location - startingLocationDiffInCell, stiffness: 1000, damping: 30)
+      cell.a.center.animateTo(location - startingLocationDiffInCell, stiffness: 1000, damping: 30)
 
       var scrollVelocity = CGPoint.zero
       if location.y < collectionView.contentInset.top + 80 && collectionView.contentOffset.y > collectionView.offsetAt(.top) {
