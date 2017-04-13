@@ -23,5 +23,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'MCollectionView/*.swift'
 
-  s.dependency 'MotionAnimation', '~> 0.1'
+  s.dependency 'YetAnotherAnimationLibrary', '~> 1.0'
 end

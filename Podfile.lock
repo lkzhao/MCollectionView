@@ -1,19 +1,12 @@
 PODS:
-  - Animate (1.0)
-  - pop (1.0.9)
+  - YetAnotherAnimationLibrary (1.0)
 
 DEPENDENCIES:
-  - Animate (from `../Animate`)
-  - pop
-
-EXTERNAL SOURCES:
-  Animate:
-    :path: ../Animate
+  - YetAnotherAnimationLibrary
 
 SPEC CHECKSUMS:
-  Animate: bb8a7e95e3044ce58cfabcfa9658787547946fa0
-  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  YetAnotherAnimationLibrary: 9b159e57cf30322f41cddb42fded778a3a146925
 
-PODFILE CHECKSUM: 4d14830ce9971f685d7794ed3702f0bd9af3c7f7
+PODFILE CHECKSUM: 388377ef4a099981b3a3392ec406bff903595825
 
 COCOAPODS: 1.1.1

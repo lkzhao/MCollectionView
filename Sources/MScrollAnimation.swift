@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Animate
+import YetAnotherAnimationLibrary
 
 class MScrollAnimation: Animation {
   weak var scrollView: MScrollView?

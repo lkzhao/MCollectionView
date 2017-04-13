@@ -51,8 +51,8 @@ class MessagesViewController: UIViewController {
     let inputSize = inputToolbarView.sizeThatFits(CGSize(width: view.bounds.width - 2 * inputPadding, height: view.bounds.height))
     let inputToolbarFrame = CGRect(x: inputPadding, y: keyboardHeight - inputSize.height - inputPadding, width: view.bounds.width - 2*inputPadding, height: inputSize.height)
     if animate {
-      inputToolbarView.a.center.animateTo(inputToolbarFrame.center, stiffness: 300, damping: 25)
-      inputToolbarView.a.bounds.animateTo(inputToolbarFrame.bounds, stiffness: 300, damping: 25)
+      inputToolbarView.yaal_center.animateTo(inputToolbarFrame.center, stiffness: 300, damping: 25)
+      inputToolbarView.yaal_bounds.animateTo(inputToolbarFrame.bounds, stiffness: 300, damping: 25)
     } else {
       inputToolbarView.bounds = inputToolbarFrame.bounds
       inputToolbarView.center = inputToolbarFrame.center
@@ -132,28 +132,28 @@ extension MessagesViewController: MCollectionViewDelegate {
       cellView.center = collectionView.contentView.convert(inputToolbarView.center, from: view)
       cellView.bounds = inputToolbarView.bounds
       cellView.alpha = 0
-      cellView.a.alpha.animateTo(1.0)
-      cellView.a.bounds.animateTo(frame.bounds, stiffness: 300, damping: 30)
+      cellView.yaal_alpha.animateTo(1.0)
+      cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 300, damping: 30)
     } else if (collectionView.visibleFrame.intersects(frame)) {
       if messages[indexPath.item].alignment == .left {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x - view.bounds.width, y: center.y)
-        cellView.a.center.animateTo(center, stiffness:250, damping: 20)
+        cellView.yaal_center.animateTo(center, stiffness:250, damping: 20)
       } else if messages[indexPath.item].alignment == .right {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x + view.bounds.width, y: center.y)
-        cellView.a.center.animateTo(center, stiffness:250, damping: 20)
+        cellView.yaal_center.animateTo(center, stiffness:250, damping: 20)
       } else {
         cellView.alpha = 0
-        cellView.a.scale.from(0).animateTo(1)
-        cellView.a.alpha.animateTo(1)
+        cellView.yaal_scale.from(0).animateTo(1)
+        cellView.yaal_alpha.animateTo(1)
       }
     }
   }
 
   func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    cellView.a.alpha.animateTo(0)
-    cellView.a.scale.animateTo(0) { finished in
+    cellView.yaal_alpha.animateTo(0)
+    cellView.yaal_scale.animateTo(0) { finished in
       cellView.removeFromSuperview()
     }
   }
@@ -162,9 +162,9 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: indexPath) {
       cellView.message = messages[indexPath.item]
       if !collectionView.isFloating(cell: cellView) {
-        cellView.a.bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
-        cellView.a.center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
-        cellView.a.scale.animateTo(1)
+        cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
+        cellView.yaal_center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
+        cellView.yaal_scale.animateTo(1)
         cellView.layer.zPosition = CGFloat(indexPath.item) * 100
       }
     }
@@ -179,10 +179,10 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? MCell {
       cell.tilt3D = true
       cell.tapAnimation = false
-      cell.a.scale.animateTo(1.1)
-      cell.a.rotationX.animateTo(0, stiffness: 150, damping: 20)
-      cell.a.rotationY.animateTo(0, stiffness: 150, damping: 20)
-      cell.a.zPosition.animateTo(CGFloat(messages.count) * 100, stiffness: 150, damping: 20)
+      cell.yaal_scale.animateTo(1.1)
+      cell.yaal_rotationX.animateTo(0, stiffness: 150, damping: 20)
+      cell.yaal_rotationY.animateTo(0, stiffness: 150, damping: 20)
+      cell.layer.yaal_zPosition.animateTo(CGFloat(messages.count) * 100, stiffness: 150, damping: 20)
     }
     return true
   }
@@ -191,8 +191,8 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? MCell {
       cell.tilt3D = false
       cell.tapAnimation = true
-      cell.a.scale.animateTo(1)
-      cell.a.zPosition.animateTo( CGFloat(indexPath.item) * 100, stiffness: 150, damping: 20)
+      cell.yaal_scale.animateTo(1)
+      cell.layer.yaal_zPosition.animateTo( CGFloat(indexPath.item) * 100, stiffness: 150, damping: 20)
     }
   }
 }
