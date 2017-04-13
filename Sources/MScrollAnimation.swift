@@ -23,7 +23,6 @@ class MScrollAnimation: Animation {
   var threshold: CGFloat = 0.1
   var stiffness: CGPoint = CGPoint(x: 50, y: 50)
 
-  var initiallyOutOfBound = false
   func animateDone() {
     guard let scrollView = scrollView else { return }
     targetOffsetX = nil
@@ -77,6 +76,7 @@ class MScrollAnimation: Animation {
   func animateToTargetOffset(_ target: CGPoint, stiffness: CGFloat = 1000, damping: CGFloat = 30) {
     targetOffsetY = target.y
     targetOffsetX = target.x
+
     // default value
     self.stiffness = CGPoint(x: stiffness, y: stiffness)
     self.damping = CGPoint(x: damping, y: damping)
@@ -91,7 +91,6 @@ class MScrollAnimation: Animation {
 
   override func didEnd(finished: Bool) {
     super.didEnd(finished: finished)
-    velocity = CGPoint.zero
     scrollView?.didEndScroll()
   }
 
