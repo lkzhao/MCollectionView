@@ -45,8 +45,6 @@ class HorizontalGalleryViewController: UIViewController {
     collectionView = MCollectionView(frame:view.bounds)
     collectionView.collectionDelegate = self
     collectionView.wabble = true
-    collectionView.horizontalScroll = true
-    collectionView.verticalScroll = false
     view.addSubview(collectionView)
   }
 

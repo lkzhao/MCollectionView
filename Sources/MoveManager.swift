@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YetAnotherAnimationLibrary
 
 class MoveContext: NSObject {
   var gesture: UILongPressGestureRecognizer
@@ -34,34 +35,34 @@ class MoveContext: NSObject {
       cell.yaal_center.animateTo(location - startingLocationDiffInCell, stiffness: 1000, damping: 30)
 
       var scrollVelocity = CGPoint.zero
-      if location.y < collectionView.contentInset.top + 80 && collectionView.contentOffset.y > collectionView.offsetAt(.top) {
-        scrollVelocity.y = -(collectionView.contentInset.top + 80 - location.y) * 30
-      } else if location.y > collectionView.bounds.height - collectionView.contentInset.bottom - 80 ,
-        collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
-        scrollVelocity.y = (location.y - (collectionView.bounds.height - collectionView.contentInset.bottom - 80)) * 30
-      }
-
-      if location.x < collectionView.contentInset.left + 80 && collectionView.contentOffset.x > collectionView.offsetAt(.left) {
-        scrollVelocity.x = -(collectionView.contentInset.left + 80 - location.x) * 30
-      } else if location.x > collectionView.bounds.width - collectionView.contentInset.right - 80 ,
-        collectionView.contentOffset.x < collectionView.offsetAt(.right) {
-        scrollVelocity.x = (location.x - (collectionView.bounds.width - collectionView.contentInset.right - 80)) * 30
-      }
-
-      if scrollVelocity != .zero {
-        collectionView.scroll(with: scrollVelocity)
-      } else if canReorder,
-        !collectionView.isDraging,
-        let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
-        toIndex != index,
-        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
-      {
-        canReorder = false
-        delay(0.1) {
-          self.canReorder = true
-        }
-        collectionView.reloadData()
-      }
+//      if location.y < collectionView.contentInset.top + 80 && collectionView.contentOffset.y > collectionView.offsetAt(.top) {
+//        scrollVelocity.y = -(collectionView.contentInset.top + 80 - location.y) * 30
+//      } else if location.y > collectionView.bounds.height - collectionView.contentInset.bottom - 80 ,
+//        collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
+//        scrollVelocity.y = (location.y - (collectionView.bounds.height - collectionView.contentInset.bottom - 80)) * 30
+//      }
+//
+//      if location.x < collectionView.contentInset.left + 80 && collectionView.contentOffset.x > collectionView.offsetAt(.left) {
+//        scrollVelocity.x = -(collectionView.contentInset.left + 80 - location.x) * 30
+//      } else if location.x > collectionView.bounds.width - collectionView.contentInset.right - 80 ,
+//        collectionView.contentOffset.x < collectionView.offsetAt(.right) {
+//        scrollVelocity.x = (location.x - (collectionView.bounds.width - collectionView.contentInset.right - 80)) * 30
+//      }
+//
+//      if scrollVelocity != .zero {
+//        collectionView.scroll(with: scrollVelocity)
+//      } else if canReorder,
+//        !collectionView.isDraging,
+//        let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
+//        toIndex != index,
+//        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
+//      {
+//        canReorder = false
+//        delay(0.1) {
+//          self.canReorder = true
+//        }
+//        collectionView.reloadData()
+//      }
     }
   }
 }
@@ -88,7 +89,7 @@ class MoveManager: NSObject {
     guard let collectionView = collectionView else { return }
     switch gestureRecognizer.state {
     case .began:
-      if let indexPath = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
+      if let indexPath = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView)),
         let cell = collectionView.cell(at: indexPath),
         !collectionView.isFloating(cell: cell),
         collectionView.collectionDelegate?.collectionView?(collectionView, willDrag: cell, at: indexPath) == true {
@@ -125,6 +126,6 @@ extension MoveManager: UIGestureRecognizerDelegate {
   }
 
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-    return otherGestureRecognizer.delegate === self || otherGestureRecognizer is ImmediatePanGestureRecognizer
+    return otherGestureRecognizer == collectionView?.panGestureRecognizer
   }
 }

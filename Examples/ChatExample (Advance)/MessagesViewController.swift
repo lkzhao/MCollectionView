@@ -34,10 +34,9 @@ class MessagesViewController: UIViewController {
     view.clipsToBounds = true
     collectionView = MCollectionView(frame:view.bounds)
     collectionView.collectionDelegate = self
-    collectionView.scrollDelegate = self
     collectionView.wabble = true
     collectionView.autoRemoveCells = false
-    collectionView.anchorPoint = .bottomRight
+    collectionView.delegate = self
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
@@ -57,11 +56,10 @@ class MessagesViewController: UIViewController {
       inputToolbarView.bounds = inputToolbarFrame.bounds
       inputToolbarView.center = inputToolbarFrame.center
     }
-    collectionView.setContentInset(UIEdgeInsetsMake(topLayoutGuide.length + 30,
-                                                    10,
-                                                    view.bounds.height - inputToolbarFrame.minY + 20,
-                                                    10),
-                                   animate: animate)
+    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30,
+                                                   10,
+                                                   view.bounds.height - inputToolbarFrame.minY + 20,
+                                                   10)
   }
 
   override func viewDidLayoutSubviews() {
@@ -129,7 +127,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     let frame = collectionView.frameForCell(at: indexPath)!
     if sendingMessage && indexPath.item == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
-      cellView.center = collectionView.contentView.convert(inputToolbarView.center, from: view)
+      cellView.center = collectionView.convert(inputToolbarView.center, from: view)
       cellView.bounds = inputToolbarView.bounds
       cellView.alpha = 0
       cellView.yaal_alpha.animateTo(1.0)
@@ -207,13 +205,13 @@ extension MessagesViewController: InputToolbarViewDelegate {
 
     sendingMessage = true
     collectionView.reloadData()
-    collectionView.scroll(to: .bottom)
+//    collectionView.scroll(to: .bottom)
     sendingMessage = false
 
     delay(1.0) {
       self.messages.append(Message(false, content: text))
       self.collectionView.reloadData()
-      self.collectionView.scroll(to: .bottom)
+//      self.collectionView.scroll(to: .bottom)
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
@@ -221,16 +219,16 @@ extension MessagesViewController: InputToolbarViewDelegate {
   }
 }
 
-extension MessagesViewController: MScrollViewDelegate {
-  func scrollViewScrolled(_ scrollView: MScrollView) {
+extension MessagesViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
     // dismiss keyboard
     if inputToolbarView.textView.isFirstResponder,
-      scrollView.isDraging,
+      scrollView.isDragging,
       scrollView.panGestureRecognizer.velocity(in: nil).y > 100
     {
       inputToolbarView.textView.resignFirstResponder()
     }
-    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.offsetAt(.bottom) - 10 || inputToolbarView.textView.isFirstResponder
+    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.contentSize.height - 10 || inputToolbarView.textView.isFirstResponder
 
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top

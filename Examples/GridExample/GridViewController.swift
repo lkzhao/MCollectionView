@@ -26,7 +26,6 @@ class GridViewController: UIViewController {
     collectionView = MCollectionView(frame:view.bounds)
     collectionView.collectionDelegate = self
     collectionView.wabble = true
-    collectionView.horizontalScroll = true
     view.addSubview(collectionView)
   }
 

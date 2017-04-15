@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import YetAnotherAnimationLibrary
 
-public class MCollectionView: MScrollView {
+public class MCollectionView: UIScrollView {
   public weak var collectionDelegate: MCollectionViewDelegate?
 
   // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
@@ -56,6 +57,7 @@ public class MCollectionView: MScrollView {
   var reusableViews: [String:[UIView]] = [:]
   var cleanupTimer: Timer?
   var reloading = false
+  public lazy var contentOffsetProxyAnim = MixAnimation<CGPoint>(value: AnimationProperty<CGPoint>())
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
@@ -71,6 +73,9 @@ public class MCollectionView: MScrollView {
     overlayView.isUserInteractionEnabled = false
     addSubview(overlayView)
     moveManager.collectionView = self
+    contentOffsetProxyAnim.velocity.changes.addListener { [weak self] _, _ in
+      self?.didScroll()
+    }
   }
 
   public override func layoutSubviews() {
@@ -89,11 +94,23 @@ public class MCollectionView: MScrollView {
       }
     }
   }
+  public override var contentOffset: CGPoint{
+    didSet{
+      contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
+      print(scrollVelocity)
+    }
+  }
+  public var visibleFrame: CGRect {
+    return CGRect(origin: contentOffset, size: bounds.size)
+  }
+  public var scrollVelocity: CGPoint {
+    return contentOffsetProxyAnim.velocity.value
+  }
   public var activeFrame: CGRect {
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else if wabble {
-      return visibleFrame.insetBy(dx: -abs(scrollVelocity.x/10).clamp(100, 500), dy: -abs(scrollVelocity.y/10).clamp(100, 500))
+      return visibleFrame.insetBy(dx:-200, dy: -200)
     } else {
       return visibleFrame
     }
@@ -150,7 +167,7 @@ public class MCollectionView: MScrollView {
 
     let oldContentOffset = contentOffset
     // set scrollview's contentFrame to be the unionFrame
-    contentFrame = unionFrame
+    contentSize = unionFrame.size
     let contentOffsetDiff = contentOffset - oldContentOffset
 
     var newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
@@ -218,7 +235,7 @@ public class MCollectionView: MScrollView {
 
 
   public func wabbleRect(_ indexPath: IndexPath) -> CGRect {
-    let screenDragLocation = contentOffset + dragLocation
+    let screenDragLocation = panGestureRecognizer.location(in: self)
     let cellFrame = frameForCell(at: indexPath)!
     let cellOffset = cellFrame.center.distance(screenDragLocation) * scrollVelocity / 5000
     return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
@@ -240,17 +257,12 @@ public class MCollectionView: MScrollView {
     }
   }
 
-  override func didScroll() {
+  func didScroll() {
     cleanupTimer?.invalidate()
+    cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
     if !reloading {
       loadCells()
-      super.didScroll()
     }
-  }
-
-  override func didEndScroll() {
-    super.didEndScroll()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
   }
 
   public func dequeueReusableView<T: UIView> (_ viewClass: T.Type) -> T? {
@@ -275,7 +287,7 @@ public class MCollectionView: MScrollView {
   fileprivate func appearCell(at indexPath: IndexPath) {
     if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = indexPath
-      contentView.addSubview(cell)
+      self.addSubview(cell)
       collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
     }
   }
@@ -291,7 +303,7 @@ public class MCollectionView: MScrollView {
   fileprivate func insertCell(at indexPath: IndexPath) {
     if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = indexPath
-      contentView.addSubview(cell)
+      self.addSubview(cell)
       collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndexPath: indexPath)
     }
   }
@@ -323,9 +335,9 @@ extension MCollectionView {
     }
 
     floatingCells.remove(cell)
-    cell.center = contentView.convert(cell.center, from: cell.superview)
+    cell.center = self.convert(cell.center, from: cell.superview)
     cell.yaal_center.updateWithCurrentState()
-    contentView.addSubview(cell)
+    self.addSubview(cell)
 
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
     let index = indexPath(for: cell)!
