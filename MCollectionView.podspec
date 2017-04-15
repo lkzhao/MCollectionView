@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.source_files = 'MCollectionView/*.swift'
+  s.source_files = 'Sources/**/*.swift'
 
   s.dependency 'YetAnotherAnimationLibrary', '~> 1.0'
 end
