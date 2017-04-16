@@ -44,9 +44,13 @@ class MessagesViewController: UIViewController {
     inputToolbarView.layer.zPosition = 2000
   }
 
-  func layout(_ animate: Bool = true) {
-    collectionView.frame = view.bounds
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+  }
+
+  func layout(animate: Bool = true) {
     let inputPadding: CGFloat = 10
+    collectionView.frame = view.bounds
     let inputSize = inputToolbarView.sizeThatFits(CGSize(width: view.bounds.width - 2 * inputPadding, height: view.bounds.height))
     let inputToolbarFrame = CGRect(x: inputPadding, y: keyboardHeight - inputSize.height - inputPadding, width: view.bounds.width - 2*inputPadding, height: inputSize.height)
     if animate {
@@ -60,11 +64,17 @@ class MessagesViewController: UIViewController {
                                                    10,
                                                    view.bounds.height - inputToolbarFrame.minY + 20,
                                                    10)
+    if !collectionView.hasReloaded {
+      collectionView.reloadData() {
+        return CGPoint(x: self.collectionView.contentOffset.x,
+                       y: self.collectionView.offsetFrame.maxY)
+      }
+    }
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    layout(!collectionView.isInitialReload)
+    layout(animate: collectionView.hasReloaded)
   }
 }
 
@@ -123,7 +133,7 @@ extension MessagesViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    guard !collectionView.isInitialReload else { return }
+    guard collectionView.hasReloaded else { return }
     let frame = collectionView.frameForCell(at: indexPath)!
     if sendingMessage && indexPath.item == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
@@ -215,7 +225,7 @@ extension MessagesViewController: InputToolbarViewDelegate {
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
-    layout(true)
+    layout(animate: true)
   }
 }
 
@@ -232,12 +242,18 @@ extension MessagesViewController: UIScrollViewDelegate {
 
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
-    if scrollView.contentOffset.y < 400 && loading == false {
+    if collectionView.hasReloaded,
+      scrollView.contentOffset.y < 400,
+      !loading {
       loading = true
       delay(0.5) { // Simulate network request
         self.messages = TestMessages.map{ $0.copy() } + self.messages
         print("load new messages count:\(self.messages.count)")
-        self.collectionView.reloadData()
+        let bottomOffset = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
+        self.collectionView.reloadData() {
+          return CGPoint(x: self.collectionView.contentOffset.x,
+                         y: self.collectionView.offsetFrame.maxY - bottomOffset)
+        }
         self.loading = false
       }
     }

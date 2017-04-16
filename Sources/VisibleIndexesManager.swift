@@ -114,7 +114,7 @@ class VisibleIndexesManager {
     // for example: all the cells are horizontally visible in a vertical scroll view.
     // Therefore, everytime horizontal visible indexes is equal to all indexes. Doing an interaction 
     // between N elements sets will make this function O(n) everytime.
-    // We want to target O(1) for subsequent calculation. O(n) for the initial calculation.
+    // We want to target O(1) for subsequent calculation. O(nlogn) for the initial calculation.
     //
     // instead we do the following:
     //   calculate diff in visible indexes from each axis

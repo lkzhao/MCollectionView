@@ -25,12 +25,7 @@ public class MCollectionView: UIScrollView {
   // wabble animation
   public var wabble = false
 
-  public private(set) var isInitialReload = true
-
-  // inner size is the frame size minus the inset
-  public var innerSize: CGSize {
-    return CGSize(width: bounds.width - contentInset.left - contentInset.right, height: bounds.height - contentInset.top - contentInset.bottom)
-  }
+  public private(set) var hasReloaded = false
 
   public var numberOfItems: Int {
     return frames.reduce(0, { (count, section) -> Int in
@@ -119,10 +114,11 @@ public class MCollectionView: UIScrollView {
   var screenDragLocation: CGPoint = .zero
   public override var contentOffset: CGPoint{
     didSet{
-      if isDragging || isDecelerating {
+      if isDragging || isDecelerating, !reloading {
         contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
       } else {
         contentOffsetProxyAnim.value.value = contentOffset
+        contentOffsetProxyAnim.target.value = contentOffsetProxyAnim.target.value + contentOffset - oldValue
         didScroll()
       }
     }
@@ -152,7 +148,7 @@ public class MCollectionView: UIScrollView {
    * load cells that move into the visibleFrame and recycles them when
    * they move out of the visibleFrame.
    */
-  fileprivate func loadCells() {
+  func loadCells() {
     let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
@@ -170,7 +166,7 @@ public class MCollectionView: UIScrollView {
   }
 
   // reload all frames. will automatically diff insertion & deletion
-  public func reloadData() {
+  public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
     self.collectionDelegate?.collectionViewWillReload?(self)
     reloading = true
 
@@ -197,8 +193,10 @@ public class MCollectionView: UIScrollView {
     visibleIndexesManager.reload(with: frames)
 
     let oldContentOffset = contentOffset
-    // set scrollview's contentFrame to be the unionFrame
     contentSize = unionFrame.size
+    if let offset = contentOffsetAdjustFn?() {
+      contentOffset = offset
+    }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
     var newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
@@ -260,7 +258,7 @@ public class MCollectionView: UIScrollView {
       collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndexPath:index, screenPosition:cell.center - contentOffset)
     }
     reloading = false
-    isInitialReload = false
+    hasReloaded = true
     self.collectionDelegate?.collectionViewDidReload?(self)
   }
 
@@ -388,6 +386,10 @@ extension MCollectionView {
 
   public var absoluteFrameLessInset: CGRect {
     return UIEdgeInsetsInsetRect(CGRect(origin:.zero, size:bounds.size), contentInset)
+  }
+
+  public var innerSize: CGSize {
+    return absoluteFrameLessInset.size
   }
 
   public var offsetFrame: CGRect {
