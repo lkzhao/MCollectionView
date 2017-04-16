@@ -105,10 +105,18 @@ public class MCollectionView: UIScrollView {
       }
     }
   }
+  var screenDragLocation: CGPoint = .zero
   public override var contentOffset: CGPoint{
     didSet{
-      contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
-      print(contentOffset, scrollVelocity)
+      if isDragging {
+        screenDragLocation = absoluteLocation(for: panGestureRecognizer.location(in: self))
+      }
+      if isDragging || isDecelerating {
+        contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
+      } else {
+        contentOffsetProxyAnim.value.value = contentOffset
+        didScroll()
+      }
     }
   }
   public var visibleFrame: CGRect {
@@ -118,12 +126,16 @@ public class MCollectionView: UIScrollView {
     return contentOffsetProxyAnim.velocity.value
   }
   public var activeFrame: CGRect {
+    let activeFrame: CGRect
     if let activeFrameSlop = activeFrameSlop {
-      return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
-    } else if wabble {
-      return visibleFrame.insetBy(dx:-200, dy: -200)
+      activeFrame = CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else {
-      return visibleFrame
+      activeFrame = visibleFrame
+    }
+    if wabble {
+      return activeFrame.insetBy(dx:-200, dy: -200)
+    } else {
+      return activeFrame
     }
   }
 
@@ -246,9 +258,9 @@ public class MCollectionView: UIScrollView {
 
 
   public func wabbleRect(_ indexPath: IndexPath) -> CGRect {
-    let screenDragLocation = panGestureRecognizer.location(in: self)
     let cellFrame = frameForCell(at: indexPath)!
-    let cellOffset = cellFrame.center.distance(screenDragLocation) * scrollVelocity / 5000
+    let cellScreenCenter = absoluteLocation(for: cellFrame.center)
+    let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 5000
     return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
   }
 
