@@ -80,36 +80,32 @@ class MessagesViewController: UIViewController {
 
 // collectionview datasource and layout
 extension MessagesViewController: MCollectionViewDelegate {
-  func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int {
-    return 1
-  }
-
-  func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
+  func numberOfItemsInCollectionView(_ collectionView: MCollectionView) -> Int {
     return messages.count
   }
 
-  func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView {
     let v = collectionView.dequeueReusableView(MessageTextCell.self) ?? MessageTextCell()
-    v.message = messages[indexPath.item]
+    v.message = messages[index]
     v.center = initialFrame.center
     v.bounds = initialFrame.bounds
-    v.layer.zPosition = CGFloat(indexPath.item) * 100
+    v.layer.zPosition = CGFloat(index) * 100
     return v
   }
 
-  func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
-    return messages[indexPath.item].identifier
+  func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String {
+    return messages[index].identifier
   }
 
-  func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
+  func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect {
     var yHeight: CGFloat = 0
     var xOffset: CGFloat = 0
     let maxWidth = view.bounds.width - 20
-    let message = messages[indexPath.item]
-    var cellFrame = MessageTextCell.frameForMessage(messages[indexPath.item], containerWidth: maxWidth)
-    if indexPath.item != 0 {
-      let lastMessage = messages[indexPath.item-1]
-      let lastFrame = collectionView.frameForCell(at: IndexPath(item: indexPath.item - 1, section: indexPath.section))!
+    let message = messages[index]
+    var cellFrame = MessageTextCell.frameForMessage(messages[index], containerWidth: maxWidth)
+    if index != 0 {
+      let lastMessage = messages[index-1]
+      let lastFrame = collectionView.frameForCell(at: index - 1)!
 
       if message.type == .image &&
         lastMessage.type == .image && message.alignment == lastMessage.alignment {
@@ -132,10 +128,10 @@ extension MessagesViewController: MCollectionViewDelegate {
     return cellFrame
   }
 
-  func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
+  func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndex index: Int) {
     guard collectionView.hasReloaded else { return }
-    let frame = collectionView.frameForCell(at: indexPath)!
-    if sendingMessage && indexPath.item == messages.count - 1 {
+    let frame = collectionView.frameForCell(at: index)!
+    if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       cellView.center = collectionView.convert(inputToolbarView.center, from: view)
       cellView.bounds = inputToolbarView.bounds
@@ -143,11 +139,11 @@ extension MessagesViewController: MCollectionViewDelegate {
       cellView.yaal_alpha.animateTo(1.0)
       cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
     } else if (collectionView.visibleFrame.intersects(frame)) {
-      if messages[indexPath.item].alignment == .left {
+      if messages[index].alignment == .left {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x - view.bounds.width, y: center.y)
         cellView.yaal_center.animateTo(center, stiffness:250, damping: 20)
-      } else if messages[indexPath.item].alignment == .right {
+      } else if messages[index].alignment == .right {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x + view.bounds.width, y: center.y)
         cellView.yaal_center.animateTo(center, stiffness:250, damping: 20)
@@ -159,31 +155,31 @@ extension MessagesViewController: MCollectionViewDelegate {
     }
   }
 
-  func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
+  func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndex index: Int) {
     cellView.yaal_alpha.animateTo(0)
     cellView.yaal_scale.animateTo(0) { finished in
       cellView.removeFromSuperview()
     }
   }
 
-  func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath) {
-    if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: indexPath) {
-      cellView.message = messages[indexPath.item]
+  func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndex index: Int) {
+    if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: index) {
+      cellView.message = messages[index]
       if !collectionView.isFloating(cell: cellView) {
         cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
         cellView.yaal_center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
         cellView.yaal_scale.animateTo(1)
-        cellView.layer.zPosition = CGFloat(indexPath.item) * 100
+        cellView.layer.zPosition = CGFloat(index) * 100
       }
     }
   }
 
-  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
-    messages.insert(messages.remove(at: indexPath.item), at: to.item)
+  func collectionView(_ collectionView: MCollectionView, moveItemAt index: Int, to: Int) -> Bool {
+    messages.insert(messages.remove(at: index), at: to)
     return true
   }
 
-  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool {
+  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool {
     if let cell = cell as? MCell {
       cell.tilt3D = true
       cell.tapAnimation = false
@@ -195,12 +191,12 @@ extension MessagesViewController: MCollectionViewDelegate {
     return true
   }
 
-  func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at indexPath: IndexPath) {
+  func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at index: Int) {
     if let cell = cell as? MCell {
       cell.tilt3D = false
       cell.tapAnimation = true
       cell.yaal_scale.animateTo(1)
-      cell.layer.yaal_zPosition.animateTo( CGFloat(indexPath.item) * 100, stiffness: 150, damping: 20)
+      cell.layer.yaal_zPosition.animateTo( CGFloat(index) * 100, stiffness: 150, damping: 20)
     }
   }
 }

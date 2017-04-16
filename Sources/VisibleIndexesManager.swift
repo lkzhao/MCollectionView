@@ -8,19 +8,10 @@
 
 import UIKit
 
-// struct with two elements is allocated in-place.
-// no retain/release. Much faster than IndexPath if used frequently
-public struct CheapIndex {
-  var item:Int
-  var section:Int
-  var indexPath:IndexPath {
-    return IndexPath(item: item, section: section)
-  }
-}
 
 public class LinearVisibleIndexesManager {
-  var minToIndexes: [(CGFloat, CheapIndex)] = []
-  var maxToIndexes: [(CGFloat, CheapIndex)] = []
+  var minToIndexes: [(CGFloat, Int)] = []
+  var maxToIndexes: [(CGFloat, Int)] = []
 
   var lastMin: CGFloat = 0
   var lastMax: CGFloat = 0
@@ -28,7 +19,7 @@ public class LinearVisibleIndexesManager {
   var minIndex: Int = 0
   var maxIndex: Int = -1
 
-  public func reload(minToIndexes:[(CGFloat, CheapIndex)], maxToIndexes:[(CGFloat, CheapIndex)]) {
+  public func reload(minToIndexes:[(CGFloat, Int)], maxToIndexes:[(CGFloat, Int)]) {
     self.minToIndexes = minToIndexes.sorted { left, right in
       return left.0 < right.0
     }
@@ -43,9 +34,9 @@ public class LinearVisibleIndexesManager {
     maxIndex = -1
   }
 
-  public func visibleIndexes(min:CGFloat, max:CGFloat) -> ([CheapIndex], [CheapIndex]) {
-    var inserted:[CheapIndex] = []
-    var removed:[CheapIndex] = []
+  public func visibleIndexes(min:CGFloat, max:CGFloat) -> ([Int], [Int]) {
+    var inserted:[Int] = []
+    var removed:[Int] = []
     if (max > lastMax) {
       while minIndex < minToIndexes.count, minToIndexes[minIndex].0 < max {
         inserted.append(minToIndexes[minIndex].1)
@@ -82,30 +73,25 @@ class VisibleIndexesManager {
   var verticalVisibleIndexManager = LinearVisibleIndexesManager()
   var horizontalVisibleIndexManager = LinearVisibleIndexesManager()
 
-  var frames:[[CGRect]] = []
-  var visibleIndexes = Set<IndexPath>()
+  var frames:[CGRect] = []
+  var visibleIndexes = Set<Int>()
 
-  func reload(with frames:[[CGRect]]) {
+  func reload(with frames:[CGRect]) {
     self.frames = frames
-    var flattened: [(CGRect, CheapIndex)] = []
-    for (section, sectionFrames) in frames.enumerated() {
-      for (item, frame) in sectionFrames.enumerated() {
-        flattened.append((frame, CheapIndex(item: item, section: section)))
-      }
-    }
+    let flattened: [(Int, CGRect)] = Array(frames.enumerated())
 
-    verticalVisibleIndexManager.reload(minToIndexes: flattened.map({ return ($0.0.minY, $0.1) }),
-                                       maxToIndexes: flattened.map({ return ($0.0.maxY, $0.1) }))
+    verticalVisibleIndexManager.reload(minToIndexes: flattened.map({ return ($0.1.minY, $0.0) }),
+                                       maxToIndexes: flattened.map({ return ($0.1.maxY, $0.0) }))
 
-    horizontalVisibleIndexManager.reload(minToIndexes: flattened.map({ return ($0.0.minX, $0.1) }),
-                                         maxToIndexes: flattened.map({ return ($0.0.maxX, $0.1) }))
+    horizontalVisibleIndexManager.reload(minToIndexes: flattened.map({ return ($0.1.minX, $0.0) }),
+                                         maxToIndexes: flattened.map({ return ($0.1.maxX, $0.0) }))
   }
 
-  func frame(at indexPath: CheapIndex, isVisibleIn rect:CGRect) -> Bool {
-    return rect.intersects(frames[indexPath.section][indexPath.item])
+  func frame(at index: Int, isVisibleIn rect:CGRect) -> Bool {
+    return rect.intersects(frames[index])
   }
 
-  func visibleIndexes(for rect:CGRect) -> Set<IndexPath> {
+  func visibleIndexes(for rect:CGRect) -> Set<Int> {
     let (vInserted, vRemoved) = verticalVisibleIndexManager.visibleIndexes(min: rect.minY, max: rect.maxY)
     let (hInserted, hRemoved) = horizontalVisibleIndexManager.visibleIndexes(min: rect.minX, max: rect.maxX)
 
@@ -123,19 +109,19 @@ class VisibleIndexesManager {
 
     for index in vInserted {
       if frame(at: index, isVisibleIn: rect) {
-        visibleIndexes.insert(index.indexPath)
+        visibleIndexes.insert(index)
       }
     }
     for index in hInserted {
       if frame(at: index, isVisibleIn: rect) {
-        visibleIndexes.insert(index.indexPath)
+        visibleIndexes.insert(index)
       }
     }
     for index in vRemoved {
-      visibleIndexes.remove(index.indexPath)
+      visibleIndexes.remove(index)
     }
     for index in hRemoved {
-      visibleIndexes.remove(index.indexPath)
+      visibleIndexes.remove(index)
     }
 
     return visibleIndexes

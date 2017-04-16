@@ -38,28 +38,24 @@ class GridViewController: UIViewController {
 
 // collectionview datasource and layout
 extension GridViewController: MCollectionViewDelegate {
-  func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int {
-    return 1
-  }
-
-  func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
+  func numberOfItemsInCollectionView(_ collectionView: MCollectionView) -> Int {
     return items.count
   }
 
-  func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView {
     let v = collectionView.dequeueReusableView(UILabel.self) ?? UILabel()
     v.backgroundColor = UIColor.lightGray
-    v.text = "\(items[indexPath.item])"
+    v.text = "\(items[index])"
     v.frame = initialFrame
     return v
   }
 
-  func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
-    return "\(items[indexPath.item])"
+  func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String {
+    return "\(items[index])"
   }
 
-  func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
-    let i = indexPath.item
+  func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect {
+    let i = index
     return CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
                   y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
                   width: kGridCellSize.width,

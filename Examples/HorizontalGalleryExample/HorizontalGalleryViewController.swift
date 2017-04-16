@@ -57,16 +57,12 @@ class HorizontalGalleryViewController: UIViewController {
 
 // mark MCollectionViewDataSource
 extension HorizontalGalleryViewController:MCollectionViewDelegate {
-  func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int {
-    return 1
-  }
-
-  func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int {
+  func numberOfItemsInCollectionView(_ collectionView: MCollectionView) -> Int {
     return images.count * 100
   }
 
-  func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView {
-    let image = images[indexPath.item % images.count]
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView {
+    let image = images[index % images.count]
     let cell = collectionView.dequeueReusableView(ImageCell.self) ?? ImageCell(frame:initialFrame)
     cell.center = initialFrame.center
     cell.bounds = initialFrame.bounds
@@ -82,8 +78,8 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
     rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
   }
 
-  func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect {
-    let image = images[indexPath.item % images.count]
+  func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect {
+    let image = images[index % images.count]
     let avaliableHeight = (collectionView.innerSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
     let width = collectionView.innerSize.width / CGFloat(numColumns)
     var imgSize = sizeForImage(image.size, maxSize: CGSize(width: width, height: avaliableHeight))
@@ -93,7 +89,7 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
     return CGRect(origin: CGPoint(x: offsetX, y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: imgSize)
   }
 
-  func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String {
-    return "\(indexPath.item)"
+  func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String {
+    return "\(index)"
   }
 }

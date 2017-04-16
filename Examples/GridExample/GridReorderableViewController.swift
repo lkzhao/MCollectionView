@@ -15,12 +15,12 @@ class GridReorderableViewController: GridViewController {
     super.viewDidLoad()
   }
 
-  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool {
+  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool {
     return true
   }
 
-  func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool {
-    items.insert(items.remove(at: indexPath.item), at: to.item)
+  func collectionView(_ collectionView: MCollectionView, moveItemAt index: Int, to: Int) -> Bool {
+    items.insert(items.remove(at: index), at: to)
     return true
   }
 }

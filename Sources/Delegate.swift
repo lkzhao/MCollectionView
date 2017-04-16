@@ -11,29 +11,28 @@ import UIKit
 @objc public protocol MCollectionViewDelegate {
 
   /// Data source
-  @objc optional func numberOfSectionsInCollectionView(_ collectionView: MCollectionView) -> Int
-  func collectionView(_ collectionView: MCollectionView, numberOfItemsInSection section: Int) -> Int
-  func collectionView(_ collectionView: MCollectionView, viewForIndexPath indexPath: IndexPath, initialFrame: CGRect) -> UIView
-  func collectionView(_ collectionView: MCollectionView, frameForIndexPath indexPath: IndexPath) -> CGRect
-  func collectionView(_ collectionView: MCollectionView, identifierForIndexPath indexPath: IndexPath) -> String
+  func numberOfItemsInCollectionView(_ collectionView: MCollectionView) -> Int
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView
+  func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect
+  func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String
 
   /// Move
-  @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt indexPath: IndexPath, to: IndexPath) -> Bool
-  @objc optional func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at indexPath: IndexPath) -> Bool
-  @objc optional func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at indexPath: IndexPath)
+  @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt index: Int, to: Int) -> Bool
+  @objc optional func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool
+  @objc optional func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at index: Int)
 
   /// Reload
   @objc optional func collectionViewWillReload(_ collectionView: MCollectionView)
   @objc optional func collectionViewDidReload(_ collectionView: MCollectionView)
 
   /// Callback during reloadData
-  @objc optional func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndexPath indexPath: IndexPath)
-  @objc optional func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndexPath indexPath: IndexPath)
-  @objc optional func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndexPath indexPath: IndexPath)
-  @objc optional func collectionView(_ collectionView: MCollectionView, didMoveCellView cellView: UIView, fromIndexPath: IndexPath, toIndexPath: IndexPath)
+  @objc optional func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndex index: Int)
+  @objc optional func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndex index: Int)
+  @objc optional func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndex index: Int)
+  @objc optional func collectionView(_ collectionView: MCollectionView, didMoveCellView cellView: UIView, fromIndex: Int, toIndex: Int)
 
   ///
-  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didAppearForIndexPath indexPath: IndexPath)
-  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, willDisappearForIndexPath indexPath: IndexPath)
-  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didUpdateScreenPositionForIndexPath indexPath: IndexPath, screenPosition: CGPoint)
+  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didAppearForIndex index: Int)
+  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, willDisappearForIndex index: Int)
+  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didUpdateScreenPositionForIndex index: Int, screenPosition: CGPoint)
 }

@@ -30,7 +30,7 @@ class MoveContext: NSObject {
   func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
     guard gestureRecognizer == gesture, gesture.state == .changed else { return }
 
-    if let index = collectionView.indexPath(for: cell) {
+    if let index = collectionView.index(for: cell) {
       let location = gestureRecognizer.location(in: collectionView.overlayView)
       cell.yaal_center.setTo(location - startingLocationDiffInCell)
 
@@ -64,7 +64,7 @@ class MoveContext: NSObject {
       if scrollVelocity == .zero,
         canReorder,
         !collectionView.isDragging,
-        let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView)),
+        let toIndex = collectionView.indexForCell(at: gestureRecognizer.location(in: collectionView)),
         toIndex != index,
         collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
       {
@@ -100,7 +100,7 @@ class MoveManager: NSObject {
     guard let collectionView = collectionView else { return }
     switch gestureRecognizer.state {
     case .began:
-      if let indexPath = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView)),
+      if let indexPath = collectionView.indexForCell(at: gestureRecognizer.location(in: collectionView)),
         let cell = collectionView.cell(at: indexPath),
         !collectionView.isFloating(cell: cell),
         collectionView.collectionDelegate?.collectionView?(collectionView, willDrag: cell, at: indexPath) == true {
@@ -121,7 +121,7 @@ class MoveManager: NSObject {
       if let moveContext = contexts[gestureRecognizer] {
         contexts[gestureRecognizer] = nil
         let cell = moveContext.cell
-        if let index = collectionView.indexPath(for: cell), collectionView.isFloating(cell: cell) {
+        if let index = collectionView.index(for: cell), collectionView.isFloating(cell: cell) {
           collectionView.unfloat(cell: cell)
           collectionView.collectionDelegate?.collectionView?(collectionView, didDrag: cell, at: index)
         }
