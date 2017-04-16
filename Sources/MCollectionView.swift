@@ -71,7 +71,10 @@ public class MCollectionView: UIScrollView {
 
   func commonInit() {
     overlayView.isUserInteractionEnabled = false
+    overlayView.layer.zPosition = 1000
     addSubview(overlayView)
+
+    panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
     moveManager.collectionView = self
     contentOffsetProxyAnim.velocity.changes.addListener { [weak self] _, _ in
       self?.didScroll()
@@ -86,6 +89,12 @@ public class MCollectionView: UIScrollView {
       if limit != newOffset {
         self.yaal_contentOffset.setTo(limit)
       }
+    }
+  }
+
+  func pan(gr:UIPanGestureRecognizer) {
+    if gr.state == .began {
+      yaal_contentOffset.stop()
     }
   }
 
@@ -384,8 +393,8 @@ extension MCollectionView {
 
   public var offsetFrame: CGRect {
     return CGRect(x: -contentInset.left, y: -contentInset.top,
-                  width: contentSize.width - bounds.width - contentInset.right + contentInset.left,
-                  height: contentSize.height - bounds.height - contentInset.bottom + contentInset.top)
+                  width: contentSize.width - bounds.width + contentInset.right + contentInset.left,
+                  height: contentSize.height - bounds.height + contentInset.bottom + contentInset.top)
   }
 
   public func indexPathForCell(at point: CGPoint) -> IndexPath? {

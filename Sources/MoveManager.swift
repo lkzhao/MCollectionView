@@ -41,19 +41,19 @@ class MoveContext: NSObject {
       if collectionView.contentSize.width > collectionView.bounds.size.width {
         if location.x < collectionView.absoluteFrameLessInset.minX + 80,
           collectionView.contentOffset.x > collectionView.offsetFrame.minX {
-          scrollVelocity.x = -(collectionView.absoluteFrameLessInset.minX + 80 - location.x) * 30
+          scrollVelocity.x = -(collectionView.absoluteFrameLessInset.minX + 80 - location.x) * 20
         } else if location.x > collectionView.absoluteFrameLessInset.maxX - 80,
           collectionView.contentOffset.x < collectionView.offsetFrame.maxX {
-          scrollVelocity.x = (location.x - (collectionView.absoluteFrameLessInset.maxX - 80)) * 30
+          scrollVelocity.x = (location.x - (collectionView.absoluteFrameLessInset.maxX - 80)) * 20
         }
       }
       if collectionView.contentSize.height > collectionView.bounds.size.height {
         if location.y < collectionView.absoluteFrameLessInset.minY + 80,
           collectionView.contentOffset.y > collectionView.offsetFrame.minY {
-          scrollVelocity.y = -(collectionView.absoluteFrameLessInset.minY + 80 - location.y) * 30
+          scrollVelocity.y = -(collectionView.absoluteFrameLessInset.minY + 80 - location.y) * 20
         } else if location.y > collectionView.absoluteFrameLessInset.maxY - 80,
           collectionView.contentOffset.y < collectionView.offsetFrame.maxY {
-          scrollVelocity.y = (location.y - (collectionView.absoluteFrameLessInset.maxY - 80)) * 30
+          scrollVelocity.y = (location.y - (collectionView.absoluteFrameLessInset.maxY - 80)) * 20
         }
       }
 
@@ -119,6 +119,7 @@ class MoveManager: NSObject {
       break
     default:
       gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
+      collectionView.yaal_contentOffset.decay(damping: 5)
       if let moveContext = contexts[gestureRecognizer] {
         contexts[gestureRecognizer] = nil
         let cell = moveContext.cell
