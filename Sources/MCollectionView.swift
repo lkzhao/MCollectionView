@@ -76,11 +76,22 @@ public class MCollectionView: UIScrollView {
     contentOffsetProxyAnim.velocity.changes.addListener { [weak self] _, _ in
       self?.didScroll()
     }
+
+    yaal_contentOffset.value.changes.addListener { _, newOffset in
+      let limit = CGPoint(x: newOffset.x.clamp(self.offsetFrame.minX,
+                                               self.offsetFrame.maxX),
+                          y: newOffset.y.clamp(self.offsetFrame.minY,
+                                               self.offsetFrame.maxY))
+
+      if limit != newOffset {
+        self.yaal_contentOffset.setTo(limit)
+      }
+    }
   }
 
   public override func layoutSubviews() {
     super.layoutSubviews()
-    overlayView.frame = bounds
+    overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
     if frame != lastReloadFrame {
       lastReloadFrame = frame
       reloadData()
@@ -97,7 +108,7 @@ public class MCollectionView: UIScrollView {
   public override var contentOffset: CGPoint{
     didSet{
       contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
-      print(scrollVelocity)
+      print(contentOffset, scrollVelocity)
     }
   }
   public var visibleFrame: CGRect {
@@ -347,6 +358,24 @@ extension MCollectionView {
 }
 
 extension MCollectionView {
+  public func absoluteLocation(for point: CGPoint) -> CGPoint {
+    return point - contentOffset
+  }
+
+  public var visibleFrameLessInset: CGRect {
+    return UIEdgeInsetsInsetRect(visibleFrame, contentInset)
+  }
+
+  public var absoluteFrameLessInset: CGRect {
+    return UIEdgeInsetsInsetRect(CGRect(origin:.zero, size:bounds.size), contentInset)
+  }
+
+  public var offsetFrame: CGRect {
+    return CGRect(x: -contentInset.left, y: -contentInset.top,
+                  width: contentSize.width - bounds.width - contentInset.right + contentInset.left,
+                  height: contentSize.height - bounds.height - contentInset.bottom + contentInset.top)
+  }
+
   public func indexPathForCell(at point: CGPoint) -> IndexPath? {
     for (i, s) in frames.enumerated() {
       for (j, f) in s.enumerated() {

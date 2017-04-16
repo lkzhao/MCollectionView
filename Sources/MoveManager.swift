@@ -21,7 +21,8 @@ class MoveContext: NSObject {
     self.gesture = gesture
     self.cell = cell
     self.collectionView = collectionView
-    startingLocationDiffInCell = gesture.location(in: cell.superview) - cell.center
+    startingLocationDiffInCell = gesture.location(in: cell) - cell.bounds.center
+    print("startingLocationDiffInCell \(startingLocationDiffInCell)")
     super.init()
 
     gesture.addTarget(self, action: #selector(handleLongPress(gestureRecognizer:)))
@@ -31,38 +32,50 @@ class MoveContext: NSObject {
     guard gestureRecognizer == gesture, gesture.state == .changed else { return }
 
     if let index = collectionView.indexPath(for: cell) {
-      let location = gestureRecognizer.location(in: collectionView)
-      cell.yaal_center.animateTo(location - startingLocationDiffInCell, stiffness: 1000, damping: 30)
+      let location = gestureRecognizer.location(in: collectionView.overlayView)
+      print("location \(location) \(collectionView.absoluteFrameLessInset.maxY)")
+      cell.yaal_center.setTo(location - startingLocationDiffInCell)
 
       var scrollVelocity = CGPoint.zero
-//      if location.y < collectionView.contentInset.top + 80 && collectionView.contentOffset.y > collectionView.offsetAt(.top) {
-//        scrollVelocity.y = -(collectionView.contentInset.top + 80 - location.y) * 30
-//      } else if location.y > collectionView.bounds.height - collectionView.contentInset.bottom - 80 ,
-//        collectionView.contentOffset.y < collectionView.offsetAt(.bottom) {
-//        scrollVelocity.y = (location.y - (collectionView.bounds.height - collectionView.contentInset.bottom - 80)) * 30
-//      }
-//
-//      if location.x < collectionView.contentInset.left + 80 && collectionView.contentOffset.x > collectionView.offsetAt(.left) {
-//        scrollVelocity.x = -(collectionView.contentInset.left + 80 - location.x) * 30
-//      } else if location.x > collectionView.bounds.width - collectionView.contentInset.right - 80 ,
-//        collectionView.contentOffset.x < collectionView.offsetAt(.right) {
-//        scrollVelocity.x = (location.x - (collectionView.bounds.width - collectionView.contentInset.right - 80)) * 30
-//      }
-//
-//      if scrollVelocity != .zero {
-//        collectionView.scroll(with: scrollVelocity)
-//      } else if canReorder,
-//        !collectionView.isDraging,
-//        let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView.contentView)),
-//        toIndex != index,
-//        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
-//      {
-//        canReorder = false
-//        delay(0.1) {
-//          self.canReorder = true
-//        }
-//        collectionView.reloadData()
-//      }
+
+      if collectionView.contentSize.width > collectionView.bounds.size.width {
+        if location.x < collectionView.absoluteFrameLessInset.minX + 80,
+          collectionView.contentOffset.x > collectionView.offsetFrame.minX {
+          scrollVelocity.x = -(collectionView.absoluteFrameLessInset.minX + 80 - location.x) * 30
+        } else if location.x > collectionView.absoluteFrameLessInset.maxX - 80,
+          collectionView.contentOffset.x < collectionView.offsetFrame.maxX {
+          scrollVelocity.x = (location.x - (collectionView.absoluteFrameLessInset.maxX - 80)) * 30
+        }
+      }
+      if collectionView.contentSize.height > collectionView.bounds.size.height {
+        if location.y < collectionView.absoluteFrameLessInset.minY + 80,
+          collectionView.contentOffset.y > collectionView.offsetFrame.minY {
+          scrollVelocity.y = -(collectionView.absoluteFrameLessInset.minY + 80 - location.y) * 30
+        } else if location.y > collectionView.absoluteFrameLessInset.maxY - 80,
+          collectionView.contentOffset.y < collectionView.offsetFrame.maxY {
+          scrollVelocity.y = (location.y - (collectionView.absoluteFrameLessInset.maxY - 80)) * 30
+        }
+      }
+
+      if scrollVelocity == .zero {
+        collectionView.yaal_contentOffset.decay(damping: 5)
+      } else {
+        collectionView.yaal_contentOffset.decay(initialVelocity: scrollVelocity, damping: 0)
+      }
+
+      if scrollVelocity == .zero,
+        canReorder,
+        !collectionView.isDragging,
+        let toIndex = collectionView.indexPathForCell(at: gestureRecognizer.location(in: collectionView)),
+        toIndex != index,
+        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
+      {
+        canReorder = false
+        delay(0.1) {
+          self.canReorder = true
+        }
+        collectionView.reloadData()
+      }
     }
   }
 }
