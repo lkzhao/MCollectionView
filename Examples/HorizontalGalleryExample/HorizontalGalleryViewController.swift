@@ -53,11 +53,6 @@ class HorizontalGalleryViewController: UIViewController {
     collectionView.frame = view.bounds
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 10, 10, 10, 10)
   }
-
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    print("HorizontalGalleryViewController used \(CACurrentMediaTime() - start) to initialize 90000 cells")
-  }
 }
 
 // mark MCollectionViewDataSource

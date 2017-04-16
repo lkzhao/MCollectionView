@@ -115,7 +115,7 @@ public class MCollectionView: UIScrollView {
   public override var contentOffset: CGPoint{
     didSet{
       if isDragging || isDecelerating, !reloading {
-        contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
+        contentOffsetProxyAnim.animateTo(contentOffset, stiffness:1000, damping:35)
       } else {
         contentOffsetProxyAnim.value.value = contentOffset
         contentOffsetProxyAnim.target.value = contentOffsetProxyAnim.target.value + contentOffset - oldValue
@@ -123,23 +123,16 @@ public class MCollectionView: UIScrollView {
       }
     }
   }
-  public var visibleFrame: CGRect {
-    return CGRect(origin: contentOffset, size: bounds.size)
-  }
   public var scrollVelocity: CGPoint {
     return contentOffsetProxyAnim.velocity.value
   }
   public var activeFrame: CGRect {
-    let activeFrame: CGRect
     if let activeFrameSlop = activeFrameSlop {
-      activeFrame = CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
+      return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
+    } else if wabble {
+      return visibleFrame.insetBy(dx: -abs(scrollVelocity.x/10).clamp(100, 500), dy: -abs(scrollVelocity.y/10).clamp(100, 500))
     } else {
-      activeFrame = visibleFrame
-    }
-    if wabble {
-      return activeFrame.insetBy(dx:-200, dy: -200)
-    } else {
-      return activeFrame
+      return visibleFrame
     }
   }
 
@@ -266,22 +259,28 @@ public class MCollectionView: UIScrollView {
   public func wabbleRect(_ indexPath: IndexPath) -> CGRect {
     let cellFrame = frameForCell(at: indexPath)!
     let cellScreenCenter = absoluteLocation(for: cellFrame.center)
-    let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 5000
+    let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 7000
     return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+  }
+
+  public func layoutCell(at indexPath: IndexPath, animate:Bool) {
+    if let cell = visibleCellToIndexMap[indexPath] {
+      if !floatingCells.contains(cell) {
+        let frame = wabble ? wabbleRect(indexPath) : frameForCell(at: indexPath)!
+        cell.bounds = frame.bounds
+        if animate {
+          cell.yaal_center.animateTo(frame.center, stiffness: 150, damping: 20, threshold:0.5)
+        } else {
+          cell.center = frame.center
+        }
+      }
+    }
   }
 
   public func layoutCellsIfNecessary() {
     if autoLayoutOnUpdate {
-      for (indexPath, cell) in visibleCellToIndexMap.ts {
-        if !floatingCells.contains(cell) {
-          if wabble {
-            cell.yaal_center.animateTo(wabbleRect(indexPath).center, stiffness: 150, damping: 20, threshold:1)
-          } else {
-            let f = frameForCell(at: indexPath)!
-            cell.bounds = f.bounds
-            cell.center = f.center
-          }
-        }
+      for indexPath in visibleIndexes {
+        layoutCell(at: indexPath, animate: wabble)
       }
     }
   }
@@ -317,6 +316,9 @@ public class MCollectionView: UIScrollView {
     if let cell = collectionDelegate?.collectionView(self, viewForIndexPath: indexPath, initialFrame: frameForCell(at: indexPath)!), visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = indexPath
       self.addSubview(cell)
+      if autoLayoutOnUpdate {
+        layoutCell(at: indexPath, animate: false)
+      }
       collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndexPath: indexPath)
     }
   }
@@ -376,28 +378,6 @@ extension MCollectionView {
 }
 
 extension MCollectionView {
-  public func absoluteLocation(for point: CGPoint) -> CGPoint {
-    return point - contentOffset
-  }
-
-  public var visibleFrameLessInset: CGRect {
-    return UIEdgeInsetsInsetRect(visibleFrame, contentInset)
-  }
-
-  public var absoluteFrameLessInset: CGRect {
-    return UIEdgeInsetsInsetRect(CGRect(origin:.zero, size:bounds.size), contentInset)
-  }
-
-  public var innerSize: CGSize {
-    return absoluteFrameLessInset.size
-  }
-
-  public var offsetFrame: CGRect {
-    return CGRect(x: -contentInset.left, y: -contentInset.top,
-                  width: contentSize.width - bounds.width + contentInset.right + contentInset.left,
-                  height: contentSize.height - bounds.height + contentInset.bottom + contentInset.top)
-  }
-
   public func indexPathForCell(at point: CGPoint) -> IndexPath? {
     for (i, s) in frames.enumerated() {
       for (j, f) in s.enumerated() {
@@ -410,9 +390,6 @@ extension MCollectionView {
   }
 
   public func indexPath(for cell: UIView) -> IndexPath? {
-    if reloading {
-      fatalError("shouldn't call index of view during reload -> wrong index might be returned")
-    }
     return visibleCellToIndexMap[cell]
   }
 

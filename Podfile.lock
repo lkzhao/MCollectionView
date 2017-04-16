@@ -1,11 +1,11 @@
 PODS:
-  - YetAnotherAnimationLibrary (1.0)
+  - YetAnotherAnimationLibrary (1.0.1)
 
 DEPENDENCIES:
   - YetAnotherAnimationLibrary
 
 SPEC CHECKSUMS:
-  YetAnotherAnimationLibrary: 9b159e57cf30322f41cddb42fded778a3a146925
+  YetAnotherAnimationLibrary: 0d5b16c4e3cc5f4379be2150768a20b8ba322cd5
 
 PODFILE CHECKSUM: 388377ef4a099981b3a3392ec406bff903595825
 

@@ -141,7 +141,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       cellView.bounds = inputToolbarView.bounds
       cellView.alpha = 0
       cellView.yaal_alpha.animateTo(1.0)
-      cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 300, damping: 30)
+      cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
     } else if (collectionView.visibleFrame.intersects(frame)) {
       if messages[indexPath.item].alignment == .left {
         let center = cellView.center
@@ -208,20 +208,23 @@ extension MessagesViewController: MCollectionViewDelegate {
 // For sending new messages
 extension MessagesViewController: InputToolbarViewDelegate {
   func inputAccessoryViewDidUpdateFrame(_ frame: CGRect) {
-    self.viewDidLayoutSubviews()
+    inputToolbarView.showShadow = collectionView.contentOffset.y < collectionView.offsetFrame.maxY - 10 || inputToolbarView.textView.isFirstResponder
+    viewDidLayoutSubviews()
+    collectionView.yaal_contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
+                                                        y: collectionView.offsetFrame.maxY))
   }
   func send(_ text: String) {
     messages.append(Message(true, content: text))
 
     sendingMessage = true
     collectionView.reloadData()
-//    collectionView.scroll(to: .bottom)
+    collectionView.scrollTo(edge: .bottom, animated:true)
     sendingMessage = false
 
     delay(1.0) {
       self.messages.append(Message(false, content: text))
       self.collectionView.reloadData()
-//      self.collectionView.scroll(to: .bottom)
+      self.collectionView.scrollTo(edge: .bottom, animated:true)
     }
   }
   func inputToolbarViewNeedFrameUpdate() {
@@ -231,14 +234,7 @@ extension MessagesViewController: InputToolbarViewDelegate {
 
 extension MessagesViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    // dismiss keyboard
-    if inputToolbarView.textView.isFirstResponder,
-      scrollView.isDragging,
-      scrollView.panGestureRecognizer.velocity(in: nil).y > 100
-    {
-      inputToolbarView.textView.resignFirstResponder()
-    }
-    inputToolbarView.showShadow = scrollView.contentOffset.y < scrollView.contentSize.height - 10 || inputToolbarView.textView.isFirstResponder
+    inputToolbarView.showShadow = collectionView.contentOffset.y < collectionView.offsetFrame.maxY - 10 || inputToolbarView.textView.isFirstResponder
 
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top

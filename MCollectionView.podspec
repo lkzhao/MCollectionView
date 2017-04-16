@@ -23,5 +23,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/**/*.swift'
 
-  s.dependency 'YetAnotherAnimationLibrary', '~> 1.0'
+  s.dependency 'YetAnotherAnimationLibrary', '~> 1.0.1'
 end

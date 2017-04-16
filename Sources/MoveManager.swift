@@ -22,7 +22,6 @@ class MoveContext: NSObject {
     self.cell = cell
     self.collectionView = collectionView
     startingLocationDiffInCell = gesture.location(in: cell) - cell.bounds.center
-    print("startingLocationDiffInCell \(startingLocationDiffInCell)")
     super.init()
 
     gesture.addTarget(self, action: #selector(handleLongPress(gestureRecognizer:)))
@@ -33,7 +32,6 @@ class MoveContext: NSObject {
 
     if let index = collectionView.indexPath(for: cell) {
       let location = gestureRecognizer.location(in: collectionView.overlayView)
-      print("location \(location) \(collectionView.absoluteFrameLessInset.maxY)")
       cell.yaal_center.setTo(location - startingLocationDiffInCell)
 
       var scrollVelocity = CGPoint.zero
