@@ -80,19 +80,21 @@ public class MCollectionView: UIScrollView {
       self?.didScroll()
     }
 
-    yaal_contentOffset.value.changes.addListener { _, newOffset in
-      let limit = CGPoint(x: newOffset.x.clamp(self.offsetFrame.minX,
-                                               self.offsetFrame.maxX),
-                          y: newOffset.y.clamp(self.offsetFrame.minY,
-                                               self.offsetFrame.maxY))
+    yaal_contentOffset.value.changes.addListener { [weak self] _, newOffset in
+      guard let collectionView = self else { return }
+      let limit = CGPoint(x: newOffset.x.clamp(collectionView.offsetFrame.minX,
+                                               collectionView.offsetFrame.maxX),
+                          y: newOffset.y.clamp(collectionView.offsetFrame.minY,
+                                               collectionView.offsetFrame.maxY))
 
       if limit != newOffset {
-        self.yaal_contentOffset.setTo(limit)
+        collectionView.yaal_contentOffset.setTo(limit)
       }
     }
   }
 
   func pan(gr:UIPanGestureRecognizer) {
+    screenDragLocation = absoluteLocation(for: gr.location(in: self))
     if gr.state == .began {
       yaal_contentOffset.stop()
     }
@@ -117,9 +119,6 @@ public class MCollectionView: UIScrollView {
   var screenDragLocation: CGPoint = .zero
   public override var contentOffset: CGPoint{
     didSet{
-      if isDragging {
-        screenDragLocation = absoluteLocation(for: panGestureRecognizer.location(in: self))
-      }
       if isDragging || isDecelerating {
         contentOffsetProxyAnim.animateTo(contentOffset, stiffness:400, damping:40)
       } else {
