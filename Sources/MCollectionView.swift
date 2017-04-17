@@ -125,7 +125,7 @@ public class MCollectionView: UIScrollView {
   public var scrollVelocity: CGPoint {
     return contentOffsetProxyAnim.velocity.value
   }
-  public var activeFrame: CGRect {
+  var activeFrame: CGRect {
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else if wabble {
@@ -310,7 +310,7 @@ public class MCollectionView: UIScrollView {
     }
   }
   fileprivate func appearCell(at index: Int) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndex: index, initialFrame: frameForCell(at: index)!), visibleCellToIndexMap[cell] == nil {
+    if let cell = collectionDelegate?.collectionView(self, viewForIndex: index), visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
       self.addSubview(cell)
       if autoLayoutOnUpdate {
@@ -329,9 +329,12 @@ public class MCollectionView: UIScrollView {
     }
   }
   fileprivate func insertCell(at index: Int) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndex: index, initialFrame: frameForCell(at: index)!), visibleCellToIndexMap[cell] == nil {
+    if let cell = collectionDelegate?.collectionView(self, viewForIndex: index), visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
       self.addSubview(cell)
+      if autoLayoutOnUpdate {
+        layoutCell(at: index, animate: false)
+      }
       collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndex: index)
     }
   }
@@ -376,10 +379,17 @@ extension MCollectionView {
 
 extension MCollectionView {
   public func indexForCell(at point: CGPoint) -> Int? {
-    for (i, f) in frames.enumerated() {
-      if f.contains(point) {
-        return i
+    for (index, frame) in frames.enumerated() {
+      if frame.contains(point) {
+        return index
       }
+    }
+    return nil
+  }
+
+  public func frameForCell(at index: Int?) -> CGRect? {
+    if let index = index {
+      return frames.count > index ? frames[index] : nil
     }
     return nil
   }
@@ -390,12 +400,5 @@ extension MCollectionView {
 
   public func cell(at index: Int) -> UIView? {
     return visibleCellToIndexMap[index]
-  }
-
-  public func frameForCell(at index: Int?) -> CGRect? {
-    if let index = index {
-      return frames.count > index ? frames[index] : nil
-    }
-    return nil
   }
 }

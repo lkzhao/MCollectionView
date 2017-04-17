@@ -9,7 +9,7 @@
 import UIKit
 import MCollectionView
 
-class MessageTextCell: MCell {
+class MessageTextCell: DynamicView {
   var textLabel = UILabel()
   var imageView: UIImageView?
 
@@ -37,15 +37,14 @@ class MessageTextCell: MCell {
       if message.showShadow {
         layer.shadowOffset = CGSize(width: 0, height: 5)
         layer.shadowOpacity = 0.3
-        layer.shadowRadius = 8
-        layer.shadowColor = UIColor(white: 0.6, alpha: 1.0).cgColor
+        layer.shadowRadius = 4
+        layer.shadowColor = message.shadowColor.cgColor
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
       } else {
         layer.shadowOpacity = 0
         layer.shadowColor = nil
       }
 
-      layer.shadowColor = message.shadowColor.cgColor
       backgroundColor = message.backgroundColor
     }
   }

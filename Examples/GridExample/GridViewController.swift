@@ -42,11 +42,10 @@ extension GridViewController: MCollectionViewDelegate {
     return items.count
   }
 
-  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView {
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int) -> UIView {
     let v = collectionView.dequeueReusableView(UILabel.self) ?? UILabel()
     v.backgroundColor = UIColor.lightGray
     v.text = "\(items[index])"
-    v.frame = initialFrame
     return v
   }
 

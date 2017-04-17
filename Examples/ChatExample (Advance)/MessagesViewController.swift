@@ -27,9 +27,6 @@ class MessagesViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    #if DEBUG
-      MotionAnimator.sharedInstance.debugEnabled = true
-    #endif
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     view.clipsToBounds = true
     collectionView = MCollectionView(frame:view.bounds)
@@ -43,10 +40,6 @@ class MessagesViewController: UIViewController {
     inputToolbarView.delegate = self
     view.addSubview(inputToolbarView)
     inputToolbarView.layer.zPosition = 2000
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
   }
 
   func layout(animate: Bool = true) {
@@ -95,12 +88,9 @@ extension MessagesViewController: MCollectionViewDelegate {
     return messages.count
   }
 
-  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView {
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int) -> UIView {
     let v = collectionView.dequeueReusableView(MessageTextCell.self) ?? MessageTextCell()
     v.message = messages[index]
-    v.center = initialFrame.center
-    v.bounds = initialFrame.bounds
-    v.layer.zPosition = CGFloat(index) * 100
     return v
   }
 
@@ -180,7 +170,6 @@ extension MessagesViewController: MCollectionViewDelegate {
         cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
         cellView.yaal_center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
         cellView.yaal_scale.animateTo(1)
-        cellView.layer.zPosition = CGFloat(index) * 100
       }
     }
   }
@@ -191,23 +180,23 @@ extension MessagesViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool {
-    if let cell = cell as? MCell {
-      cell.tilt3D = true
+    if let cell = cell as? DynamicView {
+      cell.tiltAnimation = true
       cell.tapAnimation = false
       cell.yaal_scale.animateTo(1.1)
       cell.yaal_rotationX.animateTo(0, stiffness: 150, damping: 20)
       cell.yaal_rotationY.animateTo(0, stiffness: 150, damping: 20)
-      cell.layer.yaal_zPosition.animateTo(CGFloat(messages.count) * 100, stiffness: 150, damping: 20)
+      cell.layer.yaal_zPosition.animateTo(100)
     }
     return true
   }
 
   func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at index: Int) {
-    if let cell = cell as? MCell {
-      cell.tilt3D = false
+    if let cell = cell as? DynamicView {
+      cell.tiltAnimation = false
       cell.tapAnimation = true
       cell.yaal_scale.animateTo(1)
-      cell.layer.yaal_zPosition.animateTo( CGFloat(index) * 100, stiffness: 150, damping: 20)
+      cell.layer.yaal_zPosition.animateTo(0)
     }
   }
 }
@@ -215,7 +204,6 @@ extension MessagesViewController: MCollectionViewDelegate {
 // For sending new messages
 extension MessagesViewController: InputToolbarViewDelegate {
   func inputAccessoryViewDidUpdateFrame(_ frame: CGRect) {
-    inputToolbarView.showShadow = collectionView.contentOffset.y < collectionView.offsetFrame.maxY - 10 || inputToolbarView.textView.isFirstResponder
     viewDidLayoutSubviews()
   }
   func send(_ text: String) {
@@ -239,8 +227,6 @@ extension MessagesViewController: InputToolbarViewDelegate {
 
 extension MessagesViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    inputToolbarView.showShadow = collectionView.contentOffset.y < collectionView.offsetFrame.maxY - 10 || inputToolbarView.textView.isFirstResponder
-
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
     if collectionView.hasReloaded,

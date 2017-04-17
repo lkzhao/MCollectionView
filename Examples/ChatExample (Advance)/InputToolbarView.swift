@@ -15,9 +15,10 @@ import MCollectionView
   func inputToolbarViewNeedFrameUpdate()
 }
 
-class InputToolbarView: MCell {
+class InputToolbarView: DynamicView {
   var textView: UITextView!
   var sendButton: UIImageView!
+  var tapGR: UITapGestureRecognizer!
   var showingPlaceholder = true
   var keyboardFrame: CGRect? {
     return accessoryView.keyboardFrame
@@ -74,7 +75,7 @@ class InputToolbarView: MCell {
   var recordFileURL: URL!
   var meterTimer: Timer!
 
-  override func tap() {
+  func tap() {
     if sendButton.frame.contains(tapGR.location(in: self)) {
       sendButtonTapped()
     } else if self.bounds.contains(tapGR.location(in: self)) && !textView.isFirstResponder {

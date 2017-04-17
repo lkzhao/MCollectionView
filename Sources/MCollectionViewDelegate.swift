@@ -12,7 +12,7 @@ import UIKit
 
   /// Data source
   func numberOfItemsInCollectionView(_ collectionView: MCollectionView) -> Int
-  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int) -> UIView
   func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect
   func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String
 

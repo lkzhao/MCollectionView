@@ -1,5 +1,5 @@
 //
-//  MCell.swift
+//  DynamicView.swift
 //  MCollectionViewExample
 //
 //  Created by YiLun Zhao on 2016-02-21.
@@ -8,64 +8,33 @@
 
 import UIKit
 
-let kTilt3DVelocityListenerIdentifier = "kTilt3DVelocityListenerIdentifier"
-public typealias TapHandler = (MCell) -> Void
+let kTiltAnimationVelocityListenerIdentifier = "kTiltAnimationVelocityListenerIdentifier"
 
-open class MCell: UIView {
-  open var onTap: TapHandler? {
-    didSet {
-      if tapGR == nil {
-        tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
-        addGestureRecognizer(tapGR)
-      }
-    }
-  }
-
+open class DynamicView: UIView {
   open var tapAnimation = true
-  open var tapGR: UITapGestureRecognizer!
 
-  open var tilt3D = false {
+  open var tiltAnimation = false {
     didSet {
-      if tilt3D {
-        yaal_center.velocity.changes.addListenerWith(identifier:kTilt3DVelocityListenerIdentifier) { [weak self] _, v in
+      if tiltAnimation {
+        yaal_center.velocity.changes.addListenerWith(identifier:kTiltAnimationVelocityListenerIdentifier) { [weak self] _, v in
           self?.velocityUpdated(v)
         }
       } else {
-        yaal_center.velocity.changes.removeListenerWith(identifier: kTilt3DVelocityListenerIdentifier)
+        yaal_center.velocity.changes.removeListenerWith(identifier: kTiltAnimationVelocityListenerIdentifier)
         yaal_rotationX.animateTo(0, stiffness: 150, damping: 7)
         yaal_rotationY.animateTo(0, stiffness: 150, damping: 7)
       }
     }
   }
 
-  open var shadowColor: UIColor = UIColor(white:0.5, alpha:0.5) {
-    didSet {
-      updateShadow()
-    }
-  }
-  open var showShadow: Bool = false {
-    didSet {
-      updateShadow()
-    }
-  }
-
-  func updateShadow() {
-    if showShadow {
-      layer.shadowOffset = CGSize(width: 0, height: 5)
-      layer.shadowOpacity = 0.3
-      layer.shadowRadius = 8
-      layer.shadowColor = shadowColor.cgColor
-      layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
-    } else {
-      layer.shadowOpacity = 0
-    }
-  }
-
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    layer.shouldRasterize = true
-    layer.rasterizationScale = UIScreen.main.scale
-    isOpaque = true
+    layer.yaal_perspective.setTo(-1/500)
+  }
+
+  public required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    layer.yaal_perspective.setTo(-1/500)
   }
 
   func velocityUpdated(_ velocity: CGPoint) {
@@ -76,23 +45,6 @@ open class MCell: UIView {
     yaal_rotationY.animateTo(rotateY, stiffness: 400, damping: 20)
   }
 
-  public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  open override var bounds: CGRect {
-    didSet {
-      if showShadow {
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
-      }
-    }
-  }
-
-  open func tap() {
-    onTap?(self)
-  }
-
-  open fileprivate(set) var holding = false
   func touchAnim(touches:Set<UITouch>) {
     if let touch = touches.first, tapAnimation {
       var loc = touch.location(in: self)
@@ -115,7 +67,6 @@ open class MCell: UIView {
   }
   open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
-    holding = true
     touchAnim(touches: touches)
   }
   open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -129,7 +80,6 @@ open class MCell: UIView {
       yaal_rotationX.animateTo(0, stiffness: 150, damping: 7)
       yaal_rotationY.animateTo(0, stiffness: 150, damping: 7)
     }
-    holding = false
   }
   open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
     super.touchesCancelled(touches!, with: event)
@@ -138,6 +88,5 @@ open class MCell: UIView {
       yaal_rotationX.animateTo(0, stiffness: 150, damping: 7)
       yaal_rotationY.animateTo(0, stiffness: 150, damping: 7)
     }
-    holding = false
   }
 }

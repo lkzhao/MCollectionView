@@ -22,7 +22,7 @@ func sizeForImage(_ imageSize: CGSize, maxSize: CGSize) -> CGSize {
   return imageSize
 }
 
-class ImageCell: MCell {
+class ImageCell: DynamicView {
   var imageView = UIImageView()
   var image: UIImage? {
     didSet {
@@ -35,7 +35,6 @@ class ImageCell: MCell {
     imageView.clipsToBounds = true
     imageView.layer.cornerRadius = 7
     addSubview(imageView)
-    showShadow = true
   }
 
   override func layoutSubviews() {

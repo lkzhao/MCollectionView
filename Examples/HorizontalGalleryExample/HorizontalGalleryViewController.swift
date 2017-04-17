@@ -61,13 +61,11 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
     return images.count * 100
   }
 
-  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int, initialFrame: CGRect) -> UIView {
+  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int) -> UIView {
     let image = images[index % images.count]
-    let cell = collectionView.dequeueReusableView(ImageCell.self) ?? ImageCell(frame:initialFrame)
-    cell.center = initialFrame.center
-    cell.bounds = initialFrame.bounds
+    let cell = collectionView.dequeueReusableView(ImageCell.self) ?? ImageCell()
     cell.image = image
-    // cell.rotation = CGFloat.random(-0.035, max: 0.035)
+    cell.yaal_rotation.setTo(CGFloat.random(-0.035, max: 0.035))
     return cell
   }
 
