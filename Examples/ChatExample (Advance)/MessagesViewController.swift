@@ -72,9 +72,9 @@ class MessagesViewController: UIViewController {
     collectionView.frame = view.bounds
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30,
                                                    10,
-                                                   max(0, view.bounds.height - textInputBar.frame.minY) + 20,
+                                                   max(textInputBar.defaultHeight, view.bounds.height - textInputBar.frame.minY) + 20,
                                                    10)
-    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topLayoutGuide.length, 0, max(0, view.bounds.height - textInputBar.frame.minY), 0)
+    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topLayoutGuide.length, 0, max(textInputBar.defaultHeight, view.bounds.height - textInputBar.frame.minY), 0)
     if !collectionView.hasReloaded {
       collectionView.reloadData() {
         return CGPoint(x: self.collectionView.contentOffset.x,

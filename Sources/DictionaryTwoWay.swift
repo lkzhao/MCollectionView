@@ -49,7 +49,9 @@ struct DictionaryTwoWay<S:Hashable, T:Hashable> : ExpressibleByDictionaryLiteral
     }
 
     set(val) {
+      remove(key)
       if let val = val {
+        remove(val)
         st[key] = val
         ts[val] = key
       }
@@ -62,7 +64,9 @@ struct DictionaryTwoWay<S:Hashable, T:Hashable> : ExpressibleByDictionaryLiteral
     }
 
     set(val) {
+      remove(key)
       if let val = val {
+        remove(val)
         ts[key] = val
         st[val] = key
       }
