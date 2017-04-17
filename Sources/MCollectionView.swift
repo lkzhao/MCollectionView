@@ -113,8 +113,8 @@ public class MCollectionView: UIScrollView {
   var screenDragLocation: CGPoint = .zero
   public override var contentOffset: CGPoint{
     didSet{
-      if isDragging || isDecelerating, !reloading {
-        contentOffsetProxyAnim.animateTo(contentOffset, stiffness:1000, damping:35)
+      if isTracking || isDragging || isDecelerating, !reloading {
+        contentOffsetProxyAnim.animateTo(contentOffset, stiffness:1000, damping:40)
       } else {
         contentOffsetProxyAnim.value.value = contentOffsetProxyAnim.value.value + contentOffset - oldValue
         contentOffsetProxyAnim.target.value = contentOffsetProxyAnim.target.value + contentOffset - oldValue
@@ -266,7 +266,7 @@ public class MCollectionView: UIScrollView {
         let frame = wabble ? wabbleRect(index) : frameForCell(at: index)!
         cell.bounds = frame.bounds
         if animate {
-          cell.yaal_center.animateTo(frame.center, stiffness: 150, damping: 20, threshold:0.5)
+          cell.yaal_center.animateTo(frame.center, stiffness: 400, damping: 40, threshold:0.5)
         } else {
           cell.center = frame.center
         }
