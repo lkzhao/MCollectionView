@@ -81,7 +81,8 @@ public class MCollectionView: UIScrollView {
                                                collectionView.offsetFrame.maxY))
 
       if limit != newOffset {
-        collectionView.yaal_contentOffset.setTo(limit)
+        collectionView.contentOffset = limit
+        collectionView.yaal_contentOffset.updateWithCurrentState()
       }
     }
   }
@@ -115,7 +116,7 @@ public class MCollectionView: UIScrollView {
       if isDragging || isDecelerating, !reloading {
         contentOffsetProxyAnim.animateTo(contentOffset, stiffness:1000, damping:35)
       } else {
-        contentOffsetProxyAnim.value.value = contentOffset
+        contentOffsetProxyAnim.value.value = contentOffsetProxyAnim.value.value + contentOffset - oldValue
         contentOffsetProxyAnim.target.value = contentOffsetProxyAnim.target.value + contentOffset - oldValue
         didScroll()
       }
@@ -248,7 +249,7 @@ public class MCollectionView: UIScrollView {
     }
     reloading = false
     hasReloaded = true
-    self.collectionDelegate?.collectionViewDidReload?(self)
+    collectionDelegate.collectionViewDidReload?(self)
   }
 
 

@@ -138,6 +138,6 @@ extension MoveManager: UIGestureRecognizerDelegate {
   }
 
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-    return otherGestureRecognizer == collectionView?.panGestureRecognizer
+    return otherGestureRecognizer == collectionView?.panGestureRecognizer || otherGestureRecognizer.delegate === self
   }
 }

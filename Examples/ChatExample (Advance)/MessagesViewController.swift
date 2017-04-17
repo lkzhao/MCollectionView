@@ -37,6 +37,7 @@ class MessagesViewController: UIViewController {
     collectionView.wabble = true
     collectionView.autoRemoveCells = false
     collectionView.delegate = self
+    collectionView.keyboardDismissMode = .interactive
     view.addSubview(collectionView)
 
     inputToolbarView.delegate = self
@@ -50,12 +51,13 @@ class MessagesViewController: UIViewController {
 
   func layout(animate: Bool = true) {
     let inputPadding: CGFloat = 10
+    let isAtBottom = collectionView.contentOffset.y >= collectionView.offsetFrame.maxY - 10
     collectionView.frame = view.bounds
     let inputSize = inputToolbarView.sizeThatFits(CGSize(width: view.bounds.width - 2 * inputPadding, height: view.bounds.height))
     let inputToolbarFrame = CGRect(x: inputPadding, y: keyboardHeight - inputSize.height - inputPadding, width: view.bounds.width - 2*inputPadding, height: inputSize.height)
     if animate {
-      inputToolbarView.yaal_center.animateTo(inputToolbarFrame.center, stiffness: 300, damping: 25)
-      inputToolbarView.yaal_bounds.animateTo(inputToolbarFrame.bounds, stiffness: 300, damping: 25)
+      inputToolbarView.yaal_center.animateTo(inputToolbarFrame.center)
+      inputToolbarView.yaal_bounds.animateTo(inputToolbarFrame.bounds)
     } else {
       inputToolbarView.bounds = inputToolbarFrame.bounds
       inputToolbarView.center = inputToolbarFrame.center
@@ -68,6 +70,15 @@ class MessagesViewController: UIViewController {
       collectionView.reloadData() {
         return CGPoint(x: self.collectionView.contentOffset.x,
                        y: self.collectionView.offsetFrame.maxY)
+      }
+    }
+    if isAtBottom {
+      if animate {
+        collectionView.yaal_contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
+                                                            y: collectionView.offsetFrame.maxY))
+      } else {
+        collectionView.yaal_contentOffset.setTo(CGPoint(x: collectionView.contentOffset.x,
+                                                        y: collectionView.offsetFrame.maxY))
       }
     }
   }
@@ -206,8 +217,6 @@ extension MessagesViewController: InputToolbarViewDelegate {
   func inputAccessoryViewDidUpdateFrame(_ frame: CGRect) {
     inputToolbarView.showShadow = collectionView.contentOffset.y < collectionView.offsetFrame.maxY - 10 || inputToolbarView.textView.isFirstResponder
     viewDidLayoutSubviews()
-    collectionView.yaal_contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
-                                                        y: collectionView.offsetFrame.maxY))
   }
   func send(_ text: String) {
     messages.append(Message(true, content: text))
@@ -235,12 +244,12 @@ extension MessagesViewController: UIScrollViewDelegate {
     // PULL TO LOAD MORE
     // load more messages if we scrolled to the top
     if collectionView.hasReloaded,
-      scrollView.contentOffset.y < 400,
+      scrollView.contentOffset.y < 500,
       !loading {
       loading = true
       delay(0.5) { // Simulate network request
-        self.messages = TestMessages.map{ $0.copy() } + self.messages
-        print("load new messages count:\(self.messages.count)")
+        let newMessages = TestMessages.map{ $0.copy() }
+        self.messages = newMessages + self.messages
         let bottomOffset = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
         self.collectionView.reloadData() {
           return CGPoint(x: self.collectionView.contentOffset.x,
