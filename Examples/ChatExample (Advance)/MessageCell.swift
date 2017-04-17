@@ -9,7 +9,7 @@
 import UIKit
 import MCollectionView
 
-class MessageTextCell: DynamicView {
+class MessageCell: DynamicView {
   var textLabel = UILabel()
   var imageView: UIImageView?
 
@@ -98,7 +98,7 @@ class MessageTextCell: DynamicView {
       let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth, padding: message.cellPadding)
       return CGRect(x: (containerWidth - size.width)/2, y: 0, width: size.width, height: size.height)
     } else {
-      let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth - 2*message.cellPadding, padding: message.cellPadding)
+      let size = sizeForText(message.content, fontSize: message.fontSize, maxWidth: containerWidth - 50, padding: message.cellPadding)
       let origin = CGPoint(x: message.alignment == .right ? containerWidth - size.width : 0, y: 0)
       return CGRect(origin: origin, size: size)
     }

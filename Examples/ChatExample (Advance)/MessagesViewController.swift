@@ -8,21 +8,25 @@
 
 import UIKit
 import MCollectionView
+import ALTextInputBar
 
 class MessagesViewController: UIViewController {
 
   var collectionView: MCollectionView!
-  let inputToolbarView = InputToolbarView()
 
   var sendingMessage = false
   var messages: [Message] = TestMessages
   var loading = false
 
-  var keyboardHeight: CGFloat {
-    if let keyboardFrame = inputToolbarView.keyboardFrame {
-      return min(keyboardFrame.minY, view.bounds.height)
-    }
-    return view.bounds.height
+  let textInputBar = ALTextInputBar()
+  let keyboardObserver = ALKeyboardObservingView()
+
+  override var inputAccessoryView: UIView? {
+    return keyboardObserver
+  }
+
+  override var canBecomeFirstResponder: Bool {
+    return true
   }
 
   override func viewDidLoad() {
@@ -37,28 +41,40 @@ class MessagesViewController: UIViewController {
     collectionView.keyboardDismissMode = .interactive
     view.addSubview(collectionView)
 
-    inputToolbarView.delegate = self
-    view.addSubview(inputToolbarView)
-    inputToolbarView.layer.zPosition = 2000
+    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+    button.setImage(UIImage(named:"ic_send")!, for: .normal)
+    button.addTarget(self, action: #selector(send), for: .touchUpInside)
+    button.sizeToFit()
+    button.tintColor = .lightBlue
+    textInputBar.rightView = button
+    textInputBar.textView.tintColor = .lightBlue
+    textInputBar.defaultHeight = 54
+    textInputBar.delegate = self
+    textInputBar.keyboardObserver = keyboardObserver
+    textInputBar.frame = CGRect(x: 0, y: view.frame.height - textInputBar.defaultHeight, width: view.frame.width, height: textInputBar.defaultHeight)
+    keyboardObserver.isUserInteractionEnabled = false
+    view.addSubview(textInputBar)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameChanged(notification:)), name: NSNotification.Name(rawValue: ALKeyboardFrameDidChangeNotification), object: nil)
   }
 
-  func layout(animate: Bool = true) {
-    let inputPadding: CGFloat = 10
+  func keyboardFrameChanged(notification: NSNotification) {
+    if let userInfo = notification.userInfo {
+      let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
+      textInputBar.frame.origin.y = frame.minY
+      viewDidLayoutSubviews()
+    }
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    textInputBar.frame.size.width = view.bounds.width
     let isAtBottom = collectionView.contentOffset.y >= collectionView.offsetFrame.maxY - 10
     collectionView.frame = view.bounds
-    let inputSize = inputToolbarView.sizeThatFits(CGSize(width: view.bounds.width - 2 * inputPadding, height: view.bounds.height))
-    let inputToolbarFrame = CGRect(x: inputPadding, y: keyboardHeight - inputSize.height - inputPadding, width: view.bounds.width - 2*inputPadding, height: inputSize.height)
-    if animate {
-      inputToolbarView.yaal_center.animateTo(inputToolbarFrame.center)
-      inputToolbarView.yaal_bounds.animateTo(inputToolbarFrame.bounds)
-    } else {
-      inputToolbarView.bounds = inputToolbarFrame.bounds
-      inputToolbarView.center = inputToolbarFrame.center
-    }
     collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30,
                                                    10,
-                                                   view.bounds.height - inputToolbarFrame.minY + 20,
+                                                   max(0, view.bounds.height - textInputBar.frame.minY) + 20,
                                                    10)
+    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topLayoutGuide.length, 0, max(0, view.bounds.height - textInputBar.frame.minY), 0)
     if !collectionView.hasReloaded {
       collectionView.reloadData() {
         return CGPoint(x: self.collectionView.contentOffset.x,
@@ -66,7 +82,7 @@ class MessagesViewController: UIViewController {
       }
     }
     if isAtBottom {
-      if animate {
+      if collectionView.hasReloaded {
         collectionView.yaal_contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
                                                             y: collectionView.offsetFrame.maxY))
       } else {
@@ -74,11 +90,6 @@ class MessagesViewController: UIViewController {
                                                         y: collectionView.offsetFrame.maxY))
       }
     }
-  }
-
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    layout(animate: collectionView.hasReloaded)
   }
 }
 
@@ -89,7 +100,7 @@ extension MessagesViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int) -> UIView {
-    let v = collectionView.dequeueReusableView(MessageTextCell.self) ?? MessageTextCell()
+    let v = collectionView.dequeueReusableView(MessageCell.self) ?? MessageCell()
     v.message = messages[index]
     return v
   }
@@ -103,7 +114,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     var xOffset: CGFloat = 0
     let maxWidth = view.bounds.width - 20
     let message = messages[index]
-    var cellFrame = MessageTextCell.frameForMessage(messages[index], containerWidth: maxWidth)
+    var cellFrame = MessageCell.frameForMessage(messages[index], containerWidth: maxWidth)
     if index != 0 {
       let lastMessage = messages[index-1]
       let lastFrame = collectionView.frameForCell(at: index - 1)!
@@ -134,8 +145,7 @@ extension MessagesViewController: MCollectionViewDelegate {
     let frame = collectionView.frameForCell(at: index)!
     if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
-      cellView.center = collectionView.convert(inputToolbarView.center, from: view)
-      cellView.bounds = inputToolbarView.bounds
+      cellView.frame = collectionView.convert(textInputBar.bounds, from: textInputBar)
       cellView.alpha = 0
       cellView.yaal_alpha.animateTo(1.0)
       cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
@@ -164,7 +174,7 @@ extension MessagesViewController: MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndex index: Int) {
-    if let cellView = cellView as? MessageTextCell, let frame = collectionView.frameForCell(at: index) {
+    if let cellView = cellView as? MessageCell, let frame = collectionView.frameForCell(at: index) {
       cellView.message = messages[index]
       if !collectionView.isFloating(cell: cellView) {
         cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
@@ -202,11 +212,10 @@ extension MessagesViewController: MCollectionViewDelegate {
 }
 
 // For sending new messages
-extension MessagesViewController: InputToolbarViewDelegate {
-  func inputAccessoryViewDidUpdateFrame(_ frame: CGRect) {
-    viewDidLayoutSubviews()
-  }
-  func send(_ text: String) {
+extension MessagesViewController: ALTextInputBarDelegate {
+  func send() {
+    let text = textInputBar.text!
+    textInputBar.text = ""
     messages.append(Message(true, content: text))
 
     sendingMessage = true
@@ -219,9 +228,6 @@ extension MessagesViewController: InputToolbarViewDelegate {
       self.collectionView.reloadData()
       self.collectionView.scrollTo(edge: .bottom, animated:true)
     }
-  }
-  func inputToolbarViewNeedFrameUpdate() {
-    layout(animate: true)
   }
 }
 

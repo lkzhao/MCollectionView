@@ -24,25 +24,12 @@ class HorizontalGalleryViewController: UIViewController {
 
   var numColumns = 1
   var numRows = 3
-
   var rowWidth: [CGFloat] = [0, 0]
 
-  func getMinRow() -> (Int, CGFloat) {
-    var minWidth: (Int, CGFloat) = (0, rowWidth[0])
-    for (index, width) in rowWidth.enumerated() {
-      if width < minWidth.1 {
-        minWidth = (index, width)
-      }
-    }
-    return minWidth
-  }
-
   var collectionView: MCollectionView!
-  var start:TimeInterval = 0
   override func viewDidLoad() {
     super.viewDidLoad()
-    start = CACurrentMediaTime()
-    collectionView = MCollectionView(frame:view.bounds)
+    collectionView = MCollectionView()
     collectionView.collectionDelegate = self
     collectionView.wabble = true
     view.addSubview(collectionView)
@@ -77,6 +64,17 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect {
+
+    func getMinRow() -> (Int, CGFloat) {
+      var minWidth: (Int, CGFloat) = (0, rowWidth[0])
+      for (index, width) in rowWidth.enumerated() {
+        if width < minWidth.1 {
+          minWidth = (index, width)
+        }
+      }
+      return minWidth
+    }
+
     let image = images[index % images.count]
     let avaliableHeight = (collectionView.innerSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
     let width = collectionView.innerSize.width / CGFloat(numColumns)

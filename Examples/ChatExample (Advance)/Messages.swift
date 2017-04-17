@@ -54,7 +54,7 @@ class Message {
   var cellPadding: CGFloat {
     switch type {
     case .announcement: return 4
-    case .text: return 15
+    case .text: return 12
     case .status: return 2
     case .image: return 0
     }
@@ -89,7 +89,7 @@ class Message {
     switch type {
     case .text:
       if fromCurrentUser {
-        return UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
+        return .lightBlue
       } else {
         return UIColor(white: showShadow ? 1.0 : 0.95, alpha: 1.0)
       }
@@ -101,7 +101,7 @@ class Message {
     switch type {
     case .text:
       if fromCurrentUser {
-        return UIColor(red: 0, green: 94/255, blue: 1.0, alpha: 1.0)
+        return UIColor(red: 0, green: 140/255, blue: 1.0, alpha: 1.0)
       } else {
         return UIColor(white: 0.8, alpha: 1.0)
       }

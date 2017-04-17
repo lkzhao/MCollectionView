@@ -61,4 +61,12 @@ extension GridViewController: MCollectionViewDelegate {
                   height: kGridCellSize.height)
   }
 
+  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool {
+    return true
+  }
+
+  func collectionView(_ collectionView: MCollectionView, moveItemAt index: Int, to: Int) -> Bool {
+    items.insert(items.remove(at: index), at: to)
+    return true
+  }
 }

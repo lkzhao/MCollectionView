@@ -8,4 +8,5 @@ end
 
 target 'MCollectionViewExample' do
   pod 'YetAnotherAnimationLibrary'
+  pod 'ALTextInputBar'
 end

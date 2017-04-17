@@ -1,5 +1,11 @@
 import UIKit
 
+extension UIColor {
+  static var lightBlue: UIColor {
+    return UIColor(red: 0, green: 184/255, blue: 1.0, alpha: 1.0)
+  }
+}
+
 extension CGFloat {
   func clamp(_ a: CGFloat, _ b: CGFloat) -> CGFloat {
     return self < a ? a : (self > b ? b : self)
