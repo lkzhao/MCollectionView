@@ -232,7 +232,7 @@ public class MCollectionView: UIScrollView {
     }
 
     for identifier in deletedVisibleIdentifiers {
-      deleteCell(at: identifiersToIndexMap[identifier]!)
+      disappearCell(at: identifiersToIndexMap[identifier]!)
     }
 
     visibleIndexes = newVisibleIndexes
@@ -240,7 +240,7 @@ public class MCollectionView: UIScrollView {
     identifiersToIndexMap = newIdentifiersToIndexMap
 
     for identifier in insertedVisibleIdentifiers {
-      insertCell(at: identifiersToIndexMap[identifier]!)
+      appearCell(at: identifiersToIndexMap[identifier]!)
     }
 
     layoutCellsIfNecessary()
@@ -298,44 +298,55 @@ public class MCollectionView: UIScrollView {
     if let cell = visibleCellToIndexMap[index] {
       collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndex: index)
       cell.yaal_center.stop()
-      cell.removeFromSuperview()
 
-      let identifier = "\(type(of: cell))"
-      if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell) {
-        reusableViews[identifier]?.append(cell)
+      if reloading {
+        if autoRemoveCells {
+          cell.removeFromSuperview()
+        }
+        collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndex: index)
       } else {
-        reusableViews[identifier] = [cell]
+        cell.removeFromSuperview()
+
+        let identifier = String(describing: type(of: cell))
+        if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell) {
+          reusableViews[identifier]?.append(cell)
+        } else {
+          reusableViews[identifier] = [cell]
+        }
       }
+
       visibleCellToIndexMap.remove(index)
     }
   }
   fileprivate func appearCell(at index: Int) {
     if let cell = collectionDelegate?.collectionView(self, viewForIndex: index), visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
-      self.addSubview(cell)
+      insert(cell: cell)
       if autoLayoutOnUpdate {
         layoutCell(at: index, animate: false)
       }
-      collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndex: index)
+      if reloading {
+        collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndex: index)
+      } else {
+        collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndex: index)
+      }
     }
   }
-  fileprivate func deleteCell(at index: Int) {
-    if let cell = visibleCellToIndexMap[index] {
-      if autoRemoveCells {
-        cell.removeFromSuperview()
+  fileprivate func insert(cell: UIView) {
+    if let index = self.index(for: cell) {
+      var currentMin = Int.max
+      for cell in subviews {
+        if let visibleIndex = visibleCellToIndexMap[cell], visibleIndex > index, visibleIndex < currentMin {
+          currentMin = visibleIndex
+        }
       }
-      collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndex: index)
-      visibleCellToIndexMap.remove(index)
-    }
-  }
-  fileprivate func insertCell(at index: Int) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndex: index), visibleCellToIndexMap[cell] == nil {
-      visibleCellToIndexMap[cell] = index
-      self.addSubview(cell)
-      if autoLayoutOnUpdate {
-        layoutCell(at: index, animate: false)
+      if currentMin == Int.max {
+        insertSubview(cell, belowSubview: overlayView)
+      } else {
+        insertSubview(cell, belowSubview: visibleCellToIndexMap[currentMin]!)
       }
-      collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndex: index)
+    } else {
+      insertSubview(cell, belowSubview: overlayView)
     }
   }
 
@@ -368,7 +379,7 @@ extension MCollectionView {
     floatingCells.remove(cell)
     cell.center = self.convert(cell.center, from: cell.superview)
     cell.yaal_center.updateWithCurrentState()
-    self.addSubview(cell)
+    insert(cell: cell)
 
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
     let index = self.index(for: cell)!

@@ -61,8 +61,7 @@ class Message {
   }
   var showShadow: Bool {
     switch type {
-    case .text: return true
-    case .image: return true
+    case .text, .image: return true
     default: return false
     }
   }
@@ -101,10 +100,12 @@ class Message {
     switch type {
     case .text:
       if fromCurrentUser {
-        return UIColor(red: 0, green: 140/255, blue: 1.0, alpha: 1.0)
+        return UIColor(red: 0.1, green: 140/255, blue: 1.0, alpha: 1.0)
       } else {
         return UIColor(white: 0.8, alpha: 1.0)
       }
+    case .image:
+      return UIColor(white: 0.4, alpha: 1.0)
     default:
       return UIColor.clear
     }

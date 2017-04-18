@@ -37,7 +37,7 @@ class MessageCell: DynamicView {
       if message.showShadow {
         layer.shadowOffset = CGSize(width: 0, height: 5)
         layer.shadowOpacity = 0.3
-        layer.shadowRadius = 4
+        layer.shadowRadius = 8
         layer.shadowColor = message.shadowColor.cgColor
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
       } else {

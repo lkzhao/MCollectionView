@@ -176,23 +176,5 @@
             </objects>
             <point key="canvasLocation" x="-1146" y="1013"/>
         </scene>
-        <!--Grid Reorderable View Controller-->
-        <scene sceneID="LoO-Rm-Rvi">
-            <objects>
-                <viewController id="oEX-x8-w4n" customClass="GridReorderableViewController" customModule="MCollectionViewExample" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vYU-YD-F64"/>
-                        <viewControllerLayoutGuide type="bottom" id="jVG-8f-qvC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="76t-Rm-kAu">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SH0-aT-Xei" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="138" y="1773"/>
-        </scene>
     </scenes>
 </document>

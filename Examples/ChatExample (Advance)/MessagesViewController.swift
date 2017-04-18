@@ -196,7 +196,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       cell.yaal_scale.animateTo(1.1)
       cell.yaal_rotationX.animateTo(0, stiffness: 150, damping: 20)
       cell.yaal_rotationY.animateTo(0, stiffness: 150, damping: 20)
-      cell.layer.yaal_zPosition.animateTo(100)
+      cell.layer.yaal_zPosition.animateTo(100, damping: 30)
     }
     return true
   }
@@ -206,7 +206,7 @@ extension MessagesViewController: MCollectionViewDelegate {
       cell.tiltAnimation = false
       cell.tapAnimation = true
       cell.yaal_scale.animateTo(1)
-      cell.layer.yaal_zPosition.animateTo(0)
+      cell.layer.yaal_zPosition.animateTo(0, damping: 30)
     }
   }
 }
