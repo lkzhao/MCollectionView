@@ -9,7 +9,7 @@
 import UIKit
 import YetAnotherAnimationLibrary
 
-public class MCollectionView: UIScrollView {
+open class MCollectionView: UIScrollView {
   public weak var collectionDelegate: MCollectionViewDelegate?
 
   // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
@@ -94,7 +94,7 @@ public class MCollectionView: UIScrollView {
     }
   }
 
-  public override func layoutSubviews() {
+  open override func layoutSubviews() {
     super.layoutSubviews()
     overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
     if frame != lastReloadFrame {
@@ -111,7 +111,7 @@ public class MCollectionView: UIScrollView {
     }
   }
   var screenDragLocation: CGPoint = .zero
-  public override var contentOffset: CGPoint{
+  open override var contentOffset: CGPoint{
     didSet{
       if isTracking || isDragging || isDecelerating, !reloading {
         contentOffsetProxyAnim.animateTo(contentOffset, stiffness:1000, damping:40)
