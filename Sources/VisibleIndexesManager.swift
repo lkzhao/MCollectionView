@@ -85,6 +85,7 @@ class VisibleIndexesManager {
 
     horizontalVisibleIndexManager.reload(minToIndexes: flattened.map({ return ($0.1.minX, $0.0) }),
                                          maxToIndexes: flattened.map({ return ($0.1.maxX, $0.0) }))
+    visibleIndexes.removeAll()
   }
 
   func frame(at index: Int, isVisibleIn rect:CGRect) -> Bool {

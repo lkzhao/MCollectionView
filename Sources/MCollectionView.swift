@@ -49,6 +49,7 @@ open class MCollectionView: UIScrollView {
   var floatingCells: Set<UIView> = []
   var reusableViews: [String:[UIView]] = [:]
   var cleanupTimer: Timer?
+  var loading = false
   var reloading = false
   public lazy var contentOffsetProxyAnim = MixAnimation<CGPoint>(value: AnimationProperty<CGPoint>())
 
@@ -141,6 +142,8 @@ open class MCollectionView: UIScrollView {
    * they move out of the visibleFrame.
    */
   func loadCells() {
+    if loading { return }
+    loading = true
     let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
@@ -155,6 +158,7 @@ open class MCollectionView: UIScrollView {
     for (index, cell) in visibleCellToIndexMap.ts {
       collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndex:index, screenPosition:cell.center - contentOffset)
     }
+    loading = false
   }
 
   // reload all frames. will automatically diff insertion & deletion
