@@ -22,7 +22,6 @@ class HorizontalGalleryViewController: UIViewController {
     UIImage(named: "6")!
   ]
 
-  var numColumns = 1
   var numRows = 3
   var rowWidth: [CGFloat] = [0, 0]
 
@@ -57,7 +56,6 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
   }
 
   func collectionViewWillReload(_ collectionView: MCollectionView) {
-    numColumns = max(1, Int(collectionView.innerSize.width) / 400)
     numRows = max(2, Int(collectionView.innerSize.height) / 180)
 
     rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
@@ -77,8 +75,7 @@ extension HorizontalGalleryViewController:MCollectionViewDelegate {
 
     let image = images[index % images.count]
     let avaliableHeight = (collectionView.innerSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
-    let width = collectionView.innerSize.width / CGFloat(numColumns)
-    var imgSize = sizeForImage(image.size, maxSize: CGSize(width: width, height: avaliableHeight))
+    var imgSize = sizeForImage(image.size, maxSize: CGSize(width: .infinity, height: avaliableHeight))
     imgSize.height = avaliableHeight
     let (rowIndex, offsetX) = getMinRow()
     rowWidth[rowIndex] += imgSize.width + 10
