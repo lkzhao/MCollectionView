@@ -74,7 +74,7 @@ open class MCollectionView: UIScrollView {
       self?.didScroll()
     }
 
-    yaal_contentOffset.value.changes.addListener { [weak self] _, newOffset in
+    yaal.contentOffset.value.changes.addListener { [weak self] _, newOffset in
       guard let collectionView = self else { return }
       let limit = CGPoint(x: newOffset.x.clamp(collectionView.offsetFrame.minX,
                                                collectionView.offsetFrame.maxX),
@@ -83,7 +83,7 @@ open class MCollectionView: UIScrollView {
 
       if limit != newOffset {
         collectionView.contentOffset = limit
-        collectionView.yaal_contentOffset.updateWithCurrentState()
+        collectionView.yaal.contentOffset.updateWithCurrentState()
       }
     }
   }
@@ -91,7 +91,7 @@ open class MCollectionView: UIScrollView {
   func pan(gr:UIPanGestureRecognizer) {
     screenDragLocation = absoluteLocation(for: gr.location(in: self))
     if gr.state == .began {
-      yaal_contentOffset.stop()
+      yaal.contentOffset.stop()
     }
   }
 
@@ -224,7 +224,7 @@ open class MCollectionView: UIScrollView {
       // these cells' animation target shifted but their current value did not.
       if !floatingCells.contains(cell) {
         cell.center = cell.center + contentOffsetDiff
-        cell.yaal_center.updateWithCurrentState()
+        cell.yaal.center.updateWithCurrentState()
       }
 
       newVisibleCellToIndexMap[newIndex] = cell
@@ -270,7 +270,7 @@ open class MCollectionView: UIScrollView {
         let frame = wabble ? wabbleRect(index) : frameForCell(at: index)!
         cell.bounds = frame.bounds
         if animate {
-          cell.yaal_center.animateTo(frame.center, stiffness: 400, damping: 40, threshold:0.5)
+          cell.yaal.center.animateTo(frame.center, stiffness: 400, damping: 40, threshold:0.5)
         } else {
           cell.center = frame.center
         }
@@ -301,7 +301,7 @@ open class MCollectionView: UIScrollView {
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
       collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndex: index)
-      cell.yaal_center.stop()
+      cell.yaal.center.stop()
 
       if reloading {
         if autoRemoveCells {
@@ -370,8 +370,8 @@ extension MCollectionView {
     }
     floatingCells.insert(cell)
     cell.center = overlayView.convert(cell.center, from: cell.superview)
-    cell.yaal_center.updateWithCurrentState()
-    cell.yaal_center.animateTo(cell.center, stiffness: 300, damping: 25)
+    cell.yaal.center.updateWithCurrentState()
+    cell.yaal.center.animateTo(cell.center, stiffness: 300, damping: 25)
     overlayView.addSubview(cell)
   }
 
@@ -382,13 +382,13 @@ extension MCollectionView {
 
     floatingCells.remove(cell)
     cell.center = self.convert(cell.center, from: cell.superview)
-    cell.yaal_center.updateWithCurrentState()
+    cell.yaal.center.updateWithCurrentState()
     insert(cell: cell)
 
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
     let index = self.index(for: cell)!
     let frame = frameForCell(at: index)!
-    cell.yaal_center.animateTo(frame.center, stiffness: 300, damping: 25)
+    cell.yaal.center.animateTo(frame.center, stiffness: 300, damping: 25)
   }
 }
 

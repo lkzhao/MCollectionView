@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "MCollectionView"
-  s.version          = "2.1.0"
+  s.version          = "2.1.1"
   s.summary          = "A UIKit custom modal transition that simulates an elastic drag. Written in Swift."
 
   s.description      = <<-DESC
@@ -23,5 +23,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/**/*.swift'
 
-  s.dependency 'YetAnotherAnimationLibrary', '~> 1.0.2'
+  s.dependency 'YetAnotherAnimationLibrary', '~> 1.1.0'
 end

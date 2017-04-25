@@ -45,10 +45,10 @@ extension UIScrollView {
       return
     }
     if animated {
-      yaal_contentOffset.animateTo(target)
+      yaal.contentOffset.animateTo(target)
     } else {
       contentOffset = target
-      yaal_contentOffset.updateWithCurrentState()
+      yaal.contentOffset.updateWithCurrentState()
     }
   }
 }

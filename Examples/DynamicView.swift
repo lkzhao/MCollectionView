@@ -16,33 +16,33 @@ open class DynamicView: UIView {
   open var tiltAnimation = false {
     didSet {
       if tiltAnimation {
-        yaal_center.velocity.changes.addListenerWith(identifier:kTiltAnimationVelocityListenerIdentifier) { [weak self] _, v in
+        yaal.center.velocity.changes.addListenerWith(identifier:kTiltAnimationVelocityListenerIdentifier) { [weak self] _, v in
           self?.velocityUpdated(v)
         }
       } else {
-        yaal_center.velocity.changes.removeListenerWith(identifier: kTiltAnimationVelocityListenerIdentifier)
-        yaal_rotationX.animateTo(0, stiffness: 150, damping: 7)
-        yaal_rotationY.animateTo(0, stiffness: 150, damping: 7)
+        yaal.center.velocity.changes.removeListenerWith(identifier: kTiltAnimationVelocityListenerIdentifier)
+        yaal.rotationX.animateTo(0, stiffness: 150, damping: 7)
+        yaal.rotationY.animateTo(0, stiffness: 150, damping: 7)
       }
     }
   }
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    layer.yaal_perspective.setTo(-1/500)
+    layer.yaal.perspective.setTo(-1/500)
   }
 
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    layer.yaal_perspective.setTo(-1/500)
+    layer.yaal.perspective.setTo(-1/500)
   }
 
   func velocityUpdated(_ velocity: CGPoint) {
     let maxRotate = CGFloat.pi/6
     let rotateX = -(velocity.y / 3000).clamp(-maxRotate, maxRotate)
     let rotateY = (velocity.x / 3000).clamp(-maxRotate, maxRotate)
-    yaal_rotationX.animateTo(rotateX, stiffness: 400, damping: 20)
-    yaal_rotationY.animateTo(rotateY, stiffness: 400, damping: 20)
+    yaal.rotationX.animateTo(rotateX, stiffness: 400, damping: 20)
+    yaal.rotationY.animateTo(rotateY, stiffness: 400, damping: 20)
   }
 
   func touchAnim(touches:Set<UITouch>) {
@@ -54,14 +54,14 @@ open class DynamicView: UIView {
       if #available(iOS 9.0, *) {
         let force = touch.maximumPossibleForce == 0 ? 1 : touch.force
         let rotation = rotation * (0.21 + force * 0.04)
-        yaal_scale.animateTo(0.95 - force*0.01)
-        yaal_rotationX.animateTo(rotation.x)
-        yaal_rotationY.animateTo(rotation.y)
+        yaal.scale.animateTo(0.95 - force*0.01)
+        yaal.rotationX.animateTo(rotation.x)
+        yaal.rotationY.animateTo(rotation.y)
       } else {
         let rotation = rotation * 0.25
-        yaal_scale.animateTo(0.94)
-        yaal_rotationX.animateTo(rotation.x)
-        yaal_rotationY.animateTo(rotation.y)
+        yaal.scale.animateTo(0.94)
+        yaal.rotationX.animateTo(rotation.x)
+        yaal.rotationY.animateTo(rotation.y)
       }
     }
   }
@@ -76,17 +76,17 @@ open class DynamicView: UIView {
   open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesEnded(touches, with: event)
     if tapAnimation {
-      yaal_scale.animateTo(1.0, stiffness: 150, damping: 7)
-      yaal_rotationX.animateTo(0, stiffness: 150, damping: 7)
-      yaal_rotationY.animateTo(0, stiffness: 150, damping: 7)
+      yaal.scale.animateTo(1.0, stiffness: 150, damping: 7)
+      yaal.rotationX.animateTo(0, stiffness: 150, damping: 7)
+      yaal.rotationY.animateTo(0, stiffness: 150, damping: 7)
     }
   }
   open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
     super.touchesCancelled(touches!, with: event)
     if tapAnimation {
-      yaal_scale.animateTo(1.0, stiffness: 150, damping: 7)
-      yaal_rotationX.animateTo(0, stiffness: 150, damping: 7)
-      yaal_rotationY.animateTo(0, stiffness: 150, damping: 7)
+      yaal.scale.animateTo(1.0, stiffness: 150, damping: 7)
+      yaal.rotationX.animateTo(0, stiffness: 150, damping: 7)
+      yaal.rotationY.animateTo(0, stiffness: 150, damping: 7)
     }
   }
 }

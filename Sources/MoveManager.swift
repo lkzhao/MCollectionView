@@ -32,7 +32,7 @@ class MoveContext: NSObject {
 
     if let index = collectionView.index(for: cell) {
       let location = gestureRecognizer.location(in: collectionView.overlayView)
-      cell.yaal_center.setTo(location - startingLocationDiffInCell)
+      cell.yaal.center.setTo(location - startingLocationDiffInCell)
 
       var scrollVelocity = CGPoint.zero
 
@@ -56,9 +56,9 @@ class MoveContext: NSObject {
       }
 
       if scrollVelocity == .zero {
-        collectionView.yaal_contentOffset.decay(damping: 5)
+        collectionView.yaal.contentOffset.decay(damping: 5)
       } else {
-        collectionView.yaal_contentOffset.decay(initialVelocity: scrollVelocity, damping: 0)
+        collectionView.yaal.contentOffset.decay(initialVelocity: scrollVelocity, damping: 0)
       }
 
       if scrollVelocity == .zero,
@@ -117,7 +117,7 @@ class MoveManager: NSObject {
       break
     default:
       gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
-      collectionView.yaal_contentOffset.decay(damping: 5)
+      collectionView.yaal.contentOffset.decay(damping: 5)
       if let moveContext = contexts[gestureRecognizer] {
         contexts[gestureRecognizer] = nil
         let cell = moveContext.cell

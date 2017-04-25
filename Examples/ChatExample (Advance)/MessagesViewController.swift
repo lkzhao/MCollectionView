@@ -83,10 +83,10 @@ class MessagesViewController: UIViewController {
     }
     if isAtBottom {
       if collectionView.hasReloaded {
-        collectionView.yaal_contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
+        collectionView.yaal.contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
                                                             y: collectionView.offsetFrame.maxY))
       } else {
-        collectionView.yaal_contentOffset.setTo(CGPoint(x: collectionView.contentOffset.x,
+        collectionView.yaal.contentOffset.setTo(CGPoint(x: collectionView.contentOffset.x,
                                                         y: collectionView.offsetFrame.maxY))
       }
     }
@@ -147,28 +147,28 @@ extension MessagesViewController: MCollectionViewDelegate {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       cellView.frame = collectionView.convert(textInputBar.bounds, from: textInputBar)
       cellView.alpha = 0
-      cellView.yaal_alpha.animateTo(1.0)
-      cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
+      cellView.yaal.alpha.animateTo(1.0)
+      cellView.yaal.bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
     } else if (collectionView.visibleFrame.intersects(frame)) {
       if messages[index].alignment == .left {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x - view.bounds.width, y: center.y)
-        cellView.yaal_center.animateTo(center, stiffness:250, damping: 20)
+        cellView.yaal.center.animateTo(center, stiffness:250, damping: 20)
       } else if messages[index].alignment == .right {
         let center = cellView.center
         cellView.center = CGPoint(x: center.x + view.bounds.width, y: center.y)
-        cellView.yaal_center.animateTo(center, stiffness:250, damping: 20)
+        cellView.yaal.center.animateTo(center, stiffness:250, damping: 20)
       } else {
         cellView.alpha = 0
-        cellView.yaal_scale.from(0).animateTo(1)
-        cellView.yaal_alpha.animateTo(1)
+        cellView.yaal.scale.from(0).animateTo(1)
+        cellView.yaal.alpha.animateTo(1)
       }
     }
   }
 
   func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndex index: Int) {
-    cellView.yaal_alpha.animateTo(0)
-    cellView.yaal_scale.animateTo(0) { finished in
+    cellView.yaal.alpha.animateTo(0)
+    cellView.yaal.scale.animateTo(0) { finished in
       cellView.removeFromSuperview()
     }
   }
@@ -177,9 +177,9 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cellView = cellView as? MessageCell, let frame = collectionView.frameForCell(at: index) {
       cellView.message = messages[index]
       if !collectionView.isFloating(cell: cellView) {
-        cellView.yaal_bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
-        cellView.yaal_center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
-        cellView.yaal_scale.animateTo(1)
+        cellView.yaal.bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
+        cellView.yaal.center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
+        cellView.yaal.scale.animateTo(1)
       }
     }
   }
@@ -193,10 +193,10 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? DynamicView {
       cell.tiltAnimation = true
       cell.tapAnimation = false
-      cell.yaal_scale.animateTo(1.1)
-      cell.yaal_rotationX.animateTo(0, stiffness: 150, damping: 20)
-      cell.yaal_rotationY.animateTo(0, stiffness: 150, damping: 20)
-      cell.layer.yaal_zPosition.animateTo(100, damping: 30)
+      cell.yaal.scale.animateTo(1.1)
+      cell.yaal.rotationX.animateTo(0, stiffness: 150, damping: 20)
+      cell.yaal.rotationY.animateTo(0, stiffness: 150, damping: 20)
+      cell.layer.yaal.zPosition.animateTo(100, damping: 30)
     }
     return true
   }
@@ -205,8 +205,8 @@ extension MessagesViewController: MCollectionViewDelegate {
     if let cell = cell as? DynamicView {
       cell.tiltAnimation = false
       cell.tapAnimation = true
-      cell.yaal_scale.animateTo(1)
-      cell.layer.yaal_zPosition.animateTo(0, damping: 30)
+      cell.yaal.scale.animateTo(1)
+      cell.layer.yaal.zPosition.animateTo(0, damping: 30)
     }
   }
 }
