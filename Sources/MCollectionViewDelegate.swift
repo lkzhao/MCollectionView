@@ -16,6 +16,8 @@ import UIKit
   func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect
   func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String
 
+  @objc optional func collectionView(_ collectionView: MCollectionView, didTap cell: UIView, at index: Int)
+
   /// Move
   @objc optional func collectionView(_ collectionView: MCollectionView, moveItemAt index: Int, to: Int) -> Bool
   @objc optional func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool

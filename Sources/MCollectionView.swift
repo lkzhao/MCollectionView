@@ -53,6 +53,8 @@ open class MCollectionView: UIScrollView {
   var reloading = false
   public lazy var contentOffsetProxyAnim = MixAnimation<CGPoint>(value: AnimationProperty<CGPoint>())
 
+  public var tapGestureRecognizer = UITapGestureRecognizer()
+
   public override init(frame: CGRect) {
     super.init(frame: frame)
     commonInit()
@@ -64,6 +66,9 @@ open class MCollectionView: UIScrollView {
   }
 
   func commonInit() {
+    tapGestureRecognizer.addTarget(self, action: #selector(tap(gr:)))
+    addGestureRecognizer(tapGestureRecognizer)
+
     overlayView.isUserInteractionEnabled = false
     overlayView.layer.zPosition = 1000
     addSubview(overlayView)
@@ -84,6 +89,16 @@ open class MCollectionView: UIScrollView {
       if limit != newOffset {
         collectionView.contentOffset = limit
         collectionView.yaal.contentOffset.updateWithCurrentState()
+      }
+    }
+  }
+
+  @objc func tap(gr: UITapGestureRecognizer) {
+    let loc = gr.location(in: self)
+    for cell in visibleCells {
+      if cell.frame.contains(loc) {
+        collectionDelegate?.collectionView?(self, didTap: cell, at: visibleCellToIndexMap[cell]!)
+        return
       }
     }
   }
