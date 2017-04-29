@@ -274,9 +274,13 @@ open class MCollectionView: UIScrollView {
 
   public func wabbleRect(_ index: Int) -> CGRect {
     let cellFrame = frameForCell(at: index)!
-    let cellScreenCenter = absoluteLocation(for: cellFrame.center)
-    let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 7000
-    return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+    if cellFrame.contains(screenDragLocation + contentOffset) {
+      return cellFrame
+    } else {
+      let cellScreenCenter = absoluteLocation(for: cellFrame.center)
+      let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 7000
+      return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
+    }
   }
 
   public func layoutCell(at index: Int, animate:Bool) {

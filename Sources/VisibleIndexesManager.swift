@@ -31,7 +31,7 @@ public class LinearVisibleIndexesManager {
     lastMin = (minToIndexes.first?.0 ?? 0) - 1
     lastMax = lastMin
     minIndex = 0
-    maxIndex = -1
+    maxIndex = self.maxToIndexes.count - 1
   }
 
   public func visibleIndexes(min:CGFloat, max:CGFloat) -> ([Int], [Int]) {
@@ -124,7 +124,7 @@ class VisibleIndexesManager {
     for index in hRemoved {
       visibleIndexes.remove(index)
     }
-
+    print(visibleIndexes)
     return visibleIndexes
   }
 }
