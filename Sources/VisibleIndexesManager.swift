@@ -124,7 +124,6 @@ class VisibleIndexesManager {
     for index in hRemoved {
       visibleIndexes.remove(index)
     }
-    print(visibleIndexes)
     return visibleIndexes
   }
 }
