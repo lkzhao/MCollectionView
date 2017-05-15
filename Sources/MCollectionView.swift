@@ -39,18 +39,18 @@ open class MCollectionView: UIScrollView {
   // visible indexes & cell
   let visibleIndexesManager = VisibleIndexesManager()
   let moveManager = MoveManager()
-  var visibleIndexes: Set<Int> = []
-  var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
+  public var visibleIndexes: Set<Int> = []
+  public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
 
   var lastReloadFrame: CGRect?
   // TODO: change this to private
-  var floatingCells: Set<UIView> = []
+  public var floatingCells: Set<UIView> = []
   var reusableViews: [String:[UIView]] = [:]
   var cleanupTimer: Timer?
-  var loading = false
-  var reloading = false
+  public var loading = false
+  public var reloading = false
   public lazy var contentOffsetProxyAnim = MixAnimation<CGPoint>(value: AnimationProperty<CGPoint>())
 
   public var tapGestureRecognizer = UITapGestureRecognizer()
@@ -314,7 +314,11 @@ open class MCollectionView: UIScrollView {
   }
 
   public func dequeueReusableView<T: UIView> (_ viewClass: T.Type) -> T? {
-    return reusableViews[String(describing: viewClass)]?.popLast() as? T
+    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T
+    if let cell = cell as? MCollectionViewReusableView {
+      cell.prepareForReuse()
+    }
+    return cell
   }
 
   fileprivate func disappearCell(at index: Int) {

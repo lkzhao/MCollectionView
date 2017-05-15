@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol MCollectionViewReusableView: class {
+  func prepareForReuse()
+}
+
 @objc public protocol MCollectionViewDelegate {
 
   /// Data source
