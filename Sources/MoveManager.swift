@@ -104,6 +104,7 @@ class MoveManager: NSObject {
         let cell = collectionView.cell(at: indexPath),
         !collectionView.isFloating(cell: cell),
         collectionView.collectionDelegate?.collectionView?(collectionView, willDrag: cell, at: indexPath) == true {
+        addNextLongPressGesture()
         collectionView.panGestureRecognizer.isEnabled = false
         collectionView.panGestureRecognizer.isEnabled = true
         collectionView.float(cell: cell)
@@ -132,11 +133,6 @@ class MoveManager: NSObject {
 }
 
 extension MoveManager: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    addNextLongPressGesture()
-    return true
-  }
-
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     return otherGestureRecognizer == collectionView?.panGestureRecognizer || otherGestureRecognizer.delegate === self
   }
