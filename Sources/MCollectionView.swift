@@ -33,6 +33,8 @@ open class MCollectionView: UIScrollView {
 
   public var overlayView = UIView()
 
+  public var supportOverflow = false
+
   // the computed frames for cells, constructed in reloadData
   var frames: [CGRect] = []
 
@@ -94,9 +96,8 @@ open class MCollectionView: UIScrollView {
   }
 
   @objc func tap(gr: UITapGestureRecognizer) {
-    let loc = gr.location(in: self)
     for cell in visibleCells {
-      if cell.frame.contains(loc) {
+      if cell.point(inside: gr.location(in: cell), with: nil) {
         collectionDelegate?.collectionView?(self, didTap: cell, at: visibleCellToIndexMap[cell]!)
         return
       }
@@ -379,6 +380,22 @@ open class MCollectionView: UIScrollView {
 
   func cleanup() {
     reusableViews.removeAll()
+  }
+
+  override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    if supportOverflow {
+      if super.point(inside: point, with: event) {
+        return true
+      }
+      for cell in visibleCells {
+        if cell.point(inside: cell.convert(point, from: self), with: event) {
+          return true
+        }
+      }
+      return false
+    } else {
+      return super.point(inside: point, with: event)
+    }
   }
 }
 
