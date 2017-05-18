@@ -46,7 +46,7 @@ open class MCollectionView: UIScrollView {
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
 
-  var lastReloadFrame: CGRect?
+  var lastReloadSize: CGSize?
   // TODO: change this to private
   public var floatingCells: Set<UIView> = []
   var reusableViews: [String:[UIView]] = [:]
@@ -114,8 +114,8 @@ open class MCollectionView: UIScrollView {
   open override func layoutSubviews() {
     super.layoutSubviews()
     overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
-    if frame != lastReloadFrame {
-      lastReloadFrame = frame
+    if bounds.size != lastReloadSize {
+      lastReloadSize = bounds.size
       reloadData()
     }
   }
