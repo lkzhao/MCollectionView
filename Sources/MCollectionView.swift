@@ -27,6 +27,16 @@ open class MCollectionView: UIScrollView {
 
   public private(set) var hasReloaded = false
 
+  public var minimumContentSize: CGSize = .zero {
+    didSet{
+      let newContentSize = CGSize(width: max(minimumContentSize.width, contentSize.width),
+                                  height: max(minimumContentSize.height, contentSize.height))
+      if newContentSize != contentSize {
+        contentSize = newContentSize
+      }
+    }
+  }
+
   public var numberOfItems: Int {
     return frames.count
   }
@@ -203,7 +213,8 @@ open class MCollectionView: UIScrollView {
     visibleIndexesManager.reload(with: frames)
 
     let oldContentOffset = contentOffset
-    contentSize = unionFrame.size
+    contentSize = CGSize(width: max(minimumContentSize.width, unionFrame.size.width),
+                         height: max(minimumContentSize.height, unionFrame.size.height))
     if let offset = contentOffsetAdjustFn?() {
       contentOffset = offset
     }

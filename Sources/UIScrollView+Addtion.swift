@@ -24,8 +24,8 @@ extension UIScrollView {
   }
   public var offsetFrame: CGRect {
     return CGRect(x: -contentInset.left, y: -contentInset.top,
-                  width: contentSize.width - bounds.width + contentInset.right + contentInset.left,
-                  height: contentSize.height - bounds.height + contentInset.bottom + contentInset.top)
+                  width: max(0, contentSize.width - bounds.width + contentInset.right + contentInset.left),
+                  height: max(0, contentSize.height - bounds.height + contentInset.bottom + contentInset.top))
   }
   public func absoluteLocation(for point: CGPoint) -> CGPoint {
     return point - contentOffset
