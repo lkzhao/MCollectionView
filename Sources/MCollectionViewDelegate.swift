@@ -20,6 +20,10 @@ public protocol MCollectionViewReusableView: class {
   func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect
   func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String
 
+  /// content padding from delegate. will grow contentSize
+  @objc optional func collectionViewContentPadding(_ collectionView: MCollectionView) -> UIEdgeInsets
+
+  /// Tap
   @objc optional func collectionView(_ collectionView: MCollectionView, didTap cell: UIView, at index: Int)
 
   /// Move

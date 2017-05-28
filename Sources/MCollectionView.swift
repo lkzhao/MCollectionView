@@ -201,6 +201,7 @@ open class MCollectionView: UIScrollView {
     var newVisibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
     var unionFrame = CGRect.zero
     let itemCount = collectionDelegate.numberOfItemsInCollectionView(self)
+    let padding = collectionDelegate.collectionViewContentPadding?(self) ?? .zero
 
     frames.reserveCapacity(itemCount)
     for index in 0..<itemCount {
@@ -210,11 +211,16 @@ open class MCollectionView: UIScrollView {
       unionFrame = unionFrame.union(frame)
       frames.append(frame)
     }
+    if padding.top != 0 || padding.left != 0 {
+      for index in 0..<frames.count {
+        frames[index].origin = frames[index].origin + CGPoint(x: padding.left, y: padding.top)
+      }
+    }
     visibleIndexesManager.reload(with: frames)
 
     let oldContentOffset = contentOffset
-    contentSize = CGSize(width: max(minimumContentSize.width, unionFrame.size.width),
-                         height: max(minimumContentSize.height, unionFrame.size.height))
+    contentSize = CGSize(width: max(minimumContentSize.width, unionFrame.size.width + padding.left + padding.right),
+                         height: max(minimumContentSize.height, unionFrame.size.height + padding.top + padding.bottom))
     if let offset = contentOffsetAdjustFn?() {
       contentOffset = offset
     }
