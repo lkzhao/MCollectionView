@@ -266,6 +266,7 @@ open class MCollectionView: UIScrollView {
       } else {
         collectionDelegate.collectionView?(self, didMoveCellView: cell, fromIndex: oldIndex, toIndex: newIndex)
       }
+      insert(cell: cell)
     }
 
     for identifier in deletedVisibleIdentifiers {
