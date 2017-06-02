@@ -170,20 +170,20 @@ open class MCollectionView: UIScrollView {
   func loadCells() {
     if loading { return }
     loading = true
-    let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
-    let deletedIndexes = visibleIndexes.subtracting(indexes)
-    let newIndexes = indexes.subtracting(visibleIndexes)
-    for i in deletedIndexes {
-      disappearCell(at: i)
+    if offsetFrame.insetBy(dx: -10, dy: -10).contains(contentOffset) {
+      let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
+      let deletedIndexes = visibleIndexes.subtracting(indexes)
+      let newIndexes = indexes.subtracting(visibleIndexes)
+      for i in deletedIndexes {
+          disappearCell(at: i)
+      }
+      for i in newIndexes {
+          appearCell(at: i)
+      }
+      visibleIndexes = indexes
     }
-    for i in newIndexes {
-      appearCell(at: i)
-    }
-    visibleIndexes = indexes
+
     layoutCellsIfNecessary()
-    for (index, cell) in visibleCellToIndexMap.ts {
-      collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndex:index, screenPosition:cell.center - contentOffset)
-    }
     loading = false
   }
 
@@ -281,9 +281,6 @@ open class MCollectionView: UIScrollView {
     }
 
     layoutCellsIfNecessary()
-    for (index, cell) in visibleCellToIndexMap.ts {
-      collectionDelegate.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndex:index, screenPosition:cell.center - contentOffset)
-    }
     reloading = false
     hasReloaded = true
     collectionDelegate.collectionViewDidReload?(self)
@@ -320,6 +317,9 @@ open class MCollectionView: UIScrollView {
       for index in visibleIndexes {
         layoutCell(at: index, animate: wabble)
       }
+    }
+    for (index, cell) in visibleCellToIndexMap.ts {
+      collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndex:index, screenPosition:cell.center - contentOffset)
     }
   }
 
