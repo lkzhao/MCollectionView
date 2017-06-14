@@ -258,6 +258,7 @@ open class MCollectionView: UIScrollView {
       if !floatingCells.contains(cell) {
         cell.center = cell.center + contentOffsetDiff
         cell.yaal.center.updateWithCurrentState()
+        insert(cell: cell)
       }
 
       newVisibleCellToIndexMap[newIndex] = cell
@@ -266,7 +267,6 @@ open class MCollectionView: UIScrollView {
       } else {
         collectionDelegate.collectionView?(self, didMoveCellView: cell, fromIndex: oldIndex, toIndex: newIndex)
       }
-      insert(cell: cell)
     }
 
     for identifier in deletedVisibleIdentifiers {
