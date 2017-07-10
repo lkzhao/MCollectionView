@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "MCollectionView"
-  s.version          = "2.2.0"
+  s.version          = "2.2.1"
   s.summary          = "A UIKit custom modal transition that simulates an elastic drag. Written in Swift."
 
   s.description      = <<-DESC
