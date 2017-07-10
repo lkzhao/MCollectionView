@@ -207,7 +207,18 @@ open class MCollectionView: UIScrollView {
     for index in 0..<itemCount {
       let frame = collectionDelegate.collectionView(self, frameForIndex: index)
       let identifier = collectionDelegate.collectionView(self, identifierForIndex: index)
-      newIdentifiersToIndexMap[identifier] = index
+      if newIdentifiersToIndexMap[identifier] != nil {
+        print("[MCollectionView] Duplicate Identifier: \(identifier)")
+        var i = 2
+        var newIdentifier = ""
+        repeat {
+          newIdentifier = identifier + "\(i)"
+          i += 1
+        } while newIdentifiersToIndexMap[newIdentifier] != nil
+        newIdentifiersToIndexMap[newIdentifier] = index
+      } else {
+        newIdentifiersToIndexMap[identifier] = index
+      }
       unionFrame = unionFrame.union(frame)
       frames.append(frame)
     }
