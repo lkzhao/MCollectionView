@@ -9,100 +9,6 @@
 import UIKit
 import YetAnotherAnimationLibrary
 
-public protocol CollectionAnimator {
-  func prepare(collectionView: MCollectionView)
-  func insert(view: UIView, at: Int, frame: CGRect)
-  func delete(view: UIView, at: Int, frame: CGRect)
-  func update(view: UIView, at: Int, frame: CGRect)
-}
-
-open class DefaultCollectionAnimator: CollectionAnimator {
-  open func prepare(collectionView: MCollectionView) {}
-  open func insert(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
-    view.center = frame.center
-  }
-  open func delete(view: UIView, at: Int, frame: CGRect) {
-    view.removeFromSuperview()
-    ReuseManager.shared.queue(view: view)
-  }
-  open func update(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
-    view.center = frame.center
-  }
-  public init() {}
-}
-
-open class WobbleAnimator: CollectionAnimator {
-  var screenDragLocation: CGPoint = .zero
-  var contentOffset: CGPoint!
-  var scrollVelocity: CGPoint = .zero
-  var delta: CGPoint = .zero
-  var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
-  var offsetAnimation = MixAnimation(value: AnimationProperty<CGPoint>())
-
-  open func prepare(collectionView: MCollectionView) {
-    screenDragLocation = collectionView.screenDragLocation
-    scrollVelocity = collectionView.scrollVelocity
-    let oldContentOffset = contentOffset ?? collectionView.contentOffset
-    contentOffset = collectionView.contentOffset
-    delta = contentOffset - oldContentOffset
-  }
-
-  open func insert(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
-    let cellDiff = frame.center - contentOffset - screenDragLocation
-    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000 * scrollVelocity / 240
-    view.center = frame.center + delta * abs(resistance)
-    view.yaal.center.stop()
-    view.yaal.center.updateWithCurrentState()
-    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
-  }
-
-  open func delete(view: UIView, at: Int, frame: CGRect) {
-    view.yaal.center.stop()
-    view.removeFromSuperview()
-    ReuseManager.shared.queue(view: view)
-  }
-
-  open func update(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
-    let cellDiff = frame.center - contentOffset - screenDragLocation
-    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
-    let newCenterDiff = delta * resistance
-    let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
-                               y: delta.y > 0 ? min(delta.y, newCenterDiff.y) : max(delta.y, newCenterDiff.y))
-    view.center = view.center + constrainted
-    view.yaal.center.updateWithCurrentState()
-    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
-  }
-
-  public init() {}
-}
-
-open class ZoomAnimator: DefaultCollectionAnimator {
-  var collectionViewBounds: CGRect = .zero
-  var contentOffset: CGPoint = .zero
-
-  open override func prepare(collectionView: MCollectionView) {
-    super.prepare(collectionView: collectionView)
-    contentOffset = collectionView.contentOffset
-    collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
-  }
-  
-  open override func update(view: UIView, at: Int, frame: CGRect) {
-    super.update(view: view, at: at, frame: frame)
-    let absolutePosition = frame.center - contentOffset
-    let scale = 1 - max(0, absolutePosition.distance(collectionViewBounds.center) - 200) / (max(collectionViewBounds.width, collectionViewBounds.height) - 200)
-    view.transform = CGAffineTransform.identity.scaledBy(x: scale, y: scale)
-  }
-  
-  open override func delete(view: UIView, at: Int, frame: CGRect) {
-    view.transform = .identity
-    super.delete(view: view, at: at, frame: frame)
-  }
-}
-
 public class ReuseManager {
   public static let shared = ReuseManager()
   var reusableViews: [String:[UIView]] = [:]
@@ -131,7 +37,7 @@ public class ReuseManager {
   }
 }
 
-open class MCollectionView: UIScrollView {
+open class CollectionView: UIScrollView {
   public var provider: AnyCollectionProvider?
 
   public private(set) var hasReloaded = false
@@ -321,7 +227,7 @@ open class MCollectionView: UIScrollView {
       let frame = provider.frame(at: index)
       let identifier = provider.identifier(at: index)
       if newIdentifiersToIndexMap[identifier] != nil {
-        print("[MCollectionView] Duplicate Identifier: \(identifier)")
+        print("[CollectionView] Duplicate Identifier: \(identifier)")
         var i = 2
         var newIdentifier = ""
         repeat {
@@ -387,7 +293,6 @@ open class MCollectionView: UIScrollView {
 
       newVisibleCellToIndexMap[newIndex] = cell
       provider.update(view: cell, at: newIndex)
-      provider.update(view: cell, at: newIndex, frame: frames[newIndex])
     }
 
     for identifier in deletedVisibleIdentifiers {
@@ -470,7 +375,7 @@ open class MCollectionView: UIScrollView {
   }
 }
 
-extension MCollectionView {
+extension CollectionView {
   public func isFloating(cell: UIView) -> Bool {
     return floatingCells.contains(cell)
   }
@@ -503,7 +408,7 @@ extension MCollectionView {
   }
 }
 
-extension MCollectionView {
+extension CollectionView {
   public func indexForCell(at point: CGPoint) -> Int? {
     for (index, frame) in frames.enumerated() {
       if frame.contains(point) {

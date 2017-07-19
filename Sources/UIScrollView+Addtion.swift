@@ -1,6 +1,6 @@
 //
 //  UIScrollView+Addtion.swift
-//  MCollectionView
+//  CollectionView
 //
 //  Created by Luke on 4/16/17.
 //  Copyright © 2017 lkzhao. All rights reserved.

@@ -12,7 +12,7 @@ import ALTextInputBar
 
 class MessagesViewController: UIViewController {
 //
-//  var collectionView: MCollectionView!
+//  var collectionView: CollectionView!
 //
 //  var sendingMessage = false
 //  var messages: [Message] = TestMessages

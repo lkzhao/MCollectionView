@@ -12,12 +12,12 @@ import YetAnotherAnimationLibrary
 class MoveContext: NSObject {
   var gesture: UILongPressGestureRecognizer
   var cell: UIView
-  var collectionView: MCollectionView
+  var collectionView: CollectionView
 
   var startingLocationDiffInCell: CGPoint
   var canReorder = true
 
-  init(gesture: UILongPressGestureRecognizer, cell: UIView, in collectionView: MCollectionView) {
+  init(gesture: UILongPressGestureRecognizer, cell: UIView, in collectionView: CollectionView) {
     self.gesture = gesture
     self.cell = cell
     self.collectionView = collectionView
@@ -79,7 +79,7 @@ class MoveContext: NSObject {
 }
 
 class MoveManager: NSObject {
-  weak var collectionView: MCollectionView? {
+  weak var collectionView: CollectionView? {
     didSet {
       addNextLongPressGesture()
     }

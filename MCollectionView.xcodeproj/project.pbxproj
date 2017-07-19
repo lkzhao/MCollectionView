@@ -20,6 +20,9 @@
 		B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */; };
 		B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5A1D10FEB900408DD6 /* ImageCell.swift */; };
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
+		B10A06281F20073C00069E17 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A06271F20073C00069E17 /* Animator.swift */; };
+		B10A062A1F2007EF00069E17 /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A06291F2007EF00069E17 /* ArrayDataProvider.swift */; };
+		B10A062C1F20082600069E17 /* ClosureViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A062B1F20082600069E17 /* ClosureViewProvider.swift */; };
 		B12F9B241E804C370085F37D /* MCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F9B231E804C370085F37D /* MCollectionViewTests.swift */; };
 		B12F9B261E804C370085F37D /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
 		B12F9B301E8069530085F37D /* MoveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F9B2E1E8067480085F37D /* MoveManager.swift */; };
@@ -31,7 +34,7 @@
 		B1B7B0571E7DAD1F00F2483E /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
 		B1B7B0581E7DAD1F00F2483E /* MCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */; };
-		B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */; };
+		B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* CollectionView.swift */; };
 		B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* Util.swift */; };
 		B1E793CE1E8041300001B2E2 /* VisibleIndexesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */; };
 		C45A474E8A49F9A228634F93 /* Pods_MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0306438E675B240637FF29BC /* Pods_MCollectionView.framework */; };
@@ -82,7 +85,7 @@
 		34DB90AF9C5423AE7D39CF7A /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 		34F493095DD88449BCBEBBF1 /* Pods-MCollectionView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.release.xcconfig"; sourceTree = "<group>"; };
 		67F57CD3DE95D2E8C77626D0 /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
-		A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionView.swift; sourceTree = "<group>"; };
+		A351C3451CE4CCD2005E15A7 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -99,6 +102,9 @@
 		B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalGalleryViewController.swift; sourceTree = "<group>"; };
 		B102FC5A1D10FEB900408DD6 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		B102FC5C1D10FF5100408DD6 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		B10A06271F20073C00069E17 /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		B10A06291F2007EF00069E17 /* ArrayDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
+		B10A062B1F20082600069E17 /* ClosureViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureViewProvider.swift; sourceTree = "<group>"; };
 		B12F9B211E804C370085F37D /* MCollectionViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCollectionViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12F9B231E804C370085F37D /* MCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCollectionViewTests.swift; sourceTree = "<group>"; };
 		B12F9B251E804C370085F37D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -170,9 +176,12 @@
 			isa = PBXGroup;
 			children = (
 				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
-				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
+				A351C3451CE4CCD2005E15A7 /* CollectionView.swift */,
+				B10A06271F20073C00069E17 /* Animator.swift */,
 				B148237A1F1E87F60007A7E2 /* Collection.swift */,
 				B1B2E30B1F1FF75C00C8E52D /* Layout.swift */,
+				B10A06291F2007EF00069E17 /* ArrayDataProvider.swift */,
+				B10A062B1F20082600069E17 /* ClosureViewProvider.swift */,
 				B12F9B2E1E8067480085F37D /* MoveManager.swift */,
 				B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */,
 				B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */,
@@ -525,14 +534,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B10A06281F20073C00069E17 /* Animator.swift in Sources */,
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
 				B1E793CE1E8041300001B2E2 /* VisibleIndexesManager.swift in Sources */,
 				B1A54FAD1EA3E0ED00A96112 /* UIScrollView+Addtion.swift in Sources */,
-				B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */,
+				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B100C3FA1EA55B3200868840 /* DictionaryTwoWay.swift in Sources */,
 				B1B2E30C1F1FF75C00C8E52D /* Layout.swift in Sources */,
+				B10A062C1F20082600069E17 /* ClosureViewProvider.swift in Sources */,
 				B12F9B301E8069530085F37D /* MoveManager.swift in Sources */,
 				B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */,
+				B10A062A1F2007EF00069E17 /* ArrayDataProvider.swift in Sources */,
 				B148237C1F1E88430007A7E2 /* Collection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

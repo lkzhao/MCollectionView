@@ -1,0 +1,97 @@
+//
+//  Animator.swift
+//  CollectionView
+//
+//  Created by Luke Zhao on 2017-07-19.
+//  Copyright © 2017 lkzhao. All rights reserved.
+//
+
+import UIKit
+import YetAnotherAnimationLibrary
+
+open class DefaultCollectionAnimator: CollectionAnimator {
+  open func prepare(collectionView: CollectionView) {}
+  open func insert(view: UIView, at: Int, frame: CGRect) {
+    view.bounds = frame.bounds
+    view.center = frame.center
+  }
+  open func delete(view: UIView, at: Int, frame: CGRect) {
+    view.removeFromSuperview()
+    ReuseManager.shared.queue(view: view)
+  }
+  open func update(view: UIView, at: Int, frame: CGRect) {
+    view.bounds = frame.bounds
+    view.center = frame.center
+  }
+  public init() {}
+}
+
+open class WobbleAnimator: CollectionAnimator {
+  var screenDragLocation: CGPoint = .zero
+  var contentOffset: CGPoint!
+  var scrollVelocity: CGPoint = .zero
+  var delta: CGPoint = .zero
+  var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
+  var offsetAnimation = MixAnimation(value: AnimationProperty<CGPoint>())
+  
+  open func prepare(collectionView: CollectionView) {
+    screenDragLocation = collectionView.screenDragLocation
+    scrollVelocity = collectionView.scrollVelocity
+    let oldContentOffset = contentOffset ?? collectionView.contentOffset
+    contentOffset = collectionView.contentOffset
+    delta = contentOffset - oldContentOffset
+  }
+  
+  open func insert(view: UIView, at: Int, frame: CGRect) {
+    view.bounds = frame.bounds
+    let cellDiff = frame.center - contentOffset - screenDragLocation
+    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000 * scrollVelocity / 240
+    view.center = frame.center + delta * abs(resistance)
+    view.yaal.center.stop()
+    view.yaal.center.updateWithCurrentState()
+    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
+  }
+  
+  open func delete(view: UIView, at: Int, frame: CGRect) {
+    view.yaal.center.stop()
+    view.removeFromSuperview()
+    ReuseManager.shared.queue(view: view)
+  }
+  
+  open func update(view: UIView, at: Int, frame: CGRect) {
+    view.bounds = frame.bounds
+    let cellDiff = frame.center - contentOffset - screenDragLocation
+    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
+    let newCenterDiff = delta * resistance
+    let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
+                               y: delta.y > 0 ? min(delta.y, newCenterDiff.y) : max(delta.y, newCenterDiff.y))
+    view.center = view.center + constrainted
+    view.yaal.center.updateWithCurrentState()
+    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
+  }
+  
+  public init() {}
+}
+
+open class ZoomAnimator: DefaultCollectionAnimator {
+  var collectionViewBounds: CGRect = .zero
+  var contentOffset: CGPoint = .zero
+  
+  open override func prepare(collectionView: CollectionView) {
+    super.prepare(collectionView: collectionView)
+    contentOffset = collectionView.contentOffset
+    collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
+  }
+  
+  open override func update(view: UIView, at: Int, frame: CGRect) {
+    super.update(view: view, at: at, frame: frame)
+    let absolutePosition = frame.center - contentOffset
+    let scale = 1 - max(0, absolutePosition.distance(collectionViewBounds.center) - 200) / (max(collectionViewBounds.width, collectionViewBounds.height) - 200)
+    view.transform = CGAffineTransform.identity.scaledBy(x: scale, y: scale)
+  }
+  
+  open override func delete(view: UIView, at: Int, frame: CGRect) {
+    view.transform = .identity
+    super.delete(view: view, at: at, frame: frame)
+  }
+}

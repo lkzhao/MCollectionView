@@ -1,12 +1,30 @@
 //
 //  Layout.swift
-//  MCollectionView
+//  CollectionView
 //
 //  Created by Luke Zhao on 2017-07-19.
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
 import UIKit
+
+public class ClosureLayoutProvider<Data>: CollectionLayoutProvider {
+  public var insets: UIEdgeInsets
+  public var frameProvider: (Data, Int) -> CGRect
+
+  public init(insets: UIEdgeInsets = .zero, frameProvider: @escaping (Data, Int) -> CGRect) {
+    self.insets = insets
+    self.frameProvider = frameProvider
+  }
+
+  public func prepare(size: CGSize) {
+    
+  }
+  
+  public func frame(with data: Data, at: Int) -> CGRect {
+    return frameProvider(data, at)
+  }
+}
 
 open class CustomSizeLayout<Data>: CollectionLayoutProvider {
   public var insets: UIEdgeInsets = .zero

@@ -9,33 +9,6 @@
 import UIKit
 import MCollectionView
 
-
-struct ArrayDataProvider<Data>: CollectionDataProvider {
-  let data: [Data]
-  let identifierMapper: (Int, Data) -> String = { "\($0)" }
-
-  var numberOfItems: Int {
-    return data.count
-  }
-  func identifier(at: Int) -> String {
-    return identifierMapper(at, data[at])
-  }
-  func data(at: Int) -> Data {
-    return data[at]
-  }
-}
-
-struct ClosureViewProvider<Data, View>: CollectionViewProvider where View: UIView {
-  let viewUpdater: (View, Data, Int) -> Void
-  func view(at: Int) -> View {
-    return ReuseManager.shared.dequeue(View.self) ?? View()
-  }
-  func update(view: View, with data: Data, at: Int) {
-    viewUpdater(view, data, at)
-  }
-}
-
-
 class HorizontalGalleryViewController: UIViewController {
   var images: [UIImage] = [
     UIImage(named: "l1")!,
@@ -58,10 +31,10 @@ class HorizontalGalleryViewController: UIViewController {
     UIImage(named: "6")!
   ]
 
-  var collectionView: MCollectionView!
+  var collectionView: CollectionView!
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView = MCollectionView()
+    collectionView = CollectionView()
     let provider1 = CustomProvider(
       dataProvider: ArrayDataProvider(data: images),
       viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
@@ -70,8 +43,7 @@ class HorizontalGalleryViewController: UIViewController {
       }),
       layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
         return sizeForImage(data.size, maxSize: maxSize)
-      }),
-      eventResponder: NoEventResponder<UIImage>()
+      })
     )
     let provider2 = CustomProvider(
       dataProvider: ArrayDataProvider(data: images),
@@ -82,7 +54,6 @@ class HorizontalGalleryViewController: UIViewController {
       layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
         return sizeForImage(data.size, maxSize: maxSize)
       }),
-      eventResponder: NoEventResponder<UIImage>(),
       animator: WobbleAnimator()
     )
     let provider3 = CustomProvider(
@@ -94,7 +65,6 @@ class HorizontalGalleryViewController: UIViewController {
       layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
         return sizeForImage(data.size, maxSize: maxSize)
       }),
-      eventResponder: NoEventResponder<UIImage>(),
       animator: ZoomAnimator()
     )
     collectionView.provider = SectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout())

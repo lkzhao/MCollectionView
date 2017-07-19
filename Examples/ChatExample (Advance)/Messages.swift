@@ -151,8 +151,8 @@ class Message {
 }
 
 let TestMessages = [
-  Message(announcement: "MCollectionView"),
-  Message(false, content: "This is an advance example demostrating what MCollectionView can do."),
+  Message(announcement: "CollectionView"),
+  Message(false, content: "This is an advance example demostrating what CollectionView can do."),
   Message(false, content: "Checkout the source code to see how "),
   Message(false, content: "Nulla fringilla, dolor id congue elementum, urna diam rhoncus eros, sit amet hendrerit turpis velit eget nisl."),
   Message(false, content: "Quisque nulla sapien, dignissim ac risus nec, vehicula commodo lectus. Suspendisse lacinia mi sit amet nulla semper sollicitudin."),

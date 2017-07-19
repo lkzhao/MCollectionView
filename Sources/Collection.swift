@@ -1,6 +1,6 @@
 //
 //  Collection.swift
-//  MCollectionView
+//  CollectionView
 //
 //  Created by Luke Zhao on 2017-07-18.
 //  Copyright © 2017 lkzhao. All rights reserved.
@@ -30,7 +30,6 @@ public protocol CollectionLayoutProvider {
 }
 
 public protocol CollectionEventResponder {
-  associatedtype Data
   func willReload()
   func didReload()
   func willDrag(cell: UIView, at index:Int) -> Bool
@@ -39,37 +38,29 @@ public protocol CollectionEventResponder {
   func didTap(cell: UIView, index: Int)
 }
 
-public typealias CollectionProvider = CollectionViewProvider & CollectionDataProvider & CollectionLayoutProvider
-
-public class NoEventResponder<D>: CollectionEventResponder {
-  public typealias Data = D
-  public func willReload() {}
-  public func didReload() {}
-  public func willDrag(cell: UIView, at index:Int) -> Bool { return false }
-  public func didDrag(cell: UIView, at index:Int) {}
-  public func moveItem(at index: Int, to: Int) -> Bool { return false }
-  public func didTap(cell: UIView, index: Int) {}
-  public init() {}
+public protocol CollectionAnimator {
+  func prepare(collectionView: CollectionView)
+  func insert(view: UIView, at: Int, frame: CGRect)
+  func delete(view: UIView, at: Int, frame: CGRect)
+  func update(view: UIView, at: Int, frame: CGRect)
 }
 
-public class CustomProvider<D, V, VP, DP, LP, ER>: AnyCollectionProvider where
+public class CustomProvider<D, V, VP, DP, LP>: AnyCollectionProvider where
   VP: CollectionViewProvider,
   DP: CollectionDataProvider,
   LP: CollectionLayoutProvider,
-  ER: CollectionEventResponder,
   VP.View == V,
   VP.Data == D,
   DP.Data == D,
-  ER.Data == D,
   LP.Data == D
 {
   var dataProvider: DP
   var viewProvider: VP
   var layoutProvider: LP
-  var eventResponder: ER
+  var eventResponder: CollectionEventResponder
   var animator: CollectionAnimator
 
-  public init(dataProvider: DP, viewProvider: VP, layoutProvider: LP, eventResponder: ER, animator: CollectionAnimator = DefaultCollectionAnimator()) {
+  public init(dataProvider: DP, viewProvider: VP, layoutProvider: LP, eventResponder: CollectionEventResponder = DefaultEventResponder(), animator: CollectionAnimator = DefaultCollectionAnimator()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layoutProvider = layoutProvider
@@ -119,7 +110,7 @@ public class CustomProvider<D, V, VP, DP, LP, ER>: AnyCollectionProvider where
     eventResponder.didTap(cell: cell, index: at)
   }
   
-  public func prepare(collectionView: MCollectionView) {
+  public func prepare(collectionView: CollectionView) {
     animator.prepare(collectionView: collectionView)
   }
   public func insert(view: UIView, at: Int, frame: CGRect) {
@@ -156,7 +147,7 @@ public protocol AnyCollectionProvider {
   func didTap(cell: UIView, at: Int)
   
   // animate
-  func prepare(collectionView: MCollectionView)
+  func prepare(collectionView: CollectionView)
   func insert(view: UIView, at: Int, frame: CGRect)
   func delete(view: UIView, at: Int, frame: CGRect)
   func update(view: UIView, at: Int, frame: CGRect)
@@ -323,7 +314,7 @@ extension SectionComposer: AnyCollectionProvider {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].didTap(cell: cell, at: item)
   }
-  public func prepare(collectionView: MCollectionView) {
+  public func prepare(collectionView: CollectionView) {
     for section in sections {
       section.prepare(collectionView: collectionView)
     }
