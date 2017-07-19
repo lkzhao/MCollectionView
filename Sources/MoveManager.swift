@@ -66,7 +66,7 @@ class MoveContext: NSObject {
         !collectionView.isDragging,
         let toIndex = collectionView.indexForCell(at: gestureRecognizer.location(in: collectionView)),
         toIndex != index,
-        collectionView.collectionDelegate?.collectionView?(collectionView, moveItemAt: index, to: toIndex) == true
+        collectionView.provider?.moveItem(at: index, to: toIndex) == true
       {
         canReorder = false
         delay(0.1) {
@@ -100,10 +100,10 @@ class MoveManager: NSObject {
     guard let collectionView = collectionView else { return }
     switch gestureRecognizer.state {
     case .began:
-      if let indexPath = collectionView.indexForCell(at: gestureRecognizer.location(in: collectionView)),
-        let cell = collectionView.cell(at: indexPath),
+      if let index = collectionView.indexForCell(at: gestureRecognizer.location(in: collectionView)),
+        let cell = collectionView.cell(at: index),
         !collectionView.isFloating(cell: cell),
-        collectionView.collectionDelegate?.collectionView?(collectionView, willDrag: cell, at: indexPath) == true {
+        collectionView.provider?.willDrag(cell: cell, at: index) == true {
         addNextLongPressGesture()
         collectionView.panGestureRecognizer.isEnabled = false
         collectionView.panGestureRecognizer.isEnabled = true
@@ -124,7 +124,7 @@ class MoveManager: NSObject {
         let cell = moveContext.cell
         if let index = collectionView.index(for: cell), collectionView.isFloating(cell: cell) {
           collectionView.unfloat(cell: cell)
-          collectionView.collectionDelegate?.collectionView?(collectionView, didDrag: cell, at: index)
+          collectionView.provider?.didDrag(cell: cell, at: index)
         }
       }
       break

@@ -1,12 +1,15 @@
 PODS:
   - ALTextInputBar (1.1.3)
+  - YetAnotherAnimationLibrary (1.1.0)
 
 DEPENDENCIES:
   - ALTextInputBar
+  - YetAnotherAnimationLibrary
 
 SPEC CHECKSUMS:
   ALTextInputBar: f46ccbddb4c548ee7fd96a2015ffe433f4de551a
+  YetAnotherAnimationLibrary: e499e262c031c6b1f05809cd9f5e2eeb5282f5a5
 
-PODFILE CHECKSUM: f45550c55508b3bf8577a6fbd593654dd446d2d1
+PODFILE CHECKSUM: dfc6580e7a4d90abd716dd732bf25559b3f37790
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

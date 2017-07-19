@@ -24,7 +24,7 @@
 		B12F9B261E804C370085F37D /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
 		B12F9B301E8069530085F37D /* MoveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F9B2E1E8067480085F37D /* MoveManager.swift */; };
 		B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136E99F1D04BA5700D02FCA /* GridViewController.swift */; };
-		B15029121EA66FC400F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
+		B148237C1F1E88430007A7E2 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* Collection.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B1A54FAD1EA3E0ED00A96112 /* UIScrollView+Addtion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A54FAC1EA3E0ED00A96112 /* UIScrollView+Addtion.swift */; };
 		B1B7B0571E7DAD1F00F2483E /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
@@ -33,6 +33,7 @@
 		B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */; };
 		B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* Util.swift */; };
 		B1E793CE1E8041300001B2E2 /* VisibleIndexesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */; };
+		C45A474E8A49F9A228634F93 /* Pods_MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0306438E675B240637FF29BC /* Pods_MCollectionView.framework */; };
 		E7CCCE79B621DE14C070EB1C /* Pods_MCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B78F85DBDD96DDF2E7D541F /* Pods_MCollectionViewExample.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,8 +76,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0306438E675B240637FF29BC /* Pods_MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B78F85DBDD96DDF2E7D541F /* Pods_MCollectionViewExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCollectionViewExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DB90AF9C5423AE7D39CF7A /* Pods-MCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
+		34F493095DD88449BCBEBBF1 /* Pods-MCollectionView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.release.xcconfig"; sourceTree = "<group>"; };
 		67F57CD3DE95D2E8C77626D0 /* Pods-MCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
 		A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -100,12 +103,14 @@
 		B12F9B251E804C370085F37D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B12F9B2E1E8067480085F37D /* MoveManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveManager.swift; sourceTree = "<group>"; };
 		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
+		B148237A1F1E87F60007A7E2 /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
 		B1A54FAC1EA3E0ED00A96112 /* UIScrollView+Addtion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Addtion.swift"; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisibleIndexesManager.swift; sourceTree = "<group>"; };
+		BACCEFA4FF884848D758B8A9 /* Pods-MCollectionView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCollectionView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B15029121EA66FC400F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */,
+				C45A474E8A49F9A228634F93 /* Pods_MCollectionView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +148,8 @@
 			children = (
 				34DB90AF9C5423AE7D39CF7A /* Pods-MCollectionViewExample.debug.xcconfig */,
 				67F57CD3DE95D2E8C77626D0 /* Pods-MCollectionViewExample.release.xcconfig */,
+				BACCEFA4FF884848D758B8A9 /* Pods-MCollectionView.debug.xcconfig */,
+				34F493095DD88449BCBEBBF1 /* Pods-MCollectionView.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -162,6 +169,7 @@
 			children = (
 				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
 				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
+				B148237A1F1E87F60007A7E2 /* Collection.swift */,
 				B12F9B2E1E8067480085F37D /* MoveManager.swift */,
 				B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */,
 				B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */,
@@ -253,6 +261,7 @@
 			children = (
 				B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */,
 				0B78F85DBDD96DDF2E7D541F /* Pods_MCollectionViewExample.framework */,
+				0306438E675B240637FF29BC /* Pods_MCollectionView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -281,7 +290,6 @@
 				B1B7B05C1E7DAD1F00F2483E /* Embed Frameworks */,
 				06EEBD01A3EE25F46C5A915B /* [CP] Embed Pods Frameworks */,
 				C49773C4D6891462D193770B /* [CP] Copy Pods Resources */,
-				B15029161EA671FB00F89915 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -316,11 +324,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B1B7B0591E7DAD1F00F2483E /* Build configuration list for PBXNativeTarget "MCollectionView" */;
 			buildPhases = (
+				3E697758E3676C5EB8CFE464 /* [CP] Check Pods Manifest.lock */,
 				B1B7B04B1E7DAD1E00F2483E /* Sources */,
 				B1B7B04C1E7DAD1E00F2483E /* Frameworks */,
 				B1B7B04D1E7DAD1E00F2483E /* Headers */,
 				B1B7B04E1E7DAD1E00F2483E /* Resources */,
-				B15029141EA66FF500F89915 /* ShellScript */,
+				ECE08C8F27EC5BE98FECD72E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -421,33 +430,20 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MCollectionViewExample/Pods-MCollectionViewExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B15029141EA66FF500F89915 /* ShellScript */ = {
+		3E697758E3676C5EB8CFE464 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
 			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		B15029161EA671FB00F89915 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		C49773C4D6891462D193770B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -477,6 +473,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ECE08C8F27EC5BE98FECD72E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MCollectionView/Pods-MCollectionView-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -518,6 +529,7 @@
 				B100C3FA1EA55B3200868840 /* DictionaryTwoWay.swift in Sources */,
 				B12F9B301E8069530085F37D /* MoveManager.swift in Sources */,
 				B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */,
+				B148237C1F1E88430007A7E2 /* Collection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,6 +740,7 @@
 		};
 		B1B7B05A1E7DAD1F00F2483E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BACCEFA4FF884848D758B8A9 /* Pods-MCollectionView.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -759,6 +772,7 @@
 		};
 		B1B7B05B1E7DAD1F00F2483E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34F493095DD88449BCBEBBF1 /* Pods-MCollectionView.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;

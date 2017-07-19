@@ -9,21 +9,99 @@
 import UIKit
 import YetAnotherAnimationLibrary
 
+public protocol CollectionAnimator {
+  func prepare(collectionView: MCollectionView)
+  func insert(view: UIView, at: Int, frame: CGRect)
+  func delete(view: UIView, at: Int, frame: CGRect)
+  func update(view: UIView, at: Int, frame: CGRect, screenPosition: CGPoint)
+}
+
+class DefaultCollectionAnimator: CollectionAnimator {
+  func prepare(collectionView: MCollectionView) {}
+  func insert(view: UIView, at: Int, frame: CGRect) {
+    view.bounds = frame.bounds
+    view.center = frame.center
+  }
+  func delete(view: UIView, at: Int, frame: CGRect) {
+    view.removeFromSuperview()
+  }
+  func update(view: UIView, at: Int, frame: CGRect, screenPosition: CGPoint) {
+    view.bounds = frame.bounds
+    view.center = frame.center
+  }
+}
+
+class WobbleAnimator: CollectionAnimator {
+  var screenDragLocation: CGPoint = .zero
+  var contentOffset: CGPoint = .zero
+  var scrollVelocity: CGPoint = .zero
+  var offsetAnimation = MixAnimation(value: AnimationProperty<CGPoint>())
+
+  func prepare(collectionView: MCollectionView) {
+    screenDragLocation = collectionView.screenDragLocation
+    contentOffset = collectionView.contentOffset
+    scrollVelocity = collectionView.scrollVelocity
+  }
+
+  public func wabbleRect(frame: CGRect, at index: Int) -> CGRect {
+    if frame.contains(screenDragLocation + contentOffset) {
+      return frame
+    } else {
+      let cellScreenCenter = frame.center - contentOffset
+      let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 7000
+      return CGRect(origin: frame.origin + cellOffset, size: frame.size)
+    }
+  }
+
+  func insert(view: UIView, at: Int, frame: CGRect) {
+    view.bounds = frame.bounds
+    view.center = frame.center
+    view.yaal.center.updateWithCurrentState()
+  }
+
+  func delete(view: UIView, at: Int, frame: CGRect) {
+    view.removeFromSuperview()
+  }
+
+  func update(view: UIView, at: Int, frame: CGRect, screenPosition: CGPoint) {
+    view.bounds = frame.bounds
+    let frame = wabbleRect(frame: frame, at: at)
+    view.yaal.center.animateTo(frame.center, stiffness: 400, damping: 40, threshold:0.5)
+  }
+}
+
+
+class ReuseManager {
+  static let shared = ReuseManager()
+  var reusableViews: [String:[UIView]] = [:]
+  var cleanupTimer: Timer?
+  func queue(view: UIView) {
+    let identifier = String(describing: type(of: view))
+    if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(view) {
+      reusableViews[identifier]?.append(view)
+    } else {
+      reusableViews[identifier] = [view]
+    }
+    cleanupTimer?.invalidate()
+    cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
+  }
+
+  public func dequeueReusableView<T: UIView> (_ viewClass: T.Type) -> T? {
+    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T
+    if let cell = cell as? MCollectionViewReusableView {
+      cell.prepareForReuse()
+    }
+    return cell
+  }
+
+  @objc func cleanup() {
+    reusableViews.removeAll()
+  }
+}
+
 open class MCollectionView: UIScrollView {
-  public weak var collectionDelegate: MCollectionViewDelegate?
-
-  // if autoLayoutOnUpdate is enabled. cell will have their corresponding frame 
-  // set when they are loaded or when the collection view scrolls
-  // turn this off if you want to manually set its frame
-  public var autoLayoutOnUpdate = true
-
-  // Remove cell from view hierarchy if the cell is being deleted.
-  // Might want to turn this off if you want to do some animation when
-  // cell is being deleted
-  public var autoRemoveCells = true
-
-  // wabble animation
-  public var wabble = false
+  public var provider: AnyCollectionProvider?
+  public var animator: CollectionAnimator = WobbleAnimator()
 
   public private(set) var hasReloaded = false
 
@@ -59,8 +137,6 @@ open class MCollectionView: UIScrollView {
   var lastReloadSize: CGSize?
   // TODO: change this to private
   public var floatingCells: Set<UIView> = []
-  var reusableViews: [String:[UIView]] = [:]
-  var cleanupTimer: Timer?
   public var loading = false
   public var reloading = false
   public lazy var contentOffsetProxyAnim = MixAnimation<CGPoint>(value: AnimationProperty<CGPoint>())
@@ -108,7 +184,7 @@ open class MCollectionView: UIScrollView {
   @objc func tap(gr: UITapGestureRecognizer) {
     for cell in visibleCells {
       if cell.point(inside: gr.location(in: cell), with: nil) {
-        collectionDelegate?.collectionView?(self, didTap: cell, at: visibleCellToIndexMap[cell]!)
+        provider?.didTap(cell: cell, at: visibleCellToIndexMap[cell]!)
         return
       }
     }
@@ -155,8 +231,6 @@ open class MCollectionView: UIScrollView {
   var activeFrame: CGRect {
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
-    } else if wabble {
-      return visibleFrame.insetBy(dx: -abs(scrollVelocity.x/10).clamp(100, 500), dy: -abs(scrollVelocity.y/10).clamp(100, 500))
     } else {
       return visibleFrame
     }
@@ -169,6 +243,7 @@ open class MCollectionView: UIScrollView {
    */
   func loadCells() {
     if loading { return }
+    animator.prepare(collectionView: self)
     loading = true
     if offsetFrame.insetBy(dx: -10, dy: -10).contains(contentOffset) {
       let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
@@ -183,16 +258,22 @@ open class MCollectionView: UIScrollView {
       visibleIndexes = indexes
     }
 
-    layoutCellsIfNecessary()
+    for (index, view) in visibleCellToIndexMap.ts {
+      if !floatingCells.contains(view) {
+        animator.update(view: view, at: index, frame: frames[index], screenPosition: view.center - contentOffset)
+      }
+    }
     loading = false
   }
 
   // reload all frames. will automatically diff insertion & deletion
   public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
-    guard let collectionDelegate = collectionDelegate else {
+    guard let provider = provider else {
       return
     }
-    collectionDelegate.collectionViewWillReload?(self)
+    provider.willReload()
+    provider.prepare(size: innerSize)
+    animator.prepare(collectionView: self)
     reloading = true
 
     // ask the delegate for all cell's identifier & frames
@@ -200,13 +281,13 @@ open class MCollectionView: UIScrollView {
     var newIdentifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
     var newVisibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
     var unionFrame = CGRect.zero
-    let itemCount = collectionDelegate.numberOfItemsInCollectionView(self)
-    let padding = collectionDelegate.collectionViewContentPadding?(self) ?? .zero
+    let itemCount = provider.numberOfItems
+    let padding = provider.insets
 
     frames.reserveCapacity(itemCount)
     for index in 0..<itemCount {
-      let frame = collectionDelegate.collectionView(self, frameForIndex: index)
-      let identifier = collectionDelegate.collectionView(self, identifierForIndex: index)
+      let frame = provider.frame(at: index)
+      let identifier = provider.identifier(at: index)
       if newIdentifiersToIndexMap[identifier] != nil {
         print("[MCollectionView] Duplicate Identifier: \(identifier)")
         var i = 2
@@ -273,10 +354,12 @@ open class MCollectionView: UIScrollView {
       }
 
       newVisibleCellToIndexMap[newIndex] = cell
+      provider.update(view: cell, at: newIndex)
+      animator.update(view: cell, at: newIndex, frame: frames[newIndex], screenPosition: frames[newIndex].center - contentOffset)
       if oldIndex == newIndex {
-        collectionDelegate.collectionView?(self, didReloadCellView: cell, atIndex: newIndex)
+//        collectionDelegate.collectionView?(self, didReloadCellView: cell, atIndex: newIndex)
       } else {
-        collectionDelegate.collectionView?(self, didMoveCellView: cell, fromIndex: oldIndex, toIndex: newIndex)
+//        collectionDelegate.collectionView?(self, didMoveCellView: cell, fromIndex: oldIndex, toIndex: newIndex)
       }
     }
 
@@ -292,101 +375,46 @@ open class MCollectionView: UIScrollView {
       appearCell(at: identifiersToIndexMap[identifier]!)
     }
 
-    layoutCellsIfNecessary()
+    for (index, view) in visibleCellToIndexMap.ts {
+      if !floatingCells.contains(view) {
+        animator.update(view: view, at: index, frame: frames[index], screenPosition: view.center - contentOffset)
+      }
+    }
     reloading = false
     hasReloaded = true
-    collectionDelegate.collectionViewDidReload?(self)
+    provider.didReload()
   }
 
-
-  public func wabbleRect(_ index: Int) -> CGRect {
-    let cellFrame = frameForCell(at: index)!
-    if cellFrame.contains(screenDragLocation + contentOffset) {
-      return cellFrame
-    } else {
-      let cellScreenCenter = absoluteLocation(for: cellFrame.center)
-      let cellOffset = cellScreenCenter.distance(screenDragLocation) * scrollVelocity / 7000
-      return CGRect(origin: cellFrame.origin + cellOffset, size: cellFrame.size)
-    }
-  }
-
-  public func layoutCell(at index: Int, animate:Bool) {
-    if let cell = visibleCellToIndexMap[index] {
-      if !floatingCells.contains(cell) {
-        let frame = wabble ? wabbleRect(index) : frameForCell(at: index)!
-        cell.bounds = frame.bounds
-        if animate {
-          cell.yaal.center.animateTo(frame.center, stiffness: 400, damping: 40, threshold:0.5)
-        } else {
-          cell.center = frame.center
-        }
-      }
-    }
-  }
-
-  public func layoutCellsIfNecessary() {
-    if autoLayoutOnUpdate {
-      for index in visibleIndexes {
-        layoutCell(at: index, animate: wabble)
-      }
-    }
-    for (index, cell) in visibleCellToIndexMap.ts {
-      collectionDelegate?.collectionView?(self, cellView:cell, didUpdateScreenPositionForIndex:index, screenPosition:cell.center - contentOffset)
-    }
-  }
 
   func didScroll() {
-    cleanupTimer?.invalidate()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
     if !reloading {
       loadCells()
     }
   }
 
-  public func dequeueReusableView<T: UIView> (_ viewClass: T.Type) -> T? {
-    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T
-    if let cell = cell as? MCollectionViewReusableView {
-      cell.prepareForReuse()
-    }
-    return cell
-  }
-
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
-      collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndex: index)
+//      collectionDelegate?.collectionView?(self, cellView: cell, willDisappearForIndex: index)
       cell.yaal.center.stop()
 
       if reloading {
-        if autoRemoveCells {
-          cell.removeFromSuperview()
-        }
-        collectionDelegate?.collectionView?(self, didDeleteCellView: cell, atIndex: index)
+        animator.delete(view: cell, at: index, frame: frames[index])
       } else {
         cell.removeFromSuperview()
-
-        let identifier = String(describing: type(of: cell))
-        if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(cell) {
-          reusableViews[identifier]?.append(cell)
-        } else {
-          reusableViews[identifier] = [cell]
-        }
+        ReuseManager.shared.queue(view: cell)
       }
 
       visibleCellToIndexMap.remove(index)
     }
   }
   fileprivate func appearCell(at index: Int) {
-    if let cell = collectionDelegate?.collectionView(self, viewForIndex: index), visibleCellToIndexMap[cell] == nil {
+    guard let provider = provider else { return }
+    let cell = provider.view(at: index)
+    provider.update(view: cell, at: index)
+    if visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
       insert(cell: cell)
-      if autoLayoutOnUpdate {
-        layoutCell(at: index, animate: false)
-      }
-      if reloading {
-        collectionDelegate?.collectionView?(self, didInsertCellView: cell, atIndex: index)
-      } else {
-        collectionDelegate?.collectionView?(self, cellView: cell, didAppearForIndex: index)
-      }
+      animator.insert(view: cell, at: index, frame: frames[index])
     }
   }
   fileprivate func insert(cell: UIView) {
@@ -405,10 +433,6 @@ open class MCollectionView: UIScrollView {
     } else {
       insertSubview(cell, belowSubview: overlayView)
     }
-  }
-
-  func cleanup() {
-    reusableViews.removeAll()
   }
 
   override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
