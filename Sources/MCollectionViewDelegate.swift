@@ -44,5 +44,5 @@ public protocol MCollectionViewReusableView: class {
   ///
   @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didAppearForIndex index: Int)
   @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, willDisappearForIndex index: Int)
-  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didUpdateScreenPositionForIndex index: Int, screenPosition: CGPoint)
+  @objc optional func collectionView(_ collectionView: MCollectionView, cellView: UIView, didUpdateabsolutePositionForIndex index: Int, absolutePosition: CGPoint)
 }

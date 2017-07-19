@@ -19,6 +19,12 @@ extension CGPoint {
     return sqrt(pow(self.x-b.x, 2)+pow(self.y-b.y, 2))
   }
 }
+func abs(_ left: CGPoint) -> CGPoint {
+  return CGPoint(x: abs(left.x), y: abs(left.y))
+}
+func min(_ left: CGPoint, _ right: CGPoint) -> CGPoint {
+  return CGPoint(x: min(left.x, right.x), y: min(left.y, right.y))
+}
 func +(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }

@@ -28,44 +28,13 @@ struct ArrayDataProvider<Data>: CollectionDataProvider {
 struct ClosureViewProvider<Data, View>: CollectionViewProvider where View: UIView {
   let viewUpdater: (View, Data, Int) -> Void
   func view(at: Int) -> View {
-    return View()
+    return ReuseManager.shared.dequeue(View.self) ?? View()
   }
   func update(view: View, with data: Data, at: Int) {
     viewUpdater(view, data, at)
   }
 }
 
-class HorizontalLayout: CollectionLayoutProvider {
-  var numRows = 3
-  var rowWidth: [CGFloat] = [0, 0]
-  var size = CGSize.zero
-
-  var insets: UIEdgeInsets = .zero
-  func prepare(size: CGSize) {
-    self.size = size
-    numRows = max(2, Int(size.height) / 180)
-    rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
-  }
-
-  func frame(with data: UIImage, at: Int) -> CGRect {
-    func getMinRow() -> (Int, CGFloat) {
-      var minWidth: (Int, CGFloat) = (0, rowWidth[0])
-      for (index, width) in rowWidth.enumerated() {
-        if width < minWidth.1 {
-          minWidth = (index, width)
-        }
-      }
-      return minWidth
-    }
-
-    let avaliableHeight = (size.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
-    var imgSize = sizeForImage(data.size, maxSize: CGSize(width: .infinity, height: avaliableHeight))
-    imgSize.height = avaliableHeight
-    let (rowIndex, offsetX) = getMinRow()
-    rowWidth[rowIndex] += imgSize.width + 10
-    return CGRect(origin: CGPoint(x: offsetX, y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: imgSize)
-  }
-}
 
 class HorizontalGalleryViewController: UIViewController {
   var images: [UIImage] = [
@@ -93,15 +62,42 @@ class HorizontalGalleryViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     collectionView = MCollectionView()
-    collectionView.provider = CustomProvider(
+    let provider1 = CustomProvider(
       dataProvider: ArrayDataProvider(data: images),
       viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
         view.image = data
         view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
       }),
-      layoutProvider: HorizontalLayout(),
+      layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
+        return sizeForImage(data.size, maxSize: maxSize)
+      }),
       eventResponder: NoEventResponder<UIImage>()
     )
+    let provider2 = CustomProvider(
+      dataProvider: ArrayDataProvider(data: images),
+      viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
+        view.image = data
+        view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
+      }),
+      layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
+        return sizeForImage(data.size, maxSize: maxSize)
+      }),
+      eventResponder: NoEventResponder<UIImage>(),
+      animator: WobbleAnimator()
+    )
+    let provider3 = CustomProvider(
+      dataProvider: ArrayDataProvider(data: images),
+      viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
+        view.image = data
+        view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
+      }),
+      layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
+        return sizeForImage(data.size, maxSize: maxSize)
+      }),
+      eventResponder: NoEventResponder<UIImage>(),
+      animator: ZoomAnimator()
+    )
+    collectionView.provider = SectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout())
     view.addSubview(collectionView)
   }
 

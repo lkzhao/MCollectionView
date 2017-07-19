@@ -67,11 +67,14 @@ public class CustomProvider<D, V, VP, DP, LP, ER>: AnyCollectionProvider where
   var viewProvider: VP
   var layoutProvider: LP
   var eventResponder: ER
-  public init(dataProvider: DP, viewProvider: VP, layoutProvider: LP, eventResponder: ER) {
+  var animator: CollectionAnimator
+
+  public init(dataProvider: DP, viewProvider: VP, layoutProvider: LP, eventResponder: ER, animator: CollectionAnimator = DefaultCollectionAnimator()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layoutProvider = layoutProvider
     self.eventResponder = eventResponder
+    self.animator = animator
   }
   
   public var numberOfItems: Int {
@@ -115,24 +118,48 @@ public class CustomProvider<D, V, VP, DP, LP, ER>: AnyCollectionProvider where
   public func didTap(cell: UIView, at: Int) {
     eventResponder.didTap(cell: cell, index: at)
   }
+  
+  public func prepare(collectionView: MCollectionView) {
+    animator.prepare(collectionView: collectionView)
+  }
+  public func insert(view: UIView, at: Int, frame: CGRect) {
+    animator.insert(view: view, at: at, frame: frame)
+  }
+  public func delete(view: UIView, at: Int, frame: CGRect) {
+    animator.delete(view: view, at: at, frame: frame)
+  }
+  public func update(view: UIView, at: Int, frame: CGRect) {
+    animator.update(view: view, at: at, frame: frame)
+  }
 }
 
 public protocol AnyCollectionProvider {
+  // data
   var numberOfItems: Int { get }
+  func identifier(at: Int) -> String
+  
+  // view
   func view(at: Int) -> UIView
   func update(view: UIView, at: Int)
-  func identifier(at: Int) -> String
-
+  
+  // layout
   func prepare(size: CGSize)
   var insets: UIEdgeInsets { get }
   func frame(at: Int) -> CGRect
-
+  
+  // event
   func willReload()
   func didReload()
   func willDrag(cell: UIView, at:Int) -> Bool
   func didDrag(cell: UIView, at:Int)
   func moveItem(at: Int, to: Int) -> Bool
   func didTap(cell: UIView, at: Int)
+  
+  // animate
+  func prepare(collectionView: MCollectionView)
+  func insert(view: UIView, at: Int, frame: CGRect)
+  func delete(view: UIView, at: Int, frame: CGRect)
+  func update(view: UIView, at: Int, frame: CGRect)
 }
 
 public class Section {
@@ -177,38 +204,41 @@ extension Array {
   }
 }
 
-class SectionComposer {
+public class SectionComposer<LP> where LP: CustomSizeLayout<AnyCollectionProvider> {
   public var sections: [AnyCollectionProvider]
 
   fileprivate var sectionBeginIndex:[Int] = []
   fileprivate var sectionForIndex:[Int] = []
-  fileprivate var currentSectionAndOffset: (index: Int, bottomOffset: CGFloat) = (0, 0)
-  fileprivate var currentOffset: CGFloat = 0
-  fileprivate let firstCellMask = CAShapeLayer()
+  fileprivate var sectionFrames:[[CGRect]] = []
+  fileprivate var sectionFrameOrigin:[CGPoint] = []
+  
+  var layoutProvider: LP
 
-  init(sections: [AnyCollectionProvider] = []) {
+  public init(_ sections: [AnyCollectionProvider] = [], layoutProvider: LP) {
     self.sections = sections
+    self.layoutProvider = layoutProvider
+    self.layoutProvider.sizeProvider = { [weak self] (index, section, size) -> CGSize in
+      guard let strongSelf = self else { return .zero }
+      var sectionUnionFrame: CGRect = .zero
+      strongSelf.sectionFrames.append([])
+      section.prepare(size: size)
+      for i in 0..<section.numberOfItems {
+        let frame = section.frame(at: i)
+        strongSelf.sectionFrames[index].append(frame)
+        sectionUnionFrame = sectionUnionFrame.union(frame)
+      }
+      return sectionUnionFrame.size
+    }
+  }
+  
+  public convenience init(_ sections: AnyCollectionProvider..., layoutProvider: LP) {
+    self.init(sections, layoutProvider: layoutProvider)
   }
 
   func indexPath(_ index: Int) -> (Int, Int) {
     let section = sectionForIndex[index]
     let item = index - sectionBeginIndex[section]
     return (section, item)
-  }
-
-  func calculateContentSize() -> CGSize {
-    var height: CGFloat = 0
-    var width: CGFloat = 0
-    for section in sections {
-      var sectionUnionFrame: CGRect = .zero
-      for i in 0..<section.numberOfItems {
-        sectionUnionFrame = sectionUnionFrame.union(section.frame(at: i))
-      }
-      sectionUnionFrame = UIEdgeInsetsInsetRect(sectionUnionFrame, -section.insets)
-      width = max(width, sectionUnionFrame.width)
-      height += sectionUnionFrame.height
-    }
-    return CGSize(width: width, height: height)
   }
 
   func insets(for index: Int) -> UIEdgeInsets {
@@ -220,70 +250,45 @@ class SectionComposer {
 }
 
 extension SectionComposer: AnyCollectionProvider {
-  var insets: UIEdgeInsets {
-    var top: CGFloat = 0
-    let firstSectionIndexWithView = (sectionForIndex.first ?? 0)
-    for i in 0..<firstSectionIndexWithView {
-      top += insets(for: i).top + insets(for: i).bottom
-    }
-    top += insets(for: firstSectionIndexWithView).top
-
-    var bottom: CGFloat = 0
-    let lastSectionIndexWithView = (sectionForIndex.last ?? sections.count-1)
-    for i in lastSectionIndexWithView+1..<sections.count {
-      bottom += insets(for: i).top + insets(for: i).bottom
-    }
-    bottom += insets(for: lastSectionIndexWithView).bottom
-
-    return UIEdgeInsets(top: top, left: 0, bottom: bottom, right: 0)
+  public var insets: UIEdgeInsets {
+    return layoutProvider.insets
   }
-  var numberOfItems: Int {
+  public var numberOfItems: Int {
     return sectionForIndex.count
   }
-  func view(at: Int) -> UIView {
+  public func view(at: Int) -> UIView {
     let (sectionIndex, item) = indexPath(at)
     return sections[sectionIndex].view(at: item)
   }
-  func update(view: UIView, at: Int) {
+  public func update(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].update(view: view, at: item)
   }
-  func identifier(at: Int) -> String {
+  public func identifier(at: Int) -> String {
     let (sectionIndex, item) = indexPath(at)
     return "section-\(sectionIndex)-" + sections[sectionIndex].identifier(at: item)
   }
 
-  func prepare(size: CGSize) {
-
-  }
-  func frame(at: Int) -> CGRect {
-    let (sectionIndex, item) = indexPath(at)
-    var frame = sections[sectionIndex].frame(at: item)
-    if sectionIndex > currentSectionAndOffset.index {
-      currentOffset = currentSectionAndOffset.bottomOffset
-      for inbetweenSectionIndex in currentSectionAndOffset.index..<sectionIndex {
-        currentOffset += insets(for: inbetweenSectionIndex).bottom
-      }
-      for inbetweenSectionIndex in (currentSectionAndOffset.index + 1)...sectionIndex {
-        currentOffset += insets(for: inbetweenSectionIndex).top
-      }
+  public func prepare(size: CGSize) {
+    sectionFrames = []
+    sectionFrameOrigin = []
+    layoutProvider.prepare(size: size)
+    for (i, section) in sections.enumerated() {
+      sectionFrameOrigin.append(layoutProvider.frame(with: section, at: i).origin)
     }
-    frame.origin.y += currentOffset
-    frame.origin.x += insets(for: sectionIndex).left
-    currentSectionAndOffset = (sectionIndex, max(frame.maxY, currentSectionAndOffset.bottomOffset))
+  }
+  public func frame(at: Int) -> CGRect {
+    let (sectionIndex, item) = indexPath(at)
+    var frame = sectionFrames[sectionIndex][item]
+    frame.origin = frame.origin + sectionFrameOrigin[sectionIndex]
     return frame
   }
-
-  func willReload() {
+  public func willReload() {
     for section in sections {
       section.willReload()
     }
-
-    currentOffset = 0
-    currentSectionAndOffset = (0, 0)
     sectionBeginIndex.removeAll()
     sectionForIndex.removeAll()
-
     sectionBeginIndex.reserveCapacity(sections.count)
     for (sectionIndex, section) in sections.enumerated() {
       let itemCount = section.numberOfItems
@@ -293,30 +298,20 @@ extension SectionComposer: AnyCollectionProvider {
       }
     }
   }
-  func didReload() {
+  public func didReload() {
     for section in sections {
       section.didReload()
     }
   }
-  func willDrag(cell: UIView, at index:Int) -> Bool {
+  public func willDrag(cell: UIView, at index:Int) -> Bool {
     let (sectionIndex, item) = indexPath(index)
-    if sections[sectionIndex].willDrag(cell: cell, at: item) {
-      DispatchQueue.main.async {
-        cell.layer.yaal.zPosition.animateTo(500)
-        cell.yaal.scale.animateTo(1.2)
-      }
-      return true
-    }
-    return false
+    return sections[sectionIndex].willDrag(cell: cell, at: item)
   }
-  func didDrag(cell: UIView, at index:Int) {
-    cell.yaal.scale.animateTo(1)
-    cell.layer.yaal.zPosition.animateTo(0)
-
+  public func didDrag(cell: UIView, at index:Int) {
     let (sectionIndex, item) = indexPath(index)
     sections[sectionIndex].didDrag(cell: cell, at: item)
   }
-  func moveItem(at index: Int, to: Int) -> Bool {
+  public func moveItem(at index: Int, to: Int) -> Bool {
     let (fromSection, fromItem) = indexPath(index)
     let (toSection, toItem) = indexPath(to)
     if fromSection == toSection {
@@ -324,76 +319,25 @@ extension SectionComposer: AnyCollectionProvider {
     }
     return false
   }
-  func didTap(cell: UIView, at: Int) {
+  public func didTap(cell: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].didTap(cell: cell, at: item)
   }
+  public func prepare(collectionView: MCollectionView) {
+    for section in sections {
+      section.prepare(collectionView: collectionView)
+    }
+  }
+  public func insert(view: UIView, at: Int, frame: CGRect) {
+    let (sectionIndex, item) = indexPath(at)
+    sections[sectionIndex].insert(view: view, at: item, frame: frame)
+  }
+  public func delete(view: UIView, at: Int, frame: CGRect) {
+    let (sectionIndex, item) = indexPath(at)
+    sections[sectionIndex].delete(view: view, at: item, frame: frame)
+  }
+  public func update(view: UIView, at: Int, frame: CGRect) {
+    let (sectionIndex, item) = indexPath(at)
+    sections[sectionIndex].update(view: view, at: item, frame: frame)
+  }
 }
-
-
-//  /// Callback during reloadData
-//  func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndex index: Int) {
-//    guard showInsertAndDeleteAnimation else { return }
-//    cellView.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
-//    cellView.alpha = 0
-//    UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
-//      cellView.alpha = 1
-//      cellView.transform = CGAffineTransform.identity
-//    }, completion: nil)
-//  }
-//  func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndex index: Int) {
-//    if showInsertAndDeleteAnimation {
-//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
-//        cellView.alpha = 0
-//        cellView.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
-//      }, completion: { _ in
-//        cellView.removeFromSuperview()
-//      })
-//    } else {
-//      cellView.removeFromSuperview()
-//    }
-//  }
-//  func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndex index: Int) {
-//    if collectionView.isFloating(cell: cellView) {
-//      return
-//    }
-//    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
-//      if let bounds = self.collectionView?.frameForCell(at: index)?.bounds, cellView.bounds != bounds {
-//        cellView.bounds = bounds
-//        cellView.layoutIfNeeded()
-//      }
-//      if !collectionView.autoLayoutOnUpdate,
-//        !collectionView.wabble,
-//        let center = self.collectionView?.frameForCell(at: index)?.center, cellView.center != center {
-//        cellView.center = center
-//      }
-//    }, completion: nil)
-//  }
-//  func collectionView(_ collectionView: MCollectionView, didMoveCellView cellView: UIView, fromIndex: Int, toIndex: Int) {
-//    if collectionView.isFloating(cell: cellView) {
-//      return
-//    }
-//    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
-//      if let bounds = self.collectionView?.frameForCell(at: toIndex)?.bounds, cellView.bounds != bounds {
-//        cellView.bounds = bounds
-//        cellView.layoutIfNeeded()
-//      }
-//      if !collectionView.autoLayoutOnUpdate,
-//        !collectionView.wabble,
-//        let center = self.collectionView?.frameForCell(at: toIndex)?.center, cellView.center != center {
-//        cellView.center = center
-//      }
-//    }, completion: nil)
-//  }
-//
-//  /// On Scroll
-//  func collectionView(_ collectionView: MCollectionView, cellView: UIView, didAppearForIndex index: Int) {
-//
-//  }
-//  func collectionView(_ collectionView: MCollectionView, cellView: UIView, willDisappearForIndex index: Int) {
-//
-//  }
-//  func collectionView(_ collectionView: MCollectionView, cellView: UIView, didUpdateScreenPositionForIndex index: Int, screenPosition: CGPoint) {
-//    
-//  }
-//}

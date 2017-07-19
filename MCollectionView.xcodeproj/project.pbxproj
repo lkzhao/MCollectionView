@@ -27,6 +27,7 @@
 		B148237C1F1E88430007A7E2 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* Collection.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B1A54FAD1EA3E0ED00A96112 /* UIScrollView+Addtion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A54FAC1EA3E0ED00A96112 /* UIScrollView+Addtion.swift */; };
+		B1B2E30C1F1FF75C00C8E52D /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2E30B1F1FF75C00C8E52D /* Layout.swift */; };
 		B1B7B0571E7DAD1F00F2483E /* MCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; };
 		B1B7B0581E7DAD1F00F2483E /* MCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */; };
@@ -107,6 +108,7 @@
 		B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
 		B1A54FAC1EA3E0ED00A96112 /* UIScrollView+Addtion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Addtion.swift"; sourceTree = "<group>"; };
+		B1B2E30B1F1FF75C00C8E52D /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* MCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisibleIndexesManager.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
 				A351C3451CE4CCD2005E15A7 /* MCollectionView.swift */,
 				B148237A1F1E87F60007A7E2 /* Collection.swift */,
+				B1B2E30B1F1FF75C00C8E52D /* Layout.swift */,
 				B12F9B2E1E8067480085F37D /* MoveManager.swift */,
 				B1E793CD1E8041300001B2E2 /* VisibleIndexesManager.swift */,
 				B14DD9951E7C43E500B11FF1 /* MCollectionViewDelegate.swift */,
@@ -527,6 +530,7 @@
 				B1A54FAD1EA3E0ED00A96112 /* UIScrollView+Addtion.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* MCollectionView.swift in Sources */,
 				B100C3FA1EA55B3200868840 /* DictionaryTwoWay.swift in Sources */,
+				B1B2E30C1F1FF75C00C8E52D /* Layout.swift in Sources */,
 				B12F9B301E8069530085F37D /* MoveManager.swift in Sources */,
 				B1B7B05E1E7DAD2700F2483E /* MCollectionViewDelegate.swift in Sources */,
 				B148237C1F1E88430007A7E2 /* Collection.swift in Sources */,
