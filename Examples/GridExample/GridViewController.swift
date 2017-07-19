@@ -24,7 +24,9 @@ class GridViewController: UIViewController {
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     view.clipsToBounds = true
     collectionView = CollectionView(frame:view.bounds)
-    let dataProvider = ArrayDataProvider(data: items)
+    let dataProvider = ArrayDataProvider(data: items, identifierMapper: { (_, data) in
+      return "\(data)"
+    })
     collectionView.provider = CustomProvider(
       dataProvider: dataProvider,
       viewProvider: ClosureViewProvider(viewUpdater: { (view: UILabel, data: Int, at: Int) in
