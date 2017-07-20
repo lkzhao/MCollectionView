@@ -1,46 +1,41 @@
 //
-//  Layout.swift
-//  CollectionView
+//  CollectionLayoutProvider.swift
+//  MCollectionView
 //
-//  Created by Luke Zhao on 2017-07-19.
+//  Created by Luke Zhao on 2017-07-20.
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
 import UIKit
 
-public class ClosureLayoutProvider<Data>: CollectionLayoutProvider {
-  public var insets: UIEdgeInsets
+open class CollectionLayoutProvider<Data> {
+  open var insets: UIEdgeInsets {
+    return .zero
+  }
+  open func prepare(size: CGSize) {}
+  open func frame(with data: Data, at: Int) -> CGRect {
+    return .zero
+  }
+  public init() {}
+}
+
+public class ClosureLayoutProvider<Data>: CollectionLayoutProvider<Data> {
   public var frameProvider: (Data, Int) -> CGRect
 
-  public init(insets: UIEdgeInsets = .zero, frameProvider: @escaping (Data, Int) -> CGRect) {
-    self.insets = insets
+  public init(frameProvider: @escaping (Data, Int) -> CGRect) {
     self.frameProvider = frameProvider
   }
 
-  public func prepare(size: CGSize) {
-    
-  }
-  
-  public func frame(with data: Data, at: Int) -> CGRect {
+  public override func frame(with data: Data, at: Int) -> CGRect {
     return frameProvider(data, at)
   }
 }
 
-open class CustomSizeLayout<Data>: CollectionLayoutProvider {
-  public var insets: UIEdgeInsets = .zero
+open class CustomSizeLayout<Data>: CollectionLayoutProvider<Data> {
   public var sizeProvider: (Int, Data, CGSize) -> CGSize
-  
-  public init(insets: UIEdgeInsets = .zero, sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
-    self.insets = insets
+
+  public init(sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
     self.sizeProvider = sizeProvider
-  }
-  
-  open func prepare(size: CGSize) {
-    
-  }
-  
-  open func frame(with data: Data, at: Int) -> CGRect {
-    return .zero
   }
 }
 
@@ -49,18 +44,18 @@ public class HorizontalLayout<Data>: CustomSizeLayout<Data> {
   private var numRows = 2
   private var rowWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
-  
-  public init(prefferedRowHeight: CGFloat  = 180, insets: UIEdgeInsets = .zero, sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
+
+  public init(prefferedRowHeight: CGFloat  = 180, sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
     self.prefferedRowHeight = prefferedRowHeight
-    super.init(insets: insets, sizeProvider: sizeProvider)
+    super.init(sizeProvider: sizeProvider)
   }
-  
+
   public override func prepare(size: CGSize) {
     maxSize = size
     numRows = max(1, Int(size.height / prefferedRowHeight))
     rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
   }
-  
+
   public override func frame(with data: Data, at: Int) -> CGRect {
     func getMinRow() -> (Int, CGFloat) {
       var minWidth: (Int, CGFloat) = (0, rowWidth[0])
@@ -71,7 +66,7 @@ public class HorizontalLayout<Data>: CustomSizeLayout<Data> {
       }
       return minWidth
     }
-    
+
     let avaliableHeight = (maxSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
     var cellSize = sizeProvider(at, data, CGSize(width: .infinity, height: avaliableHeight))
     cellSize.height = avaliableHeight

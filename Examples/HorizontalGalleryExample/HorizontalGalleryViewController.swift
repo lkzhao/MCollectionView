@@ -35,7 +35,7 @@ class HorizontalGalleryViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     collectionView = CollectionView()
-    let provider1 = CustomProvider(
+    let provider1 = CollectionProvider(
       dataProvider: ArrayDataProvider(data: images),
       viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
         view.image = data
@@ -45,7 +45,7 @@ class HorizontalGalleryViewController: UIViewController {
         return sizeForImage(data.size, maxSize: maxSize)
       })
     )
-    let provider2 = CustomProvider(
+    let provider2 = CollectionProvider(
       dataProvider: ArrayDataProvider(data: images),
       viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
         view.image = data
@@ -54,9 +54,9 @@ class HorizontalGalleryViewController: UIViewController {
       layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
         return sizeForImage(data.size, maxSize: maxSize)
       }),
-      animator: WobbleAnimator()
+      presenter: WobblePresenter()
     )
-    let provider3 = CustomProvider(
+    let provider3 = CollectionProvider(
       dataProvider: ArrayDataProvider(data: images),
       viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
         view.image = data
@@ -65,9 +65,9 @@ class HorizontalGalleryViewController: UIViewController {
       layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
         return sizeForImage(data.size, maxSize: maxSize)
       }),
-      animator: ZoomAnimator()
+      presenter: ZoomPresenter()
     )
-    collectionView.provider = SectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout(prefferedRowHeight: 230))
+    collectionView.provider = CollectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout(prefferedRowHeight: 230))
     view.addSubview(collectionView)
   }
 

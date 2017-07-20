@@ -76,7 +76,6 @@ open class CollectionView: UIScrollView {
   public var floatingCells: Set<UIView> = []
   public var loading = false
   public var reloading = false
-  public lazy var contentOffsetProxyAnim = MixAnimation<CGPoint>(value: AnimationProperty<CGPoint>())
 
   public var tapGestureRecognizer = UITapGestureRecognizer()
 
@@ -100,9 +99,6 @@ open class CollectionView: UIScrollView {
 
     panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
     moveManager.collectionView = self
-    contentOffsetProxyAnim.velocity.changes.addListener { [weak self] _, _ in
-      self?.didScroll()
-    }
 
     yaal.contentOffset.value.changes.addListener { [weak self] _, newOffset in
       guard let collectionView = self else { return }
@@ -138,7 +134,6 @@ open class CollectionView: UIScrollView {
     super.layoutSubviews()
     overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
     if bounds.size != lastReloadSize {
-      lastReloadSize = bounds.size
       reloadData()
     }
   }
@@ -151,22 +146,15 @@ open class CollectionView: UIScrollView {
     }
   }
   var screenDragLocation: CGPoint = .zero
+  var scrollVelocity: CGPoint = .zero
   open override var contentOffset: CGPoint{
     didSet{
-      if isTracking || isDragging || isDecelerating, !reloading {
-        contentOffsetProxyAnim.animateTo(contentOffset, stiffness:1000, damping:40)
-      } else {
-        contentOffsetProxyAnim.value.value = contentOffsetProxyAnim.value.value + contentOffset - oldValue
-        contentOffsetProxyAnim.target.value = contentOffsetProxyAnim.target.value + contentOffset - oldValue
-        didScroll()
-      }
+      scrollVelocity = contentOffset - oldValue
+      loadCells()
     }
   }
-  public var scrollVelocity: CGPoint {
-    return contentOffsetProxyAnim.velocity.value
-  }
   var activeFrame: CGRect {
-    let extendedFrame = visibleFrame.insetBy(dx: -abs(scrollVelocity.x/10).clamp(50, 200), dy: -abs(scrollVelocity.y/10).clamp(50, 200))
+    let extendedFrame = visibleFrame.insetBy(dx: -abs(scrollVelocity.x * 10).clamp(50, 400), dy: -abs(scrollVelocity.y * 10).clamp(50, 400))
     if let activeFrameSlop = activeFrameSlop {
       return CGRect(x: extendedFrame.origin.x + activeFrameSlop.left, y: extendedFrame.origin.y + activeFrameSlop.top, width: extendedFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: extendedFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else {
@@ -180,9 +168,9 @@ open class CollectionView: UIScrollView {
    * they move out of the visibleFrame.
    */
   func loadCells() {
-    if loading { return }
-    provider?.prepare(collectionView: self)
+    if loading || reloading || !hasReloaded { return }
     loading = true
+    provider?.prepare(collectionView: self)
     if offsetFrame.insetBy(dx: -10, dy: -10).contains(contentOffset) {
       let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
       let deletedIndexes = visibleIndexes.subtracting(indexes)
@@ -206,13 +194,12 @@ open class CollectionView: UIScrollView {
 
   // reload all frames. will automatically diff insertion & deletion
   public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
-    guard let provider = provider else {
-      return
-    }
+    guard let provider = provider else { return }
     provider.willReload()
+    reloading = true
+    lastReloadSize = bounds.size
     provider.prepare(size: innerSize)
     provider.prepare(collectionView: self)
-    reloading = true
 
     // ask the delegate for all cell's identifier & frames
     frames = []
@@ -315,13 +302,6 @@ open class CollectionView: UIScrollView {
     reloading = false
     hasReloaded = true
     provider.didReload()
-  }
-
-
-  func didScroll() {
-    if !reloading {
-      loadCells()
-    }
   }
 
   fileprivate func disappearCell(at index: Int) {

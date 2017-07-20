@@ -1,5 +1,14 @@
 import UIKit
 
+extension Array {
+  func get(_ index: Int) -> Element? {
+    if (0..<count).contains(index) {
+      return self[index]
+    }
+    return nil
+  }
+}
+
 extension CGFloat {
   func clamp(_ a: CGFloat, _ b: CGFloat) -> CGFloat {
     return self < a ? a : (self > b ? b : self)

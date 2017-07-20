@@ -1,5 +1,5 @@
 //
-//  Animator.swift
+//  CollectionPresenter.swift
 //  CollectionView
 //
 //  Created by Luke Zhao on 2017-07-19.
@@ -9,7 +9,7 @@
 import UIKit
 import YetAnotherAnimationLibrary
 
-open class DefaultCollectionAnimator: CollectionAnimator {
+open class CollectionPresenter {
   open func prepare(collectionView: CollectionView) {}
   open func insert(view: UIView, at: Int, frame: CGRect) {
     view.bounds = frame.bounds
@@ -26,39 +26,38 @@ open class DefaultCollectionAnimator: CollectionAnimator {
   public init() {}
 }
 
-open class WobbleAnimator: CollectionAnimator {
+open class WobblePresenter: CollectionPresenter {
   var screenDragLocation: CGPoint = .zero
   var contentOffset: CGPoint!
-  var scrollVelocity: CGPoint = .zero
   var delta: CGPoint = .zero
   var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
   var offsetAnimation = MixAnimation(value: AnimationProperty<CGPoint>())
   
-  open func prepare(collectionView: CollectionView) {
+  open override func prepare(collectionView: CollectionView) {
     screenDragLocation = collectionView.screenDragLocation
-    scrollVelocity = collectionView.scrollVelocity
     let oldContentOffset = contentOffset ?? collectionView.contentOffset
     contentOffset = collectionView.contentOffset
     delta = contentOffset - oldContentOffset
   }
   
-  open func insert(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
-    let cellDiff = frame.center - contentOffset - screenDragLocation
-    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000 * scrollVelocity / 240
-    view.center = frame.center + delta * abs(resistance)
+  open override func insert(view: UIView, at: Int, frame: CGRect) {
+//    view.bounds = frame.bounds
+//    let cellDiff = frame.center - contentOffset - screenDragLocation
+//    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000 * delta / 4
+//    view.center = frame.center + delta * abs(resistance)
+//    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
+
+    super.insert(view: view, at: at, frame: frame)
     view.yaal.center.stop()
     view.yaal.center.updateWithCurrentState()
-    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
   }
   
-  open func delete(view: UIView, at: Int, frame: CGRect) {
+  open override func delete(view: UIView, at: Int, frame: CGRect) {
     view.yaal.center.stop()
-    view.removeFromSuperview()
-    ReuseManager.shared.queue(view: view)
+    super.delete(view: view, at: at, frame: frame)
   }
   
-  open func update(view: UIView, at: Int, frame: CGRect) {
+  open override func update(view: UIView, at: Int, frame: CGRect) {
     view.bounds = frame.bounds
     let cellDiff = frame.center - contentOffset - screenDragLocation
     let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
@@ -69,11 +68,9 @@ open class WobbleAnimator: CollectionAnimator {
     view.yaal.center.updateWithCurrentState()
     view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
   }
-  
-  public init() {}
 }
 
-open class ZoomAnimator: DefaultCollectionAnimator {
+open class ZoomPresenter: CollectionPresenter {
   var collectionViewBounds: CGRect = .zero
   var contentOffset: CGPoint = .zero
   
