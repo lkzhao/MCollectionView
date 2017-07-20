@@ -132,6 +132,11 @@ extension CollectionComposer: AnyCollectionProvider {
       section.prepare(collectionView: collectionView)
     }
   }
+  public func shift(delta: CGPoint) {
+    for section in sections {
+      section.shift(delta: delta)
+    }
+  }
   public func insert(view: UIView, at: Int, frame: CGRect) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].insert(view: view, at: item, frame: frame)

@@ -243,6 +243,8 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
+    provider.shift(delta: contentOffsetDiff)
+
     var newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
     for cell in floatingCells {
       let cellIdentifier = identifiersToIndexMap[visibleCellToIndexMap[cell]!]!
@@ -270,11 +272,7 @@ open class CollectionView: UIScrollView {
       let newIndex = newIdentifiersToIndexMap[identifier]!
       let cell = visibleCellToIndexMap[oldIndex]!
 
-      // need to update these cells' center if contentOffset changed when we set contentFrame. i.e. anchorPoint is .bottomRight
-      // these cells' animation target shifted but their current value did not.
       if !floatingCells.contains(cell) {
-        cell.center = cell.center + contentOffsetDiff
-        cell.yaal.center.updateWithCurrentState()
         insert(cell: cell)
       }
 

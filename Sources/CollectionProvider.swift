@@ -32,6 +32,7 @@ public protocol AnyCollectionProvider {
 
   // animate
   func prepare(collectionView: CollectionView)
+  func shift(delta: CGPoint)
   func insert(view: UIView, at: Int, frame: CGRect)
   func delete(view: UIView, at: Int, frame: CGRect)
   func update(view: UIView, at: Int, frame: CGRect)
@@ -97,6 +98,9 @@ public class CollectionProvider<Data, View>: AnyCollectionProvider where View: U
   
   public func prepare(collectionView: CollectionView) {
     presenter.prepare(collectionView: collectionView)
+  }
+  public func shift(delta: CGPoint) {
+    presenter.shift(delta: delta)
   }
   public func insert(view: UIView, at: Int, frame: CGRect) {
     presenter.insert(view: view, at: at, frame: frame)
