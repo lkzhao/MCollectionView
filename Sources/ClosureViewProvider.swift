@@ -15,7 +15,7 @@ public class ClosureViewProvider<View, Data>: CollectionViewProvider where View:
   }
 
   public func view(at: Int) -> View {
-    return ReuseManager.shared.dequeue(View.self) ?? View()
+    return ReuseManager.shared.dequeue(View.self)
   }
   public func update(view: View, with data: Data, at: Int) {
     viewUpdater(view, data, at)

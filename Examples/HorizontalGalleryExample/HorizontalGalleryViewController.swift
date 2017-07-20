@@ -67,7 +67,7 @@ class HorizontalGalleryViewController: UIViewController {
       }),
       animator: ZoomAnimator()
     )
-    collectionView.provider = SectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout())
+    collectionView.provider = SectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout(prefferedRowHeight: 230))
     view.addSubview(collectionView)
   }
 

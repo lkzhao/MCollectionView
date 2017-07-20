@@ -45,19 +45,19 @@ open class CustomSizeLayout<Data>: CollectionLayoutProvider {
 }
 
 public class HorizontalLayout<Data>: CustomSizeLayout<Data> {
-  public var preferredCellHeight: CGFloat
+  public var prefferedRowHeight: CGFloat
   private var numRows = 2
   private var rowWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
   
-  public init(preferredCellHeight: CGFloat  = 180, insets: UIEdgeInsets = .zero, sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
-    self.preferredCellHeight = preferredCellHeight
+  public init(prefferedRowHeight: CGFloat  = 180, insets: UIEdgeInsets = .zero, sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
+    self.prefferedRowHeight = prefferedRowHeight
     super.init(insets: insets, sizeProvider: sizeProvider)
   }
   
   public override func prepare(size: CGSize) {
     maxSize = size
-    numRows = max(1, Int(size.height / preferredCellHeight))
+    numRows = max(1, Int(size.height / prefferedRowHeight))
     rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
   }
   

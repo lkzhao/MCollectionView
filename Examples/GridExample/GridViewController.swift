@@ -45,8 +45,7 @@ class GridViewController: UIViewController {
         this.items.insert(this.items.remove(at: from), at: to)
         dataProvider.data = this.items
         return true
-      }),
-      animator: WobbleAnimator()
+      })
     )
     view.addSubview(collectionView)
   }

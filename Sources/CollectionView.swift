@@ -24,8 +24,8 @@ public class ReuseManager {
     cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
   }
 
-  public func dequeue<T: UIView> (_ viewClass: T.Type) -> T? {
-    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T
+  public func dequeue<T: UIView> (_ viewClass: T.Type) -> T {
+    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T ?? T()
     if let cell = cell as? MCollectionViewReusableView {
       cell.prepareForReuse()
     }
