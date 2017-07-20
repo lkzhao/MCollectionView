@@ -9,6 +9,19 @@
 import UIKit
 import MCollectionView
 
+func sizeForImage(_ imageSize: CGSize, maxSize: CGSize) -> CGSize {
+  var imageSize = imageSize
+  if imageSize.width > maxSize.width {
+    imageSize.height /= imageSize.width/maxSize.width
+    imageSize.width = maxSize.width
+  }
+  if imageSize.height > maxSize.height {
+    imageSize.width /= imageSize.height/maxSize.height
+    imageSize.height = maxSize.height
+  }
+  return imageSize
+}
+
 class HorizontalGalleryViewController: UIViewController {
   var images: [UIImage] = [
     UIImage(named: "l1")!,
@@ -31,43 +44,40 @@ class HorizontalGalleryViewController: UIViewController {
     UIImage(named: "6")!
   ]
 
-  var collectionView: CollectionView!
+  var collectionView = CollectionView()
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView = CollectionView()
+
+    let dataProvider = ArrayDataProvider(data: images)
+    let viewProvider = ClosureViewProvider(viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+      view.image = data
+      view.layer.cornerRadius = 5
+      view.clipsToBounds = true
+      view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
+    })
+    let layoutProvider = HorizontalWaterfallLayoutProvider(sizeProvider: { (_, data: UIImage, maxSize) in
+      return sizeForImage(data.size, maxSize: maxSize)
+    })
+
     let provider1 = CollectionProvider(
-      dataProvider: ArrayDataProvider(data: images),
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
-        view.image = data
-        view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
-      }),
-      layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
-        return sizeForImage(data.size, maxSize: maxSize)
-      })
+      dataProvider: dataProvider,
+      viewProvider: viewProvider,
+      layoutProvider: layoutProvider
     )
     let provider2 = CollectionProvider(
-      dataProvider: ArrayDataProvider(data: images),
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
-        view.image = data
-        view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
-      }),
-      layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
-        return sizeForImage(data.size, maxSize: maxSize)
-      }),
+      dataProvider: dataProvider,
+      viewProvider: viewProvider,
+      layoutProvider: layoutProvider,
       presenter: WobblePresenter()
     )
     let provider3 = CollectionProvider(
-      dataProvider: ArrayDataProvider(data: images),
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: ImageCell, data: UIImage, at: Int) in
-        view.image = data
-        view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
-      }),
-      layoutProvider: HorizontalLayout(sizeProvider: { _, data, maxSize in
-        return sizeForImage(data.size, maxSize: maxSize)
-      }),
+      dataProvider: dataProvider,
+      viewProvider: viewProvider,
+      layoutProvider: layoutProvider,
       presenter: ZoomPresenter()
     )
-    collectionView.provider = CollectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalLayout(prefferedRowHeight: 230))
+
+    collectionView.provider = CollectionComposer([provider1, provider2, provider3], layoutProvider: HorizontalWaterfallLayoutProvider())
     view.addSubview(collectionView)
   }
 

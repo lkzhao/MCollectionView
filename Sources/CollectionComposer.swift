@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CollectionComposer<LayoutProvider> where LayoutProvider: CustomSizeLayout<AnyCollectionProvider> {
+public class CollectionComposer<LayoutProvider> where LayoutProvider: CustomSizeLayoutProvider<AnyCollectionProvider> {
   public var sections: [AnyCollectionProvider]
 
   fileprivate var sectionBeginIndex:[Int] = []
