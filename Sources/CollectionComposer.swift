@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CollectionComposer<LP> where LP: CustomSizeLayout<AnyCollectionProvider> {
+public class CollectionComposer<LayoutProvider> where LayoutProvider: CustomSizeLayout<AnyCollectionProvider> {
   public var sections: [AnyCollectionProvider]
 
   fileprivate var sectionBeginIndex:[Int] = []
@@ -16,9 +16,9 @@ public class CollectionComposer<LP> where LP: CustomSizeLayout<AnyCollectionProv
   fileprivate var sectionFrames:[[CGRect]] = []
   fileprivate var sectionFrameOrigin:[CGPoint] = []
 
-  var layoutProvider: LP
+  var layoutProvider: LayoutProvider
 
-  public init(_ sections: [AnyCollectionProvider] = [], layoutProvider: LP) {
+  public init(_ sections: [AnyCollectionProvider] = [], layoutProvider: LayoutProvider) {
     self.sections = sections
     self.layoutProvider = layoutProvider
     self.layoutProvider.sizeProvider = { [weak self] (index, section, size) -> CGSize in
@@ -35,7 +35,7 @@ public class CollectionComposer<LP> where LP: CustomSizeLayout<AnyCollectionProv
     }
   }
 
-  public convenience init(_ sections: AnyCollectionProvider..., layoutProvider: LP) {
+  public convenience init(_ sections: AnyCollectionProvider..., layoutProvider: LayoutProvider) {
     self.init(sections, layoutProvider: layoutProvider)
   }
 
