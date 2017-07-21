@@ -24,7 +24,7 @@ class MCollectionViewTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-      let manager = LinearVisibleIndexesManager()
+      let manager = CollectionLinearVisibleIndexesManager()
 
       let testData:[ClosedRange<CGFloat>] = [0...100, 0...0.5, 0...0.5]
 

@@ -17,7 +17,7 @@ open class CollectionPresenter {
   }
   open func delete(view: UIView, at: Int, frame: CGRect) {
     view.removeFromSuperview()
-    ReuseManager.shared.queue(view: view)
+    CollectionReuseViewManager.shared.queue(view: view)
   }
   open func update(view: UIView, at: Int, frame: CGRect) {
     view.bounds = frame.bounds

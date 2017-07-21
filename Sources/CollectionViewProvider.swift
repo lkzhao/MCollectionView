@@ -10,7 +10,7 @@ import UIKit
 
 open class CollectionViewProvider<Data, View: UIView>  {
   open func view(at: Int) -> View {
-    return ReuseManager.shared.dequeue(View.self)
+    return CollectionReuseViewManager.shared.dequeue(View.self)
   }
   open func update(view: View, with data: Data, at: Int) {
   }

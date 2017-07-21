@@ -9,34 +9,6 @@
 import UIKit
 import YetAnotherAnimationLibrary
 
-public class ReuseManager {
-  public static let shared = ReuseManager()
-  var reusableViews: [String:[UIView]] = [:]
-  var cleanupTimer: Timer?
-  public func queue(view: UIView) {
-    let identifier = String(describing: type(of: view))
-    if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(view) {
-      reusableViews[identifier]?.append(view)
-    } else {
-      reusableViews[identifier] = [view]
-    }
-    cleanupTimer?.invalidate()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
-  }
-
-  public func dequeue<T: UIView> (_ viewClass: T.Type) -> T {
-    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T ?? T()
-    if let cell = cell as? MCollectionViewReusableView {
-      cell.prepareForReuse()
-    }
-    return cell
-  }
-
-  @objc func cleanup() {
-    reusableViews.removeAll()
-  }
-}
-
 open class CollectionView: UIScrollView {
   public var provider: AnyCollectionProvider?
 
@@ -64,8 +36,8 @@ open class CollectionView: UIScrollView {
   var frames: [CGRect] = []
 
   // visible indexes & cell
-  let visibleIndexesManager = VisibleIndexesManager()
-  let moveManager = MoveManager()
+  let visibleIndexesManager = CollectionVisibleIndexesManager()
+  let dragManager = CollectionDragManager()
   public var visibleIndexes: Set<Int> = []
   public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
@@ -98,7 +70,7 @@ open class CollectionView: UIScrollView {
     addSubview(overlayView)
 
     panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
-    moveManager.collectionView = self
+    dragManager.collectionView = self
 
     yaal.contentOffset.value.changes.addListener { [weak self] _, newOffset in
       guard let collectionView = self else { return }

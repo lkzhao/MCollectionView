@@ -1,5 +1,5 @@
 //
-//  MCollectionViewVisibleIndexesManager.swift
+//  CollectionVisibleIndexesManager.swift
 //  CollectionView
 //
 //  Created by Luke on 3/20/17.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-
-public class LinearVisibleIndexesManager {
+class CollectionLinearVisibleIndexesManager {
   var minToIndexes: [(CGFloat, Int)] = []
   var maxToIndexes: [(CGFloat, Int)] = []
 
@@ -69,9 +68,9 @@ public class LinearVisibleIndexesManager {
   public init() {}
 }
 
-class VisibleIndexesManager {
-  var verticalVisibleIndexManager = LinearVisibleIndexesManager()
-  var horizontalVisibleIndexManager = LinearVisibleIndexesManager()
+class CollectionVisibleIndexesManager {
+  var verticalVisibleIndexManager = CollectionLinearVisibleIndexesManager()
+  var horizontalVisibleIndexManager = CollectionLinearVisibleIndexesManager()
 
   var frames:[CGRect] = []
   var visibleIndexes = Set<Int>()

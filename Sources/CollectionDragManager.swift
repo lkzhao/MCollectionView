@@ -9,7 +9,7 @@
 import UIKit
 import YetAnotherAnimationLibrary
 
-class MoveContext: NSObject {
+class CollectionDragContext: NSObject {
   var gesture: UILongPressGestureRecognizer
   var cell: UIView
   var collectionView: CollectionView
@@ -78,14 +78,14 @@ class MoveContext: NSObject {
   }
 }
 
-class MoveManager: NSObject {
+class CollectionDragManager: NSObject {
   weak var collectionView: CollectionView? {
     didSet {
       addNextLongPressGesture()
     }
   }
 
-  var contexts: [UILongPressGestureRecognizer: MoveContext] = [:]
+  var contexts: [UILongPressGestureRecognizer: CollectionDragContext] = [:]
 
   func addNextLongPressGesture() {
     if let collectionView = collectionView {
@@ -108,7 +108,7 @@ class MoveManager: NSObject {
         collectionView.panGestureRecognizer.isEnabled = false
         collectionView.panGestureRecognizer.isEnabled = true
         collectionView.float(cell: cell)
-        contexts[gestureRecognizer] = MoveContext(gesture: gestureRecognizer, cell: cell, in: collectionView)
+        contexts[gestureRecognizer] = CollectionDragContext(gesture: gestureRecognizer, cell: cell, in: collectionView)
       } else {
         gestureRecognizer.isEnabled = false
         gestureRecognizer.isEnabled = true
@@ -132,7 +132,7 @@ class MoveManager: NSObject {
   }
 }
 
-extension MoveManager: UIGestureRecognizerDelegate {
+extension CollectionDragManager: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     return otherGestureRecognizer == collectionView?.panGestureRecognizer || otherGestureRecognizer.delegate === self
   }
