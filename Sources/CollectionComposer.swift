@@ -25,7 +25,7 @@ public class CollectionComposer<LP> where LP: CustomSizeLayout<AnyCollectionProv
       guard let strongSelf = self else { return .zero }
       var sectionUnionFrame: CGRect = .zero
       strongSelf.sectionFrames.append([])
-      section.prepare(size: size)
+      section.prepareLayout(maxSize: size)
       for i in 0..<section.numberOfItems {
         let frame = section.frame(at: i)
         strongSelf.sectionFrames[index].append(frame)
@@ -73,10 +73,10 @@ extension CollectionComposer: AnyCollectionProvider {
     return "section-\(sectionIndex)-" + sections[sectionIndex].identifier(at: item)
   }
 
-  public func prepare(size: CGSize) {
+  public func prepareLayout(maxSize: CGSize) {
     sectionFrames = []
     sectionFrameOrigin = []
-    layoutProvider.prepare(size: size)
+    layoutProvider.prepareLayout(maxSize: maxSize)
     for (i, section) in sections.enumerated() {
       sectionFrameOrigin.append(layoutProvider.frame(with: section, at: i).origin)
     }
@@ -127,9 +127,9 @@ extension CollectionComposer: AnyCollectionProvider {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].didTap(cell: cell, at: item)
   }
-  public func prepare(collectionView: CollectionView) {
+  public func prepareForPresentation(collectionView: CollectionView) {
     for section in sections {
-      section.prepare(collectionView: collectionView)
+      section.prepareForPresentation(collectionView: collectionView)
     }
   }
   public func insert(view: UIView, at: Int, frame: CGRect) {

@@ -170,7 +170,7 @@ open class CollectionView: UIScrollView {
   func loadCells() {
     if loading || reloading || !hasReloaded { return }
     loading = true
-    provider?.prepare(collectionView: self)
+    provider?.prepareForPresentation(collectionView: self)
     if offsetFrame.insetBy(dx: -10, dy: -10).contains(contentOffset) {
       let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
       let deletedIndexes = visibleIndexes.subtracting(indexes)
@@ -198,8 +198,8 @@ open class CollectionView: UIScrollView {
     provider.willReload()
     reloading = true
     lastReloadSize = bounds.size
-    provider.prepare(size: innerSize)
-    provider.prepare(collectionView: self)
+    provider.prepareLayout(maxSize: innerSize)
+    provider.prepareForPresentation(collectionView: self)
 
     // ask the delegate for all cell's identifier & frames
     frames = []

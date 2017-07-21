@@ -22,9 +22,9 @@ class MessageLayout: CollectionLayoutProvider<Message> {
   var lastMessage: Message?
   var lastFrame: CGRect?
   var maxWidth: CGFloat = 0
-  override func prepare(size: CGSize) {
-    super.prepare(size: size)
-    maxWidth = size.width
+  override func prepareLayout(maxSize: CGSize) {
+    super.prepareLayout(maxSize: maxSize)
+    maxWidth = maxSize.width
     lastMessage = nil
     lastFrame = nil
   }

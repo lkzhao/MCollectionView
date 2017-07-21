@@ -18,7 +18,7 @@ public protocol AnyCollectionProvider {
   func update(view: UIView, at: Int)
 
   // layout
-  func prepare(size: CGSize)
+  func prepareLayout(maxSize: CGSize)
   var insets: UIEdgeInsets { get }
   func frame(at: Int) -> CGRect
 
@@ -30,8 +30,8 @@ public protocol AnyCollectionProvider {
   func moveItem(at: Int, to: Int) -> Bool
   func didTap(cell: UIView, at: Int)
 
-  // animate
-  func prepare(collectionView: CollectionView)
+  // presentation
+  func prepareForPresentation(collectionView: CollectionView)
   func insert(view: UIView, at: Int, frame: CGRect)
   func delete(view: UIView, at: Int, frame: CGRect)
   func update(view: UIView, at: Int, frame: CGRect)
@@ -66,8 +66,8 @@ public class CollectionProvider<D, V>: AnyCollectionProvider where V: UIView
     return dataProvider.identifier(at: at)
   }
 
-  public func prepare(size: CGSize) {
-    layoutProvider.prepare(size: size)
+  public func prepareLayout(maxSize: CGSize) {
+    layoutProvider.prepareLayout(maxSize: maxSize)
   }
   public var insets: UIEdgeInsets {
     return layoutProvider.insets
@@ -95,7 +95,7 @@ public class CollectionProvider<D, V>: AnyCollectionProvider where V: UIView
     responder.didTap(cell: cell, index: at)
   }
   
-  public func prepare(collectionView: CollectionView) {
+  public func prepareForPresentation(collectionView: CollectionView) {
     presenter.prepare(collectionView: collectionView)
   }
   public func insert(view: UIView, at: Int, frame: CGRect) {

@@ -12,7 +12,7 @@ open class CollectionLayoutProvider<Data> {
   open var insets: UIEdgeInsets {
     return .zero
   }
-  open func prepare(size: CGSize) {}
+  open func prepareLayout(maxSize: CGSize) {}
   open func frame(with data: Data, at: Int) -> CGRect {
     return .zero
   }
@@ -50,9 +50,9 @@ public class HorizontalLayout<Data>: CustomSizeLayout<Data> {
     super.init(sizeProvider: sizeProvider)
   }
 
-  public override func prepare(size: CGSize) {
-    maxSize = size
-    numRows = max(1, Int(size.height / prefferedRowHeight))
+  public override func prepareLayout(maxSize: CGSize) {
+    self.maxSize = maxSize
+    numRows = max(1, Int(maxSize.height / prefferedRowHeight))
     rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
   }
 
