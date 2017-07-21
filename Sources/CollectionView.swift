@@ -171,18 +171,17 @@ open class CollectionView: UIScrollView {
     if loading || reloading || !hasReloaded { return }
     loading = true
     provider?.prepareForPresentation(collectionView: self)
-    if offsetFrame.insetBy(dx: -10, dy: -10).contains(contentOffset) {
-      let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
-      let deletedIndexes = visibleIndexes.subtracting(indexes)
-      let newIndexes = indexes.subtracting(visibleIndexes)
-      for i in deletedIndexes {
-          disappearCell(at: i)
-      }
-      for i in newIndexes {
-          appearCell(at: i)
-      }
-      visibleIndexes = indexes
+
+    let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
+    let deletedIndexes = visibleIndexes.subtracting(indexes)
+    let newIndexes = indexes.subtracting(visibleIndexes)
+    for i in deletedIndexes {
+      disappearCell(at: i)
     }
+    for i in newIndexes {
+      appearCell(at: i)
+    }
+    visibleIndexes = indexes
 
     for (index, view) in visibleCellToIndexMap.ts {
       if !floatingCells.contains(view) {
