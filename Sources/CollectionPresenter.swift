@@ -23,10 +23,12 @@ open class CollectionPresenter {
     view.bounds = frame.bounds
     view.center = frame.center
   }
+  open func shift(delta: CGPoint) {}
   public init() {}
 }
 
 open class WobblePresenter: CollectionPresenter {
+  weak var collectionView: CollectionView?
   var screenDragLocation: CGPoint = .zero
   var contentOffset: CGPoint!
   var delta: CGPoint = .zero
@@ -34,12 +36,21 @@ open class WobblePresenter: CollectionPresenter {
   var offsetAnimation = MixAnimation(value: AnimationProperty<CGPoint>())
   
   open override func prepare(collectionView: CollectionView) {
+    self.collectionView = collectionView
     screenDragLocation = collectionView.screenDragLocation
     let oldContentOffset = contentOffset ?? collectionView.contentOffset
     contentOffset = collectionView.contentOffset
     delta = contentOffset - oldContentOffset
   }
-  
+
+  open override func shift(delta: CGPoint) {
+    contentOffset = contentOffset + delta
+    for cell in collectionView?.visibleCells ?? [] {
+      cell.center = cell.center + delta
+      cell.yaal.center.updateWithCurrentState()
+    }
+  }
+
   open override func insert(view: UIView, at: Int, frame: CGRect) {
 //    view.bounds = frame.bounds
 //    let cellDiff = frame.center - contentOffset - screenDragLocation

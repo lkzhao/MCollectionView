@@ -31,7 +31,7 @@ public class ClosureLayoutProvider<Data>: CollectionLayoutProvider<Data> {
   }
 }
 
-open class CustomSizeLayout<Data>: CollectionLayoutProvider<Data> {
+open class CustomSizeLayoutProvider<Data>: CollectionLayoutProvider<Data> {
   public var sizeProvider: (Int, Data, CGSize) -> CGSize
 
   public init(sizeProvider: @escaping (Int, Data, CGSize) -> CGSize = { _,_,_ in return .zero }) {
@@ -39,7 +39,7 @@ open class CustomSizeLayout<Data>: CollectionLayoutProvider<Data> {
   }
 }
 
-public class HorizontalLayout<Data>: CustomSizeLayout<Data> {
+public class HorizontalWaterfallLayoutProvider<Data>: CustomSizeLayoutProvider<Data> {
   public var prefferedRowHeight: CGFloat
   private var numRows = 2
   private var rowWidth: [CGFloat] = [0, 0]

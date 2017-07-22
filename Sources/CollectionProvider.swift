@@ -32,20 +32,21 @@ public protocol AnyCollectionProvider {
 
   // presentation
   func prepareForPresentation(collectionView: CollectionView)
+  func shift(delta: CGPoint)
   func insert(view: UIView, at: Int, frame: CGRect)
   func delete(view: UIView, at: Int, frame: CGRect)
   func update(view: UIView, at: Int, frame: CGRect)
 }
 
-public class CollectionProvider<D, V>: AnyCollectionProvider where V: UIView
+public class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIView
 {
-  public var dataProvider: CollectionDataProvider<D>
-  public var viewProvider: CollectionViewProvider<D, V>
-  public var layoutProvider: CollectionLayoutProvider<D>
+  public var dataProvider: CollectionDataProvider<Data>
+  public var viewProvider: CollectionViewProvider<Data, View>
+  public var layoutProvider: CollectionLayoutProvider<Data>
   public var responder: CollectionResponder
   public var presenter: CollectionPresenter
 
-  public init(dataProvider: CollectionDataProvider<D>, viewProvider: CollectionViewProvider<D, V>, layoutProvider: CollectionLayoutProvider<D>, responder: CollectionResponder = CollectionResponder(), presenter: CollectionPresenter = CollectionPresenter()) {
+  public init(dataProvider: CollectionDataProvider<Data>, viewProvider: CollectionViewProvider<Data, View>, layoutProvider: CollectionLayoutProvider<Data>, responder: CollectionResponder = CollectionResponder(), presenter: CollectionPresenter = CollectionPresenter()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layoutProvider = layoutProvider
@@ -60,7 +61,7 @@ public class CollectionProvider<D, V>: AnyCollectionProvider where V: UIView
     return viewProvider.view(at: at)
   }
   public func update(view: UIView, at: Int) {
-    viewProvider.update(view: view as! V, with: dataProvider.data(at: at), at: at)
+    viewProvider.update(view: view as! View, with: dataProvider.data(at: at), at: at)
   }
   public func identifier(at: Int) -> String {
     return dataProvider.identifier(at: at)
@@ -97,6 +98,9 @@ public class CollectionProvider<D, V>: AnyCollectionProvider where V: UIView
   
   public func prepareForPresentation(collectionView: CollectionView) {
     presenter.prepare(collectionView: collectionView)
+  }
+  public func shift(delta: CGPoint) {
+    presenter.shift(delta: delta)
   }
   public func insert(view: UIView, at: Int, frame: CGRect) {
     presenter.insert(view: view, at: at, frame: frame)

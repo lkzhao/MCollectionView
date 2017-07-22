@@ -43,7 +43,6 @@ class GridViewController: UIViewController {
     })
     let responder = ClosureResponder(canDrag: { _, _ in return true }, onMove: { [weak self] from, to in
       guard let this = self else { return false }
-      print(from, to)
       this.items.insert(this.items.remove(at: from), at: to)
       dataProvider.data = this.items
       return true

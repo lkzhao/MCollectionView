@@ -178,6 +178,5 @@ let TestMessages = [
   Message(false, content: "Suspendisse ut turpis velit."),
   Message(true, content: "Vivamus et fermentum diam. Suspendisse vitae tempor lectus."),
   Message(true, content: "Duis eros eros"),
-  Message(true, content: "You can also drag and drop these message cells to reorder them! 😄"),
   Message(true, status: "Delivered"),
 ]

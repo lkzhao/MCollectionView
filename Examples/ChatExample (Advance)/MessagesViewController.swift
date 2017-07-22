@@ -72,14 +72,17 @@ class MessagePresenter: WobblePresenter {
 
   override func insert(view: UIView, at index: Int, frame: CGRect) {
     super.insert(view: view, at: index, frame: frame)
-    guard let messages = dataProvider?.data, let collectionView = collectionView, let textInputBar = textInputBar else { return }
+    guard let messages = dataProvider?.data,
+          let collectionView = collectionView,
+          let textInputBar = textInputBar,
+          collectionView.hasReloaded else { return }
     if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       view.frame = collectionView.convert(textInputBar.bounds, from: textInputBar)
       view.alpha = 0
       view.yaal.alpha.animateTo(1.0)
       view.yaal.bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
-    } else if (collectionView.visibleFrame.intersects(frame)) {
+    } else if collectionView.visibleFrame.intersects(frame) {
       if messages[index].alignment == .left {
         let center = view.center
         view.center = CGPoint(x: center.x - view.bounds.width, y: center.y)

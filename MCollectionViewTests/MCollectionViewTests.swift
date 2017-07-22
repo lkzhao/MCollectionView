@@ -28,11 +28,11 @@ class MCollectionViewTests: XCTestCase {
 
       let testData:[ClosedRange<CGFloat>] = [0...100, 0...0.5, 0...0.5]
 
-      var minToIndexes = [(CGFloat, IndexPath)]()
-      var maxToIndexes = [(CGFloat, IndexPath)]()
+      var minToIndexes = [(CGFloat, Int)]()
+      var maxToIndexes = [(CGFloat, Int)]()
       for (index, data) in testData.enumerated() {
-        minToIndexes.append((data.lowerBound, IndexPath(item: index, section: 0)))
-        maxToIndexes.append((data.upperBound, IndexPath(item: index, section: 0)))
+        minToIndexes.append((data.lowerBound, index))
+        maxToIndexes.append((data.upperBound, index))
       }
 
       minToIndexes.sort { left, right in
