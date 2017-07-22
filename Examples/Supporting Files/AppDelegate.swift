@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  MCollectionViewExample
+//  CollectionKitExample
 //
 //  Created by YiLun Zhao on 2016-02-12.
 //  Copyright © 2016 lkzhao. All rights reserved.

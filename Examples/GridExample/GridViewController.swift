@@ -1,13 +1,13 @@
 //
 //  GridViewController.swift
-//  MCollectionViewExample
+//  CollectionKitExample
 //
 //  Created by Luke Zhao on 2016-06-05.
 //  Copyright © 2016 lkzhao. All rights reserved.
 //
 
 import UIKit
-import MCollectionView
+import CollectionKit
 
 let kGridCellSize = CGSize(width: 100, height: 100)
 let kGridSize = (width: 20, height: 20)

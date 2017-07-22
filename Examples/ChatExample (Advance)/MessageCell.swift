@@ -1,13 +1,13 @@
 //
 //  MessageTextCell.swift
-//  MCollectionViewExample
+//  CollectionKitExample
 //
 //  Created by YiLun Zhao on 2016-02-20.
 //  Copyright © 2016 lkzhao. All rights reserved.
 //
 
 import UIKit
-import MCollectionView
+import CollectionKit
 
 class MessageCell: DynamicView {
   var textLabel = UILabel()

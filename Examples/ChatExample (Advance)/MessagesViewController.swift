@@ -1,14 +1,13 @@
 //
 //  MessagesViewController.swift
-//  MCollectionViewExample
+//  CollectionKitExample
 //
 //  Created by YiLun Zhao on 2016-02-12.
 //  Copyright © 2016 lkzhao. All rights reserved.
 //
 
 import UIKit
-import MCollectionView
-import ALTextInputBar
+import CollectionKit
 
 class MessageDataProvider: ArrayDataProvider<Message> {
   init() {
@@ -61,7 +60,7 @@ class MessageLayout: CollectionLayoutProvider<Message> {
 
 class MessagePresenter: WobblePresenter {
   var dataProvider: MessageDataProvider?
-  var textInputBar: ALTextInputBar?
+  weak var sourceView: UIView?
   weak var collectionView: CollectionView?
   var sendingMessage = false
 
@@ -74,11 +73,11 @@ class MessagePresenter: WobblePresenter {
     super.insert(view: view, at: index, frame: frame)
     guard let messages = dataProvider?.data,
           let collectionView = collectionView,
-          let textInputBar = textInputBar,
+          let sourceView = sourceView,
           collectionView.hasReloaded else { return }
     if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
-      view.frame = collectionView.convert(textInputBar.bounds, from: textInputBar)
+      view.frame = collectionView.convert(sourceView.bounds, from: sourceView)
       view.alpha = 0
       view.yaal.alpha.animateTo(1.0)
       view.yaal.bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
@@ -106,16 +105,11 @@ class MessagesViewController: UIViewController {
 
   var loading = false
 
-  let textInputBar = ALTextInputBar()
-  let keyboardObserver = ALKeyboardObservingView()
-
   let dataProvider = MessageDataProvider()
   let presenter = MessagePresenter()
   var provider: CollectionProvider<Message, MessageCell>!
-
-  override var inputAccessoryView: UIView? {
-    return keyboardObserver
-  }
+  
+  let newMessageButton = UIButton(type: .system)
 
   override var canBecomeFirstResponder: Bool {
     return true
@@ -130,22 +124,13 @@ class MessagesViewController: UIViewController {
     collectionView.delegate = self
     view.addSubview(collectionView)
 
-    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-    button.setImage(UIImage(named:"ic_send")!, for: .normal)
-    button.addTarget(self, action: #selector(send), for: .touchUpInside)
-    button.sizeToFit()
-    button.tintColor = .lightBlue
-    textInputBar.rightView = button
-    textInputBar.textView.tintColor = .lightBlue
-    textInputBar.defaultHeight = 54
-    textInputBar.delegate = self
-    textInputBar.keyboardObserver = keyboardObserver
-    textInputBar.frame = CGRect(x: 0, y: view.frame.height - textInputBar.defaultHeight, width: view.frame.width, height: textInputBar.defaultHeight)
-    keyboardObserver.isUserInteractionEnabled = false
-    view.addSubview(textInputBar)
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameChanged(notification:)), name: NSNotification.Name(rawValue: ALKeyboardFrameDidChangeNotification), object: nil)
+    newMessageButton.setImage(UIImage(named:"ic_send")!, for: .normal)
+    newMessageButton.addTarget(self, action: #selector(send), for: .touchUpInside)
+    newMessageButton.sizeToFit()
+    newMessageButton.tintColor = .lightBlue
+    view.addSubview(newMessageButton)
     
-    presenter.textInputBar = textInputBar
+    presenter.sourceView = newMessageButton
     presenter.dataProvider = dataProvider
     provider = CollectionProvider(
       dataProvider: dataProvider,
@@ -158,24 +143,15 @@ class MessagesViewController: UIViewController {
     collectionView.provider = provider
   }
 
-  func keyboardFrameChanged(notification: NSNotification) {
-    if let userInfo = notification.userInfo {
-      let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
-      textInputBar.frame.origin.y = frame.minY
-      viewDidLayoutSubviews()
-    }
-  }
-
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    textInputBar.frame.size.width = view.bounds.width
+    
+    newMessageButton.frame = CGRect(x: 10, y: view.bounds.height - 44, width: view.bounds.width - 20 , height: 44)
+    
     let isAtBottom = collectionView.contentOffset.y >= collectionView.offsetFrame.maxY - 10
     collectionView.frame = view.bounds
-    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30,
-                                                   10,
-                                                   max(textInputBar.defaultHeight, view.bounds.height - textInputBar.frame.minY) + 20,
-                                                   10)
-    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topLayoutGuide.length, 0, max(textInputBar.defaultHeight, view.bounds.height - textInputBar.frame.minY), 0)
+    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 10, 54, 10)
+    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topLayoutGuide.length + 30, 10, 54, 10)
     if !collectionView.hasReloaded {
       collectionView.reloadData() {
         return CGPoint(x: self.collectionView.contentOffset.x,
@@ -194,12 +170,24 @@ class MessagesViewController: UIViewController {
   }
 }
 
-// For sending new messages
-extension MessagesViewController: ALTextInputBarDelegate {
-  func send() {
-    let text = textInputBar.text!
-    textInputBar.text = ""
+extension String {
+  static func random(length: Int = 20) -> String {
+    let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    var randomString: String = ""
+    
+    for _ in 0..<length {
+      let randomValue = arc4random_uniform(UInt32(base.characters.count))
+      randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+    }
+    return randomString
+  }
+}
 
+// For sending new messages
+extension MessagesViewController {
+  func send() {
+    let text = String.random()
+    
     dataProvider.data.append(Message(true, content: text))
     presenter.sendingMessage = true
 

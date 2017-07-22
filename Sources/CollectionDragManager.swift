@@ -1,6 +1,6 @@
 //
 //  MoveManager.swift
-//  MCollectionView
+//  CollectionKit
 //
 //  Created by Luke on 3/20/17.
 //  Copyright © 2017 lkzhao. All rights reserved.

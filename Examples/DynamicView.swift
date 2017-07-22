@@ -1,6 +1,6 @@
 //
 //  DynamicView.swift
-//  MCollectionViewExample
+//  CollectionKitExample
 //
 //  Created by YiLun Zhao on 2016-02-21.
 //  Copyright © 2016 lkzhao. All rights reserved.

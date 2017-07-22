@@ -1,15 +1,15 @@
 //
-//  MCollectionViewTests.swift
-//  MCollectionViewTests
+//  CollectionKitTests.swift
+//  CollectionKitTests
 //
 //  Created by Luke on 3/20/17.
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
 import XCTest
-import MCollectionView
+import CollectionKit
 
-class MCollectionViewTests: XCTestCase {
+class CollectionKitTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
