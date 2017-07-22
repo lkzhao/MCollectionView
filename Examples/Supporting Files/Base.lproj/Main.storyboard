@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgK-bW-0De">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgK-bW-0De">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--MCollectionView Examples-->
+        <!--CollectionKit Examples-->
         <scene sceneID="z7R-Tl-duo">
             <objects>
                 <tableViewController id="ucS-Fk-cmP" sceneMemberID="viewController">
@@ -75,7 +71,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Advance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MOZ-jG-SQc">
-                                                    <rect key="frame" x="15" y="25.5" width="49" height="14.5"/>
+                                                    <rect key="frame" x="15" y="25" width="49" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
@@ -95,7 +91,7 @@
                             <outlet property="delegate" destination="ucS-Fk-cmP" id="wmS-yE-NVa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="MCollectionView Examples" id="LXA-P6-h9B">
+                    <navigationItem key="navigationItem" title="CollectionKit Examples" id="LXA-P6-h9B">
                         <barButtonItem key="backBarButtonItem" title="Examples" id="Pg7-Ql-wF8"/>
                     </navigationItem>
                 </tableViewController>
