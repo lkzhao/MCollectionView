@@ -22,9 +22,9 @@ class MessageLayout: CollectionLayoutProvider<Message> {
   var lastMessage: Message?
   var lastFrame: CGRect?
   var maxWidth: CGFloat = 0
-  override func prepare(size: CGSize) {
-    super.prepare(size: size)
-    maxWidth = size.width
+  override func prepareLayout(maxSize: CGSize) {
+    super.prepareLayout(maxSize: maxSize)
+    maxWidth = maxSize.width
     lastMessage = nil
     lastFrame = nil
   }
@@ -59,45 +59,55 @@ class MessageLayout: CollectionLayoutProvider<Message> {
   }
 }
 
-//class MessageAnimator: WobblePresenter {
-//  weak var delegate: MessagesViewController?
-//  override func insert(view: UIView, at: Int, frame: CGRect) {
-//    super.insert(view: view, at: at, frame: frame)
-//    if sendingMessage && index == messages.count - 1 {
-//      // we just sent this message, lets animate it from inputToolbarView to it's position
-//      cellView.frame = collectionView.convert(textInputBar.bounds, from: textInputBar)
-//      cellView.alpha = 0
-//      cellView.yaal.alpha.animateTo(1.0)
-//      cellView.yaal.bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
-//    } else if (collectionView.visibleFrame.intersects(frame)) {
-//      if messages[index].alignment == .left {
-//        let center = cellView.center
-//        cellView.center = CGPoint(x: center.x - view.bounds.width, y: center.y)
-//        cellView.yaal.center.animateTo(center, stiffness:250, damping: 20)
-//      } else if messages[index].alignment == .right {
-//        let center = cellView.center
-//        cellView.center = CGPoint(x: center.x + view.bounds.width, y: center.y)
-//        cellView.yaal.center.animateTo(center, stiffness:250, damping: 20)
-//      } else {
-//        cellView.alpha = 0
-//        cellView.yaal.scale.from(0).animateTo(1)
-//        cellView.yaal.alpha.animateTo(1)
-//      }
-//    }
-//  }
-//}
+class MessagePresenter: WobblePresenter {
+  var dataProvider: MessageDataProvider?
+  var textInputBar: ALTextInputBar?
+  weak var collectionView: CollectionView?
+  var sendingMessage = false
+
+  override func prepare(collectionView: CollectionView) {
+    super.prepare(collectionView: collectionView)
+    self.collectionView = collectionView
+  }
+
+  override func insert(view: UIView, at index: Int, frame: CGRect) {
+    super.insert(view: view, at: index, frame: frame)
+    guard let messages = dataProvider?.data, let collectionView = collectionView, let textInputBar = textInputBar else { return }
+    if sendingMessage && index == messages.count - 1 {
+      // we just sent this message, lets animate it from inputToolbarView to it's position
+      view.frame = collectionView.convert(textInputBar.bounds, from: textInputBar)
+      view.alpha = 0
+      view.yaal.alpha.animateTo(1.0)
+      view.yaal.bounds.animateTo(frame.bounds, stiffness: 400, damping: 40)
+    } else if (collectionView.visibleFrame.intersects(frame)) {
+      if messages[index].alignment == .left {
+        let center = view.center
+        view.center = CGPoint(x: center.x - view.bounds.width, y: center.y)
+        view.yaal.center.animateTo(center, stiffness:250, damping: 20)
+      } else if messages[index].alignment == .right {
+        let center = view.center
+        view.center = CGPoint(x: center.x + view.bounds.width, y: center.y)
+        view.yaal.center.animateTo(center, stiffness:250, damping: 20)
+      } else {
+        view.alpha = 0
+        view.yaal.scale.from(0).animateTo(1)
+        view.yaal.alpha.animateTo(1)
+      }
+    }
+  }
+}
 
 class MessagesViewController: UIViewController {
 
   var collectionView: CollectionView!
 
-  var sendingMessage = false
   var loading = false
 
   let textInputBar = ALTextInputBar()
   let keyboardObserver = ALKeyboardObservingView()
 
   let dataProvider = MessageDataProvider()
+  let presenter = MessagePresenter()
   var provider: CollectionProvider<Message, MessageCell>!
 
   override var inputAccessoryView: UIView? {
@@ -113,15 +123,6 @@ class MessagesViewController: UIViewController {
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     view.clipsToBounds = true
     collectionView = CollectionView(frame:view.bounds)
-    provider = CollectionProvider(
-      dataProvider: dataProvider,
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: MessageCell, data: Message, at: Int) in
-        view.message = data
-      }),
-      layoutProvider: MessageLayout(),
-      presenter: WobblePresenter()
-    )
-    collectionView.provider = provider
     collectionView.keyboardDismissMode = .interactive
     collectionView.delegate = self
     view.addSubview(collectionView)
@@ -140,6 +141,18 @@ class MessagesViewController: UIViewController {
     keyboardObserver.isUserInteractionEnabled = false
     view.addSubview(textInputBar)
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameChanged(notification:)), name: NSNotification.Name(rawValue: ALKeyboardFrameDidChangeNotification), object: nil)
+    
+    presenter.textInputBar = textInputBar
+    presenter.dataProvider = dataProvider
+    provider = CollectionProvider(
+      dataProvider: dataProvider,
+      viewProvider: ClosureViewProvider(viewUpdater: { (view: MessageCell, data: Message, at: Int) in
+        view.message = data
+      }),
+      layoutProvider: MessageLayout(),
+      presenter: presenter
+    )
+    collectionView.provider = provider
   }
 
   func keyboardFrameChanged(notification: NSNotification) {
@@ -178,86 +191,18 @@ class MessagesViewController: UIViewController {
   }
 }
 
-// collectionview datasource and layout
-//extension MessagesViewController: MCollectionViewDelegate {
-//  func numberOfItemsInCollectionView(_ collectionView: MCollectionView) -> Int {
-//    return messages.count
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, viewForIndex index: Int) -> UIView {
-//    let v = collectionView.dequeueReusableView(MessageCell.self) ?? MessageCell()
-//    v.message = messages[index]
-//    return v
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, identifierForIndex index: Int) -> String {
-//    return messages[index].identifier
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, frameForIndex index: Int) -> CGRect {
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, didInsertCellView cellView: UIView, atIndex index: Int) {
-//    guard collectionView.hasReloaded else { return }
-//    let frame = collectionView.frameForCell(at: index)!
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, didDeleteCellView cellView: UIView, atIndex index: Int) {
-//    cellView.yaal.alpha.animateTo(0)
-//    cellView.yaal.scale.animateTo(0) { finished in
-//      cellView.removeFromSuperview()
-//    }
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, didReloadCellView cellView: UIView, atIndex index: Int) {
-//    if let cellView = cellView as? MessageCell, let frame = collectionView.frameForCell(at: index) {
-//      cellView.message = messages[index]
-//      if !collectionView.isFloating(cell: cellView) {
-//        cellView.yaal.bounds.animateTo(frame.bounds, stiffness: 150, damping:20, threshold: 1)
-//        cellView.yaal.center.animateTo(frame.center, stiffness: 150, damping:20, threshold: 1)
-//        cellView.yaal.scale.animateTo(1)
-//      }
-//    }
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, moveItemAt index: Int, to: Int) -> Bool {
-//    messages.insert(messages.remove(at: index), at: to)
-//    return true
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, willDrag cell: UIView, at index: Int) -> Bool {
-//    if let cell = cell as? DynamicView {
-//      cell.tiltAnimation = true
-//      cell.tapAnimation = false
-//      cell.yaal.scale.animateTo(1.1)
-//      cell.yaal.rotationX.animateTo(0, stiffness: 150, damping: 20)
-//      cell.yaal.rotationY.animateTo(0, stiffness: 150, damping: 20)
-//      cell.layer.yaal.zPosition.animateTo(100, damping: 30)
-//    }
-//    return true
-//  }
-//
-//  func collectionView(_ collectionView: MCollectionView, didDrag cell: UIView, at index: Int) {
-//    if let cell = cell as? DynamicView {
-//      cell.tiltAnimation = false
-//      cell.tapAnimation = true
-//      cell.yaal.scale.animateTo(1)
-//      cell.layer.yaal.zPosition.animateTo(0, damping: 30)
-//    }
-//  }
-//}
-
 // For sending new messages
 extension MessagesViewController: ALTextInputBarDelegate {
   func send() {
     let text = textInputBar.text!
     textInputBar.text = ""
-    dataProvider.data.append(Message(true, content: text))
 
-    sendingMessage = true
+    dataProvider.data.append(Message(true, content: text))
+    presenter.sendingMessage = true
+
     collectionView.reloadData()
     collectionView.scrollTo(edge: .bottom, animated:true)
-    sendingMessage = false
+    presenter.sendingMessage = false
 
     delay(1.0) {
       self.dataProvider.data.append(Message(false, content: text))
